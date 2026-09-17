@@ -36,6 +36,7 @@ class DrawData(om.MUserData):
         self.preview = om.MPointArray()
         self.guide_preview = om.MPointArray()
         self.preview_points = om.MPointArray()
+        self.selected_points = om.MPointArray()
 
 
 class Draw(omr.MPxDrawOverride):
@@ -52,6 +53,8 @@ class Draw(omr.MPxDrawOverride):
     def prepareForDraw(self, objPath, cameraPath, frameContext, oldData):
         data = oldData if isinstance(oldData, DrawData) else DrawData()
         data.lines = om.MPointArray()
+        from Aru_RetopoTool.drag_extrude import selected_points
+        data.selected_points = om.MPointArray([om.MPoint(*p) for p in selected_points.get(objPath.fullPathName(), [])])
         from Aru_RetopoTool.patch_context import preview
         from Aru_RetopoTool.construction import preview_lines, preview_points
         data.preview_points = om.MPointArray([om.MPoint(*p) for p in preview_points.get(objPath.fullPathName(), [])])
@@ -103,7 +106,7 @@ class Draw(omr.MPxDrawOverride):
         return data
 
     def addUIDrawables(self, objPath, manager, frameContext, data):
-        if not data or (not len(data.lines) and not len(data.preview) and not len(data.guide_preview)): return
+        if not data or (not len(data.lines) and not len(data.preview) and not len(data.guide_preview) and not len(data.selected_points)): return
         manager.beginDrawable(omr.MUIDrawManager.kNonSelectable)
         manager.beginDrawInXray()
         if len(data.preview):
@@ -118,6 +121,13 @@ class Draw(omr.MPxDrawOverride):
             manager.lineList(data.guide_preview,False)
             manager.setPointSize(8.)
             for point in data.preview_points:manager.point(point)
+        if len(data.selected_points):
+            manager.setColor(om.MColor((.02,.12,.03,1.)))
+            manager.setPointSize(13.)
+            for point in data.selected_points: manager.point(point)
+            manager.setColor(om.MColor((.3,1.,.2,1.)))
+            manager.setPointSize(9.)
+            for point in data.selected_points: manager.point(point)
         manager.endDrawInXray()
         manager.endDrawable()
 

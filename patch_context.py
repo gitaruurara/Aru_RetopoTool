@@ -43,6 +43,11 @@ class PatchTool(qt.QObject):
     def stop(self):
         self.timer.stop()
         qt.QApplication.instance().removeEventFilter(self)
+        from . import drag_extrude
+        drag_extrude.selected_points.clear()
+        gesture=getattr(self,'gesture',None)
+        if gesture: gesture.clear(); self.gesture=None
+        drag_extrude.selected_points.clear()
         preview.clear()
         if self.surface: self.surface.close(); self.surface = None
         cmds.refresh(force=True)
@@ -114,6 +119,8 @@ class PatchTool(qt.QObject):
                 self.stop(); return
             if not force and qt.QApplication.mouseButtons()!=qt.Qt.NoButton:
                 return
+            from . import drag_extrude
+            if self.context != NAME: drag_extrude.highlight(self.node)
             view = omui.M3dView.active3dView()
             widget = qt.wrapInstance(int(view.widget()), qt.QWidget)
             point = widget.mapFromGlobal(qt.QCursor.pos())
@@ -129,6 +136,36 @@ class PatchTool(qt.QObject):
 
     def eventFilter(self, obj, event):
         if cmds.currentCtx()!=getattr(self,'context',NAME): return False
+        from . import drag_extrude
+        gesture=getattr(self,'gesture',None)
+        if gesture and event.type()==qt.QEvent.KeyPress and event.key()==qt.Qt.Key_Escape:
+            gesture.clear(); self.gesture=None
+            return True
+        if getattr(self,'_extrude_press',False):
+            if event.type()==qt.QEvent.MouseMove:
+                if gesture:
+                    try: gesture.update()
+                    except Exception: gesture.reset_preview()
+                return True
+            if event.type()==qt.QEvent.MouseButtonRelease and event.button()==qt.Qt.MiddleButton:
+                self._extrude_press=False
+                try:
+                    if gesture: gesture.finish()
+                except Exception as exc: cmds.warning('[Aru Retopo] '+str(exc))
+                finally:
+                    if gesture: gesture.clear()
+                    self.gesture=None
+                return True
+        if (getattr(self,'context',NAME)!=NAME and event.type()==qt.QEvent.MouseButtonPress
+                and event.button()==qt.Qt.MiddleButton
+                and event.modifiers() & qt.Qt.ControlModifier
+                and not event.modifiers() & qt.Qt.AltModifier
+                and drag_extrude.mouse() is not None):
+            self._extrude_press=True
+            preview.clear(); self.key=None
+            try: self.gesture=drag_extrude.Gesture(self.node)
+            except Exception as exc: cmds.warning('[Aru Retopo] '+str(exc))
+            return True
         if event.type()==qt.QEvent.MouseButtonRelease and getattr(self,'_patch_press',False):
             if event.button()==qt.Qt.MiddleButton:
                 self._patch_press=False

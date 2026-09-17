@@ -124,6 +124,8 @@ def run():
     test_relax()
     from Aru_RetopoTool.tests.construction import run as test_construction
     test_construction()
+    from Aru_RetopoTool.tests.drag_extrude import run as test_drag
+    test_drag()
     from Aru_RetopoTool.tests.bridge import run as test_bridge
     test_bridge()
     from Aru_RetopoTool import guides
