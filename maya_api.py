@@ -53,12 +53,15 @@ def create(guide, reference, subdivisions=2, iterations=3, guide_weight=1.):
                 for axis in 'XYZ': cmds.setAttr(transform+'.'+attr+axis, lock=True, keyable=False)
             cmds.setAttr(transform+'.inheritsTransform', lock=True)
             cmds.connectAttr(guide+'.outNetData', node+'.guideData')
+            if cmds.attributeQuery('outPositions', node=guide, exists=True) and cmds.attributeQuery('guidePositions', node=node, exists=True):
+                cmds.connectAttr(guide+'.netData', node+'.guideRestData')
+                cmds.connectAttr(guide+'.outPositions', node+'.guidePositions')
             cmds.connectAttr(guide+'.worldMatrix[0]', node+'.guideMatrix')
             cmds.connectAttr(reference+'.worldMesh[0]', node+'.referenceMesh')
             cmds.setAttr(node+'.subdivisions', subdivisions)
             cmds.setAttr(node+'.relaxIterations', iterations)
             cmds.setAttr(node+'.guideWeight', guide_weight)
-            cmds.connectAttr(node+'.outMesh', output+'.inMesh')
+            cmds.connectAttr(output_plug(node), output+'.inMesh')
             cmds.sets(output, edit=True, forceElement='initialShadingGroup')
             cmds.setAttr(output+'.displayColors', False)
             # Wire overlay without changing the reference mesh's display state.
@@ -66,7 +69,7 @@ def create(guide, reference, subdivisions=2, iterations=3, guide_weight=1.):
             cmds.setAttr(output+'.overrideShading', False)
             cmds.setAttr(output+'.overrideColor', 17)
             set_foreground(node, True)
-            status = cmds.getAttr(node+'.status') or ''
+            status = read_status(node)
             if status.startswith('ERROR:'): raise ValueError(status[7:])
             cmds.select(transform)
             return transform, node
@@ -76,6 +79,16 @@ def create(guide, reference, subdivisions=2, iterations=3, guide_weight=1.):
             raise
 
 
+def output_plug(node):
+    from .native_backend import source
+    return source(node)
+
+
+def read_status(node):
+    from .native_backend import status
+    return status(node)
+
+
 def generator_from_selection():
     for selected in cmds.ls(selection=True, objectsOnly=True, long=True) or []:
         if cmds.nodeType(selected) == 'aruRetopoMesh': return selected
@@ -83,17 +96,21 @@ def generator_from_selection():
         for node in nodes:
             connections = cmds.listConnections(node, source=True, destination=False, type='aruRetopoMesh') or []
             if connections: return connections[0]
+            native = cmds.listConnections(node, source=True, destination=False, type='aruRetopoMeshBuffer') or []
+            for backend in native:
+                owners=cmds.listConnections(backend+'.retopoOwner',source=True,destination=False,type='aruRetopoMesh') or [] if cmds.attributeQuery('retopoOwner',node=backend,exists=True) else []
+                if owners:return owners[0]
     raise ValueError('生成済みのRetopoメッシュを選択してください。')
 
 
 def rebuild(node):
     with undo_chunk('Aru Retopo: rebuild'):
         cmds.setAttr(node+'.rebuildSerial', cmds.getAttr(node+'.rebuildSerial')+1)
-    return cmds.getAttr(node+'.status')
+    return read_status(node)
 
 
 def foreground_enabled(node):
-    overlays = cmds.listConnections(node+'.outMesh', s=False, d=True, shapes=True, type='aruRetopoOverlay') or []
+    overlays = cmds.listConnections(output_plug(node), s=False, d=True, shapes=True, type='aruRetopoOverlay') or []
     return bool(overlays) and all(cmds.getAttr(s+'.enabled') for s in overlays)
 
 
@@ -121,7 +138,7 @@ def set_foreground(node, enabled=True):
     """Attach a non-selectable overlay to each output; original mesh stays editable."""
     path = os.path.join(os.path.dirname(__file__), 'aru_retopo_draw_plugin.py')
     if not cmds.pluginInfo('aru_retopo_draw_plugin', q=True, loaded=True): cmds.loadPlugin(path)
-    outputs = cmds.listConnections(node+'.outMesh', s=False, d=True, shapes=True, type='mesh') or []
+    outputs = cmds.listConnections(output_plug(node), s=False, d=True, shapes=True, type='mesh') or []
     with undo_chunk('Aru Retopo: foreground display'):
         _preview_surface(node, outputs)
         for output in outputs:
@@ -139,15 +156,15 @@ def set_foreground(node, enabled=True):
                     cmds.addAttr(overlay, longName='inputMesh', dataType='mesh')
                 if not cmds.attributeQuery('enabled', node=overlay, exists=True):
                     cmds.addAttr(overlay, longName='enabled', attributeType='bool', defaultValue=True)
-                if not cmds.isConnected(node+'.outMesh', overlay+'.inputMesh'):
-                    cmds.connectAttr(node+'.outMesh', overlay+'.inputMesh')
+                if not cmds.isConnected(output_plug(node), overlay+'.inputMesh'):
+                    cmds.connectAttr(output_plug(node), overlay+'.inputMesh')
                 cmds.setAttr(overlay+'.enabled', bool(enabled))
 
 
 def bake(node):
-    outputs = cmds.listConnections(node+'.outMesh', source=False, destination=True, shapes=True, type='mesh') or []
+    outputs = cmds.listConnections(output_plug(node), source=False, destination=True, shapes=True, type='mesh') or []
     if not outputs: raise ValueError('生成メッシュがありません。')
-    status = cmds.getAttr(node+'.status') or ''
+    status = read_status(node)
     if status.startswith('ERROR:'): raise ValueError(status)
     transform = cmds.listRelatives(outputs[0], parent=True, fullPath=True)[0]
     with undo_chunk('Aru Retopo: bake copy'):

@@ -34,7 +34,10 @@ def install():
     modules.mkdir(parents=True,exist_ok=True)
     (modules/'Aru_RetopoTool.mod').write_text(
         '+ Aru_RetopoTool 0.1.0 '+target.as_posix()+'\n'
-        'plug-ins: .\nMAYA_PLUG_IN_PATH +:= editor/curvenet\nscripts: ..\n',encoding='utf-8')
+        'plug-ins: .\nMAYA_PLUG_IN_PATH +:= editor/curvenet\nscripts: ..\n'+
+        ''.join('+ MAYAVERSION:'+version+' PLATFORM:win64 Aru_RetopoToolNative'+version+
+                ' 0.1.0 '+(target/'bin'/version).as_posix()+'\nplug-ins: .\n'
+                for version in ('2024','2027')),encoding='utf-8')
     shelf='AruRetopo'
     if not cmds.shelfLayout(shelf,exists=True):
         cmds.shelfLayout(shelf,parent=mel.eval('$tmp=$gShelfTopLevel'))

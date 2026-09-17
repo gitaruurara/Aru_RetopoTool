@@ -4,6 +4,7 @@ Plans depend on connectivity only; moving guides reuses face and vertex indices.
 All coordinates passed to this module are in the same (world) space.
 """
 import math
+from array import array
 from collections import defaultdict
 
 
@@ -205,10 +206,15 @@ class Plan:
             rows.extend(fweights)
             for loop, uv in patches:
                 additions = {}
-                for (a, b), mid in edge_ids.items():
+                # Visit only incidences touching this patch. Sorted IDs retain
+                # the global scan's insertion and floating-point operation order.
+                local_edges={edge for vertex in uv for edge in vertex_edges[vertex]}
+                for a,b in sorted(local_edges):
                     if a in uv and b in uv:
-                        additions[mid] = tuple((x+y)*.5 for x,y in zip(uv[a],uv[b]))
-                for fi, face in enumerate(faces):
+                        additions[edge_ids[(a,b)]] = tuple((x+y)*.5 for x,y in zip(uv[a],uv[b]))
+                local_faces={fi for vertex in uv for fi in vertex_faces[vertex]}
+                for fi in sorted(local_faces):
+                    face=faces[fi]
                     if all(v in uv for v in face):
                         additions[face_base+fi] = tuple(sum(uv[v][k] for v in face)/len(face) for k in range(2))
                 uv.update(additions)
@@ -226,9 +232,9 @@ class Plan:
             for row in rows:
                 for v, w in sorted(row.items()): ids.append(v); weights.append(w)
                 offsets.append(len(ids))
-            self.steps.append((offsets, ids, weights))
+            self.steps.append((array('i',offsets),array('i',ids),array('d',weights)))
             faces, guides, count = children, new_guides, len(rows)
-        self.faces, self.count, self.region_count = faces, count, len(loops)
+        self.faces, self.count, self.region_count = tuple(map(tuple,faces)), count, len(loops)
         self.patches = patches
         adj = [set() for _ in range(count)]
         for face in faces:
@@ -236,8 +242,71 @@ class Plan:
         self.adj_offsets, self.adj_ids = [0], []
         for neighbors in adj:
             self.adj_ids.extend(sorted(neighbors)); self.adj_offsets.append(len(self.adj_ids))
+        # Numeric buffers avoid retaining a Python object for every stencil entry.
+        self.adj_offsets=array('i',self.adj_offsets)
+        self.adj_ids=array('i',self.adj_ids)
+
+    def compile_stencil(self,splines):
+        """Compose the exact subdivision, guide and Coons linear coefficients once."""
+        def accumulate(dst,src,factor):
+            for v,w in src.items():dst[v]=dst.get(v,0.)+w*factor
+        # Rows are read-only after construction; shared boundary samples can
+        # reuse coefficients within this compilation without retaining a cache.
+        samples={}
+        def sample(side,t):
+            key=(side,t)
+            if key in samples:return samples[key]
+            x=min(max(t,0.),1.)*len(side);k=min(int(x),len(side)-1)
+            si,d=side[k];t=x-k if d==1 else 1-(x-k);u=1-t
+            row={}
+            for v,w in zip(splines[si],(u*u*u,3*u*u*t,3*u*t*t,t*t*t)):
+                row[v]=row.get(v,0.)+w
+            samples[key]=row
+            return row
+        # Coons interiors replace subdivision coefficients outright. Walk
+        # backwards from remaining outputs so mixed n-gon patches still retain
+        # every subdivision dependency, including guide overrides at each level.
+        coons={v for _,uv in self.patches for v in uv if v not in self.guide_vertices}
+        needed=set(range(self.count))-coons
+        levels=[]
+        for offsets,ids,weights in reversed(self.steps):
+            levels.append(needed)
+            needed={ids[j] for i in needed if i not in self.guide_vertices
+                    for j in range(offsets[i],offsets[i+1])}
+        points=[{ep:1.} for ep in self.endpoints]
+        for (offsets,ids,weights),needed in zip(self.steps,reversed(levels)):
+            new=[None]*(len(offsets)-1)
+            for i in sorted(needed):
+                guide=self.guide_vertices.get(i)
+                if guide is not None:
+                    new[i]={guide[1]:1.} if guide[0]=='ep' else sample(guide[1],guide[2])
+                else:
+                    row={}
+                    for j in range(offsets[i],offsets[i+1]):accumulate(row,points[ids[j]],weights[j])
+                    new[i]=row
+            points=new
+        for sides,uv in self.patches:
+            corners=[sample(side,0.) for side in sides]
+            for vertex,(u,v) in uv.items():
+                if vertex in self.guide_vertices:continue
+                row={}
+                for side,t,factor in ((0,u,1-v),(2,1-u,v),(3,1-v,1-u),(1,v,u)):
+                    accumulate(row,sample(sides[side],t),factor)
+                for corner,factor in zip(corners,((1-u)*(1-v),u*(1-v),u*v,(1-u)*v)):
+                    accumulate(row,corner,-factor)
+                points[vertex]=row
+        offsets,ids,weights=[0],[],[]
+        for row in points:
+            for v,w in sorted(row.items()):
+                if abs(w)>1e-16:ids.append(v);weights.append(w)
+            offsets.append(len(ids))
+        return offsets,ids,weights
 
     def evaluate(self, positions, splines, stencil=None):
+        if stencil and hasattr(stencil,'compile'):
+            if not hasattr(self,'_compiled_stencil'):
+                self._compiled_stencil=stencil.compile(*self.compile_stencil(splines))
+            return self._compiled_stencil(positions)
         points = [positions[ep] for ep in self.endpoints]
         for offsets, ids, weights in self.steps:
             if stencil:

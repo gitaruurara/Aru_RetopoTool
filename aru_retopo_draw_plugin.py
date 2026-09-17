@@ -42,6 +42,7 @@ class DrawData(om.MUserData):
 class Draw(omr.MPxDrawOverride):
     def __init__(self, obj):
         super().__init__(obj, None, True)
+        self._draw_data={}
 
     @staticmethod
     def creator(obj): return Draw(obj)
@@ -51,8 +52,9 @@ class Draw(omr.MPxDrawOverride):
     def isBounded(self, objPath, cameraPath): return False
 
     def prepareForDraw(self, objPath, cameraPath, frameContext, oldData):
-        data = oldData if isinstance(oldData, DrawData) else DrawData()
-        data.lines = om.MPointArray()
+        key=cameraPath.fullPathName()
+        if key not in self._draw_data:self._draw_data[key]=DrawData()
+        data=self._draw_data[key]
         from Aru_RetopoTool.drag_extrude import selected_points, selected_lines
         data.selected_lines = om.MPointArray([om.MPoint(*p) for p in selected_lines.get(objPath.fullPathName(), [])])
         data.selected_points = om.MPointArray([om.MPoint(*p) for p in selected_points.get(objPath.fullPathName(), [])])
@@ -62,9 +64,11 @@ class Draw(omr.MPxDrawOverride):
         data.guide_preview = om.MPointArray([om.MPoint(*p) for p in preview_lines.get(objPath.fullPathName(), [])])
         data.preview = om.MPointArray([om.MPoint(*p) for p in preview.get(objPath.fullPathName(), [])])
         node = om.MFnDependencyNode(objPath.node())
-        if not node.findPlug('enabled', False).asBool(): return data
+        if not node.findPlug('enabled', False).asBool():
+            data.lines=om.MPointArray();data.view_key=None;return data
         mesh = node.findPlug('inputMesh', False).asMObject()
-        if mesh.isNull(): return data
+        if mesh.isNull():
+            data.lines=om.MPointArray();data.view_key=None;return data
         fn = om.MFnMesh(mesh)
         points = fn.getPoints()
         counts, indices = fn.getVertices()
@@ -78,32 +82,29 @@ class Draw(omr.MPxDrawOverride):
             data.edges = sorted(edges.items())
             data.topology = topology
         camera = om.MFnCamera(cameraPath)
+        orthographic = camera.isOrtho()
         inverse = objPath.inclusiveMatrixInverse()
         eye = camera.eyePoint(om.MSpace.kWorld) * inverse
         direction = camera.viewDirection(om.MSpace.kWorld) * inverse
         direction.normalize()
-        normals = [fn.getPolygonNormal(i) for i in range(fn.numPolygons)]
-        accel = fn.autoUniformGridParams()
-        # Test short edge sections, so a partially occluded edge isn't removed
-        # wholesale. Shaded output supplies the surface; this draws wires only.
-        lines = []
-        for (a, b), faces in data.edges:
-            for step in range(4):
-                p0 = points[a] + (points[b]-points[a])*(step/4.)
-                p1 = points[a] + (points[b]-points[a])*((step+1)/4.)
-                mid = p0+(p1-p0)*.5
-                to_eye = -direction if camera.isOrtho else eye-mid
-                if not any(normals[fi]*to_eye > 0 for fi in faces): continue
-                distance = to_eye.length()
-                if distance < 1e-10: continue
-                ray = to_eye.normal()
-                eps = max((points[a]-points[b]).length()*1e-4, 1e-6)
-                origin = mid+ray*eps
-                hit = fn.closestIntersection(om.MFloatPoint(origin), om.MFloatVector(ray),
-                    om.MSpace.kObject, 1e10 if camera.isOrtho else max(distance-eps, eps),
-                    False, accelParams=accel, tolerance=1e-7)
-                if hit is None: lines.extend((p0, p1))
-        data.lines = om.MPointArray(lines)
+        geometry_key=(topology,tuple((p.x,p.y,p.z) for p in points))
+        view_key=(geometry_key,tuple(eye),tuple(direction),orthographic)
+        if view_key==getattr(data,'view_key',None):return data
+        if geometry_key!=getattr(data,'geometry_key',None):
+            from Aru_RetopoTool.display_native import Wire
+            if fn.numPolygons:
+                _,triangles=fn.getTriangles()
+                normals=[tuple(fn.getPolygonNormal(i)) for i in range(fn.numPolygons)]
+                if (getattr(data,'wire',None) and data.wire.triangles==tuple(triangles)
+                        and getattr(data,'geometry_key',None)[0]==topology):
+                    data.wire.update(geometry_key[1],normals)
+                else:
+                    if getattr(data,'wire',None):data.wire.close()
+                    data.wire=Wire(geometry_key[1],tuple(triangles),data.edges,normals)
+            elif getattr(data,'wire',None):data.wire.close();data.wire=None
+            data.geometry_key=geometry_key
+        data.lines=om.MPointArray(data.wire.visible(tuple(eye)[:3],tuple(direction),orthographic,compact=True)) if getattr(data,'wire',None) else om.MPointArray()
+        data.view_key=view_key
         return data
 
     def addUIDrawables(self, objPath, manager, frameContext, data):

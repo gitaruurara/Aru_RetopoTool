@@ -39,14 +39,22 @@ class PatchTool(qt.QObject):
         self.cache = None
         self.candidates = []
         self.surface = None
+        self._revision=0
+        self._last_hover=None
+        self._dirty_callback=om.MNodeMessage.addNodeDirtyCallback(_object(node),self.invalidate)
         self.timer = qt.QTimer(self)
         self.timer.setInterval(70)
         self.timer.timeout.connect(self.tick)
         qt.QApplication.instance().installEventFilter(self)
         self.timer.start()
 
+    def invalidate(self,*args):
+        self._revision+=1
+
     def stop(self):
         self.timer.stop()
+        if getattr(self,"_dirty_callback",None) is not None:
+            om.MMessage.removeCallback(self._dirty_callback);self._dirty_callback=None
         qt.QApplication.instance().removeEventFilter(self)
         from . import drag_extrude
         drag_extrude.selected_points.clear(); drag_extrude.selected_lines.clear()
@@ -127,7 +135,7 @@ class PatchTool(qt.QObject):
             pair=getattr(self,'paired',{}).get(self.key)
             if pair and pair!=self.key:
                 triangles.extend(p for key,_,_,verts in self.candidates if key==pair for p in verts)
-            for overlay in cmds.listConnections(self.node+'.outMesh',s=False,d=True,shapes=True,type='aruRetopoOverlay') or []:
+            for overlay in cmds.listConnections(api.output_plug(self.node),s=False,d=True,shapes=True,type='aruRetopoOverlay') or []:
                 preview[(cmds.ls(overlay,long=True) or [overlay])[0]] = triangles
         cmds.refresh(force=True)
 
@@ -145,8 +153,15 @@ class PatchTool(qt.QObject):
             widget = qt.wrapInstance(int(view.widget()), qt.QWidget)
             point = widget.mapFromGlobal(qt.QCursor.pos())
             if widget.rect().contains(point):
+                from .editor.curvenet import curve_net_symmetry as symmetry
+                from .editor.curvenet.aru_retopo_guide_plugin import _ctx
+                signature=(point.x(),point.y(),tuple(view.modelViewMatrix()),tuple(view.projectionMatrix()),
+                           self._revision,int(qt.QApplication.keyboardModifiers().value) if hasattr(qt.QApplication.keyboardModifiers(),'value') else int(qt.QApplication.keyboardModifiers()),
+                           symmetry.get_axis(),symmetry.get_space(),_ctx.sel_ep,view.portWidth(),view.portHeight())
+                if not force and signature==self._last_hover:return
                 ratio = view.portWidth()/max(1,widget.width())
                 self.hover(int(point.x()*ratio),int((widget.height()-point.y()-1)*ratio),view)
+                self._last_hover=signature
             elif preview:
                 preview.clear(); self.key=None; cmds.refresh(force=True)
         except Exception as exc:
@@ -155,6 +170,7 @@ class PatchTool(qt.QObject):
             cmds.warning('[Aru Retopo patch] '+str(exc))
 
     def eventFilter(self, obj, event):
+        if event.type() not in (qt.QEvent.MouseButtonPress,qt.QEvent.MouseButtonRelease,qt.QEvent.MouseMove,qt.QEvent.KeyPress):return False
         if cmds.currentCtx()!=getattr(self,'context',NAME): return False
         from . import drag_extrude
         gesture=getattr(self,'gesture',None)

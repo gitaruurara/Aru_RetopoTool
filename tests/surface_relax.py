@@ -10,7 +10,71 @@ from Aru_RetopoTool.editor.curvenet.curve_net_data import RetopoGuideData
 from Aru_RetopoTool.editor.curvenet.curve_net_edit import RetopoGuideAccessor
 
 
+def test_topology_cache():
+    cn = RetopoGuideData()
+    for i in range(8): cn.add_cv((i, 0, 0))
+    cn.add_spline(0, 1, 2, 3)
+    cn.add_spline(3, 4, 5, 0)
+    cn.add_spline(3, 6, 7, 3)  # Preserve self-loop handle semantics.
+    cn.standalone_eps.add(6)
+    graph = relax._relax_topology(cn)
+    assert graph[1][3] == (2, 4, 6)
+    assert graph[2][3][-2:] == ((2, 6, 3), (2, 7, 3))
+    import copy
+    copied = copy.deepcopy(cn)
+    assert relax._relax_topology(copied) is graph
+    copied.positions[0][0] += 10
+    assert copied.positions[0] != cn.positions[0]
+    copied.splines.pop()
+    assert relax._relax_topology(copied) is not graph
+    assert relax._relax_topology(cn) is graph
+    cn.positions[0][0] += .25
+    cn.manual_handles.add(1)
+    assert relax._relax_topology(cn) is graph
+    try:
+        graph[0][0] = ()
+        raise AssertionError('Cached graph must be read-only')
+    except TypeError: pass
+    # Rewiring, adding/removing splines, standalone EPs and CV count invalidate.
+    for change in (
+        lambda: cn.splines.__setitem__(0, (0, 1, 2, 6)),
+        lambda: cn.splines.append((6, 1, 2, 0)),
+        lambda: cn.splines.pop(),
+        lambda: cn.standalone_eps.add(7),
+        lambda: cn.add_cv((8, 0, 0)),
+    ):
+        change()
+        updated = relax._relax_topology(cn)
+        assert updated is not graph
+        graph = updated
+    print('PASS relax adjacency reuse and topology invalidation')
+
+
+def test_normals_array():
+    import numpy as np
+    from Aru_RetopoTool.editor.curvenet import maya_projector as projector, curve_net_edit as edit
+    mesh=cmds.polySphere(sx=12,sy=8,ch=False)[0]
+    cmds.setAttr(mesh+'.scale',1.2,.8,1.1,type='double3')
+    fn,_dag=edit._get_mesh_fn(mesh)
+    queries=np.asarray([[.2,1.4,.1],[-.8,.2,.3],[.1,-1.1,.4]])
+    try:
+        assert projector.normals_array(fn,[]).shape==(0,3)
+        expected=np.asarray([hit[1] for hit in projector.surface_hits(fn,queries)])
+        actual=projector.normals_array(fn,queries)
+        np.testing.assert_array_equal(actual,expected)
+        assert actual.flags.c_contiguous and actual.flags.owndata
+        actual[0]=0
+        np.testing.assert_array_equal(projector.normals_array(fn,queries),expected)
+        with patch.object(projector,'get_projector',return_value=None):
+            expected=np.asarray([hit[1] for hit in projector.surface_hits(fn,queries)])
+            np.testing.assert_array_equal(projector.normals_array(fn,queries),expected)
+    finally:cmds.delete(mesh)
+    print('PASS normals-only arrays: native/fallback exact normals, transforms, empty and ownership')
+
+
 def run():
+    test_normals_array()
+    test_topology_cache()
     reference = cmds.polyPlane(w=20, h=20, sx=10, sy=10)[0]
     guide = cmds.createNode('retopoGuideNode')
     parent = cmds.listRelatives(guide, parent=True)[0]
@@ -29,11 +93,28 @@ def run():
     cmds.setAttr(guide+'.controlPoints[1].xValue',.1)
     original=cmds.getAttr(guide+'.netData')
     evaluated=json.loads(cmds.getAttr(guide+'.outNetData'))
-    with patch.object(relax.edit, '_world_to_screen', side_effect=lambda p:(100,100)), \
+    with patch.object(relax.edit, '_world_to_screen_many', side_effect=lambda ps:[(100,100) for p in ps]), \
          patch.object(relax.edit, 'make_visibility_test', return_value=lambda p:p[1]>2):
         weights=relax.brush_weights(guide,100,100)
         world,_=relax._world_data(guide)
         assert all(world.positions[v][1]>2 for v in weights)
+    # The shared brush snapshot must produce the same complete data as the
+    # separate read path, including transformed positions and surface bindings.
+    captured=[]
+    with patch.object(relax.edit, '_world_to_screen_many', side_effect=lambda ps:[(100,100) for p in ps]), \
+         patch.object(relax.edit, 'make_visibility_test', return_value=lambda p:p[1]>2), \
+         patch.object(RetopoGuideAccessor, 'write', side_effect=lambda cn:captured.append(cn.to_dict())):
+        separate=relax.relax(guide,relax.brush_weights(guide,100,100),draft=False)
+        with patch.object(relax,'_world_data',wraps=relax._world_data) as read_world:
+            shared=relax.brush_relax(guide,100,100,draft=False)
+            assert read_world.call_count==1
+        assert separate==shared and captured[0]==captured[1]
+        with patch.object(relax,'_world_data',wraps=relax._world_data) as read_world:
+            assert relax.brush_relax(guide,1000,1000)==set()
+            assert read_world.call_count==1 and len(captured)==2
+    assert cmds.getAttr(guide+'.netData')==original
+    assert json.loads(cmds.getAttr(guide+'.outNetData'))==evaluated
+    print('PASS shared brush snapshot parity, empty brush and scene ownership')
     cmds.undoInfo(openChunk=True,chunkName='surface relax test')
     try:
         affected=relax.relax(guide,{1:1},draft=False)

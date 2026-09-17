@@ -211,6 +211,7 @@ def _geodesic_on_mesh(mesh_fn, mesh_dag, seed, iters, relax=_GEO_RELAX):
     サーフェスが折れ線を平滑化するのと同じ原理なので、仕上がりも滑らか。
     """
     import math as _math
+    from .maya_projector import points as project_many
 
     pts = [list(p) for p in seed]
     n = len(pts)
@@ -235,8 +236,8 @@ def _geodesic_on_mesh(mesh_fn, mesh_dag, seed, iters, relax=_GEO_RELAX):
         # まとめて 1 回で済ませる (投影がこの関数の実行時間のほぼ全部)
         cur = _resample_polyline(cur, n)
         nxt_pts = [list(cur[0])]
-        for i in range(1, n - 1):
-            q, _fi, _bc = _closest_point_on_mesh(mesh_fn, mesh_dag, cur[i])
+        projected = project_many(mesh_fn,cur[1:-1])
+        for i, q in enumerate(projected,1):
             d = ((q[0] - pts[i][0]) ** 2 + (q[1] - pts[i][1]) ** 2
                  + (q[2] - pts[i][2]) ** 2)
             if d > moved:
@@ -315,6 +316,7 @@ def _fit_spline_handles_to_mesh(cn: RetopoGuideData, sp_idx: int,
             return -1.0
         fixed = 1 if m1 else (2 if m2 else None)
 
+    from .maya_projector import points as project_many
     from Aru_RetopoTool.hard_surface import straight_fit
     if straight_fit(cn,sp_idx,mesh_name):return 0.
     mesh_fn, mesh_dag = _get_mesh_fn(mesh_name)
@@ -354,10 +356,8 @@ def _fit_spline_handles_to_mesh(cn: RetopoGuideData, sp_idx: int,
     def _mesh_error(a1, a2):
         """カーブ上のサンプルとメッシュ表面との平均距離 (戻り値用)。"""
         tot = 0.0
-        for k in range(1, n_samples + 1):
-            t = k / (n_samples + 1.0)
-            b = _bezier_point(p0, a1, a2, p3, t)
-            q, _fi, _bc = _closest_point_on_mesh(mesh_fn, mesh_dag, b)
+        samples = [_bezier_point(p0,a1,a2,p3,k/(n_samples+1.0)) for k in range(1,n_samples+1)]
+        for b,q in zip(samples,project_many(mesh_fn,samples)):
             tot += _v3_len(_v3_sub(q, b))
         return tot / n_samples
 
@@ -365,13 +365,21 @@ def _fit_spline_handles_to_mesh(cn: RetopoGuideData, sp_idx: int,
     n_seg = (_GEO_DRAFT_SEGMENTS if iters <= _FIT_DRAFT_ITERS
              else _GEO_SEGMENTS)
     seed = [list(p0)]
-    for k in range(1, n_seg):
-        b = _bezier_point(p0, h1, h2, p3, k / float(n_seg))
-        q, _fi, _bc = _closest_point_on_mesh(mesh_fn, mesh_dag, b)
-        seed.append(q)
+    samples = [_bezier_point(p0,h1,h2,p3,k/float(n_seg)) for k in range(1,n_seg)]
+    seed.extend(project_many(mesh_fn,samples))
     seed.append(list(p3))
 
     path = _geodesic_on_mesh(mesh_fn, mesh_dag, seed, iters)
+    from .path_fit import fit as native_path_fit
+    fitted = native_path_fit([p0,h1,h2,p3],path,[n0,n3],n_samples,
+                             _FIT_PARAM_ROUNDS,fixed,_FIT_EPS_RATIO,_TANGENT_RESTORE_MIN)
+    if fitted is not None:
+        best_h1,best_h2=fitted
+        cn.positions[sp[1]]=best_h1;cn.positions[sp[2]]=best_h2
+        for hi in (sp[1],sp[2]):
+            _q,fi,bc=_closest_point_on_mesh(mesh_fn,mesh_dag,cn.positions[hi])
+            cn.surface_binding[hi]=(fi,bc)
+        return _mesh_error(best_h1,best_h2)
     proj = _PolylineProjector(path)
     ts = [k / (n_samples + 1.0) for k in range(1, n_samples + 1)]
 
@@ -1070,7 +1078,13 @@ def _find_handle_under_screen(cn: "RetopoGuideData", sx: float, sy: float,
     return best
 
 
-def _find_spline_under_screen(cn: "RetopoGuideData", sx: float, sy: float,
+def _find_spline_under_screen(cn, sx, sy, tol_px=_SCREEN_SNAP_PX,
+                              exclude_eps=None, mesh_name=""):
+    from .screen_hit import find_spline
+    return find_spline(cn, sx, sy, tol_px, exclude_eps, mesh_name)
+
+
+def _find_spline_under_screen_scalar(cn: "RetopoGuideData", sx: float, sy: float,
                               tol_px: float = _SCREEN_SNAP_PX,
                               exclude_eps: Optional[set] = None,
                               mesh_name: str = ""
@@ -2047,15 +2061,96 @@ class RetopoGuideContext:
     def __init__(self, state):
         from Aru_RetopoTool.editor.curvenet.aru_retopo_guide_plugin import RetopoGuideState
         self._s: RetopoGuideState = state
+        self._undo_open = False
+        self._relax_save_callback = None
+
+    def _point_preview_for(self, node):
+        preview=getattr(self,'_point_preview',None)
+        if preview is not None:return preview
+        if not cmds.objExists(node+'.editPreviewPositions') or is_pose_driven(node):return None
+        from .point_preview import PointPreview
+        preview=PointPreview(node)
+        # Preserve first-dab compaction/remapping in scenes with orphan CVs.
+        if preview.read().orphan_cv_indices():return None
+        self._point_preview=preview
+        self._point_save_callback=om.MSceneMessage.addCallback(
+            om.MSceneMessage.kBeforeSave,self._before_point_save)
+        return preview
+
+    def _finish_point(self, commit, take=False):
+        preview=getattr(self,'_point_preview',None)
+        self._point_preview=None
+        callback=getattr(self,'_point_save_callback',None)
+        if callback is not None:om.MMessage.removeCallback(callback)
+        self._point_save_callback=None
+        if preview is None or preview.closed:return None
+        try:
+            if take:return preview.take()
+            if commit:preview.commit()
+            else:preview.cancel()
+        finally:
+            if not preview.closed:preview.cancel()
+
+    def _before_point_save(self, *args):
+        try:self._finish_point(False)
+        finally:self._close_undo()
+
+    def _close_undo(self):
+        if self._undo_open:
+            self._undo_open = False
+            cmds.undoInfo(closeChunk=True)
+            _rebind.resume()
+
+    def _remove_relax_save_callback(self):
+        if self._relax_save_callback is not None:
+            om.MMessage.removeCallback(self._relax_save_callback)
+            self._relax_save_callback = None
+
+    def _finish_relax(self,commit):
+        stroke = _state_get(self._s,'relax_stroke')
+        _state_set(self._s,'relax_stroke',None)
+        self._remove_relax_save_callback()
+        if not stroke:return None
+        preview=stroke.get('numeric_preview')
+        if preview is not None and not preview.closed:
+            try:
+                if commit:preview.commit()
+                else:preview.cancel()
+            finally:
+                # Also clears transient positions on a failed commit.
+                if not preview.closed:preview.cancel()
+        elif preview is None and commit and stroke['moved']:
+            from . import curve_net_relax
+            curve_net_relax.relax(stroke['node'],{v:1. for v in stroke['affected']},
+                                  draft=False,smooth=False)
+        return stroke
+
+    def _before_relax_save(self,*args):
+        # Maya save callbacks do not reliably record scene edits in the open
+        # gesture's Undo chunk. Discard only the in-flight preview; save the
+        # last committed state instead of introducing an un-undoable commit.
+        try:self._finish_relax(False)
+        except Exception:
+            om.MGlobal.displayError('[RetopoGuide] relax save error:\n'+traceback.format_exc())
+        finally:self._close_undo()
+
+    def _cancel_relax(self):
+        try:
+            self._finish_relax(False)
+            self._finish_point(False)
+        finally:self._close_undo()
 
     def press(self):
+        self._cancel_relax()
         cmds.undoInfo(openChunk=True, chunkName="RetopoGuide")
+        self._undo_open = True
         # ドラッグ中は netData が連続で書かれるので、リバインドはリリースまで止める
         _rebind.suspend()
         try:
             self._press_impl()
         except Exception:
             om.MGlobal.displayError("[RetopoGuide] press error:\n" + traceback.format_exc())
+            self._cancel_relax()
 
     def _press_impl(self):
         # ボタン番号: 1=LMB, 2=MMB, 3=RMB
@@ -2361,9 +2456,19 @@ class RetopoGuideContext:
             return True
         stroke['last'] = (sx, sy)
         from . import curve_net_relax
-        weights = curve_net_relax.brush_weights(stroke['node'], sx, sy)
-        stroke['affected'].update(curve_net_relax.relax(stroke['node'], weights))
-        _dirty_shape_view()
+        if cmds.objExists(stroke['node']+'.editPreviewPositions'):
+            preview=stroke.get('numeric_preview')
+            if preview is None:
+                from .relax_preview import RelaxPreview
+                preview=RelaxPreview(stroke['node'])
+                stroke['numeric_preview']=preview
+                self._relax_save_callback=om.MSceneMessage.addCallback(
+                    om.MSceneMessage.kBeforeSave,self._before_relax_save)
+            affected=preview.brush(sx,sy)
+        else:
+            # A running older plugin can retain the established edit path.
+            affected=curve_net_relax.brush_relax(stroke['node'],sx,sy)
+        stroke['affected'].update(affected)
         return True
 
     def drag(self):
@@ -2371,6 +2476,7 @@ class RetopoGuideContext:
             self._drag_impl()
         except Exception:
             om.MGlobal.displayError("[RetopoGuide] drag error:\n" + traceback.format_exc())
+            self._cancel_relax()
 
     def _drag_impl(self):
         try:
@@ -2590,9 +2696,10 @@ class RetopoGuideContext:
             return
 
         if button == 2 and self._s.drag_ep is not None:
-            # 中ドラッグ: netData に直接書き込む (draw override が VP2 で再描画)
+            # Keep topology/metadata owned until release; redraw numeric positions.
             acc = RetopoGuideAccessor(node)
-            cn  = acc.read()
+            preview = self._point_preview_for(node)
+            cn = preview.read() if preview is not None else acc.read()
             ep  = self._s.drag_ep
             # 対称面への吸着 / 面を跨がせない制限
             snap_pt, face_idx, bary, on_plane = _apply_symmetry_constraint(
@@ -2651,7 +2758,8 @@ class RetopoGuideContext:
                                                      mesh_name=mesh_name))
             else:
                 _state_set(self._s, "hover_spline", None)
-            _commit_net_data(node, cn)
+            if preview is not None:preview.write(cn)
+            else:_commit_net_data(node, cn)
 
 
     def release(self):
@@ -2660,22 +2768,16 @@ class RetopoGuideContext:
         except Exception:
             om.MGlobal.displayError("[RetopoGuide] release error:\n" + traceback.format_exc())
         finally:
-            cmds.undoInfo(closeChunk=True)
-            _rebind.resume()
+            self._close_undo()
 
 
     def _release_impl(self):
-        stroke = _state_get(self._s, "relax_stroke")
-        _state_set(self._s, "relax_stroke", None)
+        stroke = self._finish_relax(True)
         if stroke:
-            if stroke['moved']:
-                from . import curve_net_relax
-                curve_net_relax.relax(stroke['node'], {v:1. for v in stroke['affected']},
-                                      draft=False, smooth=False)
-                _dirty_shape_view()
-            else:
+            if not stroke['moved']:
                 self._merge_shift_click(stroke['node'], stroke['snapped'])
             return
+        point_data = self._finish_point(True, take=True)
         drag_handle = getattr(self._s, "drag_handle", None)
         mirror_handle = _state_get(self._s, "drag_mirror_handle")
         _state_set(self._s, "drag_handle", None)
@@ -2720,7 +2822,7 @@ class RetopoGuideContext:
             if not (node and cmds.objExists(node)):
                 return
             acc = RetopoGuideAccessor(node)
-            cn = acc.read()
+            cn = point_data if point_data is not None else acc.read()
             mesh_name = acc.mesh_name
             refit = []
 
@@ -2969,6 +3071,10 @@ class RetopoGuideContext:
 
     def exit(self) -> None:
         """draggerContext 離脱時: 状態リセット + 保留していたリバインドを実行。"""
+        try:
+            self._finish_relax(True)
+            self._finish_point(True)
+        finally:self._close_undo()
         self._s.sel_ep  = None
         self._s.drag_ep = None
         self._s.preview_end = None
@@ -3270,6 +3376,7 @@ class RetopoGuideContext:
 
     def stop_scriptjob(self) -> None:
         """scriptJob を停止する。"""
+        self._cancel_relax()
         jobs = self._s._sel_sj
         if jobs is not None:
             for sj in (jobs if isinstance(jobs, list) else [jobs]):

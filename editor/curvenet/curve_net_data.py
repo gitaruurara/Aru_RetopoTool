@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import json
 import math
+import weakref
 from typing import Optional
 
 import numpy as np
@@ -83,7 +84,7 @@ def _v3_lerp(a, b, t):
 class EP:
     """RetopoGuide endpoint (spline index 0 or 3)."""
 
-    __slots__ = ("_cn", "cv_idx")
+    __slots__ = ("_cn", "cv_idx", "__weakref__")
 
     def __init__(self, cn: "RetopoGuideData", cv_idx: int):
         self._cn = cn
@@ -170,7 +171,7 @@ class EP:
 class Handle:
     """Spline interior control handle (spline index 1 or 2)."""
 
-    __slots__ = ("_cn", "cv_idx", "spline_idx", "side")
+    __slots__ = ("_cn", "cv_idx", "spline_idx", "side", "__weakref__")
 
     def __init__(self, cn: "RetopoGuideData", cv_idx: int,
                  spline_idx: int, side: int):
@@ -208,9 +209,8 @@ class Handle:
         sp = self._cn.splines[self.spline_idx]
         partner_cv = sp[2] if self.side == 0 else sp[1]
         partner_side = 1 if self.side == 0 else 0
-        return self._cn._cv_to_handle.get(
-            (partner_cv, self.spline_idx),
-            Handle(self._cn, partner_cv, self.spline_idx, partner_side))
+        return self._cn.handle_at(partner_cv, self.spline_idx) or Handle(
+            self._cn, partner_cv, self.spline_idx, partner_side)
 
     @property
     def surface_binding(self):
@@ -364,6 +364,8 @@ class RetopoGuideData:
     """
 
     def __init__(self):
+        self._lazy_objects = False
+        self._objects_dirty = False
         # CV プール
         self.positions: list[list[float]] = []   # [[x,y,z], ...]
 
@@ -393,11 +395,11 @@ class RetopoGuideData:
         self.curves: list[list[int]] = []
 
         # ---- EP / Handle オブジェクト (classify_endpoints() で構築) ----
-        self._eps: list[EP] = []
-        self._handles: list[Handle] = []
+        self._eps: list[int] = []
+        self._handles: list[tuple[int, int, int]] = []
         self._cv_to_ep: dict[int, EP] = {}
-        # key = (cv_idx, spline_idx)
-        self._cv_to_handle: dict[tuple[int, int], Handle] = {}
+        # key = (cv_idx, spline_idx, side)
+        self._cv_to_handle: dict[tuple[int, int, int], Handle] = {}
 
     # ------------------------------------------------------------------
     # CV 操作
@@ -633,6 +635,9 @@ class RetopoGuideData:
         -------
         (new_ep_idx, new_sp0_idx, new_sp1_idx)
         """
+        if not hasattr(self,"_retopo_parents"):
+            self._retopo_parents={i:i for i in range(len(self.splines))}
+        parent=self._retopo_parents.get(sp_idx)
         i0, i1, i2, i3 = self.splines[sp_idx]
         p0 = self.positions[i0]
         p1 = self.positions[i1]
@@ -670,6 +675,7 @@ class RetopoGuideData:
         # (classify_endpoints 後に不参照 CV は無視される)
         # 簡易化のため参照した CV を pop して詰め直すことはしない
 
+        self._retopo_parents[sp1]=parent
         return new_ep, sp_idx, sp1
 
     def splines_at_ep(self, ep_cv: int) -> list[int]:
@@ -759,6 +765,15 @@ class RetopoGuideData:
         add_spline / split_spline の後に呼ぶ。
         EP / Handle オブジェクトもここで再構築される。
         """
+        topology = (len(self.positions), tuple(tuple(sp) for sp in self.splines),
+                    frozenset(self.standalone_eps))
+        if self._lazy_objects and getattr(self, '_classified_topology', None) == topology:
+            # Numeric edits retain connectivity. Still invalidate wrappers to
+            # preserve classify_endpoints' owner/lookup refresh contract.
+            self._eps = []; self._handles = []
+            self._cv_to_ep = {}; self._cv_to_handle = {}
+            self._objects_dirty = True
+            return
         ep2sp: dict[int, list[int]] = {}
         for si, sp in enumerate(self.splines):
             for ep in (sp[0], sp[3]):
@@ -785,38 +800,31 @@ class RetopoGuideData:
                 self._endpoint_to_splines.setdefault(ep, [])
 
         # ---- EP / Handle オブジェクトを構築 ----
-        self._build_ep_handle_objects()
+        if self._lazy_objects:
+            self._eps = []; self._handles = []
+            self._cv_to_ep = {}; self._cv_to_handle = {}
+            self._objects_dirty = True
+        else:
+            self._build_ep_handle_objects()
 
         # ---- curves を再構築 ----
         self._rebuild_curves()
+        self._classified_topology = topology
+
+    def _ensure_ep_handle_objects(self) -> None:
+        if self._objects_dirty:
+            self._build_ep_handle_objects()
 
     def _build_ep_handle_objects(self) -> None:
         """EP と Handle のオブジェクトリストおよびルックアップ辞書を構築する。"""
-        eps: list[EP] = []
-        handles: list[Handle] = []
-        cv_to_ep: dict[int, EP] = {}
-        cv_to_handle: dict[tuple[int, int], Handle] = {}
-
-        # EP: 全エンドポイント
-        for cv_idx in self._endpoint_to_splines:
-            ep = EP(self, cv_idx)
-            eps.append(ep)
-            cv_to_ep[cv_idx] = ep
-
-        # Handle: 各 spline の i1, i2
-        for si, sp in enumerate(self.splines):
-            _, i1, i2, _ = sp
-            h0 = Handle(self, i1, si, 0)
-            h1 = Handle(self, i2, si, 1)
-            handles.append(h0)
-            handles.append(h1)
-            cv_to_handle[(i1, si)] = h0
-            cv_to_handle[(i2, si)] = h1
-
-        self._eps = eps
-        self._handles = handles
-        self._cv_to_ep = cv_to_ep
-        self._cv_to_handle = cv_to_handle
+        # Metadata is owned; wrappers are weakly cached and own this data.
+        # An externally held wrapper keeps its owner alive without a cycle.
+        self._eps = list(self._endpoint_to_splines)
+        self._handles = [(sp[side+1], si, side)
+                         for si,sp in enumerate(self.splines) for side in (0,1)]
+        self._cv_to_ep = weakref.WeakValueDictionary()
+        self._cv_to_handle = weakref.WeakValueDictionary()
+        self._objects_dirty = False
 
     # ------------------------------------------------------------------
     # EP / Handle アクセサ
@@ -825,59 +833,92 @@ class RetopoGuideData:
     @property
     def eps(self) -> list[EP]:
         """全 EP オブジェクトのリスト。"""
-        return list(self._eps)
+        self._ensure_ep_handle_objects()
+        return [self.ep_at(cv) for cv in self._eps]
 
     @property
     def handles(self) -> list[Handle]:
         """全 Handle オブジェクトのリスト。"""
-        return list(self._handles)
+        self._ensure_ep_handle_objects()
+        return [self._handle_object(*key) for key in self._handles]
 
     @property
     def intersections(self) -> list[EP]:
         """intersection EP のみ (3本以上の spline が交わる点)。"""
-        return [e for e in self._eps if e.is_intersection]
+        self._ensure_ep_handle_objects()
+        return [e for e in self.eps if e.is_intersection]
 
     @property
     def anchors(self) -> list[EP]:
         """anchor EP のみ (1本の spline の端)。"""
-        return [e for e in self._eps if e.is_anchor]
+        self._ensure_ep_handle_objects()
+        return [e for e in self.eps if e.is_anchor]
 
     @property
     def ep_indices(self) -> set[int]:
         """全 EP の cv_idx セット。"""
-        return {e.cv_idx for e in self._eps}
+        if self._lazy_objects:
+            return set(self._endpoint_to_splines)
+        self._ensure_ep_handle_objects()
+        return set(self._eps)
 
     @property
     def handle_indices(self) -> set[int]:
         """全 Handle の cv_idx セット。"""
-        return {h.cv_idx for h in self._handles}
+        if self._lazy_objects:
+            return {h for sp in self.splines for h in sp[1:3]}
+        self._ensure_ep_handle_objects()
+        return {key[0] for key in self._handles}
 
     def ep_at(self, cv_idx: int) -> Optional[EP]:
         """cv_idx から EP を引く。見つからなければ None。"""
-        return self._cv_to_ep.get(cv_idx)
+        self._ensure_ep_handle_objects()
+        if cv_idx not in self._endpoint_to_splines:return None
+        ep=self._cv_to_ep.get(cv_idx)
+        if ep is None:
+            ep=EP(self,cv_idx);self._cv_to_ep[cv_idx]=ep
+        return ep
 
     def handle_at(self, cv_idx: int, spline_idx: int) -> Optional[Handle]:
         """(cv_idx, spline_idx) から Handle を引く。"""
-        return self._cv_to_handle.get((cv_idx, spline_idx))
+        self._ensure_ep_handle_objects()
+        if spline_idx<0 or spline_idx>=len(self.splines):return None
+        sp=self.splines[spline_idx]
+        if cv_idx==sp[2]:side=1
+        elif cv_idx==sp[1]:side=0
+        else:return None
+        return self._handle_object(cv_idx,spline_idx,side)
+
+    def _handle_object(self, cv_idx, spline_idx, side):
+        key=(cv_idx,spline_idx,side)
+        handle=self._cv_to_handle.get(key)
+        if handle is None:
+            handle=Handle(self,cv_idx,spline_idx,side)
+            self._cv_to_handle[key]=handle
+        return handle
 
     def eps_of(self, sp_idx: int) -> tuple[EP, EP]:
         """spline の両端 EP を返す。"""
         sp = self.splines[sp_idx]
-        return (self._cv_to_ep[sp[0]], self._cv_to_ep[sp[3]])
+        self._ensure_ep_handle_objects()
+        return (self.ep_at(sp[0]), self.ep_at(sp[3]))
 
     def handles_of(self, sp_idx: int) -> tuple[Handle, Handle]:
         """spline のハンドル (i1 側, i2 側) を返す。"""
         sp = self.splines[sp_idx]
-        return (self._cv_to_handle[(sp[1], sp_idx)],
-                self._cv_to_handle[(sp[2], sp_idx)])
+        self._ensure_ep_handle_objects()
+        return (self.handle_at(sp[1], sp_idx),
+                self.handle_at(sp[2], sp_idx))
 
     def _handle_for_ep_spline(self, ep_cv: int, sp_idx: int) -> Optional[Handle]:
         """ep_cv 側のハンドルを返す (内部用)。"""
         sp = self.splines[sp_idx]
         if sp[0] == ep_cv:
-            return self._cv_to_handle.get((sp[1], sp_idx))
+            self._ensure_ep_handle_objects()
+            return self.handle_at(sp[1], sp_idx)
         elif sp[3] == ep_cv:
-            return self._cv_to_handle.get((sp[2], sp_idx))
+            self._ensure_ep_handle_objects()
+            return self.handle_at(sp[2], sp_idx)
         return None
 
     def _rebuild_curves(self) -> None:
@@ -1022,8 +1063,9 @@ class RetopoGuideData:
         }
 
     @classmethod
-    def from_dict(cls, d: dict) -> "RetopoGuideData":
+    def from_dict(cls, d: dict, *, lazy_objects=False) -> "RetopoGuideData":
         cn = cls()
+        cn._lazy_objects = lazy_objects
         cn.positions       = [list(p) for p in d["positions"]]
         cn.surface_binding = [tuple(s) if s else None
                               for s in d.get("surface_binding", [])]
@@ -1059,7 +1101,10 @@ class RetopoGuideData:
         cache = cls._PARSE_CACHE
         cn = cache.get(s)
         if cn is None:
-            cn = cls.from_json(s)
+            # Evaluation/drawing often need numeric data only. Delay wrappers
+            # (which own this data and form cycles) until an EP/Handle accessor
+            # is used, so evicted numeric cache entries release immediately.
+            cn = cls.from_dict(json.loads(s), lazy_objects=True)
             if len(cache) >= cls._PARSE_CACHE_MAX:
                 cache.pop(next(iter(cache)))
             cache[s] = cn

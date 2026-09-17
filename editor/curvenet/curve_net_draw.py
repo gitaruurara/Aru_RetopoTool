@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import ctypes
 import json as _json
+import numpy as _np
 
 import maya.api.OpenMaya as om2
 import maya.api.OpenMayaRender as omr
@@ -21,6 +22,128 @@ from Aru_RetopoTool.editor.curvenet.curve_net_node import (
 )
 from Aru_RetopoTool.editor.curvenet import sculpt_pose as _sp
 from Aru_RetopoTool.editor.curvenet.aru_retopo_guide_plugin import _ctx
+
+class _ForegroundDraw:
+    """Batch screen-space strokes while preserving outline, clipping and ordering."""
+    def __init__(self,manager,path,frame):
+        import numpy as np
+        self.np=np;self.manager=manager;self.pending=[];self.outline=True
+        self.color=om2.MColor((.2,1.,1.,1.));self.width=1.
+        self.matrix=path.inclusiveMatrix()*frame.getMatrix(omr.MFrameContext.kViewProjMtx)
+        self.array_matrix=np.asarray(tuple(self.matrix),dtype=float).reshape(4,4)
+        self.viewport=frame.getViewportDimensions()
+
+    def __getattr__(self,name):return getattr(self.manager,name)
+
+    def project(self,p):
+        q=p*self.matrix
+        if q.w<=1e-10 or q.z < -q.w:return None
+        x,y,w,h=self.viewport
+        return om2.MPoint(x+(q.x/q.w+1)*w*.5,y+(q.y/q.w+1)*h*.5,0)
+
+    def flush(self):
+        if not self.pending:return
+        np=self.np;blocks=[];starts=[];offset=0
+        for strip in self.pending:
+            if isinstance(strip,np.ndarray):
+                block=np.column_stack((strip,np.ones(len(strip))))
+            else:
+                block=np.asarray([(p.x,p.y,p.z,p.w) for p in strip])
+            blocks.append(block)
+            starts.extend(range(offset,offset+len(strip)-1));offset+=len(strip)
+        self.pending=[]
+        if not starts:return
+        clip=np.concatenate(blocks)@self.array_matrix
+        visible=(clip[:,3]>1e-10)&(clip[:,2]>=-clip[:,3])
+        starts=np.asarray(starts,dtype=np.int32)
+        starts=starts[visible[starts]&visible[starts+1]]
+        if not len(starts):return
+        indices=np.column_stack((starts,starts+1)).ravel();q=clip[indices]
+        x,y,w,h=self.viewport
+        xy=q[:,:2]/q[:,3,None];xy=(xy+1)*np.asarray((w*.5,h*.5))+np.asarray((x,y))
+        lines=om2.MPointArray(np.column_stack((xy,np.zeros(len(xy)))).tolist())
+        if self.outline:
+            self.manager.setColor(om2.MColor((.025,.055,.07,1.)))
+            self.manager.setLineWidth(self.width+2.);self.manager.lineList(lines,True)
+            self.manager.setColor(self.color);self.manager.setLineWidth(self.width)
+        self.manager.lineList(lines,True)
+
+    def setColor(self,color):
+        self.flush();self.color=color;self.manager.setColor(color)
+
+    def setLineWidth(self,width):
+        self.flush();self.width=width;self.manager.setLineWidth(width)
+
+    def point(self,p):
+        self.flush();p=self.project(p)
+        if p is not None:self.manager.point2d(p)
+
+    def line(self,a,b):
+        if self.outline:self.flush();self.outline=False
+        self.pending.append((a,b))
+
+    def lineStrip(self,points,draw2D):
+        if draw2D:self.flush();return self.manager.lineStrip(points,True)
+        if not self.outline:self.flush();self.outline=True
+        self.pending.append(points)
+
+    def endDrawInXray(self):
+        self.flush();self.manager.endDrawInXray()
+
+    def endDrawable(self):
+        self.flush();self.manager.endDrawable()
+
+
+class _WorldForegroundDraw(_ForegroundDraw):
+    """GPU preview guide pass owns depth; retain world coordinates for camera motion."""
+    def __init__(self,*args):
+        super().__init__(*args);self.point_pending=[];self.point_size=None
+
+    def flush(self):
+        if self.pending:
+            np=self.np
+            if all(len(strip)==2 for strip in self.pending):
+                coords=[(p.x,p.y,p.z) for strip in self.pending for p in strip]
+            else:
+                blocks=[]
+                for strip in self.pending:
+                    block=strip if isinstance(strip,np.ndarray) else np.asarray([(p.x,p.y,p.z) for p in strip])
+                    if len(block)>1:blocks.append(np.stack((block[:-1],block[1:]),axis=1).reshape(-1,3))
+                coords=np.concatenate(blocks).tolist() if blocks else []
+            self.pending=[]
+            if coords:
+                lines=om2.MPointArray(coords)
+                if self.outline:
+                    self.manager.setColor(om2.MColor((.025,.055,.07,1.)))
+                    self.manager.setLineWidth(self.width+2.);self.manager.lineList(lines,False)
+                    self.manager.setColor(self.color);self.manager.setLineWidth(self.width)
+                self.manager.lineList(lines,False)
+        if self.point_pending:
+            self.manager.points(om2.MPointArray(self.point_pending),False)
+            self.point_pending=[]
+
+    def setColor(self,color):
+        if tuple(color)!=tuple(self.color):
+            self.flush();self.color=color;self.manager.setColor(color)
+
+    def setPointSize(self,size):
+        if size!=self.point_size:
+            self.flush();self.point_size=size;self.manager.setPointSize(size)
+
+    def point(self,p):
+        if self.pending:self.flush()
+        self.point_pending.append((p.x,p.y,p.z))
+
+    def line(self,a,b):
+        if self.point_pending:self.flush()
+        super().line(a,b)
+
+    def lineStrip(self,points,draw2D):
+        if self.point_pending:self.flush()
+        super().lineStrip(points,draw2D)
+
+_gpu_world_guides=False
+
 
 class RetopoGuideNodeData(om2.MUserData):
     """RetopoGuideDrawOverride 用描画データ。"""
@@ -122,7 +245,7 @@ _BEZIER_N = 24
 _BEZIER_BASIS = None
 
 
-def _bezier_strips(pos, splines):
+def _bezier_strips(pos, splines, raw=False):
     """全スプラインの描画用折れ線 (MPointArray) を返す。
 
     150 本 × 25 点を Python ループで作ると 1 フレーム 0.1 s 超になるので
@@ -143,7 +266,7 @@ def _bezier_strips(pos, splines):
         idx = np.asarray(valid, dtype=int)                       # (S,4)
         ctrl = P[idx]                                            # (S,4,3)
         pts = np.einsum("nk,skd->snd", _BEZIER_BASIS, ctrl)      # (S,N+1,3)
-        return [om2.MPointArray(strip) for strip in pts.tolist()]
+        return pts if raw else [om2.MPointArray(strip) for strip in pts.tolist()]
     except ImportError:
         out = []
         for sp in valid:
@@ -230,138 +353,33 @@ class RetopoGuideGeometryOverride(omr.MPxGeometryOverride):
             self._xray_priority = 26
         self._style = _read_style(depFn)
 
-        positions = [list(p) for p in cn.positions]
-
-        # ==============================================================
-        # Path 1: サーフェス追従 (driverMesh + surfaceBindData)
-        # ==============================================================
-        _has_surface_bind = False
+        # Share the node's evaluated result with the retopo generator. Re-reading
+        # each control-point plug duplicates warp/sculpt evaluation and API calls.
         try:
-            sbd_plug = depFn.findPlug("surfaceBindData", False)
-            sbd_str = sbd_plug.asString() if not sbd_plug.isNull else ""
-            dm_plug = depFn.findPlug("driverMesh", False)
-            if sbd_str and dm_plug.isDestination:
-                dm_obj = dm_plug.asMObject()
-                if not dm_obj.isNull():
-                    dm_fn = om2.MFnMesh(dm_obj)
-                    dm_pts = dm_fn.getPoints(om2.MSpace.kWorld)
-                    if len(dm_pts) > 0:
-                        driver_verts = [[p.x, p.y, p.z] for p in dm_pts]
-                        bind_data = _json.loads(sbd_str)
-                        positions = RetopoGuideNode._computeSurfaceWarp(
-                            cn.positions, bind_data, driver_verts)
-                        _has_surface_bind = True
+            if depFn.hasAttribute('outPositions'):
+                packed=depFn.findPlug('outPositions',False).asMObject()
+                values=list(om2.MFnDoubleArrayData(packed).array())
+                if len(values)%3:raise ValueError('Invalid guide positions')
+                # Own the draw snapshot once; GPU sampling can view it directly.
+                # Avoid rebuilding Python tuples and converting them back to NumPy.
+                positions=_np.array(values,dtype=_np.float64).reshape(-1,3)
+            else:
+                evaluated=depFn.findPlug('outNetData',False).asString()
+                positions=_json.loads(evaluated)['positions'] if evaluated else [list(p) for p in cn.positions]
         except Exception:
-            pass
+            return
 
-        # ==============================================================
-        # Path 2: inSurface (デフォーマチェーン — skinCluster 後方互換)
-        # ==============================================================
-        all_deltas = {}
-        _has_deformer = False
-        if not _has_surface_bind:
-            try:
-                skinPlug = depFn.findPlug("inSurface", False)
-                if skinPlug.isDestination:
-                    skinObj = skinPlug.asMObject()
-                    if not skinObj.isNull():
-                        meshFn = om2.MFnMesh(skinObj)
-                        pts = meshFn.getPoints(om2.MSpace.kObject)
-                        if len(pts) > 0:
-                            _has_deformer = True
-                            for i, pt in enumerate(pts):
-                                if i < len(positions):
-                                    dx = pt.x - cn.positions[i][0]
-                                    dy = pt.y - cn.positions[i][1]
-                                    dz = pt.z - cn.positions[i][2]
-                                    if (abs(dx) > 1e-9 or abs(dy) > 1e-9
-                                            or abs(dz) > 1e-9):
-                                        all_deltas[i] = [dx, dy, dz]
-                                    positions[i] = [pt.x, pt.y, pt.z]
-            except Exception:
-                pass
-
-        # === controlPoints: pose-dependent sculpt corrections ===
-        # デフォーマなし → CP を直接適用 (レスト編集)
-        # デフォーマあり → エンベロープスケール (バインドポーズでゼロ)
-        # サーフェスバインド → CP を直接適用 (ワープ後のゼロ点からのデルタ)
-        try:
-            cp_plug = depFn.findPlug("controlPoints", False)
-            if cp_plug.isArray:
-                cp_deltas = {}
-                for pi in range(cp_plug.evaluateNumElements()):
-                    elem = cp_plug.elementByPhysicalIndex(pi)
-                    idx = elem.logicalIndex()
-                    if idx < len(positions):
-                        dx = elem.child(0).asDouble()
-                        dy = elem.child(1).asDouble()
-                        dz = elem.child(2).asDouble()
-                        if (abs(dx) > 1e-9 or abs(dy) > 1e-9
-                                or abs(dz) > 1e-9):
-                            cp_deltas[idx] = (dx, dy, dz)
-                if cp_deltas:
-                    if _has_surface_bind:
-                        # サーフェスバインド: ハンドルも重心座標でワープ済み
-                        # 全 CP を直接加算 (ハンドル分離不要)
-                        for idx, (dx, dy, dz) in cp_deltas.items():
-                            positions[idx] = [
-                                positions[idx][0] + dx,
-                                positions[idx][1] + dy,
-                                positions[idx][2] + dz,
-                            ]
-                    elif _has_deformer:
-                        _ep_set_vp2 = cn.endpoint_indices()
-                        offsets = _apply_sculpt(
-                            cn.positions, positions, cn.splines,
-                            cp_deltas,
-                            _read_sculpt_pose_map(depFn),
-                            _plug_double(depFn, "poseFalloff",
-                                         _sp.POSE_FALLOFF_DEFAULT),
-                            _plug_double(depFn, "sculptFalloff",
-                                         SCULPT_FALLOFF_FRACTION),
-                            _read_sculpt_targets(depFn))
-                        ep_cp_deltas = {}
-                        for idx, (ex, ey, ez) in offsets.items():
-                            positions[idx] = [
-                                positions[idx][0] + ex,
-                                positions[idx][1] + ey,
-                                positions[idx][2] + ez,
-                            ]
-                            if idx in _ep_set_vp2:
-                                ep_cp_deltas[idx] = [ex, ey, ez]
-                        # EP の CP 移動分をハンドルに平行移動で伝播
-                        if ep_cp_deltas:
-                            _translate_handles_by_ep_cp(
-                                positions, cn.splines, _ep_set_vp2,
-                                ep_cp_deltas)
-                    else:
-                        for idx, (dx, dy, dz) in cp_deltas.items():
-                            positions[idx] = [
-                                positions[idx][0] + dx,
-                                positions[idx][1] + dy,
-                                positions[idx][2] + dz,
-                            ]
-        except Exception:
-            pass
-
-        ep_set = cn.endpoint_indices()
-
-        handle_set = set()
-        for sp in cn.splines:
-            handle_set.add(sp[1])
-            handle_set.add(sp[2])
-
+        from .gpu_guides import sync_topology
+        sync_topology(self, cn, shared_readonly=True)
+        ep_set = self._ep_set
+        handle_set = self._handle_set
         self._positions = positions
-        self._splines = [list(s) for s in cn.splines]
-        self._ep_set = ep_set
-        self._handle_set = handle_set
         self._manual_handles = set(getattr(cn, "manual_handles", ()))
         self._sel_ep = _ctx.sel_ep
         # 対称ドラッグ中の相方 (ミラー先)。リロード直後などで無くても落ちない
         self._mirror_ep = getattr(_ctx, "drag_mirror_ep", None)
         # 中ボタンドラッグ中の EP。カーブへのホバー表示の出し分けに使う
         self._drag_ep = getattr(_ctx, "drag_ep", None)
-        self._ep_types = dict(cn._endpoint_type)
 
         # コンポーネント選択状態
         self._selected_components = set()
@@ -447,6 +465,8 @@ class RetopoGuideGeometryOverride(omr.MPxGeometryOverride):
     # updateRenderItems — 選択可能なポイントレンダーアイテム
     # -----------------------------------------------------------------
     def updateRenderItems(self, dagPath, renderItemList):
+        from .gpu_guides import configure
+        configure(self,renderItemList,_gpu_world_guides and self._xray)
         idx = renderItemList.indexOf(_VERTEX_SEL_ITEM)
         if idx < 0:
             item = omr.MRenderItem.create(
@@ -491,7 +511,12 @@ class RetopoGuideGeometryOverride(omr.MPxGeometryOverride):
     def populateGeometry(self, requirements, renderItems, geo):
         import ctypes
 
-        nPos = len(self._positions)
+        gpu_curves=getattr(self,'_gpu_curve_active',False)
+        if gpu_curves:
+            from .gpu_guides import positions,upload_indices
+            vertex_positions=positions(self)
+        else:vertex_positions=self._positions
+        nPos = len(vertex_positions)
         if nPos == 0:
             return
 
@@ -503,13 +528,16 @@ class RetopoGuideGeometryOverride(omr.MPxGeometryOverride):
                 vb = geo.createVertexBuffer(desc)
                 addr = vb.acquire(nPos, True)
                 if addr:
-                    buf = (ctypes.c_float * (nPos * 3)).from_address(addr)
-                    for pi, p in enumerate(self._positions):
-                        buf[pi * 3]     = p[0]
-                        buf[pi * 3 + 1] = p[1]
-                        buf[pi * 3 + 2] = p[2]
+                    if gpu_curves:
+                        ctypes.memmove(addr,vertex_positions.ctypes.data,vertex_positions.nbytes)
+                    else:
+                        buf = (ctypes.c_float * (nPos * 3)).from_address(addr)
+                        for pi,p in enumerate(vertex_positions):
+                            buf[pi*3:pi*3+3]=p
                     vb.commit(addr)
                 break
+
+        if gpu_curves:upload_indices(self,renderItems,geo)
 
         # インデックスバッファ (頂点選択用)
         # 現在のコンポーネントモードで有効なインデックスのみ参照する。
@@ -573,6 +601,8 @@ class RetopoGuideGeometryOverride(omr.MPxGeometryOverride):
             except Exception:
                 pass
 
+        if self._xray:
+            drawManager=(_WorldForegroundDraw if _gpu_world_guides else _ForegroundDraw)(drawManager,objPath,frameContext)
         st = getattr(self, "_style", None) or _DEFAULT_STYLE
         cr, cg, cb = st["curve_color"]
         psz = st["point_size"]
@@ -581,63 +611,68 @@ class RetopoGuideGeometryOverride(omr.MPxGeometryOverride):
         # ---- Bezier カーブ ----
         drawManager.setColor(om2.MColor([cr, cg, cb, 1.0]))
         drawManager.setLineWidth(st["curve_width"])
-        for pts in _bezier_strips(pos, self._splines):
-            drawManager.lineStrip(pts, False)
+        if not getattr(self,'_gpu_curve_active',False):
+            for pts in _bezier_strips(pos, self._splines, raw=isinstance(drawManager,_ForegroundDraw)):
+                drawManager.lineStrip(pts, False)
 
-        # ---- ハンドル タンジェントライン ----
-        # 選択中のハンドルは非表示でも描く (どこを掃んでいるか見えないと困る)
-        show_h = st["show_handles"]
-        vis_handles = [hi for hi in self._handle_set
-                       if show_h or hi in self._selected_components]
-        drawManager.setColor(om2.MColor([0.55, 0.55, 0.55, 0.7]))
-        drawManager.setLineWidth(1.0)
-        for sp in self._splines:
-            if any(i >= len(pos) for i in sp):
-                continue
-            if show_h or sp[1] in self._selected_components:
-                drawManager.line(om2.MPoint(*pos[sp[0]]),
-                                 om2.MPoint(*pos[sp[1]]))
-            if show_h or sp[2] in self._selected_components:
-                drawManager.line(om2.MPoint(*pos[sp[2]]),
-                                 om2.MPoint(*pos[sp[3]]))
+        if isinstance(drawManager, _WorldForegroundDraw):
+            from .gpu_guides import draw_controls
+            draw_controls(self, drawManager, st)
+        else:
+            # ---- ハンドル タンジェントライン ----
+            # 選択中のハンドルは非表示でも描く (どこを掃んでいるか見えないと困る)
+            show_h = st["show_handles"]
+            vis_handles = [hi for hi in self._handle_set
+                           if show_h or hi in self._selected_components]
+            drawManager.setColor(om2.MColor([0.55, 0.55, 0.55, 0.7]))
+            drawManager.setLineWidth(1.0)
+            for sp in self._splines:
+                if any(i >= len(pos) for i in sp):
+                    continue
+                if show_h or sp[1] in self._selected_components:
+                    drawManager.line(om2.MPoint(*pos[sp[0]]),
+                                     om2.MPoint(*pos[sp[1]]))
+                if show_h or sp[2] in self._selected_components:
+                    drawManager.line(om2.MPoint(*pos[sp[2]]),
+                                     om2.MPoint(*pos[sp[3]]))
 
-        # ---- EP マーカー ----
-        for ep in self._ep_set:
-            if ep >= len(pos):
-                continue
-            p = pos[ep]
-            if ep in self._selected_components or self._sel_ep == ep:
-                drawManager.setColor(om2.MColor([0.0, 1.0, 0.0, 1.0]))
-                drawManager.setPointSize(psz * 1.75)
-            elif self._mirror_ep == ep:
-                # 対称ドラッグで一緒に動いている相方
-                drawManager.setColor(om2.MColor([0.0, 0.8, 1.0, 1.0]))
-                drawManager.setPointSize(psz * 1.75)
-            elif self._ep_types.get(ep) == "intersection":
-                drawManager.setColor(om2.MColor([1.0, 0.2, 0.2, 1.0]))
-                drawManager.setPointSize(psz * 1.25)
-            else:
-                drawManager.setColor(om2.MColor([1.0, 0.9, 0.0, 1.0]))
-                drawManager.setPointSize(psz)
-            drawManager.point(om2.MPoint(p[0], p[1], p[2]))
+            # ---- EP マーカー ----
+            for ep in self._ep_set:
+                if ep >= len(pos):
+                    continue
+                p = pos[ep]
+                if ep in self._selected_components or self._sel_ep == ep:
+                    drawManager.setColor(om2.MColor([0.0, 1.0, 0.0, 1.0]))
+                    drawManager.setPointSize(psz * 1.75)
+                elif self._mirror_ep == ep:
+                    # 対称ドラッグで一緒に動いている相方
+                    drawManager.setColor(om2.MColor([0.0, 0.8, 1.0, 1.0]))
+                    drawManager.setPointSize(psz * 1.75)
+                elif self._ep_types.get(ep) == "intersection":
+                    drawManager.setColor(om2.MColor([1.0, 0.2, 0.2, 1.0]))
+                    drawManager.setPointSize(psz * 1.25)
+                else:
+                    drawManager.setColor(om2.MColor([1.0, 0.9, 0.0, 1.0]))
+                    drawManager.setPointSize(psz)
+                drawManager.point(om2.MPoint(p[0], p[1], p[2]))
 
-        # ---- ハンドル マーカー ----
-        hr, hg, hb = st["handle_color"]
-        for hi in vis_handles:
-            if hi >= len(pos):
-                continue
-            p = pos[hi]
-            if hi in self._selected_components:
-                drawManager.setColor(om2.MColor([0.0, 1.0, 0.0, 1.0]))
-                drawManager.setPointSize(hsz * 1.35)
-            elif hi in getattr(self, "_manual_handles", ()):
-                # 手で置いたハンドル (自動フィットしない) は暖色で区別
-                drawManager.setColor(om2.MColor([1.0, 0.75, 0.3, 1.0]))
-                drawManager.setPointSize(hsz * 1.15)
-            else:
-                drawManager.setColor(om2.MColor([hr, hg, hb, 1.0]))
-                drawManager.setPointSize(hsz)
-            drawManager.point(om2.MPoint(p[0], p[1], p[2]))
+            # ---- ハンドル マーカー ----
+            hr, hg, hb = st["handle_color"]
+            for hi in vis_handles:
+                if hi >= len(pos):
+                    continue
+                p = pos[hi]
+                if hi in self._selected_components:
+                    drawManager.setColor(om2.MColor([0.0, 1.0, 0.0, 1.0]))
+                    drawManager.setPointSize(hsz * 1.35)
+                elif hi in getattr(self, "_manual_handles", ()):
+                    # 手で置いたハンドル (自動フィットしない) は暖色で区別
+                    drawManager.setColor(om2.MColor([1.0, 0.75, 0.3, 1.0]))
+                    drawManager.setPointSize(hsz * 1.15)
+                else:
+                    drawManager.setColor(om2.MColor([hr, hg, hb, 1.0]))
+                    drawManager.setPointSize(hsz)
+                drawManager.point(om2.MPoint(p[0], p[1], p[2]))
 
         # ---- スクリーン空間で狙っているカーブのハイライト ----
         # 新しく追加した状態フィールドなので、リロード直後などで

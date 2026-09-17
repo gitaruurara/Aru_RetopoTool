@@ -2,6 +2,7 @@
 import ctypes as C
 import os
 import sys
+import struct
 
 _lib = None
 D = C.POINTER(C.c_double)
@@ -11,22 +12,14 @@ I = C.POINTER(C.c_int)
 def library():
     global _lib
     if _lib is None:
-        filename = 'aru_retopo_core.dll' if sys.platform == 'win32' else ('libaru_retopo_core.dylib' if sys.platform == 'darwin' else 'libaru_retopo_core.so')
+        filename = 'aru_retopo_core_v4.dll' if sys.platform == 'win32' else ('libaru_retopo_core_v4.dylib' if sys.platform == 'darwin' else 'libaru_retopo_core_v4.so')
         path = os.path.join(os.path.dirname(__file__), 'bin', filename)
-        # Prefer an explicitly validated build for this Maya release.
-        # The library itself has no Maya SDK or Python ABI dependency.
-        try:
-            from maya import cmds
-            year = str(cmds.about(apiVersion=True))[:4]
-            versioned = os.path.join(os.path.dirname(__file__), 'bin', year, filename)
-            if os.path.isfile(versioned): path = versioned
-        except ImportError:
-            pass
+        # Standalone ABI: no Maya commands during DG evaluation on worker threads.
         if not os.path.isfile(path):
             raise RuntimeError('C++ライブラリがありません。Aru_RetopoTool/cpp のビルド手順を実行してください。')
         lib = C.CDLL(path)
         lib.aru_retopo_version.restype = C.c_int
-        if lib.aru_retopo_version() != 1: raise RuntimeError('Retopo C++ ABI mismatch')
+        if lib.aru_retopo_version() != 4: raise RuntimeError('Retopo C++ ABI mismatch')
         lib.aru_surface_create.argtypes = [D, C.c_int, I, C.c_int]
         lib.aru_surface_create.restype = C.c_void_p
         lib.aru_surface_destroy.argtypes = [C.c_void_p]
@@ -39,15 +32,52 @@ def library():
 
 
 def doubles(values): return (C.c_double*len(values))(*values)
-def ints(values): return (C.c_int*len(values))(*values)
+def ints(values):
+    if isinstance(values,C.Array) and values._type_ is C.c_int:
+        # Copy in native memory; subsequent projection must not mutate its input.
+        return type(values).from_buffer_copy(values)
+    return (C.c_int*len(values))(*values)
 def packed(points): return doubles([x for p in points for x in p])
-def unpack(values): return [tuple(values[i:i+3]) for i in range(0, len(values), 3)]
+def unpack(values, count=None):
+    """Copy triples directly from the native buffer without per-point slicing."""
+    try:
+        view=memoryview(values).cast('B')
+    except TypeError:
+        end=len(values) if count is None else count*3
+        return [tuple(values[i:i+3]) for i in range(0,end,3)]
+    if count is not None:view=view[:count*24]
+    return list(struct.iter_unpack('=ddd',view))
+
+
+class PackedPoints:
+    """Owned native point array; keep stencil-to-relax transfer in native memory."""
+    def __init__(self, values): self.values=values
+    def __len__(self): return len(self.values)//3
+    def __iter__(self):
+        for i in range(0,len(self.values),3): yield tuple(self.values[i:i+3])
+    def __getitem__(self,index):
+        if isinstance(index,slice): return list(self)[index]
+        if index<0:index+=len(self)
+        if index<0 or index>=len(self):raise IndexError(index)
+        return tuple(self.values[index*3:index*3+3])
 
 
 def stencil(points, offsets, indices, weights):
     out = (C.c_double*((len(offsets)-1)*3))()
     library().aru_stencil(packed(points), ints(offsets), ints(indices), doubles(weights), len(offsets)-1, out)
     return unpack(out)
+
+
+class CompiledStencil:
+    def __init__(self,offsets,indices,weights):
+        self.offsets=ints(offsets);self.indices=ints(indices);self.weights=doubles(weights)
+        self.count=len(offsets)-1;self.output=(C.c_double*(self.count*3))()
+    def __call__(self,points):
+        output=(C.c_double*(self.count*3))()
+        library().aru_stencil(packed(points),self.offsets,self.indices,self.weights,self.count,output)
+        return PackedPoints(output)
+
+stencil.compile=CompiledStencil
 
 
 class Surface:
@@ -72,14 +102,23 @@ class Surface:
             raise RuntimeError('Projection failed')
         return unpack(out), list(seed_array), unpack(normals)
 
-    def relax(self, points, plan, iterations=3, strength=.35, guide_weight=1., seeds=None, guard=True):
+    def relax(self, points, plan, iterations=3, strength=.35, guide_weight=1., seeds=None, guard=True, native_seeds=False):
         n = len(points)
         if n != plan.count: raise ValueError('Point count differs from topology plan')
         if seeds is not None and len(seeds) != n: raise ValueError('Seed size mismatch')
-        data = packed(points)
+        if isinstance(points,PackedPoints):
+            data=(C.c_double*(n*3))()
+            C.memmove(data,points.values,C.sizeof(data))
+        else:data = packed(points)
         seed_array = ints(seeds if seeds is not None else [-1]*n)
-        weights = doubles([guide_weight if i in plan.guide_vertices else 0. for i in range(n)])
-        if not self.lib.aru_relax(self.handle, data, n, ints(plan.adj_offsets), ints(plan.adj_ids), weights,
+        if getattr(self,'_plan',None) is not plan:
+            self._plan=plan
+            self._offsets=ints(plan.adj_offsets);self._neighbors=ints(plan.adj_ids)
+            self._weight_value=None
+        if self._weight_value!=guide_weight:
+            self._weights=doubles([guide_weight if i in plan.guide_vertices else 0. for i in range(n)])
+            self._weight_value=guide_weight
+        if not self.lib.aru_relax(self.handle, data, n, self._offsets, self._neighbors, self._weights,
                                   iterations, strength, seed_array, int(guard)):
             raise RuntimeError('Surface relaxation failed')
-        return unpack(data), list(seed_array)
+        return unpack(data), seed_array if native_seeds else list(seed_array)

@@ -788,6 +788,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
     aNetData    = om1.MObject()
     aMeshName   = om1.MObject()
     aOutNetData = om1.MObject()
+    aOutPositions = om1.MObject()
+    aEditPreviewPositions = om1.MObject()
 
     # サーフェス追従 (Pixar 2023 Talks §3)
     aDriverMesh      = om1.MObject()   # deformed target mesh input
@@ -854,10 +856,31 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         tAttr.setWritable(False)
         tAttr.setReadable(True)
         RetopoGuideNode.addAttribute(RetopoGuideNode.aOutNetData)
+        RetopoGuideNode.aOutPositions = tAttr.create(
+            "outPositions", "opos", om1.MFnData.kDoubleArray)
+        tAttr.setStorable(False)
+        tAttr.setWritable(False)
+        tAttr.setReadable(True)
+        RetopoGuideNode.addAttribute(RetopoGuideNode.aOutPositions)
+
+        # Absolute object-space positions for an in-progress numeric edit.
+        # Empty means inactive. A context must commit or clear before ending.
+        RetopoGuideNode.aEditPreviewPositions = tAttr.create(
+            "editPreviewPositions", "epp", om1.MFnData.kDoubleArray)
+        tAttr.setStorable(False)
+        tAttr.setWritable(True)
+        tAttr.setReadable(True)
+        tAttr.setHidden(True)
+        RetopoGuideNode.addAttribute(RetopoGuideNode.aEditPreviewPositions)
+        for target in (RetopoGuideNode.aOutPositions, RetopoGuideNode.aOutNetData):
+            RetopoGuideNode.attributeAffects(RetopoGuideNode.aEditPreviewPositions, target)
+
 
         # dirty 伝播
         RetopoGuideNode.attributeAffects(
             RetopoGuideNode.aNetData, RetopoGuideNode.aOutNetData)
+        RetopoGuideNode.attributeAffects(
+            RetopoGuideNode.aNetData, RetopoGuideNode.aOutPositions)
 
         # --- サーフェス追従 (Pixar 2023 Talks §3) ---
         # driverMesh: 変形済みターゲットメッシュ (worldMesh[0] に接続)
@@ -869,6 +892,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         RetopoGuideNode.addAttribute(RetopoGuideNode.aDriverMesh)
         RetopoGuideNode.attributeAffects(
             RetopoGuideNode.aDriverMesh, RetopoGuideNode.aOutNetData)
+        RetopoGuideNode.attributeAffects(
+            RetopoGuideNode.aDriverMesh, RetopoGuideNode.aOutPositions)
 
         # surfaceBindData: JSON — per-CV binding info (face, bary, frame)
         RetopoGuideNode.aSurfaceBindData = tAttr.create(
@@ -879,6 +904,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         RetopoGuideNode.addAttribute(RetopoGuideNode.aSurfaceBindData)
         RetopoGuideNode.attributeAffects(
             RetopoGuideNode.aSurfaceBindData, RetopoGuideNode.aOutNetData)
+        RetopoGuideNode.attributeAffects(
+            RetopoGuideNode.aSurfaceBindData, RetopoGuideNode.aOutPositions)
 
         # --- デフォーマチェーン (kMesh — skinCluster 対応: 後方互換) ---
         RetopoGuideNode.aInSurface = tAttr.create(
@@ -889,6 +916,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         RetopoGuideNode.addAttribute(RetopoGuideNode.aInSurface)
         RetopoGuideNode.attributeAffects(
             RetopoGuideNode.aInSurface, RetopoGuideNode.aOutNetData)
+        RetopoGuideNode.attributeAffects(
+            RetopoGuideNode.aInSurface, RetopoGuideNode.aOutPositions)
 
         RetopoGuideNode.aOutSurface = tAttr.create(
             "outSurface", "os", om1.MFnData.kMesh)
@@ -1020,6 +1049,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         RetopoGuideNode.attributeAffects(RetopoGuideNode.aSculptFalloff,
                                       RetopoGuideNode.aOutNetData)
         RetopoGuideNode.attributeAffects(RetopoGuideNode.aSculptFalloff,
+                                      RetopoGuideNode.aOutPositions)
+        RetopoGuideNode.attributeAffects(RetopoGuideNode.aSculptFalloff,
                                       RetopoGuideNode.aOutSurface)
 
         # --- ポーズスペーススカルプト (PSD) ---
@@ -1044,6 +1075,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         RetopoGuideNode.attributeAffects(RetopoGuideNode.aSculptPose,
                                       RetopoGuideNode.aOutNetData)
         RetopoGuideNode.attributeAffects(RetopoGuideNode.aSculptPose,
+                                      RetopoGuideNode.aOutPositions)
+        RetopoGuideNode.attributeAffects(RetopoGuideNode.aSculptPose,
                                       RetopoGuideNode.aOutSurface)
 
         # sculptTargets: JSON — 1 CV に複数ポーズの補正を保持する。
@@ -1060,6 +1093,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         RetopoGuideNode.attributeAffects(RetopoGuideNode.aSculptTargets,
                                       RetopoGuideNode.aOutNetData)
         RetopoGuideNode.attributeAffects(RetopoGuideNode.aSculptTargets,
+                                      RetopoGuideNode.aOutPositions)
+        RetopoGuideNode.attributeAffects(RetopoGuideNode.aSculptTargets,
                                       RetopoGuideNode.aOutSurface)
 
         # poseFalloff: スカルプトしたポーズからどれだけ横にずれたら
@@ -1075,6 +1110,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         RetopoGuideNode.attributeAffects(RetopoGuideNode.aPoseFalloff,
                                       RetopoGuideNode.aOutNetData)
         RetopoGuideNode.attributeAffects(RetopoGuideNode.aPoseFalloff,
+                                      RetopoGuideNode.aOutPositions)
+        RetopoGuideNode.attributeAffects(RetopoGuideNode.aPoseFalloff,
                                       RetopoGuideNode.aOutSurface)
 
         # worldSurface も outSurface と同じ最終形状 (デフォーマ + tweak)
@@ -1086,12 +1123,16 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
                      RetopoGuideNode.aSurfaceBindData):
             RetopoGuideNode.attributeAffects(_src, RetopoGuideNode.aWorldSurface)
 
+        for target in (RetopoGuideNode.aOutSurface, RetopoGuideNode.aWorldSurface):
+            RetopoGuideNode.attributeAffects(RetopoGuideNode.aEditPreviewPositions, target)
+
     # クラス属性名 → Maya 属性名。initialize() が走らない状況 (プラグインが
     # アンロードできないままモジュールだけ reload された等) で
     # クラス属性を既存ノードから復元するために使う。
     _ATTR_NAMES = {
         "aNetData": "netData", "aMeshName": "meshName",
-        "aOutNetData": "outNetData", "aDriverMesh": "driverMesh",
+        "aEditPreviewPositions": "editPreviewPositions",
+        "aOutPositions": "outPositions", "aOutNetData": "outNetData", "aDriverMesh": "driverMesh",
         "aSurfaceBindData": "surfaceBindData", "aInSurface": "inSurface",
         "aOutSurface": "outSurface", "aCachedSurface": "cachedSurface",
         "aWorldSurface": "worldSurface", "aXray": "xray",
@@ -1129,6 +1170,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
             RetopoGuideNode._aCpZ = fn.attribute("zValue")
             RetopoGuideNode.attributeAffects(
                 RetopoGuideNode._aCp, RetopoGuideNode.aOutNetData)
+            RetopoGuideNode.attributeAffects(
+                RetopoGuideNode._aCp, RetopoGuideNode.aOutPositions)
             RetopoGuideNode.attributeAffects(
                 RetopoGuideNode._aCp, RetopoGuideNode.aOutSurface)
             RetopoGuideNode.attributeAffects(
@@ -1275,6 +1318,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
     def _computeInner(self, plug, dataBlock):
         if plug == RetopoGuideNode.aOutNetData:
             self._computeOutNetData(dataBlock)
+        elif plug == RetopoGuideNode.aOutPositions:
+            self._computeOutNetData(dataBlock, positions_only=True)
         elif plug == RetopoGuideNode.aCachedSurface:
             self._computeCachedSurface(dataBlock)
         elif plug == RetopoGuideNode.aOutSurface:
@@ -1741,7 +1786,7 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
     # -----------------------------------------------------------------
     # _computeOutNetData — JSON 出力 (Poisson deformer 用)
     # -----------------------------------------------------------------
-    def _computeOutNetData(self, dataBlock):
+    def _computeOutNetData(self, dataBlock, positions_only=False):
         """outNetData (JSON) を計算する。
 
         データフロー (優先順位):
@@ -1756,18 +1801,32 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
           → 二重トランスフォームは発生しない。
         """
         base_str = dataBlock.inputValue(RetopoGuideNode.aNetData).asString()
-        outHandle = dataBlock.outputValue(RetopoGuideNode.aOutNetData)
+        output_attr = RetopoGuideNode.aOutPositions if positions_only else RetopoGuideNode.aOutNetData
+        outHandle = dataBlock.outputValue(output_attr)
+        def write_positions(pos):
+            if positions_only:
+                values = [x for p in pos for x in p]
+                util = om1.MScriptUtil()
+                if values:
+                    util.createFromList(values, len(values))
+                    array = om1.MDoubleArray(util.asDoublePtr(), len(values))
+                else:
+                    array = om1.MDoubleArray()
+                outHandle.setMObject(om1.MFnDoubleArrayData().create(array))
+            else:
+                outHandle.setString(_out_json(pos))
+            dataBlock.setClean(output_attr)
 
         if not base_str:
-            outHandle.setString("")
-            dataBlock.setClean(RetopoGuideNode.aOutNetData)
+            if positions_only: write_positions([])
+            else: outHandle.setString(""); dataBlock.setClean(output_attr)
             return
 
         try:
             cn = RetopoGuideData.from_json_cached(base_str)
         except Exception:
-            outHandle.setString(base_str)
-            dataBlock.setClean(RetopoGuideNode.aOutNetData)
+            if positions_only: write_positions([])
+            else: outHandle.setString(base_str); dataBlock.setClean(output_attr)
             return
 
         base_positions = [list(p) for p in cn.positions]
@@ -1779,6 +1838,18 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
             d = cn.to_dict()
             d["positions"] = [list(p) for p in pos]
             return _json.dumps(d, separators=(",", ":"))
+
+        preview = dataBlock.inputValue(RetopoGuideNode.aEditPreviewPositions).data()
+        if not preview.isNull():
+            values = om1.MFnDoubleArrayData(preview).array()
+            if values.length() == len(cn.positions)*3 and values.length():
+                if positions_only:
+                    outHandle.setMObject(preview)
+                    dataBlock.setClean(output_attr)
+                else:
+                    write_positions([[values[i],values[i+1],values[i+2]]
+                                     for i in range(0,values.length(),3)])
+                return
 
         # --- EP set & handle set ---
         ep_set = cn.ep_indices
@@ -1806,8 +1877,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
                         positions[idx][1] += dy
                         positions[idx][2] += dz
 
-            outHandle.setString(_out_json(positions))
-            dataBlock.setClean(RetopoGuideNode.aOutNetData)
+            write_positions(positions)
+            dataBlock.setClean(output_attr)
             return
 
         # ==============================================================
@@ -1891,8 +1962,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         if (not all_deltas and deformed_pos is None
                 and not delta_map):
             # Neither deformer nor manual deltas — nothing changed
-            outHandle.setString(_out_json(positions))
-            dataBlock.setClean(RetopoGuideNode.aOutNetData)
+            write_positions(positions)
+            dataBlock.setClean(output_attr)
             return
 
         # ハンドル自動追従: deformer なし (skinCluster なし) の場合のみ
@@ -1911,8 +1982,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
                     positions[idx][1] += uo[1]
                     positions[idx][2] += uo[2]
 
-        outHandle.setString(_out_json(positions))
-        dataBlock.setClean(RetopoGuideNode.aOutNetData)
+        write_positions(positions)
+        dataBlock.setClean(output_attr)
 
     # -----------------------------------------------------------------
     # Evaluation Manager (parallel / serial)
@@ -1920,7 +1991,7 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
     # EM モードでは setDependentsDirty は評価グラフ構築時にしか呼ばれず、
     # 以降のジョイント操作では VP2 へ再描画要求が届かない。DevKit の
     # apiMeshShape と同様に postEvaluation で draw dirty を通知する。
-    _kEvalDirtyAttrs = ("aInSurface", "aDriverMesh", "aNetData",
+    _kEvalDirtyAttrs = ("aInSurface", "aDriverMesh", "aNetData", "aEditPreviewPositions",
                         "aSurfaceBindData", "aSculptPose",
                         "aSculptTargets", "_aCp")
 
@@ -1947,7 +2018,7 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         try:
             attr = om1.MFnAttribute(plug.attribute())
             name = attr.name()
-            if name in ("controlPoints", "xValue", "yValue", "zValue", "inSurface", "netData", "driverMesh", "surfaceBindData",
+            if name in ("controlPoints", "xValue", "yValue", "zValue", "inSurface", "netData", "editPreviewPositions", "driverMesh", "surfaceBindData",
                         "xray", "xrayDepthPriority",
                         "curveColor", "curveColorR", "curveColorG", "curveColorB",
                         "curveWidth", "pointSize", "handleSize", "showHandles",
@@ -1956,6 +2027,8 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
                 
                 # controlPoints系は inherited attr のため attributeAffects が効かない場合があるので明示的に追加
                 if name in ("controlPoints", "xValue", "yValue", "zValue"):
+                    if not RetopoGuideNode.aOutPositions.isNull():
+                        plugArray.append(om1.MPlug(self.thisMObject(), RetopoGuideNode.aOutPositions))
                     if not RetopoGuideNode.aOutNetData.isNull():
                         plugArray.append(
                             om1.MPlug(self.thisMObject(),

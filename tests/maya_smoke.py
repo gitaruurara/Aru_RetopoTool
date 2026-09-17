@@ -122,6 +122,14 @@ def run():
     print('STATUS', cmds.getAttr(node+'.status'))
     from Aru_RetopoTool.tests.surface_relax import run as test_relax
     test_relax()
+    from Aru_RetopoTool.tests.screen_hit import run as test_screen_hit
+    test_screen_hit()
+    from Aru_RetopoTool.tests.commit_redraw import run as test_commit_redraw
+    test_commit_redraw()
+    from Aru_RetopoTool.tests.relax_preview import run as test_relax_preview
+    test_relax_preview()
+    from Aru_RetopoTool.tests.point_preview import run as test_point_preview
+    test_point_preview()
     from Aru_RetopoTool.tests.construction import run as test_construction
     test_construction()
     from Aru_RetopoTool.tests.drag_extrude import run as test_drag
@@ -130,6 +138,20 @@ def run():
     test_bridge()
     from Aru_RetopoTool.tests.symmetry_hard_surface import run as test_symmetry_hard
     test_symmetry_hard()
+    from Aru_RetopoTool.tests.patch_transfer import run as test_transfer
+    test_transfer()
+    from Aru_RetopoTool.tests.display import run as test_display
+    test_display()
+    from Aru_RetopoTool.tests.foreground_projection import run as test_foreground
+    test_foreground()
+    from Aru_RetopoTool.tests.gpu_guide_buffers import run as test_gpu_guides
+    test_gpu_guides()
+    from Aru_RetopoTool.tests.typed_positions import run as test_typed_positions
+    test_typed_positions()
+    from Aru_RetopoTool.tests.reference_dirty import run as test_reference_dirty
+    test_reference_dirty()
+    from Aru_RetopoTool.tests.gpu_control_batches import run as test_gpu_controls
+    test_gpu_controls()
     from Aru_RetopoTool import guides
     empty_guide=guides.create(mesh)
     empty_output,empty_node=api.create(empty_guide,mesh)

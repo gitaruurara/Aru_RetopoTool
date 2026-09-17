@@ -56,6 +56,12 @@ class RetopoWindow(qt.AruMainWindow):
         self.foreground.setChecked(True)
         self.foreground.toggled.connect(lambda value: self.run(lambda: self.set_foreground(value)))
         form.addRow('最前面表示', self.foreground)
+        from . import native_backend
+        self.fast_update = qt.QCheckBox('メッシュ更新を高速化')
+        self.fast_update.setToolTip('同じ形状を高速に更新します。既存メッシュでも切り替えられます。')
+        self.fast_update.setChecked(native_backend.available())
+        self.fast_update.toggled.connect(lambda value: self.run(lambda: self.set_fast_update(value)))
+        form.addRow('更新', self.fast_update)
         layout.addLayout(form)
         note = qt.QLabel('カーブだけでは面は生成されません。面張りツールでホバーし、中クリックでパッチを確定します。\nShift＋中クリックで解除。確定した面はカーブ編集へ自動追従します。')
         note.setWordWrap(True); layout.addWidget(note)
@@ -72,7 +78,10 @@ class RetopoWindow(qt.AruMainWindow):
         layout.addWidget(self.status); layout.addStretch()
 
     def run(self, callback):
-        try: callback()
+        try:
+            callback()
+            from . import viewport_session
+            viewport_session.refresh()
         except Exception as exc:
             self.status.setText(str(exc)); cmds.warning('[Aru Retopo] '+str(exc))
 
@@ -126,6 +135,7 @@ class RetopoWindow(qt.AruMainWindow):
         _, self.node = api.create(self.guide.text().strip(), self.reference.text().strip(),
                                   self.level.value(), self.iterations.value(), self.weight.value())
         cmds.setAttr(self.node+'.projectionGuard', self.guard.isChecked())
+        if self.fast_update.isChecked(): self.set_fast_update(True)
         api.set_foreground(self.node, self.foreground.isChecked())
         self.report()
 
@@ -141,7 +151,11 @@ class RetopoWindow(qt.AruMainWindow):
 
     def report(self):
         node = self.require_node()
-        self.status.setText(node+'\n'+(cmds.getAttr(node+'.status') or ''))
+        from . import native_backend
+        self.fast_update.blockSignals(True)
+        self.fast_update.setChecked(bool(native_backend.backend(node)))
+        self.fast_update.blockSignals(False)
+        self.status.setText(node+'\n'+(api.read_status(node)))
 
     def load(self):
         self.node = api.generator_from_selection()
@@ -157,8 +171,22 @@ class RetopoWindow(qt.AruMainWindow):
         self.foreground.blockSignals(False)
         self.report()
 
+    def set_fast_update(self, value):
+        if not self.node or not cmds.objExists(self.node): return
+        from . import native_backend
+        try:
+            if value: native_backend.enable(self.node)
+            else: native_backend.disable(self.node)
+        finally:
+            self.fast_update.blockSignals(True)
+            self.fast_update.setChecked(bool(native_backend.backend(self.node)))
+            self.fast_update.blockSignals(False)
+
     def set_foreground(self, value):
-        if self.node and cmds.objExists(self.node): api.set_foreground(self.node, value)
+        from . import viewport_session
+        if not value:viewport_session.stop()
+        if self.node and cmds.objExists(self.node):api.set_foreground(self.node,value)
+        if value and not cmds.about(batch=True):viewport_session.start()
 
     def apply(self):
         node = self.require_node()

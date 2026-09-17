@@ -127,6 +127,9 @@ class _MeshAccel(object):
 
 def _invalidate_mesh_accel(mesh_name=None):
     """八分木キャッシュを捨てる。*mesh_name* 省略で全部。"""
+    import sys
+    bulk = sys.modules.get(__package__ + '.maya_projector')
+    if bulk is not None: bulk.clear(mesh_name)
     names = ([mesh_name] if mesh_name is not None
              else list(_ISECT_CACHE.keys()))
     for nm in names:
@@ -373,6 +376,35 @@ def _world_to_screen(world_pt):
         return None
 
 
+def _world_to_screen_many(world_points):
+    from .maya_screen import project
+    result=project(world_points)
+    return _world_to_screen_many_python(world_points) if result is None else result
+
+
+def _world_to_screen_many_python(world_points):
+    """Project a brush event using Maya's exact short-pixel conversion.
+
+    The view and output pointers live only for this call, so subsequent events
+    always observe the current camera. Keep owners alive while pointers are used.
+    """
+    try:
+        view = omui.M3dView.active3dView()
+        x_util = om.MScriptUtil(); y_util = om.MScriptUtil()
+        x_ptr = x_util.asShortPtr(); y_ptr = y_util.asShortPtr()
+    except Exception:
+        return [_world_to_screen(p) for p in world_points]
+    result = []
+    for p in world_points:
+        try:
+            # Match the scalar function even when worldToView returns False.
+            view.worldToView(om.MPoint(p[0], p[1], p[2]), x_ptr, y_ptr)
+            result.append((x_util.getShort(x_ptr), y_util.getShort(y_ptr)))
+        except Exception:
+            result.append(None)
+    return result
+
+
 def _get_net_data_positions(shape_node):
     """shape_node から最終位置リストと RetopoGuideData を返す。"""
     cn = RetopoGuideAccessor(shape_node).read()
@@ -441,14 +473,39 @@ def is_pose_driven(node: str) -> bool:
 
 
 def _reset_control_points(node: str, n: int) -> None:
-    """controlPoints をゼロにリセットする。"""
-    for i in range(n):
+    """Reset only nonzero tweaks, batching adjacent elements (caller owns Undo)."""
+    if n<=0:return
+    try:
+        selection=om2.MSelectionList();selection.add(node)
+        plug=om2.MFnDependencyNode(selection.getDependNode(0)).findPlug('controlPoints',False)
+        existing=[i for i in plug.getExistingArrayAttributeIndices() if i<n]
+        if len(existing)<n/4:
+            indices=[i for i in existing if any(v!=0. for v in cmds.getAttr("{}.controlPoints[{}]".format(node,i))[0])]
+        else:
+            values=cmds.getAttr("{}.controlPoints[0:{}]".format(node,n-1))
+            if values is None or len(values)!=n:raise ValueError('Unexpected tweak array size')
+            indices=[i for i,value in enumerate(values) if any(component!=0. for component in value)]
+    except (RuntimeError,ValueError,TypeError):
+        indices=list(range(n))
+    ranges=[]
+    for i in indices:
+        if ranges and ranges[-1][1]+1==i:ranges[-1][1]=i
+        else:ranges.append([i,i])
+    for first,last in ranges:
         try:
-            cmds.setAttr("{}.controlPoints[{}].xValue".format(node, i), 0.0)
-            cmds.setAttr("{}.controlPoints[{}].yValue".format(node, i), 0.0)
-            cmds.setAttr("{}.controlPoints[{}].zValue".format(node, i), 0.0)
-        except Exception:
+            cmds.setAttr("{}.controlPoints[{}:{}]".format(node,first,last),
+                         *([0.]*((last-first+1)*3)),type='double3')
+            continue
+        except RuntimeError:
             pass
+        # Preserve partial reset behavior on locked/connected components.
+        for i in range(first,last+1):
+            try:
+                cmds.setAttr("{}.controlPoints[{}].xValue".format(node,i),0.)
+                cmds.setAttr("{}.controlPoints[{}].yValue".format(node,i),0.)
+                cmds.setAttr("{}.controlPoints[{}].zValue".format(node,i),0.)
+            except Exception:
+                pass
 
 
 def bake_control_points(node_name: str = "") -> bool:
@@ -2014,7 +2071,8 @@ def prune_orphan_cvs_and_write(shape, cn):
         old_cp = {}
 
     remap = cn.compact_cvs()
-    acc.write(cn)
+    # Restore CP/skin indices before showing the committed geometry.
+    acc.write(cn, refresh=False)
 
     # controlPoints を貼り直す (write() でゼロリセット済み)
     for old, v in old_cp.items():
@@ -2398,16 +2456,22 @@ class RetopoGuideAccessor:
         raw = cmds.getAttr("{}.netData".format(self._node)) or ""
         return RetopoGuideData.from_json(raw) if raw else RetopoGuideData()
 
-    def write(self, cn: RetopoGuideData) -> None:
+    def write(self, cn: RetopoGuideData, *, refresh=True) -> None:
         """RetopoGuideData をノードに書き込み、CP リセット + VP2 再描画する。"""
         if not self.exists:
             return
         cn.classify_endpoints()
+        from Aru_RetopoTool.patch_transfer import prepare
+        patch_updates=prepare(self._node,cn)
         n_old = _get_cv_count(self._node)
         json_str = cn.to_json()
         cmds.setAttr("{}.netData".format(self._node),
                      json_str, type="string")
         self._sync_orig_net_data(json_str)
+        import json
+        for generator,keys in patch_updates:
+            cmds.setAttr(generator+".selectedPatches",json.dumps(sorted(keys)),type="string")
+        if hasattr(cn,"_retopo_parents"):del cn._retopo_parents
 
         # controlPoints をゼロにリセット (ベース位置は netData に反映済み)。
         # ただしデフォーマ駆動時は CP が
@@ -2426,7 +2490,8 @@ class RetopoGuideAccessor:
         # netData → outNetData → deformer.outputGeometry は attributeAffects で
         # 自然に dirty になる。dgdirty -allPlugs はメッシュ側で VP2 の全再構築を
         # 引き起こし 1 フレーム ~400 ms 食うので使わない。
-        _dirty_shape_view()
+        if refresh:
+            _dirty_shape_view()
         _request_rebind(self._node)
 
     def read_raw_json(self) -> str:
@@ -2641,7 +2706,7 @@ def _camera_view_info():
 
 
 def make_visibility_test(mesh_name: str, occlusion: bool = True,
-                         view_info=None):
+                         view_info=None, use_acceleration=True):
     """カメラから見えている点だけを通す判定関数を返す。
 
     カーブネットはメッシュ表面に張り付くので、画面上では裏側のカーブも
@@ -2691,9 +2756,18 @@ def make_visibility_test(mesh_name: str, occlusion: bool = True,
     if lift <= 0.0:
         lift = 1.0e-3
 
-    def _visible(world_pt):
+    # Maya owns and invalidates the mesh intersection grid. Reuse it for the
+    # whole brush event instead of scanning mesh triangles for every EP ray.
+    accel_params = None
+    if use_acceleration and occlusion:
         try:
-            n = _get_normal_at_point(mesh_fn, world_pt)
+            accel_params = mesh_fn.autoUniformGridParams()
+        except Exception:
+            pass
+
+    def _visible(world_pt, normal=None):
+        try:
+            n = _get_normal_at_point(mesh_fn, world_pt) if normal is None else normal
         except Exception:
             return True
         if ortho:
@@ -2725,12 +2799,27 @@ def make_visibility_test(mesh_name: str, occlusion: bool = True,
         try:
             hit = mesh_fn.closestIntersection(
                 src, d, None, None, False, om.MSpace.kWorld,
-                float(max_d), False, None, hit_pt, None, None, None, None,
+                float(max_d), False, accel_params, hit_pt, None, None, None, None,
                 None, 1.0e-6)
         except Exception:
             return True
         return not hit
 
+    def _many(points):
+        if not points:return []
+        try:
+            from .maya_projector import normals_array
+            normals=normals_array(mesh_fn,points)
+        except Exception:
+            return [_visible(p) for p in points]
+        try:
+            from .maya_visibility import native_many
+            result=native_many(mesh_fn,points,normals,eye,vdir,ortho,occlusion,lift,use_acceleration)
+        except (ImportError,OSError,AttributeError,RuntimeError,ValueError):
+            result=None
+        if result is not None:return result
+        return [_visible(p,n) for p,n in zip(points,normals)]
+    _visible.many = _many
     return _visible
 
 

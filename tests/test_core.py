@@ -24,6 +24,31 @@ def polygon(n, height=0):
 
 
 class Tests(unittest.TestCase):
+    def test_plan_numeric_storage_preserves_reference_evaluation(self):
+        from array import array
+        p,s=polygon(6)
+        plan=Plan(p,s,lambda _:(0,1,0),3)
+        self.assertIsInstance(plan.faces,tuple)
+        self.assertIsInstance(plan.adj_ids,array)
+        for offsets,ids,weights in plan.steps:
+            self.assertEqual((offsets.typecode,ids.typecode,weights.typecode),('i','i','d'))
+        reference=plan.evaluate(p,s)
+        compiled=plan.evaluate(p,s,stencil)
+        self.assertLess(max(abs(a-b) for p,q in zip(reference,compiled) for a,b in zip(p,q)),1e-10)
+
+    def test_compiled_stencil_matches_reference_during_motion(self):
+        rng=random.Random(417)
+        for n in (3,4,5,8):
+            for level in (1,2,3):
+                p,s=polygon(n)
+                plan=Plan(p,s,lambda _:(0,1,0),level)
+                for step in range(3):
+                    moved=[tuple(x+rng.uniform(-.08,.08) for x in point) for point in p]
+                    reference=plan.evaluate(moved,s)
+                    actual=plan.evaluate(moved,s,stencil)
+                    self.assertEqual(len(actual),len(reference))
+                    self.assertLess(max(abs(a-b) for p,q in zip(actual,reference) for a,b in zip(p,q)),1e-10)
+
     def test_explicit_regions_only_and_stable_selection(self):
         from Aru_RetopoTool.core import patch_key, regions
         p,s = network([(0,0,0),(0,0,1),(1,0,1),(1,0,0),(2,0,1),(2,0,0)],

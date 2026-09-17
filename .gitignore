@@ -8,3 +8,10 @@ bin/*.lib
 bin/**/*.obj
 bin/**/*.exp
 bin/**/*.lib
+
+# Superseded profiling build, not a runtime dependency.
+bin/aru_retopo_core_v2.dll
+
+bin/aru_retopo_core_v3.dll
+bin/aru_retopo_display.dll
+bin/aru_retopo_display_v2.dll

@@ -19,6 +19,7 @@ class RetopoNode(om.MPxNode):
         self.surface = self.plan = None
         self.surface_key = self.plan_key = None
         self.seeds = None
+        self._reference_dirty = True
 
     @staticmethod
     def creator(): return RetopoNode()
@@ -40,6 +41,8 @@ class RetopoNode(om.MPxNode):
             cls.addAttribute(attr); setattr(cls, name, attr)
             return attr
         inputs = [typed('guideData', 'gd', om.MFnData.kString),
+                  typed('guideRestData', 'grd', om.MFnData.kString),
+                  typed('guidePositions', 'gps', om.MFnData.kDoubleArray),
                   typed('selectedPatches', 'sps', om.MFnData.kString),
                   typed('referenceMesh', 'rm', om.MFnData.kMesh)]
         fn = om.MFnMatrixAttribute(); cls.guideMatrix = fn.create('guideMatrix', 'gm')
@@ -57,35 +60,64 @@ class RetopoNode(om.MPxNode):
 
     def schedulingType(self): return om.MPxNode.kSerial
 
+    def setDependentsDirty(self, plug, affected):
+        if plug.attribute() == RetopoNode.referenceMesh:
+            self._reference_dirty = True
+
+    def preEvaluation(self, context, evaluationNode):
+        # EM does not perform ordinary DG dirty propagation during playback.
+        if evaluationNode.dirtyPlugExists(RetopoNode.referenceMesh):
+            self._reference_dirty = True
+
+
     def compute(self, plug, data):
         cls = RetopoNode
-        if plug.attribute() not in (cls.outMesh, cls.status): return om.kUnknownParameter
+        if plug.attribute() not in (cls.outMesh, cls.status): return None
         started = time.perf_counter()
         mesh_data = om.MFnMeshData().create()
         try:
-            raw = data.inputValue(cls.guideData).asString()
+            rest_raw = data.inputValue(cls.guideRestData).asString()
+            raw = rest_raw or data.inputValue(cls.guideData).asString()
             if not raw: raise ValueError('カーブネットを指定してください。')
-            net = json.loads(raw)
+            if getattr(self, '_net_raw', None) != raw:
+                self._net_data = json.loads(raw)
+                self._net_raw = raw
+            net = self._net_data
+            local_points = net['positions']
+            if rest_raw:
+                packed = data.inputValue(cls.guidePositions).data()
+                if packed.isNull(): raise ValueError('Missing evaluated guide positions')
+                values = list(om.MFnDoubleArrayData(packed).array())
+                if len(values) != len(local_points)*3: raise ValueError('Guide position count mismatch')
+                local_points = zip(values[0::3], values[1::3], values[2::3])
             matrix = data.inputValue(cls.guideMatrix).asMatrix()
             points = []
-            for p in net['positions']:
+            for p in local_points:
                 q = om.MPoint(*p) * matrix
                 points.append((q.x, q.y, q.z))
             if not all(math.isfinite(x) for p in points for x in p): raise ValueError('Non-finite guide positions')
             splines = tuple(tuple(s) for s in net['splines'])
-            mesh = data.inputValue(cls.referenceMesh).asMeshTransformed()
-            if mesh.isNull(): raise ValueError('参照メッシュを指定してください。')
-            fn = om.MFnMesh(mesh)
-            ref_points = tuple((p.x, p.y, p.z) for p in fn.getPoints())
-            _, tri = fn.getTriangles()
-            triangles = tuple(tri)
-            if not all(math.isfinite(x) for p in ref_points for x in p): raise ValueError('Non-finite reference positions')
-            surface_key = (ref_points, triangles)
-            if surface_key != self.surface_key:
-                surface = Surface(ref_points, triangles)
-                if self.surface_key is None or triangles != self.surface_key[1]: self.seeds = None
-                if self.surface: self.surface.close()
-                self.surface, self.surface_key = surface, surface_key
+            normal_context = data.context().isNormal()
+            if self._reference_dirty or self.surface is None or not normal_context:
+                reference_handle = data.inputValue(cls.referenceMesh)
+                mesh = reference_handle.asMesh()
+                # Maya crashes in asMeshTransformed for an empty MFnMeshData.
+                if mesh.isNull() or not mesh.hasFn(om.MFn.kMesh):
+                    raise ValueError('参照メッシュを指定してください。')
+                mesh = reference_handle.asMeshTransformed()
+                fn = om.MFnMesh(mesh)
+                ref_points = tuple((p.x, p.y, p.z) for p in fn.getPoints())
+                _, tri = fn.getTriangles()
+                triangles = tuple(tri)
+                if not all(math.isfinite(x) for p in ref_points for x in p): raise ValueError('Non-finite reference positions')
+                surface_key = (ref_points, triangles)
+                if surface_key != self.surface_key:
+                    surface = Surface(ref_points, triangles)
+                    if self.surface_key is None or triangles != self.surface_key[1]: self.seeds = None
+                    if self.surface: self.surface.close()
+                    self.surface, self.surface_key = surface, surface_key
+                # A non-normal evaluation must never populate the normal cache.
+                self._reference_dirty = not normal_context
             serial = data.inputValue(cls.rebuildSerial).asInt()
             # MPlug also supports the dynamic attribute on a hot-updated node.
             dep = om.MFnDependencyNode(self.thisMObject())
@@ -108,15 +140,25 @@ class RetopoNode(om.MPxNode):
                 data.inputValue(cls.relaxIterations).asInt(),
                 data.inputValue(cls.relaxStrength).asDouble(),
                 data.inputValue(cls.guideWeight).asDouble(), self.seeds,
-                data.inputValue(cls.projectionGuard).asBool())
-            om.MFnMesh().create([om.MPoint(*p) for p in generated], [4]*len(self.plan.faces),
-                               [v for f in self.plan.faces for v in f], parent=mesh_data)
+                data.inputValue(cls.projectionGuard).asBool(), native_seeds=True)
+            # Keep topology in a private template, never mutate prior DG outputs.
+            maya_points=om.MPointArray(generated)
+            if getattr(self,'_mesh_plan',None) is not self.plan:
+                self._mesh_template_data=om.MFnMeshData().create()
+                self._mesh_template=om.MFnMesh().create(
+                    maya_points,[4]*len(self.plan.faces),
+                    [v for f in self.plan.faces for v in f],parent=self._mesh_template_data)
+                self._mesh_plan=self.plan
+            output_fn=om.MFnMesh()
+            output_fn.copy(self._mesh_template,mesh_data)
+            output_fn.setPoints(maya_points)
             status = '{} 領域 / {:,} quads / {:,} 頂点 / {:.1f} ms / C++'.format(
                 self.plan.region_count, len(self.plan.faces), len(generated), (time.perf_counter()-started)*1000)
         except Exception as exc:
             # Invalid edited guides must clear the preview instead of displaying a stale mesh.
             self.plan_key = None
             self.seeds = None
+            self._reference_dirty = True
             status = 'ERROR: {}'.format(exc)
         data.outputValue(cls.outMesh).setMObject(mesh_data)
         data.outputValue(cls.status).setString(status)
