@@ -315,6 +315,8 @@ def _fit_spline_handles_to_mesh(cn: RetopoGuideData, sp_idx: int,
             return -1.0
         fixed = 1 if m1 else (2 if m2 else None)
 
+    from Aru_RetopoTool.hard_surface import straight_fit
+    if straight_fit(cn,sp_idx,mesh_name):return 0.
     mesh_fn, mesh_dag = _get_mesh_fn(mesh_name)
     p0 = list(cn.positions[sp[0]])
     p3 = list(cn.positions[sp[3]])
@@ -1401,7 +1403,21 @@ def _compute_ring_by_plane(mesh_fn, mesh_dag, center, tangent,
         return []
 
     # ---- arc-length で n_ring_eps 等分サンプリング ----
-    return _resample_loop(loops, n_ring_eps, phase)
+    from Aru_RetopoTool.hard_surface import corner_samples
+    samples=corner_samples(loops,_resample_loop(loops,n_ring_eps,phase))
+    if _sym.is_enabled():
+        mesh=mesh_dag.fullPathName()
+        mc=_sym.mirror_point(center,mesh)
+        mn=_sym.mirror_point([center[k]+N[k] for k in range(3)],mesh)
+        reflected=[mn[k]-mc[k] for k in range(3)]
+        same_plane=(abs(sum((mc[k]-center[k])*N[k] for k in range(3)))<1e-6
+                    and abs(sum(reflected[k]*N[k] for k in range(3)))>.9999)
+        if same_plane:
+            for p in list(samples):
+                mp=_sym.mirror_point(p,mesh)
+                if not any(sum((q[k]-mp[k])**2 for k in range(3))<1e-12 for q in samples):samples.append(mp)
+            samples=corner_samples(loops,samples,order_only=True)
+    return samples
 
 
 def _march_crossing_loop(crossings, face_to_edges, center):
@@ -1545,6 +1561,10 @@ def _create_ring_curve(cn, mesh_name, ring_points):
         j = (i + 1) % n
         sp_idx = _add_spline_to_cn(cn, mesh_name, ep_indices[i], ep_indices[j])
         new_sp_indices.append(sp_idx)
+
+    from Aru_RetopoTool.symmetry_ops import mirrored_splines
+    reflected=mirrored_splines(cn,mesh_name,new_sp_indices,create=True)
+    new_sp_indices=sorted(set(new_sp_indices)|set(reflected.values()))
 
     # 既存スプラインとの交差点を検出・分割
     for sp_idx in new_sp_indices:
@@ -2238,7 +2258,9 @@ class RetopoGuideContext:
             target = snapped if snapped is not None else self._s.sel_ep
             if target is not None:
                 # EP が近くにある場合は EP 削除
-                _remove_ep(cn, target, mesh_name)
+                from Aru_RetopoTool.symmetry_ops import delete_targets
+                targets,_=delete_targets(node,{target})
+                for ep in sorted(targets,reverse=True):_remove_ep(cn,ep,mesh_name)
                 if self._s.sel_ep == target:
                     self._s.sel_ep = None
                 _commit_net_data(node, cn)
@@ -2249,7 +2271,9 @@ class RetopoGuideContext:
                 si = _find_nearest_spline(cn, world_pt, snap_r)
                 if si >= 0:
                     sp = cn.splines[si]
-                    cn.splines.pop(si)
+                    from Aru_RetopoTool.symmetry_ops import delete_targets
+                    _,targets=delete_targets(node,splines={si})
+                    for index in sorted(targets,reverse=True):cn.splines.pop(index)
                     cn.classify_endpoints()
                     _commit_net_data(node, cn)
                     om.MGlobal.displayInfo(
@@ -3023,6 +3047,8 @@ class RetopoGuideContext:
                     pass
         if comp_eps and node and cmds.objExists(node):
             cn = RetopoGuideAccessor(node).read()
+            from Aru_RetopoTool.symmetry_ops import delete_targets
+            comp_eps,_=delete_targets(node,comp_eps)
             cn.splines = [sp for sp in cn.splines
                           if sp[0] not in comp_eps
                           and sp[3] not in comp_eps]
@@ -3057,6 +3083,8 @@ class RetopoGuideContext:
         if net_updates:
             for net_node, ep_set_del in net_updates.items():
                 cn = RetopoGuideAccessor(net_node).read()
+                from Aru_RetopoTool.symmetry_ops import delete_targets
+                ep_set_del,_=delete_targets(net_node,ep_set_del)
                 cn.splines = [sp for sp in cn.splines
                               if sp[0] not in ep_set_del
                               and sp[3] not in ep_set_del]

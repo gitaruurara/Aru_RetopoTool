@@ -56,9 +56,21 @@ def extrude(cn, mesh, edges, vector):
     fn,dag=edit._get_mesh_fn(mesh)
     old_eps=sorted({v for a,b,_ in edges for v in (a,b)})
     new={};bridges={};new_edges=set()
+    from .editor.curvenet import curve_net_symmetry as symmetry
+    mirrored_vector=None
+    if symmetry.is_enabled():
+        origin=symmetry.mirror_point([0,0,0],mesh)
+        mirrored_vector=[a-b for a,b in zip(symmetry.mirror_point(vector,mesh),origin)]
     for ep in old_eps:
         p=cn.positions[ep]
-        q,face,bary=edit._closest_point_on_mesh(fn,dag,[p[k]+vector[k] for k in range(3)])
+        delta=vector
+        if mirrored_vector is not None:
+            partner=symmetry.find_mirror_ep(cn,mesh,ep,1e-5)
+            if partner in old_eps:
+                side=symmetry.plane_coord(p,mesh)
+                if abs(side)<1e-6:delta=[(a+b)*.5 for a,b in zip(vector,mirrored_vector)]
+                elif side<0:delta=mirrored_vector
+        q,face,bary=edit._closest_point_on_mesh(fn,dag,[p[k]+delta[k] for k in range(3)])
         if sum((q[k]-p[k])**2 for k in range(3))<1e-10:
             raise ValueError('押し出し先が元の点と重なります。方向または距離を変えてください。')
         new[ep]=cn.add_cv(q,surface=(face,bary))
@@ -76,7 +88,8 @@ def extrude(cn, mesh, edges, vector):
             keys.add(core.patch_key(loop))
     if len(keys)!=len(edges):
         raise ValueError('押し出しが折り返すか交差しています。方向・距離を調整してください。')
-    return keys
+    from .symmetry_ops import patch_keys
+    return patch_keys(cn,mesh,keys,create=True)
 
 
 def chain_vertices(edges):
@@ -129,7 +142,8 @@ def bridge(cn, mesh, first, second, shift=0, reverse=False):
             keys.add(core.patch_key(loop))
     if len(keys)!=len(first):
         raise ValueError('接続がねじれるか折り返しています。接続位置・向き反転を調整してください。')
-    return keys
+    from .symmetry_ops import patch_keys
+    return patch_keys(cn,mesh,keys,create=True)
 
 
 class ConstructionWindow(qt.AruMainWindow):

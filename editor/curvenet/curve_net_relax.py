@@ -40,6 +40,8 @@ def _smooth_junctions(cn, weights, mesh_fn, mesh_dag, amount=1., respect_manual=
     fit, but give opposite branches a common tangent so a row can flow through
     a junction. Unpaired corner/branch directions remain independent.
     """
+    from Aru_RetopoTool.hard_surface import enabled
+    if enabled():return set()
     import numpy as np
     incident = {}
     for si, (a, h, j, b) in enumerate(cn.splines):
@@ -132,6 +134,8 @@ def relax(node, weights, strength=.2, draft=True, smooth=True):
     neighbors = {v:set() for v in eps}
     for a, _, _, b in cn.splines:
         neighbors[a].add(b); neighbors[b].add(a)
+    from Aru_RetopoTool import hard_surface
+    feature_data=hard_surface.features(mesh) if hard_surface.enabled() else None
     old = [list(p) for p in cn.positions]
     for ep, weight in weights.items():
         p = old[ep]
@@ -145,6 +149,9 @@ def relax(node, weights, strength=.2, draft=True, smooth=True):
             dn = sum(delta[k]*n[k] for k in range(3))/max(normal_length, 1e-12)
             target = [projected[k]+strength*weight*(delta[k]-dn*n[k]) for k in range(3)]
             projected, face, bary = edit._closest_point_on_mesh(mesh_fn, mesh_dag, target)
+        if feature_data:
+            projected=hard_surface.constrain(p,projected,feature_data)
+            projected,face,bary=edit._closest_point_on_mesh(mesh_fn,mesh_dag,projected)
         cn.positions[ep] = projected
         cn.surface_binding[ep] = (face, bary)
         delta = [projected[k]-p[k] for k in range(3)]

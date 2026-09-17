@@ -11,7 +11,7 @@ class RetopoWindow(qt.AruMainWindow):
         super().__init__(object_name='Aru_RetopoTool_MainWindow')
         self.setWindowTitle('Aru Retopo Tool')
         self.resize(510, 430)
-        self.setMinimumSize(550, 780)
+        self.setMinimumSize(550, 920)
         self.node = None
         central = qt.QWidget(self); self.setCentralWidget(central)
         layout = qt.QVBoxLayout(central)
@@ -35,6 +35,13 @@ class RetopoWindow(qt.AruMainWindow):
         self.drag_faces.setChecked(bool(cmds.optionVar(q='aruRetopoDragExtrudeFaces')) if cmds.optionVar(exists='aruRetopoDragExtrudeFaces') else True)
         self.drag_faces.toggled.connect(lambda value:cmds.optionVar(iv=('aruRetopoDragExtrudeFaces',int(value))))
         layout.addWidget(self.drag_faces)
+        from . import hard_surface
+        self.hard_surface=qt.QCheckBox('ハードサーフェース：角・稜線を維持（輪切りの角にEP追加）')
+        self.hard_surface.setChecked(bool(hard_surface.enabled()))
+        self.hard_surface.toggled.connect(lambda value:cmds.optionVar(iv=(hard_surface.OPTION,int(value))))
+        layout.addWidget(self.hard_surface)
+        feature=qt.QPushButton('参照メッシュの稜線からガイドを追加')
+        feature.clicked.connect(lambda:self.run(self.feature_guides));layout.addWidget(feature)
         form = qt.QFormLayout()
         form.setVerticalSpacing(8)
         self.level = qt.QSpinBox(); self.level.setRange(1, 6); self.level.setValue(2)
@@ -98,6 +105,15 @@ class RetopoWindow(qt.AruMainWindow):
     def guide_settings(self):
         from .guides import settings
         settings()
+
+    def feature_guides(self):
+        if not self.node or not cmds.objExists(self.node):
+            if not self.guide.text().strip():self.new_guide()
+            self.create()
+        from . import hard_surface
+        self.hard_surface.setChecked(True)
+        count=hard_surface.create_guides(self.node)
+        self.status.setText('稜線ガイドを{}本追加しました。面は中クリックで選んで張れます。'.format(count))
 
     def open_construction(self):
         if not self.node or not cmds.objExists(self.node):

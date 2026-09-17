@@ -128,6 +128,8 @@ def run():
     test_drag()
     from Aru_RetopoTool.tests.bridge import run as test_bridge
     test_bridge()
+    from Aru_RetopoTool.tests.symmetry_hard_surface import run as test_symmetry_hard
+    test_symmetry_hard()
     from Aru_RetopoTool import guides
     empty_guide=guides.create(mesh)
     empty_output,empty_node=api.create(empty_guide,mesh)

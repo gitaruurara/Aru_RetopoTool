@@ -18,8 +18,13 @@ def selected(node):
 
 def confirm(node, key, remove=False):
     keys = selected(node)
-    if remove: keys.discard(key)
-    else: keys.add(key)
+    from .drag_extrude import selection
+    from .editor.curvenet import curve_net_edit as edit
+    from .symmetry_ops import patch_keys
+    guide,cn,_,_=selection(node)
+    paired=patch_keys(cn,edit.RetopoGuideAccessor(guide).mesh_name,{key})
+    if remove: keys.difference_update(paired)
+    else: keys.update(paired)
     with api.undo_chunk('Aru Retopo: remove patch' if remove else 'Aru Retopo: fill patch'):
         cmds.setAttr(node+'.selectedPatches', json.dumps(sorted(keys)), type='string')
         cmds.setAttr(node+'.rebuildSerial', cmds.getAttr(node+'.rebuildSerial')+1)
@@ -63,7 +68,8 @@ class PatchTool(qt.QObject):
         fn = om.MFnMesh(ref)
         refs = tuple((p.x,p.y,p.z) for p in fn.getPoints())
         _, triangles = fn.getTriangles()
-        cache = (raw, tuple(matrix), refs, tuple(triangles))
+        from .editor.curvenet import curve_net_symmetry as sym
+        cache = (raw, tuple(matrix), refs, tuple(triangles),sym.get_axis(),sym.get_space())
         if cache == self.cache: return
         net = json.loads(raw)
         points = []
@@ -88,6 +94,15 @@ class PatchTool(qt.QObject):
             mesh_fn = om.MFnMesh(obj)
             _, tri = mesh_fn.getTriangles()
             self.candidates.append((key, mesh_data, mesh_fn, [verts[i] for i in tri]))
+        from .editor.curvenet.curve_net_data import RetopoGuideData
+        from .editor.curvenet import curve_net_edit as edit
+        from .symmetry_ops import mirrored_splines
+        cn=RetopoGuideData.from_dict(net);cn.positions=[list(p) for p in points]
+        guide=(cmds.listConnections(self.node+'.guideData',s=True,d=False,shapes=True) or [None])[0]
+        mapping=mirrored_splines(cn,edit.RetopoGuideAccessor(guide).mesh_name,range(len(splines)))
+        regions={core.patch_key(loop):frozenset(si for side in loop for si,_ in side) for loop in loops}
+        lookup={ids:key for key,ids in regions.items()}
+        self.paired={key:lookup.get(frozenset(mapping[i] for i in ids)) for key,ids in regions.items() if ids<=mapping.keys()}
         self.cache = cache
 
     def hover(self, x, y, view):
@@ -108,7 +123,10 @@ class PatchTool(qt.QObject):
         self.key = min(hits, key=lambda h:h[0])[1] if hits else None
         preview.clear()
         if hits:
-            triangles = min(hits, key=lambda h:h[0])[2]
+            triangles = list(min(hits, key=lambda h:h[0])[2])
+            pair=getattr(self,'paired',{}).get(self.key)
+            if pair and pair!=self.key:
+                triangles.extend(p for key,_,_,verts in self.candidates if key==pair for p in verts)
             for overlay in cmds.listConnections(self.node+'.outMesh',s=False,d=True,shapes=True,type='aruRetopoOverlay') or []:
                 preview[(cmds.ls(overlay,long=True) or [overlay])[0]] = triangles
         cmds.refresh(force=True)
