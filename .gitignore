@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+cpp/build/
+bin/*.obj
+bin/*.exp
+bin/*.lib
