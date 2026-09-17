@@ -281,22 +281,27 @@ def _fit_junction_lengths(cn,touched,directions,mesh_fn):
         for side,handle in enumerate(cn.splines[si][1:3]):
             if handle in directions:ds[row,side]=directions[handle]
     lengths=np.clip(raw_lengths,chord*.05,chord*.6)
-    ts=np.linspace(.05,.95,15);us=1-ts;c0=3*us*us*ts;c1=3*us*ts*ts
-    bases=(us**3+c0)[None,:,None]*p[:,None,:]+(ts**3+c1)[None,:,None]*q[:,None,:]
-    columns0=c0[None,:,None]*ds[:,0,None,:];columns1=c1[None,:,None]*ds[:,1,None,:]
-    count=len(ids)
-    rows=np.concatenate((np.stack((columns0,columns1),axis=-1).reshape(count,-1,2),np.broadcast_to(np.eye(2)*.1,(count,2,2))),axis=1)
-    inverse=np.linalg.pinv(rows,rcond=np.finfo(float).eps*rows.shape[1])
-    from .maya_projector import junction_lengths
-    fitted_lengths=junction_lengths(mesh_fn,bases,ds,lengths,chord[:,0],np.stack((c0,c1),axis=1),inverse)
-    if fitted_lengths is not None:
-        lengths=fitted_lengths
+    from .maya_projector import junction_compact
+    compact=junction_compact(mesh_fn,controls,ds,lengths,chord[:,0])
+    if compact is not None:
+        lengths=compact
     else:
-        for _ in range(4):
-            samples=bases+c0[None,:,None]*lengths[:,0,None,None]*ds[:,0,None,:]+c1[None,:,None]*lengths[:,1,None,None]*ds[:,1,None,:]
-            projected=project_many(mesh_fn,samples.reshape(-1,3)).reshape(samples.shape)
-            rhs=np.concatenate(((projected-bases).reshape(count,-1),lengths*.1),axis=1)
-            lengths=np.clip((inverse@rhs[:,:,None])[:,:,0],chord*.05,chord*.6)
+        ts=np.linspace(.05,.95,15);us=1-ts;c0=3*us*us*ts;c1=3*us*ts*ts
+        bases=(us**3+c0)[None,:,None]*p[:,None,:]+(ts**3+c1)[None,:,None]*q[:,None,:]
+        columns0=c0[None,:,None]*ds[:,0,None,:];columns1=c1[None,:,None]*ds[:,1,None,:]
+        count=len(ids)
+        rows=np.concatenate((np.stack((columns0,columns1),axis=-1).reshape(count,-1,2),np.broadcast_to(np.eye(2)*.1,(count,2,2))),axis=1)
+        inverse=np.linalg.pinv(rows,rcond=np.finfo(float).eps*rows.shape[1])
+        from .maya_projector import junction_lengths
+        fitted_lengths=junction_lengths(mesh_fn,bases,ds,lengths,chord[:,0],np.stack((c0,c1),axis=1),inverse)
+        if fitted_lengths is not None:
+            lengths=fitted_lengths
+        else:
+            for _ in range(4):
+                samples=bases+c0[None,:,None]*lengths[:,0,None,None]*ds[:,0,None,:]+c1[None,:,None]*lengths[:,1,None,None]*ds[:,1,None,:]
+                projected=project_many(mesh_fn,samples.reshape(-1,3)).reshape(samples.shape)
+                rhs=np.concatenate(((projected-bases).reshape(count,-1),lengths*.1),axis=1)
+                lengths=np.clip((inverse@rhs[:,:,None])[:,:,0],chord*.05,chord*.6)
     h1=p+lengths[:,0,None]*ds[:,0,:];h2=q+lengths[:,1,None]*ds[:,1,:]
     for i,si in enumerate(ids):
         h,j=cn.splines[si][1:3]

@@ -13,7 +13,7 @@ _LIB=None
 def library():
     global _LIB
     if _LIB is None:
-        path=Path(__file__).resolve().parents[2]/'bin'/cmds.about(version=True)/'aru_retopo_maya_projector_endpoints.dll'
+        path=Path(__file__).resolve().parents[2]/'bin'/cmds.about(version=True)/'aru_retopo_maya_projector_compact.dll'
         _LIB=_load_library(path)
     return _LIB
 
@@ -44,6 +44,9 @@ def _load_library(path):
         i=C.POINTER(C.c_int)
         lib.aru_maya_relax_endpoints_v1.argtypes=[C.c_void_p,d,C.c_int,i,i,i,C.c_int,d,C.c_int,C.c_double,C.c_int,d,i]
         lib.aru_maya_relax_endpoints_v1.restype=C.c_int
+    if hasattr(lib,'aru_maya_junction_compact_v1'):
+        lib.aru_maya_junction_compact_v1.argtypes=[C.c_void_p,d,d,d,d,d,C.c_int,d]
+        lib.aru_maya_junction_compact_v1.restype=C.c_int
     return lib
 
 class Projector:
@@ -241,3 +244,21 @@ def endpoint_hits(mesh_fn,old,weights,neighbors,strength,smooth):
  if not len(ids):return {}
  if not fn(p.handle,xyz.ctypes.data_as(d),len(xyz),ids.ctypes.data_as(i),off.ctypes.data_as(i),adj.ctypes.data_as(i),len(flat),w.ctypes.data_as(d),len(ids),strength,int(smooth),out.ctypes.data_as(d),meta.ctypes.data_as(i)):raise RuntimeError('Native endpoint relaxation failed')
  return {int(ep):(row[:3].tolist(),row[3:6].tolist(),int(m[0]),[(int(m[j+1]),float(row[j+6])) for j in range(m[4])]) for ep,row,m in zip(original_ids,out,meta)}
+
+
+def junction_compact(mesh_fn,controls,directions,lengths,chords):
+    """Fit normalized tangent lengths in native code; None requests SVD fallback."""
+    projector=get_projector(mesh_fn)
+    if projector is None or not hasattr(projector.lib,'aru_maya_junction_compact_v1'):return None
+    count=len(lengths)
+    arrays=[np.ascontiguousarray(x,dtype=np.float64) for x in (controls,directions,lengths,chords)]
+    if any(a.size!=size for a,size in zip(arrays,(count*12,count*6,count*2,count))):
+        raise ValueError('Invalid compact junction buffer size')
+    if not count:return np.empty((0,2),dtype=np.float64)
+    ts=np.linspace(.05,.95,15);us=1-ts;c0=3*us*us*ts;c1=3*us*ts*ts
+    arrays.append(np.stack((c0,c1,us**3+c0,ts**3+c1),axis=1))
+    output=np.empty((count,2),dtype=np.float64);d=C.POINTER(C.c_double)
+    status=projector.lib.aru_maya_junction_compact_v1(projector.handle,*(a.ctypes.data_as(d) for a in arrays),count,output.ctypes.data_as(d))
+    if status==2:return None
+    if status!=1:raise RuntimeError('Native compact junction fitting failed')
+    return output
