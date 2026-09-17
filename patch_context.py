@@ -44,10 +44,10 @@ class PatchTool(qt.QObject):
         self.timer.stop()
         qt.QApplication.instance().removeEventFilter(self)
         from . import drag_extrude
-        drag_extrude.selected_points.clear()
+        drag_extrude.selected_points.clear(); drag_extrude.selected_lines.clear()
         gesture=getattr(self,'gesture',None)
         if gesture: gesture.clear(); self.gesture=None
-        drag_extrude.selected_points.clear()
+        drag_extrude.selected_points.clear(); drag_extrude.selected_lines.clear()
         preview.clear()
         if self.surface: self.surface.close(); self.surface = None
         cmds.refresh(force=True)
@@ -120,7 +120,9 @@ class PatchTool(qt.QObject):
             if not force and qt.QApplication.mouseButtons()!=qt.Qt.NoButton:
                 return
             from . import drag_extrude
-            if self.context != NAME: drag_extrude.highlight(self.node)
+            if self.context != NAME:
+                drag_extrude.highlight(self.node)
+                drag_extrude.hover_boundary(self.node)
             view = omui.M3dView.active3dView()
             widget = qt.wrapInstance(int(view.widget()), qt.QWidget)
             point = widget.mapFromGlobal(qt.QCursor.pos())

@@ -79,7 +79,7 @@ class RetopoWindow(qt.AruMainWindow):
         if not self.guide.text().strip(): self.new_guide()
         if not self.node or not cmds.objExists(self.node): self.create()
         guides.edit(self.node)
-        self.status.setText('左：カーブ / 中ドラッグ：移動 / 境界EPをCtrl＋中ドラッグ：押し出し（離して確定・Esc取消） / パッチ上の中：面確定 / Shift＋中：解除')
+        self.status.setText('左：カーブ / 中ドラッグ：移動 / 境界カーブをCtrl＋中ドラッグ：押し出し（離して確定・Esc取消） / パッチ上の中：面確定 / Shift＋中：解除')
 
     def new_guide(self):
         from . import guides
