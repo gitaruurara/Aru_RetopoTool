@@ -1,3 +1,4 @@
+param([string]$OutputDirectory = (Join-Path $PSScriptRoot '../bin'))
 $ErrorActionPreference = 'Stop'
 $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
 $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
@@ -7,7 +8,7 @@ $sdkRoot = "${env:ProgramFiles(x86)}/Windows Kits/10"
 $sdkVersion = (Get-ChildItem -LiteralPath "$sdkRoot/Include" -Directory | Where-Object { Test-Path -LiteralPath "$($_.FullName)/um/Windows.h" } | Sort-Object Name -Descending | Select-Object -First 1).Name
 $env:INCLUDE = "$toolset/include;$sdkRoot/Include/$sdkVersion/ucrt;$sdkRoot/Include/$sdkVersion/shared;$sdkRoot/Include/$sdkVersion/um"
 $env:LIB = "$toolset/lib/x64;$sdkRoot/Lib/$sdkVersion/ucrt/x64;$sdkRoot/Lib/$sdkVersion/um/x64"
-$output = Join-Path $PSScriptRoot '../bin'
+$output = $OutputDirectory
 New-Item -ItemType Directory -Force -Path $output | Out-Null
 Push-Location $output
 try {

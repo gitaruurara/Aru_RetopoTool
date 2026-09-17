@@ -1,6 +1,10 @@
 __pycache__/
+_deps/
 *.pyc
 cpp/build/
 bin/*.obj
 bin/*.exp
 bin/*.lib
+bin/**/*.obj
+bin/**/*.exp
+bin/**/*.lib

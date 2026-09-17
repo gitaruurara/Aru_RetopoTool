@@ -6,8 +6,13 @@
 2. Mayaを開き、展開したフォルダの **install.py をビューポートへドラッグ＆ドロップ**。
 3. **AruRetopo** シェルフの **Retopo** ボタンから起動できます。
 
-Windows x64用DLLを同梱しています。Maya 2027で動作検証済みです。
-Aru_libや元のAru_CurveNetRigは不要です。Maya付属のPySideとNumPyを使用します。
+Windows x64用DLLを同梱しています。Maya 2024 / 2027で自動動作テストを検証済みです。
+Maya 2024では `bin/2024/aru_retopo_core.dll` を自動で読み込みます。
+DLLはMaya SDKやPython ABIに依存しない共通C++コアですが、2024向け再ビルドを別途同梱しています。
+Aru_libや元のAru_CurveNetRigは不要です。Maya付属のPySideを使用します。
+NumPyが未導入の場合（クリーンなMaya 2024など）は、インストーラーがPyPIから
+ツール専用の `_deps` フォルダへ導入します。この初回導入にはインターネット接続が必要です。
+Maya本体のPythonパッケージは変更しません。
 更新時も同じ手順で上書きできますが、プラグインを読み込んだ状態ではDLLがロックされるため、
 更新前にMayaを再起動してください。インストール直後に保存シーンの自動ロードを使う場合も一度再起動してください。
 macOS/Linuxは cpp/CMakeLists.txt から各環境用ライブラリのビルドが必要です。

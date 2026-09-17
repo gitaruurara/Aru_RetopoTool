@@ -13,6 +13,15 @@ def library():
     if _lib is None:
         filename = 'aru_retopo_core.dll' if sys.platform == 'win32' else ('libaru_retopo_core.dylib' if sys.platform == 'darwin' else 'libaru_retopo_core.so')
         path = os.path.join(os.path.dirname(__file__), 'bin', filename)
+        # Prefer an explicitly validated build for this Maya release.
+        # The library itself has no Maya SDK or Python ABI dependency.
+        try:
+            from maya import cmds
+            year = str(cmds.about(apiVersion=True))[:4]
+            versioned = os.path.join(os.path.dirname(__file__), 'bin', year, filename)
+            if os.path.isfile(versioned): path = versioned
+        except ImportError:
+            pass
         if not os.path.isfile(path):
             raise RuntimeError('C++ライブラリがありません。Aru_RetopoTool/cpp のビルド手順を実行してください。')
         lib = C.CDLL(path)
