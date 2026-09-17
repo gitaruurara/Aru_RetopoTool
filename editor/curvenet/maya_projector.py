@@ -13,7 +13,7 @@ _LIB=None
 def library():
     global _LIB
     if _LIB is None:
-        path=Path(__file__).resolve().parents[2]/'bin'/cmds.about(version=True)/'aru_retopo_maya_projector_tangents.dll'
+        path=Path(__file__).resolve().parents[2]/'bin'/cmds.about(version=True)/'aru_retopo_maya_projector_endpoints.dll'
         _LIB=_load_library(path)
     return _LIB
 
@@ -40,6 +40,10 @@ def _load_library(path):
     if hasattr(lib,'aru_maya_junction_directions'):
         lib.aru_maya_junction_directions.argtypes=[d,d,d,C.c_double,C.POINTER(C.c_int),d,C.c_int,C.c_int,C.POINTER(C.c_int),d]
         lib.aru_maya_junction_directions.restype=C.c_int
+    if hasattr(lib,'aru_maya_relax_endpoints_v1'):
+        i=C.POINTER(C.c_int)
+        lib.aru_maya_relax_endpoints_v1.argtypes=[C.c_void_p,d,C.c_int,i,i,i,C.c_int,d,C.c_int,C.c_double,C.c_int,d,i]
+        lib.aru_maya_relax_endpoints_v1.restype=C.c_int
     return lib
 
 class Projector:
@@ -215,3 +219,25 @@ def junction_directions(mesh_fn, points, normals, weights, amount, offsets, bran
         selected.ctypes.data_as(i),directions.ctypes.data_as(d))
     if count<0 or count>len(branches):raise RuntimeError('Native junction directions failed')
     return selected[:count],directions[:count]
+
+
+def endpoint_hits(mesh_fn,old,weights,neighbors,strength,smooth):
+ """Fused endpoint projection; None permits the established old-DLL fallback."""
+ if not weights:return {}
+ p=get_projector(mesh_fn)
+ if p is None or not hasattr(p.lib,'aru_maya_relax_endpoints_v1'):return None
+ fn=p.lib.aru_maya_relax_endpoints_v1
+ d=C.POINTER(C.c_double);i=C.POINTER(C.c_int)
+ original_ids=list(weights)
+ flat=[];offsets=[0]
+ for ep in original_ids:flat.extend(neighbors[ep]);offsets.append(len(flat))
+ if any(ep<0 or ep>=len(old) for ep in original_ids+flat):raise ValueError("Invalid endpoint index")
+ used=list(dict.fromkeys(original_ids+flat));remap={ep:i for i,ep in enumerate(used)}
+ ids=np.array([remap[ep] for ep in original_ids],dtype=np.int32)
+ xyz=np.ascontiguousarray([old[ep] for ep in used],dtype=np.float64)
+ flat=[remap[ep] for ep in flat]
+ adj=np.array(flat or [0],dtype=np.int32);off=np.array(offsets,dtype=np.int32);w=np.array(list(weights.values()),dtype=np.float64)
+ out=np.empty((len(ids),9),dtype=np.float64);meta=np.empty((len(ids),5),dtype=np.int32)
+ if not len(ids):return {}
+ if not fn(p.handle,xyz.ctypes.data_as(d),len(xyz),ids.ctypes.data_as(i),off.ctypes.data_as(i),adj.ctypes.data_as(i),len(flat),w.ctypes.data_as(d),len(ids),strength,int(smooth),out.ctypes.data_as(d),meta.ctypes.data_as(i)):raise RuntimeError('Native endpoint relaxation failed')
+ return {int(ep):(row[:3].tolist(),row[3:6].tolist(),int(m[0]),[(int(m[j+1]),float(row[j+6])) for j in range(m[4])]) for ep,row,m in zip(original_ids,out,meta)}

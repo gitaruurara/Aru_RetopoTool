@@ -1,4 +1,4 @@
-param([string]$MayaVersion = "2027", [string]$BinaryName = "aru_retopo_maya_projector_tangents.dll", [switch]$SleepingTeam, [switch]$PrecomputePath, [switch]$IdentityProjection, [ValidateRange(1,24)][int]$RouteWorkers = 4)
+param([string]$MayaVersion = "2027", [string]$BinaryName = "aru_retopo_maya_projector_endpoints.dll", [switch]$SleepingTeam, [switch]$PrecomputePath, [switch]$IdentityProjection, [ValidateRange(1,24)][int]$RouteWorkers = 4)
 $ErrorActionPreference = 'Stop'
 $vswhere = "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe"
 $vs = & $vswhere -latest -products '*' -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath

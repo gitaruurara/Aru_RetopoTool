@@ -394,19 +394,22 @@ def relax(node, weights, strength=.2, draft=True, smooth=True, *, _world=None, _
     # This phase replaces changed rows; it never edits an old row in place.
     old = list(cn.positions)
     from .maya_projector import surface_hits
-    hits=dict(zip(weights,surface_hits(mesh_fn,[old[ep] for ep in weights])))
-    moving=[ep for ep in weights if smooth and len(neighbors[ep])>=2]
-    from .maya_projector import normals_array
-    normals=dict(zip(moving,normals_array(mesh_fn,[hits[ep][0] for ep in moving]).tolist()))
-    targets=[]
-    for ep in moving:
-        p=old[ep];projected=hits[ep][0];adjacent=neighbors[ep];n=normals[ep]
-        center=[sum(old[v][k] for v in adjacent)/len(adjacent) for k in range(3)]
-        delta=[center[k]-p[k] for k in range(3)]
-        normal_length=sum(x*x for x in n)
-        dn=sum(delta[k]*n[k] for k in range(3))/max(normal_length,1e-12)
-        targets.append([projected[k]+strength*weights[ep]*(delta[k]-dn*n[k]) for k in range(3)])
-    hits.update(zip(moving,surface_hits(mesh_fn,targets)))
+    from .maya_projector import endpoint_hits
+    hits=endpoint_hits(mesh_fn,old,weights,neighbors,strength,smooth)
+    if hits is None:
+        hits=dict(zip(weights,surface_hits(mesh_fn,[old[ep] for ep in weights])))
+        moving=[ep for ep in weights if smooth and len(neighbors[ep])>=2]
+        from .maya_projector import normals_array
+        normals=dict(zip(moving,normals_array(mesh_fn,[hits[ep][0] for ep in moving]).tolist()))
+        targets=[]
+        for ep in moving:
+            p=old[ep];projected=hits[ep][0];adjacent=neighbors[ep];n=normals[ep]
+            center=[sum(old[v][k] for v in adjacent)/len(adjacent) for k in range(3)]
+            delta=[center[k]-p[k] for k in range(3)]
+            normal_length=sum(x*x for x in n)
+            dn=sum(delta[k]*n[k] for k in range(3))/max(normal_length,1e-12)
+            targets.append([projected[k]+strength*weights[ep]*(delta[k]-dn*n[k]) for k in range(3)])
+        hits.update(zip(moving,surface_hits(mesh_fn,targets)))
     for ep, weight in weights.items():
         p=old[ep];projected,_normal,face,bary=hits[ep]
         if feature_data:
