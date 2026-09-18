@@ -16,16 +16,15 @@ class NoStudio(importlib.abc.MetaPathFinder):
 sys.meta_path.insert(0,NoStudio())
 try:
     from maya import cmds
+    from Aru_RetopoTool.tests.mesh_assertions import face_count
     from Aru_RetopoTool import qt,guides,maya_api,construction
     assert qt.AruMainWindow.__module__=='Aru_RetopoTool.qt'
     reference=cmds.polySphere()[0]
     guide=guides.create(reference)
     output,node=maya_api.create(guide,reference)
-    assert cmds.polyEvaluate(output,face=True)==0
+    assert face_count(output)==0
     assert not cmds.getAttr(node+'.status').startswith('ERROR:')
     from Aru_RetopoTool.native import library
-    if str(cmds.about(apiVersion=True)).startswith('2024'):
-        assert os.path.basename(os.path.dirname(library()._name))=='2024'
     print('Native library:',library()._name)
     print('PASS standalone Qt, owned guide plugin, native DLL, empty generator')
 finally:

@@ -46,8 +46,7 @@ def create(guide, reference, subdivisions=2, iterations=3, guide_weight=1.):
             if not cmds.attributeQuery('selectedPatches',node=node,exists=True):
                 cmds.addAttr(node,longName='selectedPatches',dataType='string')
             cmds.setAttr(node+'.selectedPatches','[]',type='string')
-            transform = cmds.createNode('transform', name='aruRetopoMesh#'); created.append(transform)
-            output = cmds.createNode('mesh', name=transform+'Shape', parent=transform)
+            transform = cmds.createNode('transform', name='aruRetopoPreview#'); created.append(transform)
             cmds.setAttr(transform+'.inheritsTransform', False)
             for attr in ('translate', 'rotate', 'scale'):
                 for axis in 'XYZ': cmds.setAttr(transform+'.'+attr+axis, lock=True, keyable=False)
@@ -61,19 +60,18 @@ def create(guide, reference, subdivisions=2, iterations=3, guide_weight=1.):
             cmds.setAttr(node+'.subdivisions', subdivisions)
             cmds.setAttr(node+'.relaxIterations', iterations)
             cmds.setAttr(node+'.guideWeight', guide_weight)
-            cmds.connectAttr(output_plug(node), output+'.inMesh')
-            cmds.sets(output, edit=True, forceElement='initialShadingGroup')
-            cmds.setAttr(output+'.displayColors', False)
-            # Wire overlay without changing the reference mesh's display state.
-            cmds.setAttr(output+'.overrideEnabled', True)
-            cmds.setAttr(output+'.overrideShading', False)
-            cmds.setAttr(output+'.overrideColor', 17)
+            from . import preview_locator
+            preview_locator.ensure(node, parent=transform)
             set_foreground(node, True)
             status = read_status(node)
             if status.startswith('ERROR:'): raise ValueError(status[7:])
             cmds.select(transform)
             return transform, node
         except Exception:
+            if created and cmds.objExists(created[0]):
+                for attr in ('nativeBackend','nativePlan'):
+                    if cmds.attributeQuery(attr,node=created[0],exists=True):
+                        created.extend(cmds.listConnections(created[0]+'.'+attr,s=True,d=False) or [])
             for item in reversed(created):
                 if cmds.objExists(item): cmds.delete(item)
             raise
@@ -89,18 +87,34 @@ def read_status(node):
     return status(node)
 
 
+def generator_for_guide(guide, reference=None):
+    """Resolve an existing owner without creating another output on tool entry."""
+    from .guides import TYPE
+    guide = shape(guide, TYPE)
+    nodes = sorted(set(cmds.listConnections(guide+'.outNetData', s=False, d=True,
+                                           type='aruRetopoMesh') or []))
+    if reference:
+        reference = shape(reference, 'mesh')
+        nodes = [node for node in nodes if reference in
+                 (cmds.ls(cmds.listConnections(node+'.referenceMesh', s=True, d=False,
+                                               shapes=True) or [], long=True) or [])]
+    if len(nodes) > 1:
+        raise ValueError('このガイドには複数のRetopoメッシュがあります。使用する生成メッシュを「選択から読み込み」で指定してください。')
+    return nodes[0] if nodes else None
+
+
 def generator_from_selection():
     for selected in cmds.ls(selection=True, objectsOnly=True, long=True) or []:
         if cmds.nodeType(selected) == 'aruRetopoMesh': return selected
         nodes = [selected] + (cmds.listRelatives(selected, shapes=True, fullPath=True) or [])
         for node in nodes:
-            connections = cmds.listConnections(node, source=True, destination=False, type='aruRetopoMesh') or []
-            if connections: return connections[0]
-            native = cmds.listConnections(node, source=True, destination=False, type='aruRetopoMeshBuffer') or []
-            for backend in native:
-                owners=cmds.listConnections(backend+'.retopoOwner',source=True,destination=False,type='aruRetopoMesh') or [] if cmds.attributeQuery('retopoOwner',node=backend,exists=True) else []
-                if owners:return owners[0]
-    raise ValueError('生成済みのRetopoメッシュを選択してください。')
+            if cmds.attributeQuery('retopoOwner', node=node, exists=True):
+                owners = cmds.listConnections(node+'.retopoOwner', s=True, d=False, type='aruRetopoMesh') or []
+                if owners: return owners[0]
+            if cmds.nodeType(node) == 'retopoGuideNode':
+                owner = generator_for_guide(node)
+                if owner: return owner
+    raise ValueError('リトポガイドまたは生成ロケーターを選択してください。')
 
 
 def rebuild(node):
@@ -109,75 +123,51 @@ def rebuild(node):
     return read_status(node)
 
 
+def display_shapes(node):
+    from . import preview_locator
+    locator = preview_locator.shape(node)
+    return [locator] if locator else []
+
+
 def foreground_enabled(node):
-    overlays = cmds.listConnections(output_plug(node), s=False, d=True, shapes=True, type='aruRetopoOverlay') or []
-    return bool(overlays) and all(cmds.getAttr(s+'.enabled') for s in overlays)
-
-
-def _preview_surface(node, outputs):
-    """An opaque shaded surface masks rear faces; display wires are separate."""
-    if not cmds.attributeQuery('previewShadingGroup', node=node, exists=True):
-        cmds.addAttr(node, longName='previewShadingGroup', attributeType='message')
-    groups = cmds.listConnections(node+'.previewShadingGroup', s=True, d=False) or []
-    if groups:
-        group = groups[0]
-    else:
-        material = cmds.shadingNode('lambert', asShader=True, name='aruRetopoPreviewMaterial#')
-        cmds.setAttr(material+'.color', .16, .40, .46, type='double3')
-        cmds.setAttr(material+'.transparency', 0, 0, 0, type='double3')
-        group = cmds.sets(renderable=True, noSurfaceShader=True, empty=True, name='aruRetopoPreviewSG#')
-        cmds.connectAttr(material+'.outColor', group+'.surfaceShader')
-        cmds.connectAttr(group+'.message', node+'.previewShadingGroup')
-    for output in outputs:
-        current = cmds.listConnections(output, type='shadingEngine') or []
-        if not current or all(g in ('initialShadingGroup', group) for g in current):
-            cmds.sets(output, edit=True, forceElement=group)
+    return cmds.getAttr(node+'.displayInFront') if cmds.attributeQuery('displayInFront',node=node,exists=True) else True
 
 
 def set_foreground(node, enabled=True):
-    """Attach a non-selectable overlay to each output; original mesh stays editable."""
+    """Attach hover/gesture overlay; the persistent locator draws faces and edges."""
     path = os.path.join(os.path.dirname(__file__), 'aru_retopo_draw_plugin.py')
     if not cmds.pluginInfo('aru_retopo_draw_plugin', q=True, loaded=True): cmds.loadPlugin(path)
-    outputs = cmds.listConnections(output_plug(node), s=False, d=True, shapes=True, type='mesh') or []
+    outputs = display_shapes(node)
     with undo_chunk('Aru Retopo: foreground display'):
-        _preview_surface(node, outputs)
+        if not cmds.attributeQuery('displayInFront', node=node, exists=True):
+            cmds.addAttr(node, longName='displayInFront', attributeType='bool', defaultValue=True)
+        cmds.setAttr(node+'.displayInFront', bool(enabled))
         for output in outputs:
-            cmds.setAttr(output+'.overrideShading', True)
-            cmds.setAttr(output+'.alwaysDrawOnTop', bool(enabled))
             parent = cmds.listRelatives(output, parent=True, fullPath=True)[0]
             overlays = cmds.listRelatives(parent, shapes=True, fullPath=True, type='aruRetopoOverlay') or []
             if not overlays and enabled:
                 overlay = cmds.createNode('aruRetopoOverlay', name='aruRetopoOverlayShape#', parent=parent, skipSelect=True)
                 overlays = [overlay]
             for overlay in overlays:
-                # Support an already-loaded development schema without unloading
-                # the plugin or clearing the artist's undo history.
-                if not cmds.attributeQuery('inputMesh', node=overlay, exists=True):
-                    cmds.addAttr(overlay, longName='inputMesh', dataType='mesh')
-                if not cmds.attributeQuery('enabled', node=overlay, exists=True):
-                    cmds.addAttr(overlay, longName='enabled', attributeType='bool', defaultValue=True)
                 if not cmds.isConnected(output_plug(node), overlay+'.inputMesh'):
                     cmds.connectAttr(output_plug(node), overlay+'.inputMesh')
-                cmds.setAttr(overlay+'.enabled', bool(enabled))
+                cmds.setAttr(overlay+'.enabled', False)
 
 
 def bake(node):
-    outputs = cmds.listConnections(output_plug(node), source=False, destination=True, shapes=True, type='mesh') or []
-    if not outputs: raise ValueError('生成メッシュがありません。')
+    """Create the first ordinary mesh from evaluated data, with no live history."""
     status = read_status(node)
     if status.startswith('ERROR:'): raise ValueError(status)
-    transform = cmds.listRelatives(outputs[0], parent=True, fullPath=True)[0]
+    selection = om.MSelectionList(); selection.add(output_plug(node))
+    data = selection.getPlug(0).asMObject()
+    if data.isNull(): raise ValueError('生成メッシュがありません。')
     with undo_chunk('Aru Retopo: bake copy'):
-        result = cmds.duplicate(transform, name='aruRetopoBaked#', returnRootsOnly=True,
-                                inputConnections=False, upstreamNodes=False)[0]
-        cmds.delete(result, constructionHistory=True)
-        overlays = cmds.listRelatives(result, shapes=True, fullPath=True, type='aruRetopoOverlay') or []
-        if overlays: cmds.delete(overlays)
-        for attr in ('translate', 'rotate', 'scale'):
-            for axis in 'XYZ': cmds.setAttr(result+'.'+attr+axis, lock=False, keyable=True)
-        cmds.setAttr(result+'.inheritsTransform', lock=False)
-        for sh in cmds.listRelatives(result, shapes=True, fullPath=True) or []:
-            cmds.setAttr(sh+'.overrideEnabled', False)
-            cmds.setAttr(sh+'.alwaysDrawOnTop', False)
+        result = cmds.createNode('transform', name='aruRetopoBaked#')
+        output = cmds.createNode('mesh', name=result+'Shape', parent=result)
+        # Command connections are undoable; disconnect retains an independent value.
+        cmds.connectAttr(output_plug(node), output+'.inMesh')
+        om.MSelectionList().add(output+'.outMesh').getPlug(0).asMObject()
+        cmds.disconnectAttr(output_plug(node), output+'.inMesh')
+        cmds.sets(output, edit=True, forceElement='initialShadingGroup')
         cmds.select(result)
     return result

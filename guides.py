@@ -52,12 +52,11 @@ def edit(node):
     if not guide or cmds.nodeType(guide)!=TYPE:
         raise ValueError('既存CurveNetを「ガイドをコピーして取り込み」で取り込んでください。')
     from .editor.curvenet import curve_net_menu as menu
-    from .editor.curvenet.aru_retopo_guide_plugin import _DRAGGER_CTX
+    from . import patch_context
+    patch_context._preferred_owner = node
     cmds.optionVar(sv=('retopoGuideContext_node',guide))
     cmds.select(guide)
     menu._enter_curvenet_context()
-    from . import patch_context
-    patch_context.start(node,context=_DRAGGER_CTX)
 
 
 def settings():

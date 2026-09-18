@@ -3067,10 +3067,15 @@ class RetopoGuideContext:
         _state_set(self._s, "drag_side", None)
         # ツール中はリバインドを保留 (抜けた時にまとめて 1 回)
         _rebind.tool_entered(node)
+        if node and cmds.objExists(node) and not cmds.about(batch=True):
+            from Aru_RetopoTool import patch_context
+            patch_context.resume_for_guide(node)
 
 
     def exit(self) -> None:
         """draggerContext 離脱時: 状態リセット + 保留していたリバインドを実行。"""
+        from Aru_RetopoTool import patch_context
+        if patch_context._active: patch_context._active.stop()
         try:
             self._finish_relax(True)
             self._finish_point(True)

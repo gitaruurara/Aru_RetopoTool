@@ -1,6 +1,7 @@
 """Run in disposable mayapy; validates ring sampling and extrusion topology."""
 import math
 from maya import cmds
+from Aru_RetopoTool.tests.mesh_assertions import face_count
 from Aru_RetopoTool.editor.curvenet import curve_net_context as context, curve_net_edit as edit
 from Aru_RetopoTool.editor.curvenet.curve_net_data import RetopoGuideData
 from Aru_RetopoTool import construction,core
@@ -54,14 +55,14 @@ def run():
                          signature=lambda:'test',faces=SimpleNamespace(isChecked=lambda:True),
                          cancel=lambda:None,status=SimpleNamespace(setText=lambda value:None))
     construction.ConstructionWindow.commit(fake)
-    assert cmds.polyEvaluate(output,face=True)==32
+    assert face_count(output)==32
     cmds.undo()
     assert cmds.getAttr(guide+'.netData')==initial
-    assert cmds.polyEvaluate(output,face=True)==0
+    assert face_count(output)==0
     fake.faces=SimpleNamespace(isChecked=lambda:False)
     construction.ConstructionWindow.commit(fake)
     assert len(accessor.read().endpoint_indices())==6
-    assert cmds.polyEvaluate(output,face=True)==0
+    assert face_count(output)==0
     cmds.undo()
     assert cmds.getAttr(guide+'.netData')==initial
     cmds.delete(output,node,cmds.listRelatives(guide,parent=True)[0])

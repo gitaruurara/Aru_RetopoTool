@@ -10,9 +10,7 @@ import maya.api.OpenMayaUI as omui
 # returns a base wrapper, not the original Python subclass with owned operations.
 _override=globals().get('_override')
 _saved_panels=globals().get('_saved_panels',{})
-_saved_attributes=globals().get('_saved_attributes',{})
 _registered_name=globals().get('_registered_name')
-_buffer_session=globals().get('_buffer_session')
 
 
 def _depth_limits(panel):
@@ -29,8 +27,10 @@ def _depth_limits(panel):
     for guide in cmds.ls(type='retopoGuideNode') or []:
         mesh=cmds.getAttr(guide+'.meshName')
         if mesh and cmds.objExists(mesh):references.add(mesh)
-    fraction=.005
-    offset=camera_fn.orthoWidth*.005
+    # A screen/zoom-based cap shrinks the bias below polygon chord error at
+    # close range. Bound only by the reference geometry in world units.
+    fraction=float('inf')
+    offset=float('inf')
     found=False
     for mesh in references:
         selection=om.MSelectionList();selection.add(mesh)
@@ -123,10 +123,8 @@ class Preview(render.MRenderOverride):
     def cleanup(self):pass
 
 
-def enable(panel,direct_buffer=False):
-    global _override,_registered_name,_buffer_session
-    if _buffer_session is not None:
-        _buffer_session.close();_buffer_session=None
+def enable(panel):
+    global _override,_registered_name
     if _override is None:
         candidate=Preview()
         render.MRenderer.registerOverride(candidate)
@@ -135,33 +133,15 @@ def enable(panel,direct_buffer=False):
     if panel not in _saved_panels:
         _saved_panels[panel]=cmds.modelEditor(panel,q=True,rendererOverrideName=True)
     objects=om.MSelectionList()
-    meshes=[]
     for node in cmds.ls(type='aruRetopoMesh') or []:
-        meshes.extend(cmds.listConnections(api.output_plug(node),source=False,destination=True,type='mesh') or [])
-    for mesh in set(meshes):
-        objects.add(mesh)
-        attr=mesh+'.alwaysDrawOnTop'
-        if attr not in _saved_attributes:_saved_attributes[attr]=cmds.getAttr(attr)
-        cmds.setAttr(attr,False)
-        for name,value in (('backfaceCulling',3),('overrideRGBColors',True)):
-            attr=mesh+'.'+name
-            if attr not in _saved_attributes:_saved_attributes[attr]=cmds.getAttr(attr)
-            cmds.setAttr(attr,value)
-        attr=mesh+'.overrideColorRGB'
-        if attr not in _saved_attributes:_saved_attributes[attr]=cmds.getAttr(attr)[0]
-        cmds.setAttr(attr,.025,.075,.10,type='double3')
+        if api.foreground_enabled(node):
+            for display in api.display_shapes(node): objects.add(display)
     guide_objects=om.MSelectionList()
     for guide in cmds.ls(type='retopoGuideNode') or []:guide_objects.add(guide)
     _override.guides.objects=guide_objects
     for overlay in cmds.ls(type='aruRetopoOverlay') or []:
         objects.add(overlay)
-        attr=overlay+'.enabled'
-        if attr not in _saved_attributes:_saved_attributes[attr]=cmds.getAttr(attr)
-        cmds.setAttr(attr,False)
     _override.foreground.objects=objects
-    if direct_buffer:
-        from .gpu_buffer_preview import BufferPreview
-        _buffer_session=BufferPreview(_override.foreground)
     _set_world_guides(True)
     cmds.modelEditor(panel,e=True,rendererOverrideName=_registered_name)
     cmds.refresh(force=True)
@@ -177,17 +157,10 @@ def _set_world_guides(enabled):
 
 
 def disable():
-    global _override,_registered_name,_buffer_session
-    if _buffer_session is not None:
-        _buffer_session.close();_buffer_session=None
+    global _override,_registered_name
     for panel,previous in list(_saved_panels.items()):
         if cmds.modelPanel(panel,exists=True):cmds.modelEditor(panel,e=True,rendererOverrideName=previous)
     _saved_panels.clear()
-    for attr,value in list(_saved_attributes.items()):
-        if cmds.objExists(attr):
-            if isinstance(value,tuple):cmds.setAttr(attr,*value,type='double3')
-            else:cmds.setAttr(attr,value)
-    _saved_attributes.clear()
     _set_world_guides(False)
     cmds.refresh(force=True)
 

@@ -9,6 +9,7 @@ from .native import Surface, stencil
 
 NAME = 'aruRetopoPatchContext'
 _active = None
+_preferred_owner = None
 preview = {}  # overlay full path -> world-space triangle vertices
 
 
@@ -39,6 +40,7 @@ class PatchTool(qt.QObject):
         self.cache = None
         self.candidates = []
         self.surface = None
+        self.stopped = False
         self._revision=0
         self._last_hover=None
         self._dirty_callback=om.MNodeMessage.addNodeDirtyCallback(_object(node),self.invalidate)
@@ -52,6 +54,10 @@ class PatchTool(qt.QObject):
         self._revision+=1
 
     def stop(self):
+        global _active
+        if self.stopped: return
+        self.stopped = True
+        if _active is self: _active = None
         self.timer.stop()
         if getattr(self,"_dirty_callback",None) is not None:
             om.MMessage.removeCallback(self._dirty_callback);self._dirty_callback=None
@@ -238,14 +244,28 @@ def _object(node):
     sel=om.MSelectionList();sel.add(node);return sel.getDependNode(0)
 
 
-def start(node, context=NAME):
+def resume_for_guide(guide):
+    """Attach patch editing on every context entry, including Maya's last tool."""
+    node = _preferred_owner
+    connections = cmds.listConnections(guide+'.outNetData', s=False, d=True, type='aruRetopoMesh') or []
+    if not node or node not in connections:
+        node = api.generator_for_guide(guide)
+    if node:
+        from .editor.curvenet.aru_retopo_guide_plugin import _DRAGGER_CTX
+        return start(node, _DRAGGER_CTX, activate=False)
+
+
+def start(node, context=NAME, activate=True):
     global _active
     if _active:
         try: _active.stop()
         except RuntimeError: pass
-    api.set_foreground(node,True)
+    from . import viewport_session
+    if not viewport_session.active(): api.set_foreground(node,True)
     if not cmds.draggerContext(NAME,exists=True):
         cmds.draggerContext(NAME,cursor='crossHair',undoMode='step')
-    cmds.setToolTo(context)
+    if activate and cmds.currentCtx() != context: cmds.setToolTo(context)
+    # Context entry may already have attached the combined patch tool.
+    if _active: _active.stop()
     _active=PatchTool(node,context)
     return _active

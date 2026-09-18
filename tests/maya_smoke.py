@@ -8,15 +8,17 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 import maya.standalone
 maya.standalone.initialize(name='python')
 from maya import cmds
+from Aru_RetopoTool.tests.mesh_assertions import face_count
 import maya.api.OpenMaya as om
 from Aru_RetopoTool import maya_api as api
 from Aru_RetopoTool.tests.test_core import polygon
 
 
 def vertices(node):
-    sh = api.shape(node, 'mesh')
-    selection = om.MSelectionList(); selection.add(sh)
-    return [(p.x,p.y,p.z) for p in om.MFnMesh(selection.getDagPath(0)).getPoints(om.MSpace.kWorld)]
+    from Aru_RetopoTool.tests.mesh_assertions import mesh_fn
+    fn=mesh_fn(node)
+    return [(p.x,p.y,p.z) for p in fn.getPoints()]
+
 
 
 def run():
@@ -32,16 +34,32 @@ def run():
     cmds.setAttr(guide+'.netData', raw, type='string')
     mesh = cmds.polyPlane(w=10, h=10, sx=20, sy=20, name='retopoTestReference')[0]
     output, node = api.create(guide, mesh, subdivisions=3)
-    assert cmds.polyEvaluate(output, face=True) == 0
+    from Aru_RetopoTool import preview_locator
+    locator = preview_locator.shape(node)
+    assert locator
+    cmds.undo()
+    assert not cmds.objExists(output) and not cmds.objExists(node)
+    cmds.redo()
+    assert preview_locator.shape(node) == locator
+    print('PASS locator creation is one undoable operation')
+    assert not cmds.listRelatives(output, shapes=True, type='mesh')
+    assert len(cmds.listRelatives(output, shapes=True, type='aruRetopoBufferPreview') or []) == 1
+    assert api.generator_for_guide(guide, mesh) == node
+    cmds.select(guide)
+    assert api.generator_from_selection() == node
+    cmds.select(output)
+    assert api.generator_from_selection() == node
+    print('PASS existing generator resolution from guide and output')
+    assert face_count(output) == 0
     from Aru_RetopoTool.core import regions, patch_key
     from Aru_RetopoTool.patch_context import confirm
     key = patch_key(regions(positions,splines,lambda p:(0,1,0))[0])
     confirm(node,key)
-    assert cmds.polyEvaluate(output, face=True) == 80, cmds.getAttr(node+'.status')
+    assert face_count(output) == 80, cmds.getAttr(node+'.status')
     confirm(node,key,remove=True)
-    assert cmds.polyEvaluate(output, face=True)==0
+    assert face_count(output)==0
     cmds.undo()
-    assert cmds.polyEvaluate(output, face=True)==80
+    assert face_count(output)==80
     print('PASS explicit patch fill/remove, empty by default, Undo')
     from Aru_RetopoTool import patch_context
     from types import SimpleNamespace
@@ -53,9 +71,9 @@ def run():
     tool = SimpleNamespace(node=node,key=key,tick=lambda **kwargs:None)
     with patch.object(cmds,'currentCtx',return_value=patch_context.NAME):
         assert patch_context.PatchTool.eventFilter(tool,None,event)
-    assert cmds.polyEvaluate(output,face=True)==0
+    assert face_count(output)==0
     cmds.undo()
-    assert cmds.polyEvaluate(output,face=True)==80
+    assert face_count(output)==80
     print('PASS middle mouse event dispatch and Shift removal')
     tool.context='retopoGuideDraggerCtx1'
     tool.near_control_point=lambda:True
@@ -84,10 +102,11 @@ def run():
     print('PASS reference and guide transforms evaluated in world space')
     with api.undo_chunk('test settings'):
         cmds.setAttr(node+'.subdivisions', 2)
-    assert cmds.polyEvaluate(output,face=True) == 20
+    assert face_count(output) == 20
     cmds.undo()
-    assert cmds.polyEvaluate(output,face=True) == 80
+    assert face_count(output) == 80
     print('PASS undo subdivision settings')
+    locator_uuid=cmds.ls(locator,uuid=True)[0]
     baked = api.bake(node)
     baked_points = vertices(baked)
     assert not cmds.listRelatives(baked, shapes=True, type='aruRetopoOverlay')
@@ -95,7 +114,9 @@ def run():
     cmds.move(0,1,0,mesh,relative=True)
     assert vertices(baked) == baked_points
     assert max(abs(p[1]-3) for p in vertices(output)) < 1e-6
-    print('PASS bake independent copy, original still live')
+    assert cmds.ls(locator,uuid=True)[0] == locator_uuid
+    assert not cmds.listRelatives(output, shapes=True, type='mesh')
+    print('PASS bake independent copy, original locator still live')
     assert not any(k.startswith('Aru_CurveNetRig') for k in sys.modules)
     import Aru_Menu
     _, _, report = Aru_Menu.validate()
@@ -107,7 +128,10 @@ def run():
     with open(scene, encoding='utf-8', errors='replace') as stream:
         print('SCENE_PLUGIN_REQUIREMENTS', [line.strip() for line in stream if line.startswith('requires ')])
     cmds.file(new=True,force=True); cmds.file(scene,open=True,force=True)
-    assert cmds.polyEvaluate(output,face=True) == 80
+    assert face_count(output) == 80
+    assert cmds.ls(locator,uuid=True)[0] == locator_uuid
+    assert preview_locator.shape(node) == locator
+    assert not cmds.listRelatives(output, shapes=True, type='mesh')
     cmds.move(0,1,0,mesh,relative=True)
     assert max(abs(p[1]-4) for p in vertices(output)) < 1e-6
     print('PASS save/reopen retains live DG connections')
@@ -158,7 +182,7 @@ def run():
     empty_guide=guides.create(mesh)
     empty_output,empty_node=api.create(empty_guide,mesh)
     assert not (cmds.getAttr(empty_node+'.status') or '').startswith('ERROR:')
-    assert cmds.polyEvaluate(empty_output,face=True)==0
+    assert face_count(empty_output)==0
     print('PASS empty owned guides; no legacy Python imports required')
     # Both node types/contexts can coexist; importing copies evaluated geometry.
     cmds.loadPlugin(os.path.join(root,'Aru_CurveNetRig/curvenet/curve_net_plugin.py'))

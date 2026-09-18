@@ -1,4 +1,4 @@
-"""Opt-in native graph wiring. All changes are undoable scene operations."""
+"""Required native graph wiring. All changes are undoable scene operations."""
 import os
 from maya import cmds
 from . import maya_api as api
@@ -16,11 +16,13 @@ def backend(node):
     return nodes[0] if len(nodes)==1 else None
 
 def source(node):
-    return (backend(node) or node)+'.outMesh'
+    native = backend(node)
+    if not native: raise ValueError('Retopo native backend is missing: '+node)
+    return native+'.outMesh'
 
 def status(node):
     native=backend(node)
-    if not native:return cmds.getAttr(node+'.status') or ''
+    if not native:return 'ERROR: Retopo native backend is missing'
     plans=cmds.listConnections(node+'.nativePlan',source=True,destination=False,type='aruRetopoPlan') or []
     message=cmds.getAttr(plans[0]+'.status') if plans else 'ERROR: Missing native topology provider'
     if message.startswith('ERROR:'):return message
@@ -42,8 +44,7 @@ def enable(node):
     # second version with the same type id in the running session.
     if 'aruRetopoMeshBuffer' not in cmds.allNodeTypes():
         cmds.loadPlugin(os.path.join(root,'bin',cmds.about(version=True),BINARY_NAME),quiet=True)
-    destinations=cmds.listConnections(node+'.outMesh',source=False,destination=True,plugs=True) or []
-    created=[];rewired=[]
+    created=[]
     with api.undo_chunk('Aru Retopo: native backend'):
         try:
             plan=cmds.createNode('aruRetopoPlan',name='aruRetopoPlan#');created.append(plan)
@@ -63,21 +64,8 @@ def enable(node):
             cmds.setAttr(native+'.projectToReference',True)
             message=status(node)
             if message.startswith('ERROR:'):raise ValueError(message)
-            for destination in destinations:
-                cmds.connectAttr(native+'.outMesh',destination,force=True);rewired.append(destination)
             return native
         except Exception:
-            for destination in rewired:
-                if cmds.objExists(destination):cmds.connectAttr(node+'.outMesh',destination,force=True)
             for item in reversed(created):
                 if cmds.objExists(item):cmds.delete(item)
             raise
-
-def disable(node):
-    native=backend(node)
-    if not native:return
-    plans=cmds.listConnections(node+'.nativePlan',source=True,destination=False,type='aruRetopoPlan') or []
-    with api.undo_chunk('Aru Retopo: disable native backend'):
-        for destination in cmds.listConnections(native+'.outMesh',source=False,destination=True,plugs=True) or []:
-            cmds.connectAttr(node+'.outMesh',destination,force=True)
-        cmds.delete([native]+plans)

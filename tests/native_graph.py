@@ -1,5 +1,8 @@
 """Disposable opt-in native graph integration regression."""
-import json, os
+import json, os, sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
+os.environ['MAYA_SKIP_USERSETUP_PY']='1'
 if __name__ == "__main__":
     import maya.standalone
     maya.standalone.initialize(name="python")
@@ -19,7 +22,11 @@ def points(output):
 
 def run():
     root=os.path.dirname(os.path.dirname(__file__))
-    cmds.loadPlugin(BUFFER_PLUGIN+'.mll',quiet=True)
+    from maya import mel
+    search=str(Path(root)/'bin'/cmds.about(version=True)).replace('\\','/')
+    search+=os.pathsep+os.environ.get('MAYA_PLUG_IN_PATH','').replace('\\','/')
+    mel.eval('putenv "MAYA_PLUG_IN_PATH" '+json.dumps(search)+';')
+    cmds.loadPlugin(str(Path(root)/'bin'/cmds.about(version=True)/(BUFFER_PLUGIN+'.mll')),quiet=True)
     assert cmds.about(version=True) in cmds.pluginInfo(BUFFER_PLUGIN,q=True,path=True).replace('\\','/').split('/')
     cmds.loadPlugin(os.path.join(root,'editor/curvenet/aru_retopo_guide_plugin.py'),quiet=True)
     cmds.undoInfo(state=True)
@@ -30,7 +37,7 @@ def run():
     output,node=api.create(guide,ref,subdivisions=2)
     native=backend.enable(node)
     assert not points(api.output_plug(node)),api.read_status(node)
-    cmds.undo();assert backend.backend(node) is None
+    cmds.undo();assert not cmds.objExists(node)
     cmds.redo();assert backend.backend(node)==native
     keys=json.dumps([patch_key(r) for r in regions(p,s,lambda p:(0,1,0))])
     cmds.setAttr(node+'.selectedPatches',keys,type='string')
@@ -79,8 +86,6 @@ def run():
     assert saved==points(api.output_plug(node))
     cmds.setAttr(guide+'.controlPoints[0]',.4,0,.2,type='double3');compare()
     assert points(sh+'.outMesh')==saved
-    backend.disable(node);assert backend.backend(node) is None
-    cmds.undo();assert backend.backend(node)==native;compare()
     # Exercise both plan parser paths, without dirtying the guide itself.
     from unittest.mock import patch
     from Aru_RetopoTool.editor.curvenet.curve_net_data import RetopoGuideData
@@ -105,26 +110,9 @@ def run():
     assert messages[0]==messages[1] and not messages[0].startswith('ERROR:')
     assert cached.to_json()==cached_before
     compare()
-    from types import SimpleNamespace
-    from Aru_RetopoTool.ui import RetopoWindow
-    class Toggle:
-        def __init__(self): self.checked=True;self.blocked=False
-        def blockSignals(self,value): self.blocked=value
-        def setChecked(self,value): self.checked=value
-    toggle=Toggle();ui=SimpleNamespace(node=node,fast_update=toggle)
-    RetopoWindow.set_fast_update(ui,False)
-    assert backend.backend(node) is None and not toggle.checked and not toggle.blocked
-    with patch.object(backend,'enable',side_effect=RuntimeError('injected enable failure')):
-        try: RetopoWindow.set_fast_update(ui,True)
-        except RuntimeError: pass
-        else: raise AssertionError('Enable failure must reach UI error handler')
-    assert not toggle.checked and not toggle.blocked
-    cmds.undo();assert backend.backend(node)==native
-    RetopoWindow.set_fast_update(ui,True)
-    assert toggle.checked and not toggle.blocked
-    assert backend.available()
+    assert backend.enable(node)==native
     compare()
-    print('PASS UI fast-update toggle, enable failure state and Undo')
+    print('PASS repeated native enable reuses the same graph')
     import tempfile
     with tempfile.TemporaryDirectory(prefix='aru_retopo_native_scene_') as folder:
         scene=os.path.join(folder,'native.ma')
@@ -138,7 +126,7 @@ def run():
     print('PASS native scene reopen resolves version-specific plugin by name')
 
     print('PASS plan parsed-guide cache hit/miss, skipped decode and ownership')
-    print('PASS native graph: empty selection, enable/disable Undo/Redo, patch edits, CP, solver settings, subdivisions, selection')
+    print('PASS native graph: empty selection, create Undo/Redo, patch edits, CP, solver settings, subdivisions, selection')
 
 if __name__=='__main__':
     import maya.standalone

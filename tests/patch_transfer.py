@@ -1,5 +1,6 @@
 """Filled patches survive boundary splits and inserted internal edges."""
 from maya import cmds
+from Aru_RetopoTool.tests.mesh_assertions import face_count
 from Aru_RetopoTool import guides,maya_api as api,core,patch_context
 from Aru_RetopoTool.editor.curvenet import curve_net_edit as edit,curve_net_context as context
 from Aru_RetopoTool.editor.curvenet.curve_net_data import RetopoGuideData
@@ -32,6 +33,6 @@ def run():
     with api.undo_chunk('split boundary again'):
         cn=acc.read();context._split_spline_at(cn,0,.5,mesh);edit._commit_net_data(guide,cn)
     assert len(patch_context.selected(node))==2
-    assert cmds.polyEvaluate(output,face=True)>0
+    assert face_count(output)>0
     print('PASS filled child patches, adjacent unfilled patch preserved, boundary resplit, Undo/Redo')
     cmds.delete(output,node,cmds.listRelatives(guide,parent=True)[0],mesh)

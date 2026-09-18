@@ -56,12 +56,7 @@ class RetopoWindow(qt.AruMainWindow):
         self.foreground.setChecked(True)
         self.foreground.toggled.connect(lambda value: self.run(lambda: self.set_foreground(value)))
         form.addRow('最前面表示', self.foreground)
-        from . import native_backend
-        self.fast_update = qt.QCheckBox('メッシュ更新を高速化')
-        self.fast_update.setToolTip('同じ形状を高速に更新します。既存メッシュでも切り替えられます。')
-        self.fast_update.setChecked(native_backend.available())
-        self.fast_update.toggled.connect(lambda value: self.run(lambda: self.set_fast_update(value)))
-        form.addRow('更新', self.fast_update)
+        form.addRow('編集中の表示', qt.QLabel('ロケーター（面・エッジ）'))
         layout.addLayout(form)
         note = qt.QLabel('カーブだけでは面は生成されません。面張りツールでホバーし、中クリックでパッチを確定します。\nShift＋中クリックで解除。確定した面はカーブ編集へ自動追従します。')
         note.setWordWrap(True); layout.addWidget(note)
@@ -76,6 +71,13 @@ class RetopoWindow(qt.AruMainWindow):
         self.status = qt.QLabel('カーブネットと参照メッシュを指定してください。')
         self.status.setWordWrap(True); self.status.setTextInteractionFlags(qt.Qt.TextSelectableByMouse)
         layout.addWidget(self.status); layout.addStretch()
+        # Reopening the window while a guide/output is selected resumes its owner.
+        try:
+            api.generator_from_selection()
+        except ValueError:
+            pass
+        else:
+            self.load()
 
     def run(self, callback):
         try:
@@ -89,6 +91,7 @@ class RetopoWindow(qt.AruMainWindow):
         selected = cmds.ls(selection=True, objectsOnly=True, long=True) or []
         if len(selected) != 1: raise ValueError('対象を1つ選択してください。')
         field.setText(api.shape(selected[0], kind))
+        self.node = None
 
     def open_editor(self):
         from . import guides
@@ -132,10 +135,14 @@ class RetopoWindow(qt.AruMainWindow):
         construction.show(self.node)
 
     def create(self):
+        existing = api.generator_for_guide(self.guide.text().strip(), self.reference.text().strip())
+        if existing:
+            self.node = existing
+            self.report()
+            return
         _, self.node = api.create(self.guide.text().strip(), self.reference.text().strip(),
                                   self.level.value(), self.iterations.value(), self.weight.value())
         cmds.setAttr(self.node+'.projectionGuard', self.guard.isChecked())
-        if self.fast_update.isChecked(): self.set_fast_update(True)
         api.set_foreground(self.node, self.foreground.isChecked())
         self.report()
 
@@ -151,10 +158,6 @@ class RetopoWindow(qt.AruMainWindow):
 
     def report(self):
         node = self.require_node()
-        from . import native_backend
-        self.fast_update.blockSignals(True)
-        self.fast_update.setChecked(bool(native_backend.backend(node)))
-        self.fast_update.blockSignals(False)
         self.status.setText(node+'\n'+(api.read_status(node)))
 
     def load(self):
@@ -170,17 +173,6 @@ class RetopoWindow(qt.AruMainWindow):
         self.foreground.setChecked(api.foreground_enabled(self.node))
         self.foreground.blockSignals(False)
         self.report()
-
-    def set_fast_update(self, value):
-        if not self.node or not cmds.objExists(self.node): return
-        from . import native_backend
-        try:
-            if value: native_backend.enable(self.node)
-            else: native_backend.disable(self.node)
-        finally:
-            self.fast_update.blockSignals(True)
-            self.fast_update.setChecked(bool(native_backend.backend(self.node)))
-            self.fast_update.blockSignals(False)
 
     def set_foreground(self, value):
         from . import viewport_session

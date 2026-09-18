@@ -32,24 +32,18 @@ def ensure_display():
     _pending=False
     override=gpu_preview._override
     if override is None:return
-    session=gpu_preview._buffer_session
-    if session is not None:session.close()
     # Rebuild object handles after Undo/Redo; do not insert commands into Undo.
     objects=om.MSelectionList()
     for generator in cmds.ls(type='aruRetopoMesh') or []:
-        for mesh in cmds.listConnections(api.output_plug(generator),s=False,d=True,type='mesh') or []:
+        if not api.foreground_enabled(generator): continue
+        for mesh in api.display_shapes(generator):
             objects.add(mesh)
     for overlay in cmds.ls(type='aruRetopoOverlay') or []:
-        selection=om.MSelectionList();selection.add(overlay)
-        attribute=om.MFnDependencyNode(selection.getDependNode(0)).findPlug('enabled',False)
-        gpu_preview._saved_attributes.setdefault(overlay+'.enabled',attribute.asBool())
-        attribute.setBool(False)
+        objects.add(overlay)
     override.foreground.objects=objects
     guides=om.MSelectionList()
     for guide in cmds.ls(type='retopoGuideNode') or []:guides.add(guide)
     override.guides.objects=guides
-    from .gpu_buffer_preview import BufferPreview
-    gpu_preview._buffer_session=BufferPreview(override.foreground)
     gpu_preview._set_world_guides(True)
 
 def start(panel=None):
@@ -77,9 +71,8 @@ def start(panel=None):
         if 'aruRetopoMeshBuffer' not in cmds.allNodeTypes():cmds.loadPlugin(str(folder/BINARY),quiet=True)
         native_backend.BINARY_NAME=BINARY
         maya_screen._LIB=screen_library
-        for node in cmds.ls(type='aruRetopoMesh') or []:native_backend.enable(node)
         gpu_guides.GPU_CONTROLS=True
-        gpu_preview.enable(panel,direct_buffer=True)
+        gpu_preview.enable(panel)
         _saved=previous;_panel=panel;_active=True;_generation+=1
         for event in ('Undo','Redo'):_callbacks.append(om.MEventMessage.addEventCallback(event,_schedule))
         _callbacks.append(om.MSceneMessage.addCallback(om.MSceneMessage.kAfterSave,_schedule))

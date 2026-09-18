@@ -1,6 +1,7 @@
 """Gesture tests in disposable Maya; pointer projection is deterministic."""
 from unittest.mock import patch
 from maya import cmds
+from Aru_RetopoTool.tests.mesh_assertions import face_count
 from Aru_RetopoTool import drag_extrude as d, guides, maya_api as api
 from Aru_RetopoTool.editor.curvenet.curve_net_data import RetopoGuideData
 
@@ -28,10 +29,10 @@ def run():
         assert cmds.getAttr(guide+'.netData')==initial
         gesture.finish()
         assert len(accessor.read().endpoint_indices())==6
-        assert cmds.polyEvaluate(output,face=True)==32
+        assert face_count(output)==32
         cmds.undo()
         assert cmds.getAttr(guide+'.netData')==initial
-        assert cmds.polyEvaluate(output,face=True)==0
+        assert face_count(output)==0
         gesture.clear()
     cmds.delete(output,node,cmds.listRelatives(guide,parent=True)[0],plane)
     d.selected_points.clear()

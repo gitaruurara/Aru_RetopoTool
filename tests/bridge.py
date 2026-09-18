@@ -1,5 +1,6 @@
 """Bridge validation in an isolated Maya process."""
 from maya import cmds
+from Aru_RetopoTool.tests.mesh_assertions import face_count
 import maya.api.OpenMaya as om
 from types import SimpleNamespace
 from Aru_RetopoTool import construction as c, guides, maya_api as api
@@ -41,9 +42,9 @@ def run():
         before=cmds.getAttr(guide+'.netData')
         c.ConstructionWindow.commit(fake)
         assert len(acc.read().splines)==24
-        assert cmds.polyEvaluate(output,face=True)==(128 if with_faces else 0)
+        assert face_count(output)==(128 if with_faces else 0)
         cmds.undo();assert cmds.getAttr(guide+'.netData')==before
-        assert cmds.polyEvaluate(output,face=True)==0
+        assert face_count(output)==0
     cmds.delete(output,node,cmds.listRelatives(guide,parent=True)[0],sphere)
     print('PASS ring bridge alignment, stable CVs, duplicate rejection, faces option, Undo')
     plane=cmds.polyPlane(w=10,h=10,sx=10,sy=10)[0]

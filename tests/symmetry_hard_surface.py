@@ -1,6 +1,7 @@
 """Regression coverage for paired construction and exact cube features."""
 import math
 from maya import cmds
+from Aru_RetopoTool.tests.mesh_assertions import face_count
 from Aru_RetopoTool import construction as c,core,guides,maya_api as api,patch_context,hard_surface as hard
 from Aru_RetopoTool.editor.curvenet import curve_net_context as ctx,curve_net_edit as edit,curve_net_symmetry as sym
 from Aru_RetopoTool.editor.curvenet.curve_net_data import RetopoGuideData
@@ -90,7 +91,7 @@ def run():
         f,dag=edit._get_mesh_fn(cube)
         ring=ctx._compute_ring_by_plane(f,dag,[0,0,0],[0,1,0],5,phase=13)
         assert all(any(math.dist(p,q)<1e-6 for q in ring) for p in [(-2,0,-2),(-2,0,2),(2,0,-2),(2,0,2)])
-        assert cmds.polyEvaluate(output,face=True)==0
+        assert face_count(output)==0
         print('PASS cube 12 straight features, deduplication, pinned relax corners, ring corners, explicit faces')
         cmds.delete(output,node,cmds.listRelatives(guide,parent=True)[0],cube)
     finally:
