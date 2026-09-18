@@ -49,6 +49,34 @@ class Tests(unittest.TestCase):
                     self.assertEqual(len(actual),len(reference))
                     self.assertLess(max(abs(a-b) for p,q in zip(actual,reference) for a,b in zip(p,q)),1e-10)
 
+    def test_coons_templates_with_reversed_sides_and_cv_aliases(self):
+        # Two adjacent quads with one multi-segment side, then renumber every CV.
+        corners=[(0,0,0),(0,0,1),(1,0,1),(1,0,0),(2,0,1),(2,0,0),(0,0,.5)]
+        edges=[(0,6),(6,1),(1,2),(2,3),(3,0),(2,4),(4,5),(5,3)]
+        positions,splines=network(corners,edges)
+        for aliases in (False,True):
+            source=list(splines)
+            if aliases:
+                # Share interior control handles without sharing boundary EPs.
+                a,b,c,d=source[-1];source[-1]=(a,source[-2][1],c,d)
+            order=list(range(len(positions)));random.Random(41).shuffle(order)
+            remap={old:new for new,old in enumerate(order)}
+            points=[positions[i] for i in order]
+            curves=[tuple(remap[i] for i in (sp if j%2 else sp[::-1]))
+                    for j,sp in enumerate(source)]
+            for level in (1,2,3):
+                plan=Plan(points,curves,lambda _:(0,1,0),level)
+                self.assertTrue(plan.patches)
+                offsets,ids,weights=plan.compile_stencil(curves)
+                rng=random.Random(713)
+                moved=[tuple(v+rng.uniform(-.03,.03) for v in point) for point in points]
+                actual=[tuple(sum(moved[ids[j]][k]*weights[j]
+                                  for j in range(offsets[i],offsets[i+1])) for k in range(3))
+                        for i in range(plan.count)]
+                reference=plan.evaluate(moved,curves)
+                self.assertLess(max(abs(a-b) for p,q in zip(actual,reference)
+                                    for a,b in zip(p,q)),1e-10)
+
     def test_explicit_regions_only_and_stable_selection(self):
         from Aru_RetopoTool.core import patch_key, regions
         p,s = network([(0,0,0),(0,0,1),(1,0,1),(1,0,0),(2,0,1),(2,0,0)],

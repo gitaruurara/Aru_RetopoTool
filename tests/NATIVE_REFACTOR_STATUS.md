@@ -42,3 +42,11 @@ Release-only cProfile in the diagnostic GUI recorded one Plan construction and o
 A candidate removed exact-zero sample coefficients before repeated dictionary accumulation. Twenty-one pure coefficient comparisons (3/4/5/6/8-gons across levels 1–4 and a large grid) were exact; standalone core tests and both Maya smoke suites passed. A 31,936-face grid reduced isolated compilation median from 140.833 to 131.041 ms. However, GUI ABBA release timings were baseline 1024.222/1035.249 ms versus candidate 1026.353/1025.635 ms. Final guide hashes and actual-scene compiled coefficients were exact, and Undo restored input. There is no compelling whole-operation gain; the candidate was reverted and is not part of production.
 
 The next relevant scope is reuse of unaffected topology/stencils after a local spline attachment, or native plan construction. This investigation does not establish a rendering limit or 60 FPS.
+
+## Reuse Coons coefficient templates within a build
+
+Adopted local template reuse for four-sided patch interiors. The key includes canonical CV aliasing, every side segment and direction, and interior UV coordinates. Arithmetic is performed once per matching layout, then coefficients are remapped to each patch's CV IDs. The cache exists only during compilation; no scene, node or historical topology is retained. Non-quad subdivision remains unchanged.
+
+Validation: 21 exact coefficient comparisons passed, including polygons at levels 1–4 and a 31,936-face grid. The grid compile median changed from 138.575 to 64.602 ms. Added independent reference-evaluation tests for reversed/multi-segment sides, shared handles and renumbered CVs under motion. All 13 core tests and full Maya 2024/2027 smoke suites passed.
+
+Diagnostic GUI ABBA release timings: baseline 1025.966/1010.310 ms, template 1011.256/1009.141 ms. A follow-up pair measured 1009.432 versus 1026.409 ms, so no reliable whole-release gain is claimed. Final guide hashes, Undo and actual-scene compiled coefficients matched. The important scope finding is that this scene has only 25 four-sided patches among 500 regions (496 after attachment); most work remains in n-gon subdivision, outside Coons reuse. The change reduces duplicate work for quad layouts but does not establish 60 FPS, nor solve the ~1 second topology commit.
