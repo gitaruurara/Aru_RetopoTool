@@ -130,8 +130,6 @@ def enable(panel):
         render.MRenderer.registerOverride(candidate)
         _override=candidate
         _registered_name=Preview.NAME
-    if panel not in _saved_panels:
-        _saved_panels[panel]=cmds.modelEditor(panel,q=True,rendererOverrideName=True)
     objects=om.MSelectionList()
     for node in cmds.ls(type='aruRetopoMesh') or []:
         if api.foreground_enabled(node):
@@ -143,7 +141,12 @@ def enable(panel):
         objects.add(overlay)
     _override.foreground.objects=objects
     _set_world_guides(True)
-    cmds.modelEditor(panel,e=True,rendererOverrideName=_registered_name)
+    # GPU guide buffers are shared by all panels. Every panel must use the
+    # matching foreground pass, including front/side views after a layout switch.
+    for destination in cmds.getPanel(type='modelPanel') or [panel]:
+        if destination not in _saved_panels:
+            _saved_panels[destination]=cmds.modelEditor(destination,q=True,rendererOverrideName=True)
+        cmds.modelEditor(destination,e=True,rendererOverrideName=_registered_name)
     cmds.refresh(force=True)
 
 

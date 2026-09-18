@@ -1703,7 +1703,11 @@ def mirror_curvenet(node_name="", axis=None, space=None, mode=None,
     cn = acc.read()
     mesh_name = acc.mesh_name
 
-    tol = _cnc._mirror_tol(mesh_name)
+    # Explicit mirror is a geometric copy, not an interactive proximity snap.
+    # Bound numerical matching by both object scale and the shortest guide edge.
+    lengths=[math.dist(cn.positions[sp[0]],cn.positions[sp[3]]) for sp in cn.splines]
+    lengths=[length for length in lengths if length>0.]
+    tol=max(1e-10,min(_snap_radius(mesh_name)*1e-5,min(lengths)*1e-4 if lengths else float('inf')))
     plane_tol = tol * 0.5
 
     def side_of(cv):
@@ -1720,6 +1724,24 @@ def mirror_curvenet(node_name="", axis=None, space=None, mode=None,
         """スプラインがどちら側のものか。面の上に寝ているなら 0。"""
         a = side_of(sp[0])
         return a if a != 0 else side_of(sp[3])
+
+    mirror_surface=None
+    triangle_faces=[]
+    def project_mirror(position):
+        nonlocal mirror_surface,triangle_faces
+        if not mesh_name or not cmds.objExists(mesh_name):return list(position),-1,[]
+        if mirror_surface is None:
+            from maya.api import OpenMaya as api2
+            from Aru_RetopoTool.native import Surface
+            path=api2.MSelectionList().add(mesh_name).getDagPath(0)
+            if path.node().hasFn(api2.MFn.kTransform):path.extendToShape()
+            fn=api2.MFnMesh(path);counts,triangles=fn.getTriangles()
+            triangle_faces=[face for face,count in enumerate(counts) for _ in range(count)]
+            mirror_surface=Surface([tuple(p)[:3] for p in fn.getPoints(api2.MSpace.kWorld)],list(triangles))
+        points,ids,_=mirror_surface.project([position],guard=False)
+        face=triangle_faces[ids[0]]
+        fn,_=_get_mesh_fn(mesh_name)
+        return points[0],face,_closest_bary_on_face(points[0],fn,face)
 
     cmds.undoInfo(openChunk=True, chunkName="retopoGuideMirror")
     try:
@@ -1780,12 +1802,17 @@ def mirror_curvenet(node_name="", axis=None, space=None, mode=None,
                 new = cn.add_cv(mpos)
                 mirror_of[cv] = new
                 return new
-            found = cn.find_nearest_cv(mpos, tol, exclude=cv)
-            if found is not None and found in eps_before:
+            # Search existing endpoints only; handles and newly created points
+            # must not mask an endpoint or collapse two distinct source EPs.
+            used=set(mirror_of.values())
+            candidates=[(math.dist(cn.positions[v],mpos),v) for v in eps_before
+                        if v!=cv and v not in used and side_of(v)==tgt_sign]
+            distance,found=min(candidates,default=(float('inf'),None))
+            if distance<=tol:
                 mirror_of[cv] = found
                 return found
             # EP はメッシュの上に載っていないといけない
-            mpos, face_idx, bary = _cnc._project_on_mesh(mesh_name, mpos)
+            mpos, face_idx, bary = project_mirror(mpos)
             new = cn.add_cv(mpos,
                             surface=(face_idx, bary) if face_idx >= 0 else None)
             mirror_of[cv] = new
@@ -1849,6 +1876,7 @@ def mirror_curvenet(node_name="", axis=None, space=None, mode=None,
                 idx = remap.get(dst_cv, dst_cv) if remap else dst_cv
                 _set_cv_weights_direct(sc, idx, w, inf_map)
     finally:
+        if mirror_surface is not None:mirror_surface.close()
         cmds.undoInfo(closeChunk=True)
 
     # 掃除で CV 番号が詰まるので、編集コンテキストの憶えている番号は捨てる
