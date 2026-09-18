@@ -44,6 +44,8 @@ class RetopoNode(om.MPxNode):
                   typed('guideRestData', 'grd', om.MFnData.kString),
                   typed('guidePositions', 'gps', om.MFnData.kDoubleArray),
                   typed('selectedPatches', 'sps', om.MFnData.kString),
+                  typed('influenceField', 'ifl', om.MFnData.kString),
+                  typed('loopReductions', 'lrd', om.MFnData.kString),
                   typed('referenceMesh', 'rm', om.MFnData.kMesh)]
         fn = om.MFnMatrixAttribute(); cls.guideMatrix = fn.create('guideMatrix', 'gm')
         cls.addAttribute(cls.guideMatrix); inputs.append(cls.guideMatrix)
@@ -122,12 +124,15 @@ class RetopoNode(om.MPxNode):
             # MPlug also supports the dynamic attribute on a hot-updated node.
             dep = om.MFnDependencyNode(self.thisMObject())
             selected = json.loads(dep.findPlug('selectedPatches', False).asString() or '[]')
-            key = (splines, data.inputValue(cls.subdivisions).asInt(), serial, tuple(sorted(selected)))
+            reductions=data.inputValue(cls.loopReductions).asString() or '[]'
+            key = (splines, data.inputValue(cls.subdivisions).asInt(), serial, tuple(sorted(selected)),reductions)
             if key != self.plan_key:
                 eps = sorted({v for sp in splines for v in (sp[0], sp[3])})
                 _, _, normals = self.surface.project([points[v] for v in eps], guard=False)
                 lookup = {points[v]: n for v, n in zip(eps, normals)}
                 self.plan = Plan(points, splines, lambda p: lookup[tuple(p)], key[1], selected=set(selected))
+                from Aru_RetopoTool.density import apply
+                self.plan=apply(self.plan,json.loads(reductions))
                 self.plan_key, self.seeds = key, None
             if not self.plan.count:
                 data.outputValue(cls.outMesh).setMObject(mesh_data)
@@ -135,12 +140,15 @@ class RetopoNode(om.MPxNode):
                 data.outputValue(cls.outMesh).setClean(); data.outputValue(cls.status).setClean()
                 return
             generated = self.plan.evaluate(points, splines, stencil)
+            from Aru_RetopoTool.local_fields import weights
+            field=json.loads(data.inputValue(cls.influenceField).asString() or '{}')
+            guide_weights=weights(self.plan,field,data.inputValue(cls.guideWeight).asDouble())
             generated, self.seeds = self.surface.relax(
                 generated, self.plan,
                 data.inputValue(cls.relaxIterations).asInt(),
                 data.inputValue(cls.relaxStrength).asDouble(),
                 data.inputValue(cls.guideWeight).asDouble(), self.seeds,
-                data.inputValue(cls.projectionGuard).asBool(), native_seeds=True)
+                data.inputValue(cls.projectionGuard).asBool(), native_seeds=True, weights_override=guide_weights)
             # Keep topology in a private template, never mutate prior DG outputs.
             maya_points=om.MPointArray(generated)
             if getattr(self,'_mesh_plan',None) is not self.plan:

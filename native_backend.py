@@ -56,7 +56,7 @@ def enable(node):
             cmds.connectAttr(native+'.message',node+'.nativeBackend');cmds.connectAttr(plan+'.message',node+'.nativePlan')
             for src,dst in ((guide+'.netData','guideData'),(guide+'.outPositions','guidePositions'),(reference,'referenceMesh'),(matrix,'guideMatrix')):
                 cmds.connectAttr(src,plan+'.'+dst)
-            for name in ('selectedPatches','subdivisions','rebuildSerial','guideWeight'):cmds.connectAttr(node+'.'+name,plan+'.'+name)
+            for name in ('selectedPatches','subdivisions','rebuildSerial','guideWeight','influenceField','loopReductions'):cmds.connectAttr(node+'.'+name,plan+'.'+name)
             for name in ('stencilOffsets','stencilIndices','stencilWeights','faceCounts','faceIndices','adjacencyOffsets','adjacencyIndices','guideWeights'):
                 cmds.connectAttr(plan+'.'+name,native+'.'+name)
             for src,dst in ((guide+'.outPositions','positions'),(reference,'referenceMesh'),(matrix,'guideMatrix')):cmds.connectAttr(src,native+'.'+dst)

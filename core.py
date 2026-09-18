@@ -41,6 +41,11 @@ class Plan:
         loops = [] if selected is not None and not selected else regions(positions, splines, normal_at)
         if selected is not None:
             loops = [loop for loop in loops if patch_key(loop) in selected]
+        # A stable parameter origin is required by saved paint/reduction data.
+        loops=[min((loop[i:]+loop[:i] for i in range(len(loop))),
+                   key=lambda row:tuple(h for side in row for h in side)) for loop in loops]
+        self.region_loops=loops
+        self.levels=levels
         self.region_keys = [patch_key(loop) for loop in loops]
         endpoints = sorted({splines[s[0][0]][0 if s[0][1] == 1 else 3]
                             for loop in loops for s in loop})
@@ -80,6 +85,13 @@ class Plan:
         self.patches=[(loops[face],{patch_ids[j]:(patch_u[j],patch_v[j])
                                  for j in range(patch_offsets[i],patch_offsets[i+1])})
                       for i,face in enumerate(patch_faces)]
+
+    def edit_coordinates(self):
+        """Per-region vertex coordinates, including n-gons; independent of shape."""
+        if not hasattr(self,'_edit_coordinates'):
+            from .local_fields import coordinates
+            self._edit_coordinates=coordinates(self)
+        return self._edit_coordinates
 
     def compile_stencil(self,splines):
         return self.steps.compile(self.endpoints,splines,self._guide_sides)

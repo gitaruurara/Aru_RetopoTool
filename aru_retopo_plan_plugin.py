@@ -21,7 +21,7 @@ class RetopoPlan(om.MPxNode):
         def typed(name,kind,output=False):
             fn=om.MFnTypedAttribute();a=fn.create(name,name,kind)
             fn.writable=not output;fn.storable=not output;cls.addAttribute(a);setattr(cls,name,a);return a
-        inputs=[typed('guideData',om.MFnData.kString),typed('referenceMesh',om.MFnData.kMesh),typed('selectedPatches',om.MFnData.kString)]
+        inputs=[typed('guideData',om.MFnData.kString),typed('referenceMesh',om.MFnData.kMesh),typed('selectedPatches',om.MFnData.kString),typed('influenceField',om.MFnData.kString),typed('loopReductions',om.MFnData.kString)]
         # Evaluated positions are read when topology actually changes; CP edits
         # must not dirty an unchanged topology/stencil (same contract as Plan.key).
         typed('guidePositions',om.MFnData.kDoubleArray)
@@ -49,7 +49,9 @@ class RetopoPlan(om.MPxNode):
                 splines=tuple(cached.splines)
                 base_points=cached.positions
             selected=set(json.loads(data.inputValue(cls.selectedPatches).asString() or '[]'))
-            key=(splines,data.inputValue(cls.subdivisions).asInt(),data.inputValue(cls.rebuildSerial).asInt(),tuple(sorted(selected)))
+            reductions=data.inputValue(cls.loopReductions).asString() or '[]'
+            field=data.inputValue(cls.influenceField).asString() or '{}'
+            key=(splines,data.inputValue(cls.subdivisions).asInt(),data.inputValue(cls.rebuildSerial).asInt(),tuple(sorted(selected)),reductions)
             weight=data.inputValue(cls.guideWeight).asDouble()
             if not math.isfinite(weight) or not 0<=weight<=1:raise ValueError('Invalid guide weight')
             if self.key!=key:
@@ -71,16 +73,20 @@ class RetopoPlan(om.MPxNode):
                     lookup={points[i]:n for i,n in zip(eps,normals)}
                     plan=Plan(points,splines,lambda p:lookup[tuple(p)],key[1],selected=selected)
                 finally:surface.close()
+                from Aru_RetopoTool.density import apply
+                plan=apply(plan,json.loads(reductions))
                 offsets,ids,weights=plan.compile_stencil(splines)
                 values=dict(stencilOffsets=offsets,stencilIndices=ids,stencilWeights=weights,
                             faceCounts=[4]*len(plan.faces),faceIndices=[v for f in plan.faces for v in f],
                             adjacencyOffsets=plan.adj_offsets,adjacencyIndices=plan.adj_ids)
                 self.payload={name:(om.MFnIntArrayData().create(value) if cls.ARRAYS[name]==om.MFnData.kIntArray else om.MFnDoubleArrayData().create(value)) for name,value in values.items()}
                 self.plan=plan;self.key=key;self.weight=None
-            if self.weight!=weight:
-                self.payload['guideWeights']=om.MFnDoubleArrayData().create([weight if i in self.plan.guide_vertices else 0. for i in range(self.plan.count)])
-                self.weight=weight
+            if self.weight!=(weight,field):
+                from Aru_RetopoTool.local_fields import weights as field_weights
+                self.payload['guideWeights']=om.MFnDoubleArrayData().create(field_weights(self.plan,json.loads(field),weight))
+                self.weight=(weight,field)
             message='{} 領域 / {:,} quads / {:,} 頂点 / Native'.format(self.plan.region_count,len(self.plan.faces),self.plan.count)
+            if getattr(self.plan,'rejected',None):message+=' / {} 削減保留'.format(len(self.plan.rejected))
         except Exception as exc:
             self.key=None
             self.payload={name:(om.MFnIntArrayData().create([]) if kind==om.MFnData.kIntArray else om.MFnDoubleArrayData().create([])) for name,kind in cls.ARRAYS.items()}

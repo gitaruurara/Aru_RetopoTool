@@ -43,6 +43,8 @@ class PatchTool(qt.QObject):
         self.stopped = False
         from .brush_context import Interaction
         self.brush=Interaction(self)
+        from .local_edit_context import Interaction as LocalInteraction
+        self.local=LocalInteraction(self)
         self._revision=0
         self._last_hover=None
         self._dirty_callback=om.MNodeMessage.addNodeDirtyCallback(_object(node),self.invalidate)
@@ -60,6 +62,7 @@ class PatchTool(qt.QObject):
         if self.stopped: return
         self.stopped = True
         self.brush.close()
+        self.local.close()
         if _active is self: _active = None
         self.timer.stop()
         if getattr(self,"_dirty_callback",None) is not None:
@@ -163,14 +166,18 @@ class PatchTool(qt.QObject):
             widget = qt.wrapInstance(int(view.widget()), qt.QWidget)
             point = widget.mapFromGlobal(qt.QCursor.pos())
             if widget.rect().contains(point):
+                from .local_edit_context import painting
                 from .editor.curvenet import curve_net_symmetry as symmetry
                 from .editor.curvenet.aru_retopo_guide_plugin import _ctx
                 signature=(point.x(),point.y(),tuple(view.modelViewMatrix()),tuple(view.projectionMatrix()),
                            self._revision,int(qt.QApplication.keyboardModifiers().value) if hasattr(qt.QApplication.keyboardModifiers(),'value') else int(qt.QApplication.keyboardModifiers()),
-                           symmetry.get_axis(),symmetry.get_space(),_ctx.sel_ep,view.portWidth(),view.portHeight())
+                           symmetry.get_axis(),symmetry.get_space(),_ctx.sel_ep,view.portWidth(),view.portHeight(),painting())
                 if not force and signature==self._last_hover:return
                 ratio = view.portWidth()/max(1,widget.width())
                 self.hover(int(point.x()*ratio),int((widget.height()-point.y()-1)*ratio),view)
+                if self.context!=NAME:self.local.hover(int(point.x()*ratio),int((widget.height()-point.y()-1)*ratio),view)
+                from .local_edit_context import painting
+                if painting():preview.clear()
                 self._last_hover=signature
             elif preview:
                 preview.clear(); self.key=None; cmds.refresh(force=True)
@@ -184,6 +191,12 @@ class PatchTool(qt.QObject):
         if cmds.currentCtx()!=getattr(self,'context',NAME): return False
         interaction=getattr(self,'brush',None)
         if interaction and self.context!=NAME and interaction.event(event):return True
+        local=getattr(self,'local',None)
+        if local and self.context!=NAME:
+            try:
+                if local.event(event):return True
+            except Exception as exc:
+                local.close();cmds.warning('[Aru Retopo] '+str(exc));return True
         from . import drag_extrude
         gesture=getattr(self,'gesture',None)
         if gesture and event.type()==qt.QEvent.KeyPress and event.key()==qt.Qt.Key_Escape:

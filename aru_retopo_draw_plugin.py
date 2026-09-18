@@ -55,6 +55,9 @@ class Draw(omr.MPxDrawOverride):
         key=cameraPath.fullPathName()
         if key not in self._draw_data:self._draw_data[key]=DrawData()
         data=self._draw_data[key]
+        from Aru_RetopoTool.local_edit_context import preview as local_preview
+        data.local_preview=local_preview.get(objPath.fullPathName())
+        if data.local_preview and data.local_preview[0]!=cameraPath.fullPathName():data.local_preview=None
         from Aru_RetopoTool.brush_context import display
         data.brush=display.get(objPath.fullPathName())
         if data.brush and data.brush[0]!=cameraPath.fullPathName():data.brush=None
@@ -111,18 +114,21 @@ class Draw(omr.MPxDrawOverride):
         return data
 
     def addUIDrawables(self, objPath, manager, frameContext, data):
-        if not data or (not getattr(data,'brush',None) and not len(data.lines) and not len(data.preview) and not len(data.guide_preview) and not len(data.selected_points) and not len(data.selected_lines)): return
+        if not data or (not getattr(data,'local_preview',None) and not getattr(data,'brush',None) and not len(data.lines) and not len(data.preview) and not len(data.guide_preview) and not len(data.selected_points) and not len(data.selected_lines)): return
         manager.beginDrawable(omr.MUIDrawManager.kNonSelectable)
         manager.beginDrawInXray()
         if getattr(data,"brush",None):
             from Aru_RetopoTool.brush_context import draw
             draw(manager,data.brush)
-        if len(data.preview):
+        if getattr(data,'local_preview',None):
+            from Aru_RetopoTool.local_edit_context import draw as local_draw
+            local_draw(manager,data.local_preview)
+        if len(data.preview) and not getattr(data,'local_preview',None):
             manager.setColor(om.MColor((1.0, .65, .15, .35)))
             manager.mesh(omr.MUIDrawManager.kTriangles, data.preview)
         manager.setColor(om.MColor((0.025, 0.075, 0.10, 1.0)))
         manager.setLineWidth(1.75)
-        manager.lineList(data.lines, False)
+        if len(data.lines):manager.lineList(data.lines, False)
         if len(data.guide_preview):
             manager.setColor(om.MColor((1.,.75,.1,1.)))
             manager.setLineWidth(3.)

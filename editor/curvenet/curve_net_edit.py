@@ -1837,6 +1837,8 @@ def mirror_curvenet(node_name="", axis=None, space=None, mode=None,
         import json
         for generator,keys in patch_updates:
             cmds.setAttr(generator+'.selectedPatches',json.dumps(sorted(keys)),type='string')
+            from Aru_RetopoTool.local_edit_runtime import mirror_saved
+            mirror_saved(generator,axis,space,src_sign,mode)
 
         if sc and src_weights:
             inf_map = _influence_index_map(sc)
@@ -2480,6 +2482,8 @@ class RetopoGuideAccessor:
         cn.classify_endpoints()
         from Aru_RetopoTool.patch_transfer import prepare
         patch_updates=prepare(self._node,cn)
+        from Aru_RetopoTool.local_edit_transfer import prepare as prepare_local
+        local_updates=prepare_local(self._node,cn)
         n_old = _get_cv_count(self._node)
         json_str = cn.to_json()
         cmds.setAttr("{}.netData".format(self._node),
@@ -2488,6 +2492,9 @@ class RetopoGuideAccessor:
         import json
         for generator,keys in patch_updates:
             cmds.setAttr(generator+".selectedPatches",json.dumps(sorted(keys)),type="string")
+        for generator,fields,reductions in local_updates:
+            cmds.setAttr(generator+'.influenceField',json.dumps(fields),type='string')
+            cmds.setAttr(generator+'.loopReductions',json.dumps(reductions),type='string')
         if hasattr(cn,"_retopo_parents"):del cn._retopo_parents
 
         # controlPoints をゼロにリセット (ベース位置は netData に反映済み)。

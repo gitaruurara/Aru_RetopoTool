@@ -88,7 +88,8 @@ class Interaction:
 
     def update(self):
         from .editor.curvenet import curve_net_relax as relax,curve_net_edit as edit
-        show=self.b or brush.soft() or bool(qt.QApplication.keyboardModifiers() & qt.Qt.ShiftModifier)
+        from .local_edit_context import painting
+        show=painting() or self.b or brush.soft() or bool(qt.QApplication.keyboardModifiers() & qt.Qt.ShiftModifier)
         mouse=self.mouse() if show else None
         if mouse is None:
             self.last=None
@@ -108,6 +109,7 @@ class Interaction:
         if move is not None:
             weights=dict(move.weights)
             weights.update({pair:weights[v] for v,pair in move.pairs.items()})
+        elif painting():weights={}
         else:weights=relax.brush_weights(guide,x,y,brush.radius(),_world=world)
         overlays=cmds.listConnections(api.output_plug(self.tool.node),s=False,d=True,shapes=True,type='aruRetopoOverlay') or []
         radius=brush.radius()

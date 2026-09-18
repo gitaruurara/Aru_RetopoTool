@@ -1,4 +1,5 @@
 """Small ctypes bridge; shared library is independent of Maya/Python versions."""
+import math
 import ctypes as C
 import os
 import sys
@@ -104,7 +105,7 @@ class Surface:
             raise RuntimeError('Projection failed')
         return unpack(out), list(seed_array), unpack(normals)
 
-    def relax(self, points, plan, iterations=3, strength=.35, guide_weight=1., seeds=None, guard=True, native_seeds=False):
+    def relax(self, points, plan, iterations=3, strength=.35, guide_weight=1., seeds=None, guard=True, native_seeds=False, weights_override=None):
         n = len(points)
         if n != plan.count: raise ValueError('Point count differs from topology plan')
         if seeds is not None and len(seeds) != n: raise ValueError('Seed size mismatch')
@@ -117,9 +118,12 @@ class Surface:
             self._plan=plan
             self._offsets=ints(plan.adj_offsets);self._neighbors=ints(plan.adj_ids)
             self._weight_value=None
-        if self._weight_value!=guide_weight:
-            self._weights=doubles([guide_weight if i in plan.guide_vertices else 0. for i in range(n)])
-            self._weight_value=guide_weight
+        weight_key=tuple(weights_override) if weights_override is not None else guide_weight
+        if self._weight_value!=weight_key:
+            values=weight_key if weights_override is not None else [guide_weight if i in plan.guide_vertices else 0. for i in range(n)]
+            if len(values)!=n or any(not math.isfinite(w) or not 0<=w<=1 for w in values):raise ValueError('Invalid influence field')
+            self._weights=doubles(values)
+            self._weight_value=weight_key
         if not self.lib.aru_relax(self.handle, data, n, self._offsets, self._neighbors, self._weights,
                                   iterations, strength, seed_array, int(guard)):
             raise RuntimeError('Surface relaxation failed')

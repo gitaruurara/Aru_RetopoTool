@@ -50,6 +50,19 @@ class RetopoWindow(qt.AruMainWindow):
         self.connect_radius.valueChanged.connect(lambda value:cmds.optionVar(fv=(brush.SNAP,float(value))))
         connection_row.addWidget(self.connect_radius);layout.addLayout(connection_row)
         layout.addWidget(qt.QLabel('B＋中ドラッグ：ブラシ半径 / Shift＋左ドラッグ：リラックス'))
+        from . import local_edit_context as local_edit
+        self.paint_influence=qt.QCheckBox('追従ウェイトを塗る（左ドラッグ / Shiftで逆の値）')
+        self.paint_influence.setChecked(local_edit.painting())
+        self.paint_influence.toggled.connect(lambda value:self.run(lambda:self.set_paint_mode(value)))
+        layout.addWidget(self.paint_influence)
+        paint_row=qt.QHBoxLayout()
+        for label,name,default in [('塗る値',local_edit.TARGET,1.),('強さ',local_edit.STRENGTH,.3)]:
+            spin=qt.QDoubleSpinBox();spin.setRange(0.,1.);spin.setSingleStep(.1)
+            spin.setValue(local_edit.option(name,default))
+            spin.valueChanged.connect(lambda value,key=name:cmds.optionVar(fv=(key,value)))
+            paint_row.addWidget(qt.QLabel(label));paint_row.addWidget(spin)
+        layout.addLayout(paint_row)
+        layout.addWidget(qt.QLabel('パッチ内部のCtrl＋中ドラッグ：左でループ削減 / 右で復元'))
         from . import hard_surface
         self.hard_surface=qt.QCheckBox('ハードサーフェース：角・稜線を維持（輪切りの角にEP追加）')
         self.hard_surface.setChecked(bool(hard_surface.enabled()))
@@ -107,6 +120,11 @@ class RetopoWindow(qt.AruMainWindow):
         if len(selected) != 1: raise ValueError('対象を1つ選択してください。')
         field.setText(api.shape(selected[0], kind))
         self.node = None
+
+    def set_paint_mode(self,value):
+        from .local_edit_context import MODE
+        cmds.optionVar(iv=(MODE,int(value)))
+        if value:self.open_editor()
 
     def open_editor(self):
         from . import guides

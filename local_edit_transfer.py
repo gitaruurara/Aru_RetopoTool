@@ -1,0 +1,114 @@
+"""Resample saved local edits when guide topology changes; never reuse stale ids."""
+import json,math
+from maya import cmds
+import maya.api.OpenMaya as om
+from . import core,local_fields,native,patch_transfer
+
+
+def barycentric(point,a,b,c):
+    u=[b[k]-a[k] for k in range(len(a))];v=[c[k]-a[k] for k in range(len(a))];w=[point[k]-a[k] for k in range(len(a))]
+    dot=lambda x,y:sum(a*b for a,b in zip(x,y))
+    uu,uv,vv,wu,wv=dot(u,u),dot(u,v),dot(v,v),dot(w,u),dot(w,v)
+    det=uu*vv-uv*uv
+    if abs(det)<1e-20:return None
+    x=(wu*vv-wv*uv)/det;y=(wv*uu-wu*uv)/det
+    return (1-x-y,x,y)
+
+
+class Atlas:
+    def __init__(self,cn,key,normal,surface):
+        self.plan=core.Plan(cn.positions,cn.splines,normal,4,selected={key})
+        if not self.plan.count:raise ValueError('Missing patch atlas')
+        values=self.plan.evaluate(cn.positions,cn.splines,native.stencil)
+        self.points,_,_=surface.project(values,guard=False)
+        self.uv=self.plan.edit_coordinates()[key]
+        self.data=om.MFnMeshData().create()
+        obj=om.MFnMesh().create([om.MPoint(*p) for p in self.points],[4]*len(self.plan.faces),[v for f in self.plan.faces for v in f],parent=self.data)
+        self.fn=om.MFnMesh(obj);counts,ids=self.fn.getTriangles();self.triangles=[];offset=0
+        for count in counts:
+            self.triangles.append([tuple(ids[offset+j:offset+j+3]) for j in range(0,count*3,3)]);offset+=count*3
+
+    def closest(self,point):
+        closest,face=self.fn.getClosestPoint(om.MPoint(*point),om.MSpace.kObject)
+        q=tuple(closest)[:3];candidates=[]
+        for tri in self.triangles[face]:
+            bary=barycentric(q,*[self.points[v] for v in tri])
+            if bary is None:continue
+            clamped=[max(0.,w) for w in bary];total=sum(clamped);clamped=[w/total for w in clamped]
+            reconstructed=[sum(self.points[v][k]*w for v,w in zip(tri,clamped)) for k in range(3)]
+            distance=sum((q[k]-reconstructed[k])**2 for k in range(3))
+            uv=tuple(sum(self.uv[v][k]*w for v,w in zip(tri,clamped)) for k in range(2))
+            candidates.append((distance,uv))
+        if not candidates:raise ValueError('Degenerate patch atlas')
+        return min(candidates)[1],sum((q[k]-point[k])**2 for k in range(3))
+
+    def point(self,uv):
+        for triangles in self.triangles:
+            for tri in triangles:
+                bary=barycentric(uv,*[self.uv[v] for v in tri])
+                if bary is not None and min(bary)>-1e-8:
+                    return tuple(sum(self.points[v][k]*w for v,w in zip(tri,bary)) for k in range(3))
+        raise ValueError('Parameter outside patch')
+
+
+def prepare(guide,new):
+    from .editor.curvenet.curve_net_data import RetopoGuideData
+    from .editor.curvenet import curve_net_edit as edit
+    nodes=cmds.listConnections(guide+'.outNetData',s=False,d=True,type='aruRetopoMesh') or []
+    if not nodes:return []
+    base=RetopoGuideData.from_json_cached(cmds.getAttr(guide+'.netData'))
+    if base.splines==new.splines:return []
+    payload=[]
+    for node in set(nodes):
+        field=json.loads(cmds.getAttr(node+'.influenceField') or '{}')
+        reductions=json.loads(cmds.getAttr(node+'.loopReductions') or '[]')
+        if field or reductions:payload.append((node,field,reductions))
+    if not payload:return []
+    old=RetopoGuideData.from_json(cmds.getAttr(guide+'.outNetData'))
+    if old.splines==new.splines:return []
+    before=RetopoGuideData.from_dict(old.to_dict());after=RetopoGuideData.from_dict(new.to_dict())
+    if hasattr(new,'_retopo_parents'):after._retopo_parents=dict(new._retopo_parents)
+    matrix=om.MSelectionList().add(guide).getDagPath(0).inclusiveMatrix()
+    for cn in (before,after):cn.positions=[list(om.MPoint(*p)*matrix)[:3] for p in cn.positions]
+    mesh=edit.RetopoGuideAccessor(guide).mesh_name;fn,_=edit._get_mesh_fn(mesh)
+    normal=lambda p:edit._get_normal_at_point(fn,p)
+    mesh_path=om.MSelectionList().add(mesh).getDagPath(0)
+    if mesh_path.node().hasFn(om.MFn.kTransform):mesh_path.extendToShape()
+    ref=om.MFnMesh(mesh_path);_,tri=ref.getTriangles()
+    surface=native.Surface([tuple(p)[:3] for p in ref.getPoints(om.MSpace.kWorld)],list(tri))
+    old_atlas={};new_atlas={};mapping={};updates=[]
+    def children(key):
+        if key not in mapping:mapping[key]=patch_transfer.transfer(before,after,{key},normal)
+        return mapping[key]
+    def source(key):
+        if key not in old_atlas:old_atlas[key]=Atlas(before,key,normal,surface)
+        return old_atlas[key]
+    def destination(key):
+        if key not in new_atlas:new_atlas[key]=Atlas(after,key,normal,surface)
+        return new_atlas[key]
+    try:
+        for node,fields,reductions in payload:
+            new_fields={};new_reductions=[]
+            for key,field in fields.items():
+                targets=children(key)
+                if targets=={key}:new_fields[key]=field;continue
+                for target in targets:
+                    atlas=destination(target);samples=local_fields.lattice(atlas.plan)[target];result={}
+                    points=[tuple(sum(atlas.points[v][k]*w for v,w in zip(tri,bary)) for k in range(3)) for tri,bary,uv in samples.values()]
+                    points,_,_=surface.project(points,guard=False)
+                    for index,point in zip(samples,points):
+                        uv,_=source(key).closest(point);value,alpha=local_fields.sample(field,*uv)
+                        if alpha>1e-10:result[index]=(value,alpha)
+                    if result:new_fields[target]=result
+            for request in reductions:
+                key=request['patch'];targets=children(key)
+                if targets=={key}:new_reductions.append(request);continue
+                if not targets:continue
+                atlas=source(key);points=[atlas.point(uv) for uv in request['edge']]
+                center=tuple((points[0][k]+points[1][k])*.5 for k in range(3))
+                target=min(targets,key=lambda name:destination(name).closest(center)[1])
+                uv=[destination(target).closest(point)[0] for point in points]
+                new_reductions.append({'patch':target,'edge':uv})
+            updates.append((node,new_fields,new_reductions))
+    finally:surface.close()
+    return updates
