@@ -50,3 +50,11 @@ Adopted local template reuse for four-sided patch interiors. The key includes ca
 Validation: 21 exact coefficient comparisons passed, including polygons at levels 1–4 and a 31,936-face grid. The grid compile median changed from 138.575 to 64.602 ms. Added independent reference-evaluation tests for reversed/multi-segment sides, shared handles and renumbered CVs under motion. All 13 core tests and full Maya 2024/2027 smoke suites passed.
 
 Diagnostic GUI ABBA release timings: baseline 1025.966/1010.310 ms, template 1011.256/1009.141 ms. A follow-up pair measured 1009.432 versus 1026.409 ms, so no reliable whole-release gain is claimed. Final guide hashes, Undo and actual-scene compiled coefficients matched. The important scope finding is that this scene has only 25 four-sided patches among 500 regions (496 after attachment); most work remains in n-gon subdivision, outside Coons reuse. The change reduces duplicate work for quad layouts but does not establish 60 FPS, nor solve the ~1 second topology commit.
+
+## Native sparse-composition prototype (not integrated)
+
+Built a separate Maya-independent experimental DLL for composing sparse coefficient rows in the existing accumulation/insertion order. Production DLLs and core.py were unchanged. Twenty polygon/level comparisons were exact; the diagnostic scene's compiled coefficients, final guide hash and Undo also matched.
+
+GUI ABBA topology-release timings: baseline 952.152/1011.068 ms, candidate 960.374/967.724 ms. This overlap does not establish a whole-operation win, so the candidate is not selected by production. Release profiling had identified one plan constructor and one stencil compilation, not duplicate evaluation.
+
+A follow-up profile of the candidate compiler on the restored actual plan recorded 2.18 million Python calls, including 1.21 million list append calls and 567k abs calls. Its three native bridge invocations consumed 0.106 s of 0.542 s profiled compilation; Python final-row sorting/filtering/CSR packing remains substantial. These are profiler timings, not latency claims. Moving only row arithmetic to C++ leaves repeated Python/native row conversions and final packing; further native work needs to retain sparse rows across subdivision stages and produce final CSR directly, rather than add this bridge as another runtime path.
