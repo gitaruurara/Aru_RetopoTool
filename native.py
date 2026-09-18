@@ -12,14 +12,14 @@ I = C.POINTER(C.c_int)
 def library():
     global _lib
     if _lib is None:
-        filename = 'aru_retopo_core_v4.dll' if sys.platform == 'win32' else ('libaru_retopo_core_v4.dylib' if sys.platform == 'darwin' else 'libaru_retopo_core_v4.so')
+        filename = 'aru_retopo_core_v5.dll' if sys.platform == 'win32' else ('libaru_retopo_core_v5.dylib' if sys.platform == 'darwin' else 'libaru_retopo_core_v5.so')
         path = os.path.join(os.path.dirname(__file__), 'bin', filename)
         # Standalone ABI: no Maya commands during DG evaluation on worker threads.
         if not os.path.isfile(path):
             raise RuntimeError('C++ライブラリがありません。Aru_RetopoTool/cpp のビルド手順を実行してください。')
         lib = C.CDLL(path)
         lib.aru_retopo_version.restype = C.c_int
-        if lib.aru_retopo_version() != 4: raise RuntimeError('Retopo C++ ABI mismatch')
+        if lib.aru_retopo_version() != 5: raise RuntimeError('Retopo C++ ABI mismatch')
         lib.aru_surface_create.argtypes = [D, C.c_int, I, C.c_int]
         lib.aru_surface_create.restype = C.c_void_p
         lib.aru_surface_destroy.argtypes = [C.c_void_p]
@@ -27,6 +27,8 @@ def library():
         lib.aru_project.argtypes = [C.c_void_p, D, C.c_int, D, I, D, C.c_int]
         lib.aru_stencil.argtypes = [D, I, I, D, C.c_int, D]
         lib.aru_relax.argtypes = [C.c_void_p, D, C.c_int, I, I, D, C.c_int, C.c_double, I, C.c_int]
+        from .stencil_compiler import configure
+        configure(lib)
         _lib = lib
     return _lib
 

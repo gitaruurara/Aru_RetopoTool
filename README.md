@@ -7,7 +7,7 @@
 3. **AruRetopo** シェルフの **Retopo** ボタンから起動できます。
 
 Windows x64用DLLを同梱しています。Maya 2024 / 2027で自動動作テストを検証済みです。
-Maya 2024／2027で検証した共通の `bin/aru_retopo_core_v4.dll` と
+Maya 2024／2027で検証した共通の `bin/aru_retopo_core_v5.dll` と
 `bin/aru_retopo_display_v3.dll` を読み込みます。Maya SDKやPython ABIには依存しません。
 Aru_libや元のAru_CurveNetRigは不要です。Maya付属のPySideを使用します。
 NumPyが未導入の場合（クリーンなMaya 2024など）は、インストーラーがPyPIから
@@ -46,7 +46,7 @@ Undo/Redoと保存後は一時表示を再構築します。一時表示ノー�
 
 参照面への投影では、前回の投影先が引き続き最寄りだと判定できるときに三角形探索を省略します。判定できない場合は通常の探索を行います。通常起動はこの処理を含む `aru_retopo_mesh_buffer_certified.mll` を使います。再ビルドは `cpp/build_interactive.ps1 -MayaVersion 2024`（または `2027`）で行えます。 ブラシの表裏・遮蔽判定はメインスレッド上のC++一括呼び出しを使い、法線以外の不要な付着情報を生成しません。専用DLLの再ビルドは `cpp/build_maya_visibility.ps1 -MayaVersion 2024`（または `2027`）です。遮蔽判定DLLも起動時に検証し、欠落・不一致はエラーとして通知します。
 
-EPのリラックスは投影・法線・近傍平均・再投影をC++でまとめて処理し、ブラシ対象とその隣接点だけを渡します。標準投影DLLは `aru_retopo_maya_projector_compact.dll` です。起動時に現行DLLの必須APIを検証します。DLLの欠落・世代不一致は明示的なエラーとし、旧DLLやPython版への暗黙の切り替えは行いません。交点フィットの数値安定性のためのSVD処理、共有ハンドル、ハードサーフェース用の処理は維持しています。再ビルドは `cpp/build_maya_projector.ps1 -MayaVersion 2024`（または `2027`）です。
+EPのリラックスは投影・法線・近傍平均・再投影をC++でまとめて処理し、ブラシ対象とその隣接点だけを渡します。標準投影DLLは `aru_retopo_maya_projector_compact.dll` です。 トポロジー変更時の細分化係数は共通C++ ABI 5内に保持し、最終配列までまとめて生成します。更新時はMayaを再起動してください。起動時に現行DLLの必須APIを検証します。DLLの欠落・世代不一致は明示的なエラーとし、旧DLLやPython版への暗黙の切り替えは行いません。交点フィットの数値安定性のためのSVD処理、共有ハンドル、ハードサーフェース用の処理は維持しています。再ビルドは `cpp/build_maya_projector.ps1 -MayaVersion 2024`（または `2027`）です。
 
 交点ハンドルの長さ調整も、正則化した2変数解法と行列構築をC++でまとめています。旧DLLや正規化されていない接線では従来のSVD経路へ戻ります。SVDとの丸め差はありますが、検証GUIではメッシュ座標差が最大約6.7×10⁻¹⁶、描画用float32座標は一致しました。
 
@@ -184,7 +184,7 @@ OpenSubdiv本体はリンクしていません。Catmull–Clarkの基本的な�
 
 ## ビルド
 
-Windows x64向けDLLは `bin/aru_retopo_core_v4.dll` と `bin/aru_retopo_display_v3.dll` に配置します。
+Windows x64向けDLLは `bin/aru_retopo_core_v5.dll` と `bin/aru_retopo_display_v3.dll` に配置します。
 Visual Studio 2022 C++ Build Tools と Windows SDK があれば:
 
 ```powershell

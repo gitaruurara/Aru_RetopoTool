@@ -273,57 +273,55 @@ class Plan:
             levels.append(needed)
             needed={ids[j] for i in needed if i not in self.guide_vertices
                     for j in range(offsets[i],offsets[i+1])}
-        points=[{ep:1.} for ep in self.endpoints]
-        for (offsets,ids,weights),needed in zip(self.steps,reversed(levels)):
-            new=[None]*(len(offsets)-1)
-            for i in sorted(needed):
-                guide=self.guide_vertices.get(i)
-                if guide is not None:
-                    new[i]={guide[1]:1.} if guide[0]=='ep' else sample(guide[1],guide[2])
-                else:
+        from .stencil_compiler import Composer
+        composer=Composer(self.endpoints)
+        try:
+            for (offsets,ids,weights),needed in zip(self.steps,reversed(levels)):
+                overrides={};requests=[]
+                for i in sorted(needed):
+                    guide=self.guide_vertices.get(i)
+                    if guide is not None:
+                        overrides[i]={guide[1]:1.} if guide[0]=='ep' else sample(guide[1],guide[2])
+                    else:requests.append(i)
+                composer.step(offsets,ids,weights,requests)
+                composer.set(overrides)
+            points={}
+            # Identical patch layouts share coefficient arithmetic within this build.
+            # Include CV aliasing and side directions: reused handles and reversed
+            # or multi-segment sides must retain their exact accumulation order.
+            templates={}
+            for sides,uv in self.patches:
+                local={}
+                layout=[]
+                for side in sides:
+                    segments=[]
+                    for si,d in side:
+                        controls=tuple(local.setdefault(cv,len(local)) for cv in splines[si])
+                        segments.append((controls,d))
+                    layout.append(tuple(segments))
+                global_ids=tuple(local)
+                interior=sorted(((coord,vertex) for vertex,coord in uv.items()
+                                 if vertex not in self.guide_vertices))
+                key=(tuple(layout),tuple(coord for coord,_ in interior))
+                template=templates.get(key)
+                if template is not None:
+                    for (_,vertex),row in zip(interior,template):
+                        points[vertex]={global_ids[i]:w for i,w in row}
+                    continue
+                corners=[sample(side,0.) for side in sides]
+                template=[]
+                for (u,v),vertex in interior:
                     row={}
-                    for j in range(offsets[i],offsets[i+1]):accumulate(row,points[ids[j]],weights[j])
-                    new[i]=row
-            points=new
-        # Identical patch layouts share coefficient arithmetic within this build.
-        # Include CV aliasing and side directions: reused handles and reversed
-        # or multi-segment sides must retain their exact accumulation order.
-        templates={}
-        for sides,uv in self.patches:
-            local={}
-            layout=[]
-            for side in sides:
-                segments=[]
-                for si,d in side:
-                    controls=tuple(local.setdefault(cv,len(local)) for cv in splines[si])
-                    segments.append((controls,d))
-                layout.append(tuple(segments))
-            global_ids=tuple(local)
-            interior=sorted(((coord,vertex) for vertex,coord in uv.items()
-                             if vertex not in self.guide_vertices))
-            key=(tuple(layout),tuple(coord for coord,_ in interior))
-            template=templates.get(key)
-            if template is not None:
-                for (_,vertex),row in zip(interior,template):
-                    points[vertex]={global_ids[i]:w for i,w in row}
-                continue
-            corners=[sample(side,0.) for side in sides]
-            template=[]
-            for (u,v),vertex in interior:
-                row={}
-                for side,t,factor in ((0,u,1-v),(2,1-u,v),(3,1-v,1-u),(1,v,u)):
-                    accumulate(row,sample(sides[side],t),factor)
-                for corner,factor in zip(corners,((1-u)*(1-v),u*(1-v),u*v,(1-u)*v)):
-                    accumulate(row,corner,-factor)
-                points[vertex]=row
-                template.append(tuple((local[cv],w) for cv,w in row.items()))
-            templates[key]=template
-        offsets,ids,weights=[0],[],[]
-        for row in points:
-            for v,w in sorted(row.items()):
-                if abs(w)>1e-16:ids.append(v);weights.append(w)
-            offsets.append(len(ids))
-        return offsets,ids,weights
+                    for side,t,factor in ((0,u,1-v),(2,1-u,v),(3,1-v,1-u),(1,v,u)):
+                        accumulate(row,sample(sides[side],t),factor)
+                    for corner,factor in zip(corners,((1-u)*(1-v),u*(1-v),u*v,(1-u)*v)):
+                        accumulate(row,corner,-factor)
+                    points[vertex]=row
+                    template.append(tuple((local[cv],w) for cv,w in row.items()))
+                templates[key]=template
+            composer.set(points)
+            return composer.packed()
+        finally:composer.close()
 
     def evaluate(self, positions, splines, stencil=None):
         if stencil and hasattr(stencil,'compile'):

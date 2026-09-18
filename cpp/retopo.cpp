@@ -257,7 +257,7 @@ struct Surface{
     }
 
 };
-API int aru_retopo_version(){return 4;}
+API int aru_retopo_version(){return 5;}
 API void* aru_surface_create(const double* vertices,int nv,const int* indices,int nt){
     Surface* s=nullptr;try{
         if(nv<3||nt<1)return nullptr;
@@ -305,3 +305,5 @@ API int aru_relax(void* p,double* points,int n,const int* offsets,const int* nei
         for(int i=0;i<n;++i)write(points+3*i,current[i]);return 1;
     }catch(...){return 0;}
 }
+
+#include "stencil_compiler.h"

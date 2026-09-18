@@ -13,7 +13,7 @@ New-Item -ItemType Directory -Force -Path $output | Out-Null
 Push-Location $output
 try {
     if (-not $DisplayOnly) {
-    & "$toolset/bin/Hostx64/x64/cl.exe" /nologo /std:c++17 /O2 /openmp /W4 /EHsc /LD "$PSScriptRoot/retopo.cpp" /Fe:aru_retopo_core_v4.dll /link /IMPLIB:aru_retopo_core_v4.lib
+    & "$toolset/bin/Hostx64/x64/cl.exe" /nologo /std:c++17 /O2 /openmp /W4 /EHsc /LD "$PSScriptRoot/retopo.cpp" /Fe:aru_retopo_core_v5.dll /link /IMPLIB:aru_retopo_core_v5.lib
     if ($LASTEXITCODE -ne 0) { throw "C++ build failed: $LASTEXITCODE" }
     }
     if (-not $CoreOnly) {

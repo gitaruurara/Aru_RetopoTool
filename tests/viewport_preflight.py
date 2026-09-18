@@ -5,13 +5,14 @@ from Aru_RetopoTool import viewport_session as session
 
 
 def run():
-    for failure in ('file','projector','visibility','screen'):
+    for failure in ('file','core','projector','visibility','screen'):
         with ExitStack() as stack:
             stack.enter_context(patch.object(session,'_active',True))
             stack.enter_context(patch.object(session.cmds,'modelPanel',return_value=True))
             stack.enter_context(patch.object(session.cmds,'pluginInfo',return_value=[]))
             stack.enter_context(patch.object(session.Path,'is_file',return_value=failure!='file'))
-            for owner,name,kind in ((session.maya_projector,'library','projector'),
+            for owner,name,kind in ((session.native_core,'library','core'),
+                                    (session.maya_projector,'library','projector'),
                                     (session.maya_visibility,'library','visibility'),
                                     (session.maya_screen,'load_library','screen')):
                 stack.enter_context(patch.object(owner,name,side_effect=RuntimeError(kind) if failure==kind else None))

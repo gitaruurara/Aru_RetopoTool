@@ -2,7 +2,7 @@
 from pathlib import Path
 from maya import cmds
 import maya.api.OpenMaya as om
-from . import gpu_preview,native_backend,maya_api as api
+from . import gpu_preview,native_backend,maya_api as api,native as native_core
 from .editor.curvenet import gpu_guides,maya_screen,maya_projector,maya_visibility
 
 _active=False
@@ -67,6 +67,7 @@ def start(panel=None):
         types=cmds.pluginInfo(plugin,q=True,dependNode=True) or []
         if 'aruRetopoMeshBuffer' in types and Path(cmds.pluginInfo(plugin,q=True,path=True)).name!=BINARY:
             raise RuntimeError('別バージョンの更新プラグインが使用中です。シーンを保存し、新しいMayaで先に Aru_RetopoTool.show() を実行してください。')
+    native_core.library()
     maya_projector.library()  # Validate the native ABI before changing the scene.
     maya_visibility.library()
     screen_library=maya_screen.load_library(folder/maya_screen.BINARY_NAME)
