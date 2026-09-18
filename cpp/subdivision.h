@@ -5,6 +5,13 @@
 #include <array>
 namespace aru_subdivision_internal {
 using Edge=std::pair<int,int>;
+// Small stencil rows reuse one contiguous scratch allocation per step.
+struct Mask : std::vector<std::pair<int,double>> {
+ double& operator[](int key){
+  for(auto& entry:*this)if(entry.first==key)return entry.second;
+  emplace_back(key,0.);return back().second;
+ }
+};
 struct Step {std::array<std::vector<int>,8> ints;std::vector<double> weights;};
 inline Edge edge(int a,int b){return {std::min(a,b),std::max(a,b)};}
 API void* aru_subdivision_create(int count,const int* offsets,int faceCount,const int* vertices,int entries){
@@ -26,9 +33,10 @@ API void* aru_subdivision_create(int count,const int* offsets,int faceCount,cons
    out[0].push_back(entry.first.first);out[0].push_back(entry.first.second);
   }
   int faceBase=count+int(edges.size());out[1].push_back(0);
-  auto emit=[&](const std::map<int,double>& row){for(auto value:row){out[2].push_back(value.first);result->weights.push_back(value.second);}out[1].push_back(int(out[2].size()));};
-  auto addFace=[&](std::map<int,double>& row,int f,double factor){double w=1./(offsets[f+1]-offsets[f]);for(int j=offsets[f];j<offsets[f+1];++j)row[vertices[j]]+=w*factor;};
-  for(int v=0;v<count;++v){std::map<int,double> row;std::vector<int> boundary;
+  auto emit=[&](Mask& row){std::sort(row.begin(),row.end(),[](const auto& a,const auto& b){return a.first<b.first;});for(auto value:row){out[2].push_back(value.first);result->weights.push_back(value.second);}out[1].push_back(int(out[2].size()));};
+  auto addFace=[&](Mask& row,int f,double factor){double w=1./(offsets[f+1]-offsets[f]);for(int j=offsets[f];j<offsets[f+1];++j)row[vertices[j]]+=w*factor;};
+  Mask row;row.reserve(32);
+  for(int v=0;v<count;++v){row.clear();std::vector<int> boundary;
    for(int ei:ve[v])if(edgeFaces[edges[ei]].size()==1)boundary.push_back(ei);
    if(!boundary.empty()){row[v]=.75;for(int ei:boundary){const auto& e=edges[ei];row[e.first==v?e.second:e.first]+=.25/boundary.size();}}
    else {double n=double(vf[v].size());if(!n)return nullptr;row[v]=(n-3)/n;
@@ -37,12 +45,12 @@ API void* aru_subdivision_create(int count,const int* offsets,int faceCount,cons
    }
    emit(row);
   }
-  for(const auto& e:edges){const auto& fs=edgeFaces[e];std::map<int,double> row;
+  for(const auto& e:edges){const auto& fs=edgeFaces[e];row.clear();
    if(fs.size()==1){row[e.first]=.5;row[e.second]=.5;}
    else {row[e.first]=.25;row[e.second]=.25;for(int f:fs)addFace(row,f,.25);}
    emit(row);
   }
-  for(int f=0;f<faceCount;++f){std::map<int,double> row;addFace(row,f,1.);emit(row);
+  for(int f=0;f<faceCount;++f){row.clear();addFace(row,f,1.);emit(row);
    int begin=offsets[f],end=offsets[f+1];
    for(int j=begin;j<end;++j){int a=vertices[j],b=vertices[j+1==end?begin:j+1],c=vertices[j==begin?end-1:j-1];
     out[3].insert(out[3].end(),{a,ids[edge(a,b)],faceBase+f,ids[edge(c,a)]});
@@ -50,7 +58,7 @@ API void* aru_subdivision_create(int count,const int* offsets,int faceCount,cons
   }
   for(int k=0;k<2;++k){auto& off=out[4+k*2];auto& values=out[5+k*2];off.push_back(0);
    const auto& source=k?ve:vf;
-   for(const auto& row:source){values.insert(values.end(),row.begin(),row.end());off.push_back(int(values.size()));}
+   for(const auto& incidence:source){values.insert(values.end(),incidence.begin(),incidence.end());off.push_back(int(values.size()));}
   }
   return result.release();
  }catch(...){return nullptr;}
