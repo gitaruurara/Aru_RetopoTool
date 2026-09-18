@@ -179,8 +179,6 @@ def _smooth_junctions(cn, weights, mesh_fn, mesh_dag, amount=1., respect_manual=
     from Aru_RetopoTool.hard_surface import enabled
     if enabled():return set()
     import numpy as np
-    # Keep vector reductions in the same three-component dot-product order.
-    def dots(a, b): return (a[:, None, :] @ b[:, :, None])[:, 0, 0]
     incident = _relax_topology(cn)[2]
     directions = {}
     touched = set()
@@ -201,60 +199,16 @@ def _smooth_junctions(cn, weights, mesh_fn, mesh_dag, amount=1., respect_manual=
     paired=junction_directions(mesh_fn,points,normals,[weights[ep] for ep in eps],amount,
         [0]+[end for start,end in ranges],
         [[*cn.positions[other],*cn.positions[h]] for row,si,h,other in records])
-    if paired is not None:
-        selected,values=paired
-        for index,direction in zip(selected,values):
-            row,si,h,other=records[int(index)]
-            directions[h]=direction;touched.add(si)
-        if touched:_fit_junction_lengths(cn,touched,directions,mesh_fn)
-        return
-    normals /= np.maximum(np.sqrt(dots(normals, normals)), 1e-12)[:, None]
-    owner = np.asarray([r[0] for r in records])
-    vectors = np.asarray([cn.positions[r[3]] for r in records])-points[owner]
-    ns = normals[owner]
-    vectors -= ns*dots(vectors, ns)[:, None]
-    lengths = np.sqrt(dots(vectors, vectors))
-    valid = lengths > 1e-9
-    vectors /= np.maximum(lengths, 1e-12)[:, None]
-    selected = []
-    for row, (start, end) in enumerate(ranges):
-        branches = [(records[i][1], records[i][2], vectors[i])
-                    for i in range(start, end) if valid[i]]
-        candidates = sorted((float(np.dot(a[2], b[2])), i, j)
-                            for i, a in enumerate(branches)
-                            for j, b in enumerate(branches) if i < j)
-        used = set()
-        for dot, i, j in candidates:
-            if dot > -.3 or i in used or j in used: continue
-            used.update((i, j))
-            axis = branches[i][2]-branches[j][2]
-            axis /= np.sqrt(axis.dot(axis))
-            for index, target in ((i, axis), (j, -axis)):
-                si, h, fallback = branches[index]
-                selected.append((row, si, h, target, fallback))
-    if not selected: return
-    owner = np.asarray([r[0] for r in selected])
-    v = np.asarray([cn.positions[r[2]] for r in selected])-points[owner]
-    ns = normals[owner]
-    v -= ns*dots(v, ns)[:, None]
-    magnitude = np.sqrt(dots(v, v))
-    usable = magnitude > 1e-9
-    v /= np.maximum(magnitude, 1e-12)[:, None]
-    fallback = np.asarray([r[4] for r in selected])
-    v[~usable] = fallback[~usable]
-    alpha = np.asarray([min(1., amount*weights[eps[r[0]]]) for r in selected])[:, None]
-    d = (1-alpha)*v+alpha*np.asarray([r[3] for r in selected])
-    d /= np.maximum(np.sqrt(dots(d, d)), 1e-12)[:, None]
-    for record, direction in zip(selected, d):
-        directions[record[2]] = direction
-        touched.add(record[1])
-    _fit_junction_lengths(cn,touched,directions,mesh_fn)
+    selected,values=paired
+    for index,direction in zip(selected,values):
+        row,si,h,other=records[int(index)]
+        directions[h]=direction;touched.add(si)
+    if touched:_fit_junction_lengths(cn,touched,directions,mesh_fn)
 
 
 def _fit_junction_lengths(cn,touched,directions,mesh_fn):
     """Project all independent junction curves together in each solver round."""
     import numpy as np
-    from .maya_projector import points_array as project_many
     ids=list(touched)
     handles=[h for si in ids for h in cn.splines[si][1:3]]
     endpoints={ep for si in ids for ep in (cn.splines[si][0],cn.splines[si][3])}
@@ -293,15 +247,7 @@ def _fit_junction_lengths(cn,touched,directions,mesh_fn):
         rows=np.concatenate((np.stack((columns0,columns1),axis=-1).reshape(count,-1,2),np.broadcast_to(np.eye(2)*.1,(count,2,2))),axis=1)
         inverse=np.linalg.pinv(rows,rcond=np.finfo(float).eps*rows.shape[1])
         from .maya_projector import junction_lengths
-        fitted_lengths=junction_lengths(mesh_fn,bases,ds,lengths,chord[:,0],np.stack((c0,c1),axis=1),inverse)
-        if fitted_lengths is not None:
-            lengths=fitted_lengths
-        else:
-            for _ in range(4):
-                samples=bases+c0[None,:,None]*lengths[:,0,None,None]*ds[:,0,None,:]+c1[None,:,None]*lengths[:,1,None,None]*ds[:,1,None,:]
-                projected=project_many(mesh_fn,samples.reshape(-1,3)).reshape(samples.shape)
-                rhs=np.concatenate(((projected-bases).reshape(count,-1),lengths*.1),axis=1)
-                lengths=np.clip((inverse@rhs[:,:,None])[:,:,0],chord*.05,chord*.6)
+        lengths=junction_lengths(mesh_fn,bases,ds,lengths,chord[:,0],np.stack((c0,c1),axis=1),inverse)
     h1=p+lengths[:,0,None]*ds[:,0,:];h2=q+lengths[:,1,None]*ds[:,1,:]
     for i,si in enumerate(ids):
         h,j=cn.splines[si][1:3]
@@ -352,16 +298,9 @@ def _fit_relax_routes(cn,indices,mesh_fn,mesh_dag,draft):
     handles=[h for si in indices for h in cn.splines[si][1:3]]
     if len(handles)!=len(set(handles)) or set(handles).intersection(cn.endpoint_indices()):return False
     eligible=[si for si in indices if math.dist(cn.positions[cn.splines[si][0]],cn.positions[cn.splines[si][3]])>=1e-9]
-    from .maya_projector import fit_routes,fit_routes_bound,surface_hits
+    from .maya_projector import fit_routes_bound
     controls=[[cn.positions[i] for i in cn.splines[si]] for si in eligible]
-    result=fit_routes_bound(mesh_fn,controls,draft) if eligible else ([],[])
-    if result is None:
-        fitted=fit_routes(mesh_fn,controls,draft)
-        if fitted is None:return False
-        bindings=[(face,bary) for _q,_normal,face,bary in
-                  surface_hits(mesh_fn,[position for pair in fitted for position in pair])]
-    else:
-        fitted,bindings=result
+    fitted,bindings=fit_routes_bound(mesh_fn,controls,draft) if eligible else ([],[])
     for si in indices:cn.clear_manual_handles(cn.splines[si][1:3])
     metadata=iter(bindings)
     for si,positions in zip(eligible,fitted):
@@ -398,23 +337,8 @@ def relax(node, weights, strength=.2, draft=True, smooth=True, *, _world=None, _
     feature_data=hard_surface.features(mesh) if hard_surface.enabled() else None
     # This phase replaces changed rows; it never edits an old row in place.
     old = list(cn.positions)
-    from .maya_projector import surface_hits
     from .maya_projector import endpoint_hits
     hits=endpoint_hits(mesh_fn,old,weights,neighbors,strength,smooth)
-    if hits is None:
-        hits=dict(zip(weights,surface_hits(mesh_fn,[old[ep] for ep in weights])))
-        moving=[ep for ep in weights if smooth and len(neighbors[ep])>=2]
-        from .maya_projector import normals_array
-        normals=dict(zip(moving,normals_array(mesh_fn,[hits[ep][0] for ep in moving]).tolist()))
-        targets=[]
-        for ep in moving:
-            p=old[ep];projected=hits[ep][0];adjacent=neighbors[ep];n=normals[ep]
-            center=[sum(old[v][k] for v in adjacent)/len(adjacent) for k in range(3)]
-            delta=[center[k]-p[k] for k in range(3)]
-            normal_length=sum(x*x for x in n)
-            dn=sum(delta[k]*n[k] for k in range(3))/max(normal_length,1e-12)
-            targets.append([projected[k]+strength*weights[ep]*(delta[k]-dn*n[k]) for k in range(3)])
-        hits.update(zip(moving,surface_hits(mesh_fn,targets)))
     for ep, weight in weights.items():
         p=old[ep];projected,_normal,face,bary=hits[ep]
         if feature_data:

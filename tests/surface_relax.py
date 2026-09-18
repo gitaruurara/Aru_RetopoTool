@@ -65,11 +65,12 @@ def test_normals_array():
         assert actual.flags.c_contiguous and actual.flags.owndata
         actual[0]=0
         np.testing.assert_array_equal(projector.normals_array(fn,queries),expected)
-        with patch.object(projector,'get_projector',return_value=None):
-            expected=np.asarray([hit[1] for hit in projector.surface_hits(fn,queries)])
-            np.testing.assert_array_equal(projector.normals_array(fn,queries),expected)
+        with patch.object(edit,'_accel_for',return_value=None):
+            try:projector.normals_array(fn,queries)
+            except RuntimeError as exc:assert 'reference mesh' in str(exc)
+            else:raise AssertionError('Missing reference must fail explicitly')
     finally:cmds.delete(mesh)
-    print('PASS normals-only arrays: native/fallback exact normals, transforms, empty and ownership')
+    print('PASS normals-only arrays: native exact normals and explicit reference failure, transforms, empty and ownership')
 
 
 def run():

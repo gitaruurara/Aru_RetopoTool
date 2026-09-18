@@ -3,7 +3,7 @@ from pathlib import Path
 from maya import cmds
 import maya.api.OpenMaya as om
 from . import gpu_preview,native_backend,maya_api as api
-from .editor.curvenet import gpu_guides,maya_screen
+from .editor.curvenet import gpu_guides,maya_screen,maya_projector
 
 _active=False
 _callbacks=[]
@@ -61,12 +61,13 @@ def start(panel=None):
         visible=cmds.getPanel(visiblePanels=True) or []
         panel=focused if focused in panels else next((p for p in panels if p in visible),None)
     if not panel or not cmds.modelPanel(panel,exists=True):raise RuntimeError('使用するビューポートを開いてください。')
-    for path in (folder/BINARY,folder/'aru_retopo_maya_screen_segments.dll',folder/'aru_retopo_buffer_preview_fast.mll'):
+    for path in (folder/BINARY,folder/maya_projector.BINARY_NAME,folder/'aru_retopo_maya_screen_segments.dll',folder/'aru_retopo_buffer_preview_fast.mll'):
         if not path.is_file():raise RuntimeError('描画用ファイルがありません: '+str(path))
     for plugin in cmds.pluginInfo(q=True,listPlugins=True) or []:
         types=cmds.pluginInfo(plugin,q=True,dependNode=True) or []
         if 'aruRetopoMeshBuffer' in types and Path(cmds.pluginInfo(plugin,q=True,path=True)).name!=BINARY:
             raise RuntimeError('別バージョンの更新プラグインが使用中です。シーンを保存し、新しいMayaで先に Aru_RetopoTool.show() を実行してください。')
+    maya_projector.library()  # Validate the native ABI before changing the scene.
     if _active:stop()
     previous=(native_backend.BINARY_NAME,gpu_guides.GPU_CONTROLS,maya_screen._LIB)
     try:

@@ -22,7 +22,7 @@ def reference(fn,old,weights,neighbors,strength,smooth):
  hits.update(zip(moving,mp.surface_hits(fn,targets)))
  return hits
 try:
- root=Path(__file__).resolve().parents[1];mp._LIB=mp._load_library(root/'bin'/cmds.about(version=True)/'aru_retopo_maya_projector_endpoints.dll')
+ root=Path(__file__).resolve().parents[1];mp._LIB=mp._load_library(root/'bin'/cmds.about(version=True)/mp.BINARY_NAME)
  rng=np.random.default_rng(137)
  for kind in ('sphere','cube'):
   mesh=(cmds.polySphere(sx=32,sy=16,ch=False) if kind=='sphere' else cmds.polyCube(ch=False))[0]
@@ -66,9 +66,19 @@ try:
   try:endpoint_hits(fn,old,weights,{0:[bad,2]},.35,True)
   except ValueError:pass
   else:raise AssertionError('Invalid neighbor accepted')
- with patch.object(mp,'get_projector',return_value=None):assert endpoint_hits(fn,old,weights,neighbors,.35,True) is None
- mp.clear();mp._LIB=mp._load_library(root/'bin'/cmds.about(version=True)/'aru_retopo_maya_projector_tangents.dll')
- assert endpoint_hits(fn,old,weights,neighbors,.35,True) is None
+ with patch.object(edit,'_accel_for',return_value=None):
+  try:endpoint_hits(fn,old,weights,neighbors,.35,True)
+  except RuntimeError as exc:assert 'reference mesh' in str(exc)
+  else:raise AssertionError('Missing reference accepted')
+ from types import SimpleNamespace
+ with patch.object(mp.C,'CDLL',return_value=SimpleNamespace()):
+  try:mp._load_library('incompatible.dll')
+  except RuntimeError as exc:assert 'ABI mismatch' in str(exc)
+  else:raise AssertionError('Incompatible DLL accepted')
+ with patch.object(mp.C,'CDLL',side_effect=OSError('missing')):
+  try:mp._load_library('missing.dll')
+  except RuntimeError as exc:assert 'could not be loaded' in str(exc)
+  else:raise AssertionError('Missing DLL accepted')
  assert endpoint_hits(fn,old,{},neighbors,.35,True)=={}
  cmds.loadPlugin(str(root/'editor/curvenet/aru_retopo_guide_plugin.py'),quiet=True)
  cmds.undoInfo(state=True)
@@ -76,8 +86,8 @@ try:
  with patch.object(mp,'endpoint_hits',wraps=mp.endpoint_hits) as observed:
   surface_relax.run()
   assert observed.call_count>0
- print('PASS actual relax with old DLL fallback, projection, topology, Undo and Shift handling',flush=True)
- print('PASS retained arrays, reference transforms/deformation, invalid values, missing projector, old DLL fallback',flush=True)
+ print('PASS actual relax with required native DLL, projection, topology, Undo and Shift handling',flush=True)
+ print('PASS retained arrays, reference transforms/deformation, invalid values, missing projector, explicit DLL failures',flush=True)
  (root/'tests'/('endpoint_release_cases_'+cmds.about(version=True)+'.json')).write_text(json.dumps(records,indent=2))
  print('ENDPOINT CASES EXACT',len(records),flush=True);status=0
 except BaseException:traceback.print_exc()

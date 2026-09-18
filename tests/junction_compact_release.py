@@ -1,5 +1,7 @@
 """Compare a two-column solver with SVD, including projected curve fits."""
 import os,sys,json,time,statistics,traceback,inspect,copy
+from unittest.mock import patch
+from contextlib import nullcontext
 from pathlib import Path
 import maya.standalone
 maya.standalone.initialize(name='python')
@@ -13,7 +15,6 @@ status=1
 try:
     rng=np.random.default_rng(2941);records=[]
     folder=Path(__file__).resolve().parents[1]/'bin'/cmds.about(version=True)
-    old_lib=mp._load_library(folder/'aru_retopo_maya_projector_endpoints.dll')
     new_lib=mp._load_library(folder/'aru_retopo_maya_projector_compact.dll')
     for kind,count,transformed in [('sphere',1,False),('sphere',15,False),('sphere',16,False),('sphere',500,False),('sphere',500,True),('cube',500,True)]:
         mesh=(cmds.polySphere(sx=64,sy=32,ch=False) if kind=='sphere' else cmds.polyCube(ch=False))[0]
@@ -36,12 +37,15 @@ try:
                 other=rng.normal(size=3);directions[start+2]=other/np.linalg.norm(other)
 
         results=[];times={}
-        for name,lib in [('python',old_lib),('native',new_lib)]:
+        for name,lib in [('python',new_lib),('native',new_lib)]:
             mp.clear();mp._LIB=lib
             solver=relax._fit_junction_lengths
             current=copy.deepcopy(cn);durations=[]
             for i in range(8):
-                start=time.perf_counter();solver(current,set(range(count)),directions,fn);durations.append((time.perf_counter()-start)*1000)
+                start=time.perf_counter()
+                with patch.object(mp,'junction_compact',return_value=None) if name=='python' else nullcontext():
+                    solver(current,set(range(count)),directions,fn)
+                durations.append((time.perf_counter()-start)*1000)
             results.append(np.asarray(current.positions));times[name]=statistics.median(durations[1:])
         fit_error=float(np.max(np.abs(results[0]-results[1])))
         assert fit_error<1e-7,fit_error
@@ -66,12 +70,14 @@ try:
         else:raise AssertionError('Invalid compact size accepted')
     assert mp.junction_compact(fn,np.empty((0,4,3)),np.empty((0,2,3)),np.empty((0,2)),np.empty(0)).shape==(0,2)
     from unittest.mock import patch
-    with patch.object(mp,'get_projector',return_value=None):assert mp.junction_compact(fn,*args) is None
-    mp.clear();mp._LIB=old_lib;assert mp.junction_compact(fn,*args) is None
-    # Ensure the real integration can execute the old-DLL SVD path.
+    with patch.object(edit,'_accel_for',return_value=None):
+        try:mp.junction_compact(fn,*args)
+        except RuntimeError as exc:assert 'reference mesh' in str(exc)
+        else:raise AssertionError('Missing reference accepted')
+    # Exercise the numerical SVD path using the same required native library.
     cmds.loadPlugin(str(folder.parents[1]/'editor/curvenet/aru_retopo_guide_plugin.py'),quiet=True);cmds.undoInfo(state=True)
     from Aru_RetopoTool.tests import surface_relax
-    with patch.object(mp,'junction_compact',wraps=mp.junction_compact) as observed:
+    with patch.object(mp,'junction_compact',return_value=None) as observed:
         surface_relax.run();assert observed.call_count
     import ctypes as C
     mp.clear();mp._LIB=new_lib
