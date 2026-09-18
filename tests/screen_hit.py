@@ -6,6 +6,17 @@ from Aru_RetopoTool.editor.curvenet import curve_net_context as context,curve_ne
 
 
 def run():
+    with patch.object(maya_screen.C,'PyDLL',side_effect=OSError('missing test DLL')):
+        try:maya_screen.load_library('missing.dll')
+        except RuntimeError as exc:assert 'could not be loaded' in str(exc)
+        else:raise AssertionError('Missing screen DLL accepted')
+    with patch.object(maya_screen.C,'PyDLL',return_value=SimpleNamespace(aru_maya_screen_points=SimpleNamespace())):
+        try:maya_screen.load_library('old.dll')
+        except RuntimeError as exc:assert 'aru_maya_screen_segments' in str(exc)
+        else:raise AssertionError('Old screen DLL accepted')
+    lib=maya_screen.load_library(maya_screen.Path(maya_screen.__file__).resolve().parents[2]/'bin'/maya_screen.cmds.about(version=True)/maya_screen.BINARY_NAME)
+    assert len(lib.aru_maya_screen_segments.argtypes)==10
+    print('PASS required screen DLL exports and one-time signatures')
     rng=random.Random(3842)
     points=[[rng.uniform(-2,2) for _ in range(3)] for _ in range(48)]
     splines=[tuple(range(i,i+4)) for i in range(0,48,4)]
