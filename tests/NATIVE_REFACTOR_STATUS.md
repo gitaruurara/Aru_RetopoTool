@@ -26,3 +26,11 @@ Maya 2024 and 2027 visibility release comparisons (occlusion, perspective/orthog
 The screen DLL now requires both point projection and fused curve-selection exports. Both signatures are set once when loading the library. Fused selection loads the standard DLL on first use even if point projection has not run yet. Missing/incompatible DLLs, invalid positions, non-main-thread calls and native execution failures are explicit errors. None is reserved for viewport-free batch execution. Session startup validates the screen DLL before changing scene state.
 
 Maya 2024/2027 full smoke suites passed, including required-export rejection tests and batch selection parity. In diagnostic Maya 2027, 360 GUI selection comparisons across two perspective views and one orthographic view matched the NumPy reference exactly (including exclusions, tolerance changes and visibility). C++ selection medians were 2.28–2.46 ms versus 5.33–5.57 ms for the reference, but fused selection was already standard: these numbers are not a new refactor speedup. No 60 FPS claim.
+
+## Integrated session validation
+
+Added viewport_preflight to both Maya smoke runs: missing binary files and projector/visibility/screen loader failures preserve an active session and do not call stop, loadPlugin, native enable, GPU enable or disable. Both full smoke suites passed on 2024 and 2027.
+
+Diagnostic GUI 2027 session stop/restart with current Python startup code successfully loaded all three required DLLs. The process retained its already-loaded certificates mesh build (equivalent solver source), so this is not fresh-process validation of the certified binary. Scripted brush and point-context editing, geometry change and Undo restoration passed with GPU guides and direct mesh buffers.
+
+Single-run uninstrumented brush median: 37.157 ms; point drag median: 27.694 ms. Brush output matched the ordinary path exactly. These do not establish 60 FPS or an improvement over prior results. The point release attached to a spline (1589 -> 1590 splines), took 1055.622 ms, including patch transfer 105.118 ms and dirty/refresh 911.112 ms (nested timings, not additive). This identifies topology-change commit/redraw as a separate remaining latency source; normal drag and topology-changing release must not be conflated.

@@ -122,6 +122,8 @@ def run():
     print('STATUS', cmds.getAttr(node+'.status'))
     from Aru_RetopoTool.tests.surface_relax import run as test_relax
     test_relax()
+    from Aru_RetopoTool.tests.viewport_preflight import run as test_viewport_preflight
+    test_viewport_preflight()
     from Aru_RetopoTool.tests.screen_hit import run as test_screen_hit
     test_screen_hit()
     from Aru_RetopoTool.tests.commit_redraw import run as test_commit_redraw
