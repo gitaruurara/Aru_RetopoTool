@@ -167,7 +167,63 @@ def run(expected_pid):
             tool.eventFilter(widget,qt.QKeyEvent(qt.QEvent.KeyPress,qt.Qt.Key_Escape,qt.Qt.NoModifier))
             tool.eventFilter(widget,event(qt.QEvent.MouseButtonRelease,qt.Qt.MiddleButton,qt.Qt.ControlModifier))
         report['boundary_extrusion_priority']=True
-        window=ui.RetopoWindow();assert window.parent() is not None;window.close();window.deleteLater()
+        window=ui.RetopoWindow();assert window.parent() is not None
+        # Real Qt menu/checkbox dispatch, not just direct menu_action calls.
+        def click_control(control,point=None):
+            point=point or control.rect().center()
+            global_point=control.mapToGlobal(point)
+            for kind,buttons in ((qt.QEvent.MouseButtonPress,qt.Qt.LeftButton),(qt.QEvent.MouseButtonRelease,qt.Qt.NoButton)):
+                event=qt.QMouseEvent(kind,qt.QPointF(point),qt.QPointF(global_point),qt.Qt.LeftButton,buttons,qt.Qt.NoModifier)
+                qt.QApplication.sendEvent(control,event)
+        def escape_control(control):
+            for kind in (qt.QEvent.KeyPress,qt.QEvent.KeyRelease):
+                qt.QApplication.sendEvent(control,qt.QKeyEvent(kind,qt.Qt.Key_Escape,qt.Qt.NoModifier))
+        window.node=node;window.guide.setText(guide)
+        local_edit_context.set_painting(True)
+        assert window.paint_influence.isChecked()
+        saved_fields=cmds.getAttr(node+'.influenceField')
+        with patch.object(qt.QCursor,'pos',return_value=pos):
+            tool.tick(force=True)
+            qt.QApplication.sendEvent(widget,event(qt.QEvent.MouseButtonPress,qt.Qt.RightButton))
+            menu=tool.local.menu;assert menu is not None and menu.isVisible()
+            # Popup input must never create another menu or paint beneath it.
+            assert not tool.eventFilter(menu,event(qt.QEvent.MouseButtonPress,qt.Qt.RightButton))
+            assert not tool.eventFilter(menu,event(qt.QEvent.MouseButtonPress,qt.Qt.LeftButton))
+            assert tool.local.menu is menu and tool.local.stroke is None
+            exit_action=menu.actions()[-1];assert exit_action.text()=='追従ペイントを終了'
+            click_control(menu,menu.actionGeometry(exit_action).center())
+        assert not local_edit_context.painting() and not window.paint_influence.isChecked()
+        assert tool.local.menu is None and not any(w.objectName()=='AruRetopoLocalEditMenu' and w.isVisible() for w in qt.QApplication.topLevelWidgets())
+        assert cmds.getAttr(node+'.influenceField')==saved_fields
+        report['real_menu_exit_no_paint']=True
+        # UI checkbox above viewport remains clickable; Escape also exits idle paint.
+        local_edit_context.set_painting(True)
+        with patch.object(qt.QCursor,'pos',return_value=pos):
+            assert not tool.eventFilter(window.paint_influence,event(qt.QEvent.MouseButtonPress,qt.Qt.LeftButton))
+            click_control(window.paint_influence)
+        assert not local_edit_context.painting()
+        local_edit_context.set_painting(True)
+        qt.QApplication.sendEvent(widget,qt.QKeyEvent(qt.QEvent.KeyPress,qt.Qt.Key_Escape,qt.Qt.NoModifier))
+        assert not local_edit_context.painting() and not window.paint_influence.isChecked()
+        assert not local_edit_context.preview
+        report['checkbox_and_escape_exit']=True
+        # Repeated popup dismissals leave no visible menus; tool exit closes its menu.
+        for i in range(3):
+            with patch.object(qt.QCursor,'pos',return_value=pos):
+                tool.tick(force=True)
+                qt.QApplication.sendEvent(widget,event(qt.QEvent.MouseButtonPress,qt.Qt.RightButton))
+            menu=tool.local.menu;assert menu is not None
+            visible=[w for w in qt.QApplication.topLevelWidgets() if w.objectName()=='AruRetopoLocalEditMenu' and w.isVisible()]
+            assert visible==[menu],len(visible)
+            escape_control(menu)
+            assert tool.local.menu is None and not any(w.objectName()=='AruRetopoLocalEditMenu' and w.isVisible() for w in qt.QApplication.topLevelWidgets())
+        with patch.object(qt.QCursor,'pos',return_value=pos):
+            tool.tick(force=True)
+            qt.QApplication.sendEvent(widget,event(qt.QEvent.MouseButtonPress,qt.Qt.RightButton))
+        menu=tool.local.menu;tool.local.close()
+        assert tool.local.menu is None and not any(w.objectName()=='AruRetopoLocalEditMenu' and w.isVisible() for w in qt.QApplication.topLevelWidgets())
+        report['popup_lifetime']=True
+        window.close();window.deleteLater()
         tool.timer.start();report['passed']=True
     except Exception:report['error']=traceback.format_exc()
     om.MMessage.removeCallback(callback);report['messages']=messages[-15:]

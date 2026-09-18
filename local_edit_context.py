@@ -16,6 +16,25 @@ preview={}
 
 def painting():return bool(cmds.optionVar(q=MODE)) if cmds.optionVar(exists=MODE) else False
 
+def set_painting(value):
+    """Change interaction mode without leaving a stroke or stale UI behind."""
+    cmds.optionVar(iv=(MODE,int(bool(value))))
+    from . import patch_context
+    tool=patch_context._active
+    if tool and not tool.stopped:
+        tool.local.close()
+        tool.brush.last=None
+        tool.brush.update()
+        tool._last_hover=None
+    app=qt.QApplication.instance()
+    if app:
+        for widget in app.allWidgets():
+            if isinstance(widget,qt.QCheckBox) and widget.objectName()=='AruRetopoInfluenceToggle':
+                blocked=widget.blockSignals(True)
+                widget.setChecked(bool(value));widget.blockSignals(blocked)
+    cmds.refresh(force=True)
+
+
 def option(name,default):return float(cmds.optionVar(q=name)) if cmds.optionVar(exists=name) else default
 
 
@@ -178,14 +197,28 @@ class Interaction:
     def __init__(self,tool):
         self.tool=tool;self.stroke=None;self.button=None;self.snapshot=None;self.signature=None;self.seed=None;self.reason=None;self.menu=None
 
+    def close_menu(self):
+        menu=self.menu
+        if menu is None:return
+        self.menu=None
+        menu.aboutToHide.disconnect(self.menu_hidden)
+        menu.close();menu.deleteLater()
+        if not self.tool.stopped:self.tool.timer.start()
+
+    def menu_hidden(self):
+        menu=self.menu;self.menu=None
+        if menu:menu.deleteLater()
+        if not self.tool.stopped:self.tool.timer.start()
+
     def close(self):
+        self.close_menu()
         if self.stroke:self.stroke.finish(False);self.stroke=None
         if self.snapshot:self.snapshot.close();self.snapshot=None
         self.signature=None;self.seed=None;self.button=None
         preview.clear()
 
     def hover(self,x,y,view,force=False):
-        if self.stroke:return
+        if self.stroke or self.menu is not None:return
         self.seed=None;self.reason=None
         if painting():
             guide=cmds.listConnections(self.tool.node+'.guideData',s=True,d=False,shapes=True)[0]
@@ -197,7 +230,7 @@ class Interaction:
                 self.view_key=None
             view_key=(tuple(view.modelViewMatrix()),tuple(view.projectionMatrix()))
             if self.view_key!=view_key or not preview:
-                publish(self.tool.node,self.positions,self.plan.faces,self.weights,message='追従ウェイト: 青=自由 / 赤=ガイドへ追従 | 左ドラッグで塗る')
+                publish(self.tool.node,self.positions,self.plan.faces,self.weights,message='追従ウェイト: 青=自由 / 赤=ガイドへ追従 | 左ドラッグで塗る / Escでペイント終了')
                 self.view_key=view_key
             return
         if not self.tool.key or (not force and not qt.QApplication.keyboardModifiers() & qt.Qt.ControlModifier):
@@ -237,6 +270,8 @@ class Interaction:
     def menu_action(self,action):
         try:
             key=getattr(self,'menu_key',self.tool.key)
+            if action=='exit_paint':
+                set_painting(False);return
             if action=='reset_paint':
                 snapshot=Snapshot(self.tool.node,[key])
                 try:
@@ -274,6 +309,7 @@ class Interaction:
         kind=event.type()
         if kind==qt.QEvent.ApplicationDeactivate:
             self.close();self.button=None;return False
+        if self.menu is not None:return False
         mouse=self.tool.brush.mouse()
         if self.stroke:
             if kind==qt.QEvent.KeyPress and event.key()==qt.Qt.Key_Escape:
@@ -283,6 +319,8 @@ class Interaction:
                 return True
             if kind==qt.QEvent.MouseButtonRelease and event.button()==self.button:
                 self.stroke.finish(True);self.stroke=None;self.button=None;self.signature=None;return True
+        if kind==qt.QEvent.KeyPress and event.key()==qt.Qt.Key_Escape and painting():
+            set_painting(False);return True
         if self.button is not None:
             if kind==qt.QEvent.MouseButtonRelease and event.button()==self.button:self.button=None;return True
             if kind==qt.QEvent.MouseMove:return True
@@ -297,11 +335,15 @@ class Interaction:
             self.menu_key=self.tool.key
             self.tool.timer.stop()
             self.menu=qt.QMenu(qt.getMayaMainWindow())
-            self.menu.aboutToHide.connect(self.tool.timer.start)
+            self.menu.setObjectName('AruRetopoLocalEditMenu')
+            self.menu.aboutToHide.connect(self.menu_hidden)
             for label,action in [('1ループ削減','one'),('同方向を間引く','alternate'),('このパッチを通る削減を解除','restore'),('このパッチの追従ペイントを解除','reset_paint')]:
                 item=self.menu.addAction(label)
                 item.setEnabled(action in ('restore','reset_paint') or self.seed is not None)
                 item.triggered.connect(lambda checked=False,mode=action:self.menu_action(mode))
+            if painting():
+                self.menu.addSeparator()
+                self.menu.addAction('追従ペイントを終了').triggered.connect(lambda:self.menu_action('exit_paint'))
             self.menu.popup(qt.QCursor.pos());return True
         if event.button()==qt.Qt.MiddleButton and event.modifiers() & qt.Qt.ControlModifier:
             self.tool.tick(force=True)

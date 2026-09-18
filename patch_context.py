@@ -13,6 +13,14 @@ _preferred_owner = None
 preview = {}  # overlay full path -> world-space triangle vertices
 
 
+def viewport_receiver(obj):
+    if qt.QApplication.activePopupWidget() or qt.QApplication.activeModalWidget():return False
+    if not isinstance(obj,qt.QWidget):return False
+    view=omui.M3dView.active3dView()
+    widget=qt.wrapInstance(int(view.widget()),qt.QWidget)
+    return obj==widget or widget.isAncestorOf(obj)
+
+
 def selected(node):
     return set(json.loads(cmds.getAttr(node+'.selectedPatches') or '[]'))
 
@@ -189,6 +197,10 @@ class PatchTool(qt.QObject):
     def eventFilter(self, obj, event):
         if event.type() not in (qt.QEvent.MouseButtonPress,qt.QEvent.MouseButtonRelease,qt.QEvent.MouseMove,qt.QEvent.KeyPress,qt.QEvent.KeyRelease,qt.QEvent.ShortcutOverride,qt.QEvent.ApplicationDeactivate):return False
         if cmds.currentCtx()!=getattr(self,'context',NAME): return False
+        # This filter is installed on QApplication: UI controls and popup menus
+        # also arrive here, even while they overlap the viewport on screen.
+        if event.type()!=qt.QEvent.ApplicationDeactivate:
+            if not viewport_receiver(obj):return False
         interaction=getattr(self,'brush',None)
         if interaction and self.context!=NAME and interaction.event(event):return True
         local=getattr(self,'local',None)

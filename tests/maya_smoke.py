@@ -69,7 +69,7 @@ def run():
                             button=lambda:qt.Qt.MiddleButton,
                             modifiers=lambda:qt.Qt.ShiftModifier)
     tool = SimpleNamespace(node=node,key=key,tick=lambda **kwargs:None)
-    with patch.object(cmds,'currentCtx',return_value=patch_context.NAME):
+    with patch.object(cmds,'currentCtx',return_value=patch_context.NAME),patch.object(patch_context,'viewport_receiver',return_value=True):
         assert patch_context.PatchTool.eventFilter(tool,None,event)
     assert face_count(output)==0
     cmds.undo()
@@ -77,7 +77,7 @@ def run():
     print('PASS middle mouse event dispatch and Shift removal')
     tool.context='retopoGuideDraggerCtx1'
     tool.near_control_point=lambda:True
-    with patch.object(cmds,'currentCtx',return_value=tool.context):
+    with patch.object(cmds,'currentCtx',return_value=tool.context),patch.object(patch_context,'viewport_receiver',return_value=True):
         assert not patch_context.PatchTool.eventFilter(tool,None,event)
     print('PASS combined context gives control-point dragging priority')
     assert max(abs(p[1]) for p in vertices(output)) < 1e-6

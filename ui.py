@@ -52,6 +52,7 @@ class RetopoWindow(qt.AruMainWindow):
         layout.addWidget(qt.QLabel('B＋中ドラッグ：ブラシ半径 / Shift＋左ドラッグ：リラックス'))
         from . import local_edit_context as local_edit
         self.paint_influence=qt.QCheckBox('追従ウェイトを塗る（左ドラッグ / Shiftで逆の値）')
+        self.paint_influence.setObjectName('AruRetopoInfluenceToggle')
         self.paint_influence.setChecked(local_edit.painting())
         self.paint_influence.toggled.connect(lambda value:self.run(lambda:self.set_paint_mode(value)))
         layout.addWidget(self.paint_influence)
@@ -122,8 +123,8 @@ class RetopoWindow(qt.AruMainWindow):
         self.node = None
 
     def set_paint_mode(self,value):
-        from .local_edit_context import MODE
-        cmds.optionVar(iv=(MODE,int(value)))
+        from .local_edit_context import set_painting
+        set_painting(value)
         if value:self.open_editor()
 
     def open_editor(self):
