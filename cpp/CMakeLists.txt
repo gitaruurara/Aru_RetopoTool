@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(AruRetopoCore LANGUAGES CXX)
 add_library(aru_retopo_core SHARED retopo.cpp)
-set_target_properties(aru_retopo_core PROPERTIES OUTPUT_NAME aru_retopo_core_v7)
+set_target_properties(aru_retopo_core PROPERTIES OUTPUT_NAME aru_retopo_core_v8)
 target_compile_features(aru_retopo_core PRIVATE cxx_std_17)
 if(MSVC)
   target_compile_options(aru_retopo_core PRIVATE /O2 /W4 /EHsc)

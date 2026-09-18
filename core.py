@@ -6,6 +6,7 @@ All coordinates passed to this module are in the same (world) space.
 import math
 from array import array
 from collections import defaultdict
+from .regions_native import regions
 
 
 def add(a, b): return tuple(x + y for x, y in zip(a, b))
@@ -23,103 +24,6 @@ def bezier(positions, spline, t):
     s = 1-t
     weights = (s*s*s, 3*s*s*t, 3*s*t*t, t*t*t)
     return tuple(sum(positions[v][k]*w for v, w in zip(spline, weights)) for k in range(3))
-
-
-def regions(positions, splines, normal_at):
-    """Walk surface-oriented halfedges; discard exterior and dangling walks.
-
-Intersections MUST share endpoint indices. Crossings are not inferred in 3D.
-Degree-two chains are collapsed into logical sides, preserving their Béziers.
-"""
-    incident = defaultdict(list)
-    for si, sp in enumerate(splines):
-        if len(sp) != 4 or any(v < 0 or v >= len(positions) for v in sp):
-            raise ValueError("Invalid spline CV indices")
-        if sp[0] == sp[3]:
-            raise ValueError("Self-loop spline: insert at least three distinct corners")
-        incident[sp[0]].append((si, 1))
-        incident[sp[3]].append((si, -1))
-    normals={ep:normal_at(positions[ep]) for ep in incident}
-    order = {}
-    for ep, outgoing in incident.items():
-        n = unit(normals[ep])
-        u = unit(cross(n, (1, 0, 0) if abs(n[0]) < .8 else (0, 1, 0)))
-        v = cross(n, u)
-        def angle(h):
-            sp = splines[h[0]]
-            tangent = sub(positions[sp[1] if h[1] == 1 else sp[2]], positions[ep])
-            if dot(tangent, tangent) < 1e-18:
-                tangent = sub(positions[sp[3] if h[1] == 1 else sp[0]], positions[ep])
-            return math.atan2(dot(tangent, v), dot(tangent, u))
-        order[ep] = sorted(outgoing, key=angle)
-    visited, loops = set(), []
-    for si in range(len(splines)):
-        for direction in (1, -1):
-            start = (si, direction)
-            if start in visited: continue
-            h, walk = start, []
-            while h not in visited:
-                visited.add(h)
-                walk.append(h)
-                sp = splines[h[0]]
-                end = sp[3] if h[1] == 1 else sp[0]
-                outgoing = order[end]
-                reverse = (h[0], -h[1])
-                h = outgoing[(outgoing.index(reverse)-1) % len(outgoing)]
-            if h != start or len(walk) < 3: continue
-            ids = [splines[i][0 if d == 1 else 3] for i, d in walk]
-            if len(set(ids)) != len(ids): continue
-            pts = [positions[i] for i in ids]
-            center = mean(pts)
-            area = (0, 0, 0)
-            for a, b in zip(pts, pts[1:]+pts[:1]):
-                area = add(area, cross(sub(a, center), sub(b, center)))
-            # Local orientation distinguishes the unbounded walk on an open patch.
-            n = mean([normals[i] for i in ids])
-            if dot(area, n) <= 1e-12: continue
-            # Preserve all corners of an isolated loop; collapse degree-two points
-            # only when >=3 junctions already provide an unambiguous polygon.
-            corners = [j for j, ep in enumerate(ids) if len(incident[ep]) != 2]
-            if len(corners) < 3: corners = list(range(len(walk)))
-            sides = []
-            for j, begin in enumerate(corners):
-                end = corners[(j+1) % len(corners)]
-                indices = list(range(begin, end if end > begin else end+len(walk)))
-                sides.append(tuple(walk[k % len(walk)] for k in indices))
-            loops.append(sides)
-    # On a wrapping surface the exterior can also pass the average-normal
-    # orientation test. Detect a closed shell of candidates and leave its
-    # clearly dominant perimeter open. Never arbitrarily remove a comparable
-    # cell from a uniformly closed network. Work per component, not globally.
-    owners = defaultdict(list)
-    for li, loop in enumerate(loops):
-        for side in loop:
-            for si, _ in side: owners[si].append(li)
-    remaining = set(range(len(loops))); excluded = set()
-    while remaining:
-        component = {remaining.pop()}; pending = list(component)
-        while pending:
-            li = pending.pop()
-            for side in loops[li]:
-                for si, _ in side:
-                    for neighbor in owners[si]:
-                        if neighbor in remaining:
-                            remaining.remove(neighbor); component.add(neighbor); pending.append(neighbor)
-        edges = {si for li in component for side in loops[li] for si, _ in side}
-        if len(component) < 3 or any(len(owners[si]) != 2 for si in edges): continue
-        def perimeter(li):
-            total = 0.
-            for side in loops[li]:
-                for si, _ in side:
-                    samples = [bezier(positions, splines[si], k/8.) for k in range(9)]
-                    total += sum(math.sqrt(dot(sub(b,a),sub(b,a))) for a,b in zip(samples,samples[1:]))
-            return total
-        ranked = sorted((perimeter(li), li) for li in component)
-        if ranked[-1][0] > 1.5*ranked[-2][0]: excluded.add(ranked[-1][1])
-    loops = [loop for li, loop in enumerate(loops) if li not in excluded]
-    if not loops:
-        raise ValueError("閉じた領域がありません。交点を接続し、3辺以上で領域を囲んでください。")
-    return loops
 
 
 def side_point(positions, splines, side, t):
