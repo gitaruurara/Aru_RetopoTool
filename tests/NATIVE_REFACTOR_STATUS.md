@@ -34,3 +34,11 @@ Added viewport_preflight to both Maya smoke runs: missing binary files and proje
 Diagnostic GUI 2027 session stop/restart with current Python startup code successfully loaded all three required DLLs. The process retained its already-loaded certificates mesh build (equivalent solver source), so this is not fresh-process validation of the certified binary. Scripted brush and point-context editing, geometry change and Undo restoration passed with GPU guides and direct mesh buffers.
 
 Single-run uninstrumented brush median: 37.157 ms; point drag median: 27.694 ms. Brush output matched the ordinary path exactly. These do not establish 60 FPS or an improvement over prior results. The point release attached to a spline (1589 -> 1590 splines), took 1055.622 ms, including patch transfer 105.118 ms and dirty/refresh 911.112 ms (nested timings, not additive). This identifies topology-change commit/redraw as a separate remaining latency source; normal drag and topology-changing release must not be conflated.
+
+## Topology-changing release investigation
+
+Release-only cProfile in the diagnostic GUI recorded one Plan construction and one compile_stencil call, dominating the Python profile. There was no evidence of duplicate plan evaluation; profile wall times include profiler overhead and are not interactive timing claims.
+
+A candidate removed exact-zero sample coefficients before repeated dictionary accumulation. Twenty-one pure coefficient comparisons (3/4/5/6/8-gons across levels 1–4 and a large grid) were exact; standalone core tests and both Maya smoke suites passed. A 31,936-face grid reduced isolated compilation median from 140.833 to 131.041 ms. However, GUI ABBA release timings were baseline 1024.222/1035.249 ms versus candidate 1026.353/1025.635 ms. Final guide hashes and actual-scene compiled coefficients were exact, and Undo restored input. There is no compelling whole-operation gain; the candidate was reverted and is not part of production.
+
+The next relevant scope is reuse of unaffected topology/stencils after a local spline attachment, or native plan construction. This investigation does not establish a rendering limit or 60 FPS.
