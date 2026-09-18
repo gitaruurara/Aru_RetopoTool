@@ -55,6 +55,9 @@ class Draw(omr.MPxDrawOverride):
         key=cameraPath.fullPathName()
         if key not in self._draw_data:self._draw_data[key]=DrawData()
         data=self._draw_data[key]
+        from Aru_RetopoTool.brush_context import display
+        data.brush=display.get(objPath.fullPathName())
+        if data.brush and data.brush[0]!=cameraPath.fullPathName():data.brush=None
         from Aru_RetopoTool.drag_extrude import selected_points, selected_lines
         data.selected_lines = om.MPointArray([om.MPoint(*p) for p in selected_lines.get(objPath.fullPathName(), [])])
         data.selected_points = om.MPointArray([om.MPoint(*p) for p in selected_points.get(objPath.fullPathName(), [])])
@@ -108,9 +111,12 @@ class Draw(omr.MPxDrawOverride):
         return data
 
     def addUIDrawables(self, objPath, manager, frameContext, data):
-        if not data or (not len(data.lines) and not len(data.preview) and not len(data.guide_preview) and not len(data.selected_points) and not len(data.selected_lines)): return
+        if not data or (not getattr(data,'brush',None) and not len(data.lines) and not len(data.preview) and not len(data.guide_preview) and not len(data.selected_points) and not len(data.selected_lines)): return
         manager.beginDrawable(omr.MUIDrawManager.kNonSelectable)
         manager.beginDrawInXray()
+        if getattr(data,"brush",None):
+            from Aru_RetopoTool.brush_context import draw
+            draw(manager,data.brush)
         if len(data.preview):
             manager.setColor(om.MColor((1.0, .65, .15, .35)))
             manager.mesh(omr.MUIDrawManager.kTriangles, data.preview)

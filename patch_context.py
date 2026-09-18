@@ -41,6 +41,8 @@ class PatchTool(qt.QObject):
         self.candidates = []
         self.surface = None
         self.stopped = False
+        from .brush_context import Interaction
+        self.brush=Interaction(self)
         self._revision=0
         self._last_hover=None
         self._dirty_callback=om.MNodeMessage.addNodeDirtyCallback(_object(node),self.invalidate)
@@ -57,6 +59,7 @@ class PatchTool(qt.QObject):
         global _active
         if self.stopped: return
         self.stopped = True
+        self.brush.close()
         if _active is self: _active = None
         self.timer.stop()
         if getattr(self,"_dirty_callback",None) is not None:
@@ -149,6 +152,7 @@ class PatchTool(qt.QObject):
         try:
             if cmds.currentCtx()!=self.context or not cmds.objExists(self.node):
                 self.stop(); return
+            self.brush.update()
             if not force and qt.QApplication.mouseButtons()!=qt.Qt.NoButton:
                 return
             from . import drag_extrude
@@ -176,8 +180,10 @@ class PatchTool(qt.QObject):
             cmds.warning('[Aru Retopo patch] '+str(exc))
 
     def eventFilter(self, obj, event):
-        if event.type() not in (qt.QEvent.MouseButtonPress,qt.QEvent.MouseButtonRelease,qt.QEvent.MouseMove,qt.QEvent.KeyPress):return False
+        if event.type() not in (qt.QEvent.MouseButtonPress,qt.QEvent.MouseButtonRelease,qt.QEvent.MouseMove,qt.QEvent.KeyPress,qt.QEvent.KeyRelease,qt.QEvent.ShortcutOverride,qt.QEvent.ApplicationDeactivate):return False
         if cmds.currentCtx()!=getattr(self,'context',NAME): return False
+        interaction=getattr(self,'brush',None)
+        if interaction and self.context!=NAME and interaction.event(event):return True
         from . import drag_extrude
         gesture=getattr(self,'gesture',None)
         if gesture and event.type()==qt.QEvent.KeyPress and event.key()==qt.Qt.Key_Escape:

@@ -1632,7 +1632,7 @@ def _split_splines_at_plane(cn, mesh_name, axis, space, plane_tol):
         new_ep, _sp0, _sp1 = cn.split_spline(si, t)
         # 分割点はベジエ上の点なので面からわずかにずれる。面へ載せ直す。
         pos, face_idx, bary = _cnc._snap_pos_to_plane(mesh_name,
-                                                      cn.positions[new_ep])
+                                                      cn.positions[new_ep],axis,space)
         cn.move_cv(new_ep, pos)
         if face_idx >= 0:
             cn.surface_binding[new_ep] = (face_idx, bary)
@@ -1727,6 +1727,9 @@ def mirror_curvenet(node_name="", axis=None, space=None, mode=None,
         n_split = _split_splines_at_plane(cn, mesh_name, axis, space,
                                           plane_tol)
 
+        from Aru_RetopoTool import mirror_patches
+        patch_records=mirror_patches.snapshot(shape,cn)
+
         # --- 2. 反転元があるか確かめる --------------------------------
         src_splines = [tuple(sp) for sp in cn.splines
                        if spline_side(sp) == src_sign]
@@ -1742,7 +1745,10 @@ def mirror_curvenet(node_name="", axis=None, space=None, mode=None,
         # --- 3. 作り直すなら反転先の側を消す ---------------------------
         n_removed = 0
         if str(mode).lower() != "add":
-            kept = [sp for sp in cn.splines if spline_side(sp) != tgt_sign]
+            kept_ids=[i for i,sp in enumerate(cn.splines) if spline_side(sp) != tgt_sign]
+            kept = [cn.splines[i] for i in kept_ids]
+            if hasattr(cn,"_retopo_parents"):
+                cn._retopo_parents={j:cn._retopo_parents.get(i) for j,i in enumerate(kept_ids)}
             n_removed = len(cn.splines) - len(kept)
             cn.splines = kept
             cn.standalone_eps = {c for c in cn.standalone_eps
@@ -1762,7 +1768,10 @@ def mirror_curvenet(node_name="", axis=None, space=None, mode=None,
             if cv in mirror_of:
                 return mirror_of[cv]
             if is_ep and side_of(cv) == 0:
-                # 面の上の点は自分自身が反転先
+                # Center endpoints are shared and lie exactly on the chosen plane.
+                p,face,bary=_cnc._snap_pos_to_plane(mesh_name,cn.positions[cv],axis,space)
+                cn.move_cv(cv,p)
+                if face>=0:cn.surface_binding[cv]=(face,bary)
                 mirror_of[cv] = cv
                 return cv
             mpos = _sym.mirror_point(cn.positions[cv], mesh_name,
@@ -1796,6 +1805,8 @@ def mirror_curvenet(node_name="", axis=None, space=None, mode=None,
             m1 = mirror_cv(i1, False)
             m2 = mirror_cv(i2, False)
             cn.add_spline(m0, m1, m2, m3)
+            for original,mirrored in ((i1,m1),(i2,m2)):
+                if original in cn.manual_handles:cn.mark_manual_handle(mirrored)
             n_new += 1
 
         # --- 6. 線を持たない単独ポイントも反転する ---------------------
@@ -1819,7 +1830,13 @@ def mirror_curvenet(node_name="", axis=None, space=None, mode=None,
                 src_weights = get_skin_weights(shape, srcs) or {}
                 pairs = [(c, mirror_of[c]) for c in srcs]
 
+        from .symmetry_constraints import constrain
+        constrain(cn,mesh_name,axis=axis,space=space)
+        patch_updates=mirror_patches.resolve(cn,mesh_name,patch_records,axis,space,src_sign)
         remap = _commit_net_data(shape, cn)
+        import json
+        for generator,keys in patch_updates:
+            cmds.setAttr(generator+'.selectedPatches',json.dumps(sorted(keys)),type='string')
 
         if sc and src_weights:
             inf_map = _influence_index_map(sc)

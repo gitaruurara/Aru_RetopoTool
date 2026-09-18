@@ -42,6 +42,8 @@ def _commit_net_data(node: str, cn: RetopoGuideData) -> None:
     書き込み時に孤立 CV が掃除されると CV 番号が詰められるため、
     ``sel_ep`` などのキャッシュを張り替えないと別の CV を指してしまう。
     """
+    from .symmetry_constraints import constrain
+    constrain(cn,RetopoGuideAccessor(node).mesh_name)
     remap = _edit_commit_net_data(node, cn)
     if remap:
         try:
@@ -610,17 +612,17 @@ def _project_on_mesh(mesh_name: str, pos):
     return list(pos), -1, []
 
 
-def _snap_pos_to_plane(mesh_name: str, pos):
+def _snap_pos_to_plane(mesh_name: str, pos, axis=None, space=None):
     """*pos* を対称面の上へ落とし、メッシュ面にも載せ直して返す。
 
     対称面へ落とす → メッシュへ投影 → もう一度対称面へ落とす、を繰り返す。
     メッシュへの投影で面から少しずれるので、最後にもう一度面へ載せる。
     戻り値は (位置, face, bary)。
     """
-    p = _sym.project_to_plane(pos, mesh_name)
+    p = _sym.project_to_plane(pos, mesh_name, axis, space)
     for _ in range(2):
         p, face_idx, bary = _project_on_mesh(mesh_name, p)
-        p = _sym.project_to_plane(p, mesh_name)
+        p = _sym.project_to_plane(p, mesh_name, axis, space)
     return p, face_idx, bary
 
 
@@ -646,7 +648,7 @@ def _apply_symmetry_constraint(mesh_name: str, pos, side=None):
     tol = _mirror_tol(mesh_name) * 0.5
     crossed = (side is not None and side != 0.0
                and coord * side < 0.0)
-    if abs(coord) <= tol or crossed:
+    if abs(coord) <= tol or crossed or (side is not None and abs(side) < 1e-8):
         p, f, b = _snap_pos_to_plane(mesh_name, pos)
         return p, f, b, True
 
@@ -2083,6 +2085,7 @@ class RetopoGuideContext:
         callback=getattr(self,'_point_save_callback',None)
         if callback is not None:om.MMessage.removeCallback(callback)
         self._point_save_callback=None
+        if not take:_state_set(self._s,"soft_move",None)
         if preview is None or preview.closed:return None
         try:
             if take:return preview.take()
@@ -2092,7 +2095,7 @@ class RetopoGuideContext:
             if not preview.closed:preview.cancel()
 
     def _before_point_save(self, *args):
-        try:self._finish_point(False)
+        try:self._cancel_relax()
         finally:self._close_undo()
 
     def _close_undo(self):
@@ -2138,6 +2141,10 @@ class RetopoGuideContext:
         try:
             self._finish_relax(False)
             self._finish_point(False)
+            for name in ('drag_ep','drag_handle','drag_mirror_ep','drag_side','merge_target'):
+                setattr(self._s,name,None)
+            _state_set(self._s,'hover_spline',None)
+            _state_set(self._s,'drag_screen',None)
         finally:self._close_undo()
 
     def press(self):
@@ -2326,6 +2333,10 @@ class RetopoGuideContext:
                 return
             if snapped is not None:
                 self._s.drag_ep = snapped
+                from . import brush
+                if brush.soft():
+                    from .soft_move import SoftMove
+                    _state_set(self._s,"soft_move",SoftMove(node,snapped,(sx,sy)))
                 # 対称ドラッグの相方と、開始時にいた側を憶えておく。
                 # ドラッグ中に位置が動くと相方を見失うので、押した瞬間に
                 # 一度だけ決める。
@@ -2338,7 +2349,7 @@ class RetopoGuideContext:
                         mirror = None
                     coord = _sym.plane_coord(cn.positions[snapped], mesh_name)
                     if coord is not None:
-                        side = 1.0 if coord >= 0.0 else -1.0
+                        side = 0.0 if abs(coord)<1e-6 else (1.0 if coord>0.0 else -1.0)
                 _state_set(self._s, "drag_mirror_ep", mirror)
                 _state_set(self._s, "drag_side", side)
                 om.MGlobal.displayInfo("[RetopoGuide] MMB start drag EP={}".format(snapped))
@@ -2464,10 +2475,12 @@ class RetopoGuideContext:
                 stroke['numeric_preview']=preview
                 self._relax_save_callback=om.MSceneMessage.addCallback(
                     om.MSceneMessage.kBeforeSave,self._before_relax_save)
-            affected=preview.brush(sx,sy)
+            from . import brush
+            affected=preview.brush(sx,sy,radius=brush.radius())
         else:
             # A running older plugin can retain the established edit path.
-            affected=curve_net_relax.brush_relax(stroke['node'],sx,sy)
+            from . import brush
+            affected=curve_net_relax.brush_relax(stroke['node'],sx,sy,radius=brush.radius())
         stroke['affected'].update(affected)
         return True
 
@@ -2686,6 +2699,8 @@ class RetopoGuideContext:
                 anchor = (getattr(self._s, "drag_handle_anchor", None)
                           or cn.positions[drag_handle])
                 pt = _screen_to_view_plane(sx, sy, anchor) or world_pt
+                from .symmetry_constraints import drag_position
+                pt=drag_position(cn,drag_handle,pt,mesh_name,_mirror_tol(mesh_name)*.5)
                 cn.move_cv(drag_handle, pt)
                 cn.mark_manual_handle(drag_handle)
                 mh = _state_get(self._s, "drag_mirror_handle")
@@ -2701,6 +2716,14 @@ class RetopoGuideContext:
             preview = self._point_preview_for(node)
             cn = preview.read() if preview is not None else acc.read()
             ep  = self._s.drag_ep
+            soft_move=_state_get(self._s,'soft_move')
+            if soft_move is not None:
+                cn=soft_move.move(world_pt)
+                self._s.merge_target=None
+                _state_set(self._s,'hover_spline',None)
+                if preview is not None:preview.write(cn)
+                else:_commit_net_data(node,cn)
+                return
             # 対称面への吸着 / 面を跨がせない制限
             snap_pt, face_idx, bary, on_plane = _apply_symmetry_constraint(
                 mesh_name, world_pt, side=self._s.drag_side)
@@ -2730,31 +2753,27 @@ class RetopoGuideContext:
                 _recompute_handles_for_ep(cn, mirror_ep, mesh_name, draft=True)
 
             _smooth_moved_ep_routes(cn, {ep, mirror_ep}, mesh_name)
+            from .symmetry_constraints import constrain
+            constrain(cn,mesh_name)
             cn.classify_endpoints()
             # マージ候補を記録 (近くの既存 EP)
-            snap_r = _snap_radius(mesh_name)
-            ep_set = cn.endpoint_indices()
-            nearest = cn.find_nearest_cv(snap_pt, snap_r, exclude=ep)
-            if mirror_ep is not None and nearest == mirror_ep:
-                # 対称面に乗せたときの統合はリリース時に専用処理で行う
-                nearest = None
-            if nearest is not None and nearest in ep_set and nearest != ep:
-                self._s.merge_target = nearest
-            else:
-                self._s.merge_target = None
+            from . import brush
+            excluded={ep,mirror_ep}
+            self._s.merge_target=(brush.endpoint_target(cn,mesh_name,sx,sy,excluded)
+                                  if brush.auto_connect() else None)
 
             # ---- カーブの上にホバーしているか ----
             # ここで見つかれば、リリース時にそのカーブを分割して
             # 掴んでいる EP を交点にする。判定はスクリーン空間で行う
             # (カーブがメッシュに埋もれていても狙えるように)。
             _state_set(self._s, "drag_screen", (float(sx), float(sy)))
-            if self._s.merge_target is None:
+            if brush.auto_connect() and self._s.merge_target is None:
                 excl = {ep}
                 if mirror_ep is not None:
                     excl.add(mirror_ep)
                 _state_set(self._s, "hover_spline",
                            _find_spline_under_screen(cn, float(sx), float(sy),
-                                                     exclude_eps=excl,
+                                                     tol_px=brush.snap_radius(),exclude_eps=excl,
                                                      mesh_name=mesh_name))
             else:
                 _state_set(self._s, "hover_spline", None)
@@ -2778,6 +2797,17 @@ class RetopoGuideContext:
                 self._merge_shift_click(stroke['node'], stroke['snapped'])
             return
         point_data = self._finish_point(True, take=True)
+        soft_move=_state_get(self._s,'soft_move')
+        _state_set(self._s,'soft_move',None)
+        if soft_move is not None:
+            self._s.drag_ep=None;self._s.merge_target=None
+            _state_set(self._s,'drag_mirror_ep',None)
+            _state_set(self._s,'drag_side',None)
+            _state_set(self._s,'drag_screen',None)
+            _state_set(self._s,'hover_spline',None)
+            if soft_move.target is not None:
+                _commit_net_data(soft_move.node,soft_move.move(soft_move.target,draft=False))
+            return
         drag_handle = getattr(self._s, "drag_handle", None)
         mirror_handle = _state_get(self._s, "drag_mirror_handle")
         _state_set(self._s, "drag_handle", None)
@@ -2846,12 +2876,13 @@ class RetopoGuideContext:
             else:
                 # ---- カーブの上で離した → そのカーブを分割して交点にする ----
                 attached = False
-                if drag_screen is not None and drag_ep < len(cn.positions):
+                from . import brush
+                if brush.auto_connect() and drag_screen is not None and drag_ep < len(cn.positions):
                     excl = {drag_ep}
                     if drag_mirror_ep is not None:
                         excl.add(drag_mirror_ep)
                     hit = _find_spline_under_screen(
-                        cn, drag_screen[0], drag_screen[1], exclude_eps=excl,
+                        cn, drag_screen[0], drag_screen[1], tol_px=brush.snap_radius(),exclude_eps=excl,
                         mesh_name=mesh_name)
                     if hit is not None:
                         attached = _attach_ep_to_spline(
@@ -3066,6 +3097,7 @@ class RetopoGuideContext:
         _state_set(self._s, "drag_mirror_ep", None)
         _state_set(self._s, "drag_side", None)
         # ツール中はリバインドを保留 (抜けた時にまとめて 1 回)
+        _state_set(self._s,"soft_move",None)
         _rebind.tool_entered(node)
         if node and cmds.objExists(node) and not cmds.about(batch=True):
             from Aru_RetopoTool import patch_context

@@ -360,6 +360,8 @@ def relax(node, weights, strength=.2, draft=True, smooth=True, *, _world=None, _
                 n_samples=context._FIT_DRAFT_SAMPLES if draft else context._FIT_SAMPLES)
     _smooth_junctions(cn, weights, mesh_fn, mesh_dag,
                       amount=min(1., strength*3) if smooth else 1.)
+    from .symmetry_constraints import constrain
+    constrain(cn,mesh)
     # Most retopo guides have an identity world transform. Avoid constructing
     # a Maya point and replacement list for every CV in that common case.
     # Exact comparison retains the existing path for even tiny transforms.
