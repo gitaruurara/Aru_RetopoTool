@@ -20,6 +20,9 @@ def transfer(old,new,keys,normal):
             p,q=new.positions[sp[0]],new.positions[sp[3]]
             if close(a,p) and close(b,q):mapping[i]=(j,1);break
             if close(a,q) and close(b,p):mapping[i]=(j,-1);break
+    children=defaultdict(set)
+    for i,(parent,_) in mapping.items():children[parent].add(i)
+    loop_keys=[core.patch_key(loop) for loop in loops]
     owners=defaultdict(list)
     for li,loop in enumerate(loops):
         for side in loop:
@@ -27,8 +30,8 @@ def transfer(old,new,keys,normal):
     result=set()
     for key in keys:
         boundary=dict(json.loads(key))
-        walls={i for i,(p,_) in mapping.items() if p in boundary}
-        if {mapping[i][0] for i in walls}!=set(boundary):continue
+        if any(parent not in children for parent in boundary):continue
+        walls=set().union(*(children[parent] for parent in boundary))
         seeds={li for i in walls for li,d in owners[i] if d*mapping[i][1]==boundary[mapping[i][0]]}
         visited=set(seeds);pending=list(seeds)
         while pending:
@@ -38,7 +41,7 @@ def transfer(old,new,keys,normal):
                     if si in walls:continue
                     for neighbor,_ in owners[si]:
                         if neighbor not in visited:visited.add(neighbor);pending.append(neighbor)
-        result.update(core.patch_key(loops[i]) for i in visited)
+        result.update(loop_keys[i] for i in visited)
     return result
 
 

@@ -39,9 +39,10 @@ Degree-two chains are collapsed into logical sides, preserving their Béziers.
             raise ValueError("Self-loop spline: insert at least three distinct corners")
         incident[sp[0]].append((si, 1))
         incident[sp[3]].append((si, -1))
+    normals={ep:normal_at(positions[ep]) for ep in incident}
     order = {}
     for ep, outgoing in incident.items():
-        n = unit(normal_at(positions[ep]))
+        n = unit(normals[ep])
         u = unit(cross(n, (1, 0, 0) if abs(n[0]) < .8 else (0, 1, 0)))
         v = cross(n, u)
         def angle(h):
@@ -74,7 +75,7 @@ Degree-two chains are collapsed into logical sides, preserving their Béziers.
             for a, b in zip(pts, pts[1:]+pts[:1]):
                 area = add(area, cross(sub(a, center), sub(b, center)))
             # Local orientation distinguishes the unbounded walk on an open patch.
-            n = mean([normal_at(p) for p in pts])
+            n = mean([normals[i] for i in ids])
             if dot(area, n) <= 1e-12: continue
             # Preserve all corners of an isolated loop; collapse degree-two points
             # only when >=3 junctions already provide an unambiguous polygon.
@@ -161,90 +162,19 @@ class Plan:
         estimate = sum(map(len, faces)) * 4**(levels-1)
         if estimate > max_faces: raise ValueError("生成面数が上限を超えます。分割レベルを下げてください。")
         self.endpoints = endpoints
-        # Carry patch coordinates through the existing subdivision topology.
-        # Four-sided regions interpolate their curved boundary, rather than
-        # smoothing a corner polygon and pinning the boundary afterwards.
-        patches = []
-        for loop, face in zip(loops, faces):
-            if len(face) == 4:
-                patches.append((loop, dict(zip(face, ((0.,0.),(1.,0.),(1.,1.),(0.,1.))))))
-        self.steps = []
-        count = len(endpoints)
-        for _ in range(levels):
-            edges, vertex_faces, vertex_edges = {}, defaultdict(list), defaultdict(set)
-            for fi, face in enumerate(faces):
-                for v in face: vertex_faces[v].append(fi)
-                for a, b in zip(face, face[1:]+face[:1]):
-                    key = tuple(sorted((a, b)))
-                    edges.setdefault(key, []).append(fi)
-                    vertex_edges[a].add(key); vertex_edges[b].add(key)
-            edge_ids = {e: count+i for i, e in enumerate(sorted(edges))}
-            face_base = count+len(edges)
-            fweights = [{v: 1/len(f) for v in f} for f in faces]
-            rows = []
-            def accumulate(dst, src, factor):
-                for v, w in src.items(): dst[v] = dst.get(v, 0)+w*factor
-            for v in range(count):
-                boundary = [e for e in vertex_edges[v] if len(edges[e]) == 1]
-                if boundary:
-                    neighbors = [e[0] if e[1] == v else e[1] for e in boundary]
-                    row = {v: .75}
-                    for w in neighbors: row[w] = row.get(w, 0)+.25/len(neighbors)
-                else:
-                    n = len(vertex_faces[v]); row = {v: (n-3)/n}
-                    for fi in vertex_faces[v]: accumulate(row, fweights[fi], 1/(n*n))
-                    for e in vertex_edges[v]:
-                        for w in e: row[w] = row.get(w, 0)+1/(n*n)
-                rows.append(row)
-            for e in sorted(edges):
-                fs = edges[e]
-                if len(fs) == 1: row = {e[0]: .5, e[1]: .5}
-                else:
-                    row = {e[0]: .25, e[1]: .25}
-                    for fi in fs: accumulate(row, fweights[fi], .25)
-                rows.append(row)
-            rows.extend(fweights)
-            for loop, uv in patches:
-                additions = {}
-                # Visit only incidences touching this patch. Sorted IDs retain
-                # the global scan's insertion and floating-point operation order.
-                local_edges={edge for vertex in uv for edge in vertex_edges[vertex]}
-                for a,b in sorted(local_edges):
-                    if a in uv and b in uv:
-                        additions[edge_ids[(a,b)]] = tuple((x+y)*.5 for x,y in zip(uv[a],uv[b]))
-                local_faces={fi for vertex in uv for fi in vertex_faces[vertex]}
-                for fi in sorted(local_faces):
-                    face=faces[fi]
-                    if all(v in uv for v in face):
-                        additions[face_base+fi] = tuple(sum(uv[v][k] for v in face)/len(face) for k in range(2))
-                uv.update(additions)
-            children, new_guides = [], {}
-            for fi, face in enumerate(faces):
-                for i, v in enumerate(face):
-                    children.append([v, edge_ids[tuple(sorted((v, face[(i+1)%len(face)])))],
-                                     face_base+fi, edge_ids[tuple(sorted((face[i-1], v)))]])
-            for (a, b), (side, ta, tb) in guides.items():
-                mid = edge_ids[(a, b)]; tm = (ta+tb)*.5
-                self.guide_vertices[mid] = ("side", side, tm)
-                for x, y, tx, ty in ((a, mid, ta, tm), (mid, b, tm, tb)):
-                    new_guides[tuple(sorted((x, y)))] = (side, tx, ty) if x < y else (side, ty, tx)
-            offsets, ids, weights = [0], [], []
-            for row in rows:
-                for v, w in sorted(row.items()): ids.append(v); weights.append(w)
-                offsets.append(len(ids))
-            self.steps.append((array('i',offsets),array('i',ids),array('d',weights)))
-            faces, guides, count = children, new_guides, len(rows)
-        self.faces, self.count, self.region_count = tuple(map(tuple,faces)), count, len(loops)
-        self.patches = patches
-        adj = [set() for _ in range(count)]
-        for face in faces:
-            for a, b in zip(face, face[1:]+face[:1]): adj[a].add(b); adj[b].add(a)
-        self.adj_offsets, self.adj_ids = [0], []
-        for neighbors in adj:
-            self.adj_ids.extend(sorted(neighbors)); self.adj_offsets.append(len(self.adj_ids))
-        # Numeric buffers avoid retaining a Python object for every stencil entry.
-        self.adj_offsets=array('i',self.adj_offsets)
-        self.adj_ids=array('i',self.adj_ids)
+        from .subdivision import plan as subdivision_plan
+        guide_sides=[value[0] for value in guides.values()]
+        self.steps,buffers=subdivision_plan(len(endpoints),faces,guides,levels)
+        (flat,self.adj_offsets,self.adj_ids,guide_ids,guide_sources,
+         patch_offsets,patch_ids,patch_faces,guide_t,patch_u,patch_v)=buffers
+        for vertex,source,t in zip(guide_ids,guide_sources,guide_t):
+            self.guide_vertices[vertex]=('side',guide_sides[source],t)
+        self.faces=tuple(zip(flat[::4],flat[1::4],flat[2::4],flat[3::4]))
+        self.count=len(self.adj_offsets)-1
+        self.region_count=len(loops)
+        self.patches=[(loops[face],{patch_ids[j]:(patch_u[j],patch_v[j])
+                                 for j in range(patch_offsets[i],patch_offsets[i+1])})
+                      for i,face in enumerate(patch_faces)]
 
     def compile_stencil(self,splines):
         """Compose the exact subdivision, guide and Coons linear coefficients once."""

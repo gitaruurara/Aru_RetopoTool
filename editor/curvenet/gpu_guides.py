@@ -49,7 +49,8 @@ def configure(owner, items, enabled):
             width=style['curve_width']+(2. if index==0 else 0.)
             shader.setParameter('solidColor',color)
             shader.setParameter('lineWidth',(width,width))
-        item.setDepthPriority(owner._xray_priority+index)
+            item.setShader(shader)
+        item.setDepthPriority(index)
         item.enable(enabled and owner._is_valid)
     owner._gpu_curve_active=enabled
     configure_controls(owner,items,enabled and GPU_CONTROLS)
@@ -200,12 +201,16 @@ def configure_controls(owner,items,enabled):
             item.setSelectionMask(om.MSelectionMask(om.MSelectionMask.kSelectNurbsCurves))
             manager=render.MRenderer.getShaderManager()
             kind=render.MShaderManager.k3dFatPointShader if primitive==render.MGeometry.kPoints else render.MShaderManager.k3dSolidShader
-            shader=manager.getStockShader(kind)
+            if primitive==render.MGeometry.kPoints:
+                from .gpu_point_shader import shader as point_shader
+                shader=point_shader(manager)
+            else:shader=manager.getStockShader(kind)
             item.setShader(shader);manager.releaseShader(shader);items.append(item)
         else:item=items[index]
         shader=item.getShader();shader.setParameter('solidColor',color)
-        if primitive==render.MGeometry.kPoints:shader.setParameter('pointSize',[float(size)])
-        item.setDepthPriority(owner._xray_priority+2+number)
+        if primitive==render.MGeometry.kPoints:shader.setParameter('pointSize',[float(size),float(size)])
+        item.setShader(shader)
+        item.setDepthPriority(0)
         item.enable(bool(len(indices)))
         indices_out.append(((name,),indices))
     for index in range(len(items)):

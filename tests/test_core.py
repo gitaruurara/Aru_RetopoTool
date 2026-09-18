@@ -134,6 +134,9 @@ class Tests(unittest.TestCase):
             self.assertEqual(plan.count-len(edges)+len(plan.faces), 1)
             self.assertTrue(all(abs(sum(w[offsets[i]:offsets[i+1]])-1) < 1e-10
                                 for offsets, _, w in plan.steps for i in range(len(offsets)-1)))
+            offsets,_,w=plan.compile_stencil(s)
+            self.assertTrue(all(abs(sum(w[offsets[i]:offsets[i+1]])-1)<1e-10
+                                for i in range(plan.count)))
 
     def test_shared_boundary_and_dangling(self):
         p, s = network([(-1,0,-1),(0,0,-1),(1,0,-1),(-1,0,1),(0,0,1),(1,0,1),(0,0,2)],

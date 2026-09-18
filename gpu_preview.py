@@ -1,13 +1,10 @@
-"""Experimental VP2 foreground pass, opt-in until interaction parity is verified.
-
-The second scene pass clears depth only. Maya's own shaded/wire rendering then
-occludes rear edges using GPU depth, independent of the reference surface.
-"""
+"""VP2 retopo passes sharing scene depth with a small display-only bias."""
 import sys
 from maya import cmds
 from . import maya_api as api
 import maya.api.OpenMaya as om
 import maya.api.OpenMayaRender as render
+import maya.api.OpenMayaUI as omui
 
 # Keep the Python instance alive across development reloads: findRenderOverride
 # returns a base wrapper, not the original Python subclass with owned operations.
@@ -18,17 +15,86 @@ _registered_name=globals().get('_registered_name')
 _buffer_session=globals().get('_buffer_session')
 
 
+def _depth_limits(panel):
+    """Bound display bias in reference-object units, independently of zoom."""
+    camera=cmds.modelPanel(panel,q=True,camera=True)
+    selection=om.MSelectionList();selection.add(camera)
+    camera_path=selection.getDagPath(0)
+    if camera_path.node().hasFn(om.MFn.kTransform):camera_path.extendToShape()
+    camera_fn=om.MFnCamera(camera_path)
+    view=camera_path.inclusiveMatrixInverse()
+    references=set()
+    for node in cmds.ls(type='aruRetopoMesh') or []:
+        references.update(cmds.listConnections(node+'.referenceMesh',s=True,d=False,shapes=True) or [])
+    for guide in cmds.ls(type='retopoGuideNode') or []:
+        mesh=cmds.getAttr(guide+'.meshName')
+        if mesh and cmds.objExists(mesh):references.add(mesh)
+    fraction=.005
+    offset=camera_fn.orthoWidth*.005
+    found=False
+    for mesh in references:
+        selection=om.MSelectionList();selection.add(mesh)
+        path=selection.getDagPath(0)
+        if path.node().hasFn(om.MFn.kTransform):path.extendToShape()
+        if not path.node().hasFn(om.MFn.kMesh):continue
+        bounds=om.MFnDagNode(path).boundingBox
+        lo,hi=bounds.min,bounds.max;world=path.inclusiveMatrix()
+        extents=[(om.MVector(hi.x-lo.x,0,0)*world).length(),
+                 (om.MVector(0,hi.y-lo.y,0)*world).length(),
+                 (om.MVector(0,0,hi.z-lo.z)*world).length()]
+        positive=[extent for extent in extents if extent>0.]
+        if not positive:continue
+        tolerance=min(positive)*.02
+        depths=[-(om.MPoint(x,y,z)*world*view).z
+                for x in (lo.x,hi.x) for y in (lo.y,hi.y) for z in (lo.z,hi.z)]
+        farthest=max(depths)
+        if farthest<=0.:continue
+        fraction=min(fraction,tolerance/farthest)
+        offset=min(offset,tolerance)
+        found=True
+    return (fraction,offset) if found else (0.,0.)
+
+
 class Foreground(render.MSceneRender):
     def __init__(self,name='aruRetopoForeground'):
         super().__init__(name)
         self.objects=om.MSelectionList()
+        self.panel=None
+        self.depth_fraction=0.
+        self.depth_offset=0.
+        self._camera=render.MCameraOverride()
     def objectSetOverride(self):return self.objects
     def displayModeOverride(self):return self.kShaded | self.kWireFrame
     def getObjectTypeExclusions(self):return self.kExcludeGrid
     def postEffectsOverride(self):return self.kPostEffectDisableAll
     def cullingOverride(self):return self.kCullBackFaces
+    def cameraOverride(self):
+        if not self.panel:return None
+        camera=cmds.modelPanel(self.panel,q=True,camera=True)
+        selection=om.MSelectionList();selection.add(camera)
+        path=selection.getDagPath(0)
+        if path.node().hasFn(om.MFn.kTransform):path.extendToShape()
+        fn=om.MFnCamera(path)
+        override=self._camera
+        override.mCameraPath=path
+        override.mUseProjectionMatrix=True
+        override.mProjectionMatrix=omui.M3dView.getM3dViewFromModelPanel(self.panel).projectionMatrix()
+        override.mUseNearClippingPlane=True
+        override.mUseFarClippingPlane=True
+        # VP2 rebuilds projection Z from these clipping planes even with a
+        # projection matrix override. Keep XY and scene geometry untouched.
+        multiplier=1.2 if self.name()=="aruRetopoGuides" else 1.
+        factor=self.depth_fraction*multiplier
+        if fn.isOrtho():
+            offset=self.depth_offset*multiplier
+            override.mNearClippingPlane=fn.nearClippingPlane+offset
+            override.mFarClippingPlane=fn.farClippingPlane+offset
+        else:
+            override.mNearClippingPlane=fn.nearClippingPlane*(1.+factor)
+            override.mFarClippingPlane=fn.farClippingPlane*(1.+factor)
+        return override
     def clearOperation(self):
-        op=super().clearOperation();op.setMask(render.MClearOperation.kClearDepth)
+        op=super().clearOperation();op.setMask(0)
         return op
 
 
@@ -47,7 +113,13 @@ class Preview(render.MRenderOverride):
     def startOperationIterator(self):self.index=0;return True
     def renderOperation(self):return self.operations[self.index]
     def nextRenderOperation(self):self.index+=1;return self.index<len(self.operations)
-    def setup(self,destination):pass
+    def setup(self,destination):
+        self.foreground.panel=destination
+        self.guides.panel=destination
+        fraction,offset=_depth_limits(destination)
+        for operation in (self.foreground,self.guides):
+            operation.depth_fraction=fraction
+            operation.depth_offset=offset
     def cleanup(self):pass
 
 
