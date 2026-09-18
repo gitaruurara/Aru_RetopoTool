@@ -66,3 +66,11 @@ The production compiler now retains sparse subdivision rows in C++ across levels
 Candidate checks: 20 polygon/level cases and actual-scene coefficients were exactly equal. GUI ABBA topology-release baseline 1045.830/1018.686 ms versus candidate 773.502/818.571 ms, with matching final guide hashes and Undo restoration.
 
 Production checks: all 13 core tests and both full Maya smoke suites passed. Additional randomized ordered multi-stage/override tests, output lifetime checks, malformed input/state preservation and copy-capacity checks passed in both mayapy 2024 and 2027. Current production ABI 5 loaded in the existing diagnostic GUI: scripted brush output matched the ordinary path, point editing changed geometry and Undo restored input. Integrated release 857.839 ms; brush 37.596 ms and point drag 26.670 ms. This improves topology-changing commits, not a demonstrated 60 FPS edit loop. The GUI still uses its existing certificates mesh build; this was not a fresh whole-bundle process launch.
+
+## Final distribution verification and accepted milestone
+
+The user accepted the current improvement as this milestone and explicitly requested a push after the next verification; 60 FPS remains unmet and is not claimed.
+
+Verified a fresh git archive of 0e80ad8 using independent mayapy 2024/2027 processes and isolated Maya preference directories. All Aru_RetopoTool Python modules and native libraries were checked to resolve inside the archive. The certified mesh-buffer and fast-preview plugins loaded; core ABI 5, compact projector, visibility and screen libraries loaded from the distribution. Both full Maya smoke suites and all 15 core/compiler tests passed, with process exit codes 0 and no native shutdown stack trace using the normal scene-clear/plugin-unload/Maya-uninitialize sequence. The initial ad-hoc wrapper omitted that sequence and produced shutdown traces after passing tests; its cleanup was corrected before acceptance.
+
+The archive test supplies NumPy for Python 3.10 separately (the installer's existing dependency behavior) and a sibling copy of the external CurveNet tool solely for the coexistence test. These are not untracked Retopo source dependencies. This is standalone distribution validation, supplemented by the earlier diagnostic GUI validation; it is not a fresh GUI latency benchmark.
