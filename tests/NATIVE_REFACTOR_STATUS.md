@@ -14,3 +14,9 @@ Validation:
 - No C++ algorithm or binary changed. No new performance claim or 60 FPS claim.
 
 The historical experimental DLLs and benchmark scripts are not selected by the production path. This change consolidates projection and relaxation; it does not remove all compatibility code from unrelated subsystems.
+
+## Visibility consolidation
+
+Batch brush visibility now requires the native visibility DLL. File/ABI validation runs at session startup; invalid inputs, worker-thread calls and native execution failures are explicit errors rather than silent scalar fallbacks. The single-point visibility API remains for its actual callers.
+
+Maya 2024 and 2027 visibility release comparisons (occlusion, perspective/orthographic views, deformation, transform, mirrored/nonuniform DAG instances) and full smoke suites passed. Missing/incompatible DLL rejection is covered. Existing diagnostic GUI brush comparison again produced exact guide JSON and mesh coordinates before/after, with Undo restoration. No new frame-time improvement is claimed.

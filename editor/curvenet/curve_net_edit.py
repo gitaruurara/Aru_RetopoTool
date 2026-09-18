@@ -2807,18 +2807,10 @@ def make_visibility_test(mesh_name: str, occlusion: bool = True,
 
     def _many(points):
         if not points:return []
-        try:
-            from .maya_projector import normals_array
-            normals=normals_array(mesh_fn,points)
-        except Exception:
-            return [_visible(p) for p in points]
-        try:
-            from .maya_visibility import native_many
-            result=native_many(mesh_fn,points,normals,eye,vdir,ortho,occlusion,lift,use_acceleration)
-        except (ImportError,OSError,AttributeError,RuntimeError,ValueError):
-            result=None
-        if result is not None:return result
-        return [_visible(p,n) for p,n in zip(points,normals)]
+        from .maya_projector import normals_array
+        from .maya_visibility import native_many
+        normals=normals_array(mesh_fn,points)
+        return native_many(mesh_fn,points,normals,eye,vdir,ortho,occlusion,lift,use_acceleration)
     _visible.many = _many
     return _visible
 

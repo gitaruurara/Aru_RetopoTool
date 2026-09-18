@@ -37,11 +37,18 @@ try:
     from Aru_RetopoTool.editor.curvenet import maya_visibility as native
     from unittest.mock import patch
     assert native._LIB is not None
-    # Exercise legacy fallback when the optional native DLL is unavailable.
+    # Missing DLL must fail explicitly without invoking scalar visibility.
     saved=native._LIB;native._LIB=None
     try:
         with patch.object(native.C,'PyDLL',side_effect=OSError('missing test DLL')):
-            assert edit.make_visibility_test(mesh,view_info=views[0]).many(queries.tolist())==[edit.make_visibility_test(mesh,view_info=views[0])(p) for p in queries]
+            try:edit.make_visibility_test(mesh,view_info=views[0]).many(queries.tolist())
+            except RuntimeError as exc:assert 'could not be loaded' in str(exc)
+            else:raise AssertionError('Missing DLL accepted')
+        from types import SimpleNamespace
+        with patch.object(native.C,'PyDLL',return_value=SimpleNamespace()):
+            try:native.library()
+            except RuntimeError as exc:assert 'ABI mismatch' in str(exc)
+            else:raise AssertionError('Incompatible DLL accepted')
     finally:native._LIB=saved
     print('VISIBILITY RELEASE PARITY / OCCLUSION / ORTHO / DEFORM / TRANSFORM PASSED',cmds.about(version=True))
     status=0
