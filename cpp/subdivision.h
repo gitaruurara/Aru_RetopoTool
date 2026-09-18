@@ -62,6 +62,8 @@ API int aru_subdivision_copy_weights(void* p,double* dst,int size){if(!p||!dst)r
 }
 namespace aru_subdivision_internal {
 struct Plan {
+ int baseCount=0;
+ std::vector<int> baseOffsets,baseVertices,guideEdges;
  std::vector<std::unique_ptr<Step>> steps;
  std::array<std::vector<int>,8> ints;
  std::array<std::vector<double>,3> doubles;
@@ -75,6 +77,9 @@ API void* aru_subdivision_plan_create(int count,const int* offsets,int faceCount
   // Validate all topology before indexing the initial faces or guide endpoints.
   std::unique_ptr<Step> first(static_cast<Step*>(aru_subdivision_create(count,offsets,faceCount,vertices,entries)));
   if(!first)return nullptr;
+  p->baseCount=count;p->baseOffsets.assign(offsets,offsets+faceCount+1);
+  if(entries)p->baseVertices.assign(vertices,vertices+entries);
+  if(guideCount)p->guideEdges.assign(guideEdges,guideEdges+guideCount*2);
   std::vector<int> off(offsets,offsets+faceCount+1),verts;
   if(entries)verts.assign(vertices,vertices+entries);
   std::vector<std::map<int,UV>> patches;
@@ -118,3 +123,5 @@ API int aru_subdivision_plan_size(void* p,int which){if(!p||which<0||which>10)re
 API int aru_subdivision_plan_copy_int(void* p,int which,int* dst,int size){if(!p||!dst||which<0||which>=8)return 0;const auto& v=static_cast<Plan*>(p)->ints[which];if(size!=int(v.size()))return 0;std::copy(v.begin(),v.end(),dst);return 1;}
 API int aru_subdivision_plan_copy_double(void* p,int which,double* dst,int size){if(!p||!dst||which<0||which>=3)return 0;const auto& v=static_cast<Plan*>(p)->doubles[which];if(size!=int(v.size()))return 0;std::copy(v.begin(),v.end(),dst);return 1;}
 }
+
+#include "subdivision_compile.h"

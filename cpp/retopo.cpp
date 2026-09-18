@@ -257,7 +257,7 @@ struct Surface{
     }
 
 };
-API int aru_retopo_version(){return 6;}
+API int aru_retopo_version(){return 7;}
 API void* aru_surface_create(const double* vertices,int nv,const int* indices,int nt){
     Surface* s=nullptr;try{
         if(nv<3||nt<1)return nullptr;

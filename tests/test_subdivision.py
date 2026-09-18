@@ -23,10 +23,35 @@ class Tests(unittest.TestCase):
         gc.collect()
         self.assertEqual(before,([tuple(tuple(a) for a in row) for row in steps],[tuple(a) for a in buffers]))
 
+    def test_compilation_owns_results_and_rejects_bad_inputs(self):
+        steps,_=plan(4,[(0,1,2,3)],[(0,1),(1,2),(2,3),(0,3)],2)
+        splines=[(0,4,5,1),(1,6,7,2),(2,8,9,3),(0,10,11,3)]
+        sides=[((i,1),) for i in range(4)]
+        result=steps.compile(range(4),splines,sides)
+        snapshot=tuple(tuple(a) for a in result)
+        self.assertEqual(steps._cache,{})  # Production composition stays native.
+        for endpoints,curves,boundaries in (
+            (range(3),splines,sides),
+            (range(4),[(0,1,2)],sides),
+            (range(4),splines,sides[:-1]),
+            (range(4),splines,[((9,1),)]+sides[1:]),
+            (range(4),splines,[((0,0),)]+sides[1:]),
+            (range(4),splines,[()]+sides[1:]),
+        ):
+            with self.assertRaises(ValueError):steps.compile(endpoints,curves,boundaries)
+            self.assertEqual(steps.compile(range(4),splines,sides),result)
+        retained=steps[0]
+        copied=tuple(tuple(a) for a in retained)
+        steps.close();steps.close()
+        self.assertEqual(tuple(tuple(a) for a in result),snapshot)
+        self.assertEqual(tuple(tuple(a) for a in retained),copied)
+        with self.assertRaises(RuntimeError):steps.compile(range(4),splines,sides)
+
     def test_empty_and_invalid_topology(self):
         steps,buffers=plan(0,[],[],2)
         self.assertEqual(list(buffers[0]),[])
         self.assertEqual(list(buffers[1]),[0])
+        self.assertEqual(steps.compile([],[],[]),([0],[],[]))
         for count,faces,guides,levels in (
             (3,[(0,1,4)],[],1),(3,[(0,1,-1)],[],1),
             (3,[(0,0,2)],[],1),(3,[(0,1,2)],[(0,4)],1),

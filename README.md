@@ -7,7 +7,7 @@
 3. **AruRetopo** シェルフの **Retopo** ボタンから起動できます。
 
 Windows x64用DLLを同梱しています。Maya 2024 / 2027で自動動作テストを検証済みです。
-Maya 2024／2027で検証した共通の `bin/aru_retopo_core_v6.dll` と
+Maya 2024／2027で検証した共通の `bin/aru_retopo_core_v7.dll` と
 `bin/aru_retopo_display_v3.dll` を読み込みます。Maya SDKやPython ABIには依存しません。
 Aru_libや元のAru_CurveNetRigは不要です。Maya付属のPySideを使用します。
 NumPyが未導入の場合（クリーンなMaya 2024など）は、インストーラーがPyPIから
@@ -46,7 +46,7 @@ Undo/Redoと保存後は一時表示を再構築します。一時表示ノー�
 
 参照面への投影では、前回の投影先が引き続き最寄りだと判定できるときに三角形探索を省略します。判定できない場合は通常の探索を行います。通常起動はこの処理を含む `aru_retopo_mesh_buffer_certified.mll` を使います。再ビルドは `cpp/build_interactive.ps1 -MayaVersion 2024`（または `2027`）で行えます。 ブラシの表裏・遮蔽判定はメインスレッド上のC++一括呼び出しを使い、法線以外の不要な付着情報を生成しません。専用DLLの再ビルドは `cpp/build_maya_visibility.ps1 -MayaVersion 2024`（または `2027`）です。遮蔽判定DLLも起動時に検証し、欠落・不一致はエラーとして通知します。
 
-EPのリラックスは投影・法線・近傍平均・再投影をC++でまとめて処理し、ブラシ対象とその隣接点だけを渡します。標準投影DLLは `aru_retopo_maya_projector_compact.dll` です。 トポロジー変更時の細分化接続・パッチ座標・隣接情報を共通C++ ABI 6で生成し、細分化係数もC++内に保持して最終配列までまとめます。更新時はMayaを再起動してください。起動時に現行DLLの必須APIを検証します。DLLの欠落・世代不一致は明示的なエラーとし、旧DLLやPython版への暗黙の切り替えは行いません。交点フィットの数値安定性のためのSVD処理、共有ハンドル、ハードサーフェース用の処理は維持しています。再ビルドは `cpp/build_maya_projector.ps1 -MayaVersion 2024`（または `2027`）です。
+EPのリラックスは投影・法線・近傍平均・再投影をC++でまとめて処理し、ブラシ対象とその隣接点だけを渡します。標準投影DLLは `aru_retopo_maya_projector_compact.dll` です。 トポロジー変更時の細分化接続・パッチ座標・隣接情報を共通C++ ABI 7で生成し、細分化係数もC++内に保持して最終配列までまとめます。更新時はMayaを再起動してください。起動時に現行DLLの必須APIを検証します。DLLの欠落・世代不一致は明示的なエラーとし、旧DLLやPython版への暗黙の切り替えは行いません。交点フィットの数値安定性のためのSVD処理、共有ハンドル、ハードサーフェース用の処理は維持しています。再ビルドは `cpp/build_maya_projector.ps1 -MayaVersion 2024`（または `2027`）です。
 
 交点ハンドルの長さ調整も、正則化した2変数解法と行列構築をC++でまとめています。旧DLLや正規化されていない接線では従来のSVD経路へ戻ります。SVDとの丸め差はありますが、検証GUIではメッシュ座標差が最大約6.7×10⁻¹⁶、描画用float32座標は一致しました。
 
@@ -58,11 +58,12 @@ Mayaの評価モードは DG／Serial／Parallel で動作確認しています�
 
 参照メッシュによるガイド・ポイント・生成面の遮蔽を修正しました。
 シリンダーでMaya 2024 / 2027の透視・平行投影を確認しています。
-接続変更時の細分化計画をC++へ移し、確定済みパッチの引き継ぎ処理も整理しました。
-500パッチ・約4.6万面の検証では、接続変更を伴うポイント確定は約0.4秒です。
+接続変更時の細分化計画とガイド・Coons補間係数をC++でまとめて生成し、確定済みパッチの引き継ぎ処理も整理しました。
+500パッチ・約4.6万面のMaya 2027で同じ操作を交互に比較し、接続変更を伴うポイント確定は中央値約436msから331msへ短縮しました。
+頂点座標・面接続の完全一致とUndoによる復元を確認しています。スクリプトから実編集ハンドラーを呼んだ計測で、物理マウス操作の遅延とは異なります。
 通常の位置移動より重い処理が残っており、引き続き改善中です。
 
-**更新後はMayaを再起動してください。** `bin/aru_retopo_core_v6.dll` が必要です。
+**更新後はMayaを再起動してください。** `bin/aru_retopo_core_v7.dll` が必要です。
 以前のDLLを読み込んだMayaでPythonモジュールだけを再読み込みしないでください。
 
 ## 起動・操作
@@ -196,7 +197,7 @@ OpenSubdiv本体はリンクしていません。Catmull–Clarkの基本的な�
 
 ## ビルド
 
-Windows x64向けDLLは `bin/aru_retopo_core_v6.dll` と `bin/aru_retopo_display_v3.dll` に配置します。
+Windows x64向けDLLは `bin/aru_retopo_core_v7.dll` と `bin/aru_retopo_display_v3.dll` に配置します。
 Visual Studio 2022 C++ Build Tools と Windows SDK があれば:
 
 ```powershell
