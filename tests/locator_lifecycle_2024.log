@@ -1,0 +1,47 @@
+�G���[: No module named 'cymel'
+# Traceback (most recent call last):
+#   File "D:/Dropbox/App/DCC/internal/maya/common/scripts/userSetup.py", line 7, in _initAruProject
+#     from Aru_lib.Aru_AutoSetProject import Aru_AutoSetProject
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\Aru_AutoSetProject.py", line 2, in <module>
+#     from Aru_lib.core.maya import *
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\core\maya.py", line 3, in <module>
+#     import cymel.main as cm
+# ModuleNotFoundError: No module named 'cymel'
+SiWeightEditor startup script has begun
+SiWeightEditor startup script has finished
+[RetopoGuide] Plugin loaded.
+���ɖ߂�: 
+��蒼��: 
+�G���[: �f�[�^�͐��l�܂��͕�����l�ł͂Ȃ��A�\���ł��܂���B
+���ɖ߂�: Aru Retopo: bake copy
+��蒼��: Aru Retopo: bake copy
+[RetopoGuide] 14:02:31 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 14:02:31 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 14:02:31 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 14:02:31 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 14:02:31 INFO >>> _before_scene_clear
+[RetopoGuide] 14:02:31 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : >>> _before_scene_clear
+RetopoGuide : INFO : <<< _before_scene_clear done
+�t�@�C���̓ǂݎ���  0.013 �b������܂����B
+[RetopoGuide] 14:02:31 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 14:02:31 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+PASS persistent locator: reuse, Undo/Redo, bake, save, reopen, new
+[RetopoGuide] 14:02:31 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 14:02:31 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 14:02:31 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 14:02:31 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 14:02:31 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 14:02:31 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

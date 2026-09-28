@@ -1,0 +1,148 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2TexturedQuad" name="mayaPoint2TexturedQuad" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+Expand a point to a view-aligned textured quad]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <float3  name="Pw" semantic="Pw" flags="isRequirementOnly" />
+        <float3  name="Nw" semantic="Nw" flags="isRequirementOnly,varyingInputParam" />
+        <float  name="radius" semantic="TEXCOORD" flags="isRequirementOnly,varyingInputParam" />
+        <undefined  name="GPUStage" semantic="GPUStage" />
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <int  name="normalDir" />
+        <bool  name="orthographic" semantic="isorthographic" />
+        <float2  name="screenSize" semantic="viewportPixelSize" />
+        <float2  name="quadPositionUV" semantic="quadPositionUVType5" size="4" />
+        <float4x4  name="viewprojectioninverse" semantic="viewprojectioninverse" />
+        <float4x4  name="projection" semantic="projection" />
+    </properties>
+    <values>
+<int name="normalDir" value="0"  />
+<bool name="orthographic" value="false"  />
+    </values>
+    <outputs>
+        <triStream  name="outStream" size="4" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="point2TexturedQuad" />
+        <source>
+            <![CDATA[
+void point2TexturedQuad( geometryInS inputs[1], int normalDir, bool orthographic, float2 screenSize, float2 quadPosition[4], 
+    float4x4 viewProjInverse, float4x4 projection, inout TriangleStream<geometryInS> outStream ) 
+{ 
+    geometryInS outS = inputs[0]; 
+    if(normalDir < 1) outS.Nw = float3(0.0f, 0.0f, 0.0f); 
+    float2 halfPixel = float2( 0.5f, 0.5f ); 
+    float2 scale = 4 * outS.radius * screenSize.x / screenSize.xy; 
+	 if(orthographic) scale *= 0.5 * projection[0][0]; 
+ 
+    [unroll] for( int i = 0; i < 4; ++i ) 
+    { 
+        float4 quad = float4(scale * quadPosition[i], 0.0, 0.0); 
+        outS.Pc = inputs[0].Pc + quad; 
+        outS.Pw = inputs[0].Pw + mul(quad, viewProjInverse).xyz; 
+        outS.uvCoord = quadPosition[i] + halfPixel; 
+        outStream.Append( outS ); 
+    } 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="point2TexturedQuad" />
+        <source>
+            <![CDATA[
+void point2TexturedQuad( AttribArray<geometryInS> inputs, 
+    int normalDir, bool orthographic, float2 screenSize, float2 quadPosition[4], 
+    float4x4 viewProjInverse, float4x4 projection ) 
+{ 
+ 
+    geometryInS outS = inputs[0]; 
+    if(normalDir < 1) outS.Nw = float3(0.0f, 0.0f, 0.0f); 
+    float2 halfPixel = float2( 0.5f, 0.5f ); 
+    float2 scale = 4 * outS.radius * screenSize.x / screenSize.xy; 
+	 if(orthographic) scale *= 0.5 * projection[0][0]; 
+ 
+    for( int i = 0; i < 4; ++i ) 
+    { 
+        float4 quad = float4(scale * quadPosition[i], 0.0, 0.0); 
+        outS.Pc = inputs[0].Pc + quad; 
+        outS.Pw = inputs[0].Pw + mul(viewProjInverse, quad).xyz; 
+        outS.uvCoord = quadPosition[i] + halfPixel; 
+        emitVertex( outS ); 
+    } 
+    restartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="point2TexturedQuad" />
+        <source>
+            <![CDATA[
+void point2TexturedQuad(  
+    int normalDir, bool orthographic, vec2 screenSize, vec2 quadPosition[4], 
+    mat4x4 viewProjInverse, mat4x4 projection ) 
+{ 
+ 
+    GEO_OUT_struct outS = copyFromGEO_IN(0); 
+    if(normalDir < 1) outS.Nw = vec3(0.0f, 0.0f, 0.0f); 
+    vec2 halfPixel = vec2( 0.5f, 0.5f ); 
+    vec2 scale = 4 * outS.radius * screenSize.x / screenSize.xy; 
+	 if(orthographic) scale *= 0.5 * projection[0][0]; 
+ 
+    for( int i = 0; i < 4; ++i ) 
+    { 
+        vec4 quad = vec4(scale * quadPosition[i], 0.0, 0.0); 
+        outS.Pc = gl_in[0].gl_Position + quad; 
+        outS.Pw = GEO_IN[0].Pw + mul(viewProjInverse, quad).xyz; 
+        outS.uvCoord = quadPosition[i] + halfPixel; 
+        EmitGeoStruct( outS ); 
+    } 
+    EndPrimitive(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="point2TexturedQuad" />
+        <source>
+            <![CDATA[
+void point2TexturedQuad( geometryInS inputs[1], int normalDir, bool orthographic, float2 screenSize, float2 quadPosition[4], 
+    float4x4 viewProjInverse, float4x4 projection, inout TriangleStream<geometryInS> outStream ) 
+{ 
+    geometryInS outS = inputs[0]; 
+    if(normalDir < 1) outS.Nw = float3(0.0f, 0.0f, 0.0f); 
+    float2 halfPixel = float2( 0.5f, 0.5f ); 
+    float2 scale = 4 * outS.radius * screenSize.x / screenSize.xy; 
+	 if(orthographic) scale *= 0.5 * projection[0][0]; 
+ 
+    [unroll] for( int i = 0; i < 4; ++i ) 
+    { 
+        float4 quad = float4(scale * quadPosition[i], 0.0, 0.0); 
+        outS.Pc = inputs[0].Pc + quad; 
+        outS.Pw = inputs[0].Pw + mul(quad, viewProjInverse).xyz; 
+        outS.uvCoord = quadPosition[i] + halfPixel; 
+        outStream.Append( outS ); 
+    } 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

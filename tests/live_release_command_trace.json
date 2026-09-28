@@ -1,0 +1,147 @@
+{
+  "release_ms": 309.1259000066202,
+  "commands": [
+    {
+      "command": "getAttr",
+      "attribute": "aruRetopoGuideShape1.outNetData",
+      "ms": 11.304399988148361,
+      "stack": [
+        [
+          "curve_net_edit.py",
+          "_commit_net_data",
+          2461
+        ],
+        [
+          "<string>",
+          "wrapped",
+          13
+        ],
+        [
+          "curve_net_edit.py",
+          "prune_orphan_cvs_and_write",
+          2113
+        ],
+        [
+          "<string>",
+          "wrapped",
+          13
+        ],
+        [
+          "curve_net_edit.py",
+          "write",
+          2521
+        ],
+        [
+          "<string>",
+          "wrapped",
+          13
+        ],
+        [
+          "patch_transfer.py",
+          "prepare_all",
+          149
+        ],
+        [
+          "patch_transfer.py",
+          "__init__",
+          107
+        ]
+      ]
+    },
+    {
+      "command": "setAttr",
+      "attribute": "aruRetopoGuideShape1.netData",
+      "ms": 58.42570000095293,
+      "stack": [
+        [
+          "curve_net_context.py",
+          "release",
+          2814
+        ],
+        [
+          "curve_net_context.py",
+          "_release_impl",
+          3085
+        ],
+        [
+          "curve_net_context.py",
+          "_commit_net_data",
+          47
+        ],
+        [
+          "curve_net_edit.py",
+          "_commit_net_data",
+          2461
+        ],
+        [
+          "<string>",
+          "wrapped",
+          13
+        ],
+        [
+          "curve_net_edit.py",
+          "prune_orphan_cvs_and_write",
+          2113
+        ],
+        [
+          "<string>",
+          "wrapped",
+          13
+        ],
+        [
+          "curve_net_edit.py",
+          "write",
+          2524
+        ]
+      ]
+    },
+    {
+      "command": "refresh",
+      "attribute": "",
+      "ms": 189.83940000180155,
+      "stack": [
+        [
+          "curve_net_context.py",
+          "_commit_net_data",
+          47
+        ],
+        [
+          "curve_net_edit.py",
+          "_commit_net_data",
+          2461
+        ],
+        [
+          "<string>",
+          "wrapped",
+          13
+        ],
+        [
+          "curve_net_edit.py",
+          "prune_orphan_cvs_and_write",
+          2113
+        ],
+        [
+          "<string>",
+          "wrapped",
+          13
+        ],
+        [
+          "curve_net_edit.py",
+          "write",
+          2554
+        ],
+        [
+          "<string>",
+          "wrapped",
+          13
+        ],
+        [
+          "curve_net_edit.py",
+          "_dirty_shape_view",
+          63
+        ]
+      ]
+    }
+  ],
+  "time": 1789746796.4636054
+}

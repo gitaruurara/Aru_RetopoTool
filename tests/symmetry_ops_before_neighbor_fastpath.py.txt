@@ -1,0 +1,73 @@
+"""Symmetry for retopo construction and explicit patch selection (world space)."""
+from . import core
+from .editor.curvenet import curve_net_symmetry as sym, curve_net_edit as edit
+
+
+def mirrored_splines(cn,mesh,indices,create=False):
+    axis,space=sym.get_axis(),sym.get_space()
+    if not axis:return {}
+    points=cn.positions
+    eps=set(cn.endpoint_indices());mapping={};result={}
+    tol=max(edit._snap_radius(mesh)*1e-4,1e-6)
+    from math import floor
+    from itertools import product
+    cells={}
+    cell=lambda p:tuple(floor(x/tol) for x in p)
+    for ep in eps:cells.setdefault(cell(points[ep]),[]).append(ep)
+    neighbors=tuple(product((-1,0,1),repeat=3))
+    spline_lookup={}
+    for i,s in enumerate(cn.splines):spline_lookup.setdefault(tuple(sorted((s[0],s[3]))),i)
+    def endpoint(v):
+        if v in mapping:return mapping[v]
+        p=sym.mirror_point(points[v],mesh,axis,space)
+        origin=cell(p)
+        nearby=(j for delta in neighbors for j in cells.get(tuple(origin[k]+delta[k] for k in range(3)),()))
+        hit=min((j for j in nearby if sum((points[j][k]-p[k])**2 for k in range(3))<tol*tol),default=None)
+        if hit is None and create:
+            hit=cn.add_cv(p);eps.add(hit);cells.setdefault(cell(p),[]).append(hit)
+        mapping[v]=hit
+        return hit
+    for si in sorted(indices):
+        a,h,j,b=cn.splines[si];ma,mb=endpoint(a),endpoint(b)
+        if ma is None or mb is None:continue
+        pair=tuple(sorted((ma,mb)))
+        target=spline_lookup.get(pair)
+        if target is None and create:
+            mh=cn.add_cv(sym.mirror_point(points[h],mesh));mj=cn.add_cv(sym.mirror_point(points[j],mesh))
+            target=cn.add_spline(ma,mh,mj,mb)
+            spline_lookup[pair]=target
+            if h in cn.manual_handles:cn.manual_handles.add(mh)
+            if j in cn.manual_handles:cn.manual_handles.add(mj)
+        if target is not None:result[si]=target
+    cn.classify_endpoints()
+    return result
+
+
+def patch_keys(cn,mesh,keys,create=False,added=()):
+    if not sym.is_enabled():return set(keys)
+    fn,_=edit._get_mesh_fn(mesh);normal=lambda p:edit._get_normal_at_point(fn,p)
+    try: loops=core.regions(cn.positions,cn.splines,normal)
+    except ValueError:loops=[]
+    sources=[{si for side in loop for si,_ in side} for loop in loops if core.patch_key(loop) in keys]
+    indices=set(added)
+    for ids in sources:indices.update(ids)
+    mapping=mirrored_splines(cn,mesh,indices,create)
+    targets=[{mapping[i] for i in ids} for ids in sources if ids<=mapping.keys()]
+    result=set(keys)
+    try: loops=core.regions(cn.positions,cn.splines,normal)
+    except ValueError:loops=[]
+    for loop in loops:
+        if {si for side in loop for si,_ in side} in targets:result.add(core.patch_key(loop))
+    return result
+
+
+def delete_targets(node,eps=(),splines=()):
+    from .editor.curvenet.curve_net_relax import _world_data
+    cn,_=_world_data(node);mesh=edit.RetopoGuideAccessor(node).mesh_name
+    ep_set=set(eps);sp_set=set(splines)
+    if sym.is_enabled():
+        for ep in eps:
+            partner=sym.find_mirror_ep(cn,mesh,ep,max(edit._snap_radius(mesh)*1e-4,1e-6))
+            if partner is not None:ep_set.add(partner)
+        sp_set.update(mirrored_splines(cn,mesh,sp_set).values())
+    return ep_set,sp_set

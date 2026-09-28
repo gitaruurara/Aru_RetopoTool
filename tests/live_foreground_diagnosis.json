@@ -1,0 +1,54 @@
+{
+  "pid": 51556,
+  "session": true,
+  "panels": {
+    "modelPanel1": {
+      "override": "aruRetopoGPUPreview",
+      "camera": "top",
+      "limits": [
+        0.0012251989095925897,
+        1.2262656021118163
+      ]
+    },
+    "modelPanel2": {
+      "override": "aruRetopoGPUPreview",
+      "camera": "side",
+      "limits": [
+        0.0011355796472452833,
+        1.2262656021118163
+      ]
+    },
+    "modelPanel3": {
+      "override": "aruRetopoGPUPreview",
+      "camera": "front",
+      "limits": [
+        0.0011668231705356429,
+        1.2262656021118163
+      ]
+    },
+    "modelPanel4": {
+      "override": "aruRetopoGPUPreview",
+      "camera": "persp",
+      "limits": [
+        0.013164245370264656,
+        1.2262656021118163
+      ]
+    }
+  },
+  "nodes": {
+    "aruRetopoGenerator1": {
+      "foreground": true,
+      "subdivisions": 2
+    }
+  },
+  "refs": {
+    "Body_GeoShape": [
+      -79.75873565673828,
+      -0.770628035068512,
+      -21.8259220123291,
+      79.75873565673828,
+      201.3538360595703,
+      39.48735809326172
+    ]
+  }
+}

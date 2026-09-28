@@ -1,0 +1,25 @@
+{
+  "patches": 500,
+  "faces": 46528,
+  "vertices": 46873,
+  "median_ms": 50.97419999583508,
+  "samples_ms": [
+    48.78679999819724,
+    51.65539999870816,
+    50.44599999382626,
+    49.80990000331076,
+    51.291700001456775,
+    51.53479999717092,
+    62.929200001235586,
+    51.46019999665441,
+    51.0396999961813,
+    50.90869999548886,
+    49.20280000078492,
+    51.917900003900286,
+    49.73089999839431,
+    52.620499998738524,
+    50.66349999833619,
+    50.889800004370045
+  ],
+  "profile": "         227706 function calls (227661 primitive calls) in 0.182 seconds\n\n   Ordered by: cumulative time\n   List reduced from 99 to 28 due to restriction <28>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        5    0.019    0.004    0.049    0.010 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\editor\\curvenet\\curve_net_node.py:1778(_out_json)\n        5    0.013    0.003    0.046    0.009 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:105(relax)\n        5    0.033    0.007    0.033    0.007 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:41(unpack)\n        5    0.000    0.000    0.027    0.005 C:\\Program Files\\Autodesk\\Maya2027\\Python\\Lib\\json\\__init__.py:183(dumps)\n        5    0.000    0.000    0.027    0.005 C:\\Program Files\\Autodesk\\Maya2027\\Python\\Lib\\json\\encoder.py:183(encode)\n        5    0.027    0.005    0.027    0.005 C:\\Program Files\\Autodesk\\Maya2027\\Python\\Lib\\json\\encoder.py:205(iterencode)\n       10    0.007    0.001    0.027    0.003 {built-in method builtins.all}\n       10    0.000    0.000    0.017    0.002 C:\\Program Files\\Autodesk\\Maya2027\\Python\\Lib\\json\\__init__.py:299(loads)\n       10    0.000    0.000    0.016    0.002 C:\\Program Files\\Autodesk\\Maya2027\\Python\\Lib\\json\\decoder.py:340(decode)\n       10    0.016    0.002    0.016    0.002 C:\\Program Files\\Autodesk\\Maya2027\\Python\\Lib\\json\\decoder.py:351(raw_decode)\n    64025    0.010    0.000    0.013    0.000 D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/aru_retopo_plugin.py:74(<genexpr>)\n        5    0.000    0.000    0.011    0.002 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\core.py:282(evaluate)\n        5    0.004    0.001    0.011    0.002 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:75(__call__)\n        5    0.008    0.002    0.008    0.002 {method 'setPoints' of 'OpenMaya.MFnMesh' objects}\n        5    0.007    0.001    0.007    0.001 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\editor\\curvenet\\curve_net_node.py:1363(_getSurfaceBindData)\n        5    0.002    0.000    0.007    0.001 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:40(packed)\n    29795    0.005    0.000    0.006    0.000 D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/aru_retopo_plugin.py:82(<genexpr>)\n        5    0.005    0.001    0.005    0.001 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:34(doubles)\n    93810    0.005    0.000    0.005    0.000 {built-in method math.isfinite}\n        5    0.003    0.001    0.003    0.001 {method 'copy' of 'OpenMaya.MFnMesh' objects}\n        5    0.002    0.000    0.003    0.001 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\editor\\curvenet\\curve_net_data.py:1016(to_dict)\n        5    0.002    0.000    0.002    0.000 {method 'setMObject' of 'OpenMaya.MDataHandle' objects}\n     9935    0.002    0.000    0.002    0.000 D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/aru_retopo_plugin.py:79(<genexpr>)\n    21340    0.002    0.000    0.002    0.000 {method 'append' of 'list' objects}\n     7950    0.002    0.000    0.002    0.000 D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/aru_retopo_plugin.py:75(<genexpr>)\n        5    0.002    0.000    0.002    0.000 {method 'getTriangles' of 'OpenMaya.MFnMesh' objects}\n        5    0.001    0.000    0.001    0.000 {method 'asString' of 'OpenMaya.MDataHandle' objects}\n        5    0.001    0.000    0.001    0.000 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\editor\\curvenet\\curve_net_data.py:509(sync_manual_handles)\n\n\n"
+}

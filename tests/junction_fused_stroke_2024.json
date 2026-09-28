@@ -1,0 +1,85 @@
+{
+  "scope": "8 consecutive 200 EP dabs with native outMesh, fixed weights; no brush or viewport",
+  "modes": {
+    "svd": {
+      "samples": [
+        {
+          "calc_write_ms": 19.798199995420873,
+          "total_ms": 33.68679998675361
+        },
+        {
+          "calc_write_ms": 16.80810000107158,
+          "total_ms": 30.94749999581836
+        },
+        {
+          "calc_write_ms": 18.31270000548102,
+          "total_ms": 32.618299999739975
+        },
+        {
+          "calc_write_ms": 17.09010000922717,
+          "total_ms": 30.501500004902482
+        },
+        {
+          "calc_write_ms": 19.303200009744614,
+          "total_ms": 65.72520000918303
+        },
+        {
+          "calc_write_ms": 17.66019999922719,
+          "total_ms": 31.988899994757958
+        },
+        {
+          "calc_write_ms": 14.869000006001443,
+          "total_ms": 28.11729999666568
+        },
+        {
+          "calc_write_ms": 18.335299988393672,
+          "total_ms": 32.65569999348372
+        }
+      ],
+      "median_ms": 31.988899994757958,
+      "release_ms": 49.25809999986086
+    },
+    "analytic": {
+      "samples": [
+        {
+          "calc_write_ms": 15.099299998837523,
+          "total_ms": 29.34919999097474
+        },
+        {
+          "calc_write_ms": 13.005600005271845,
+          "total_ms": 28.328500004136004
+        },
+        {
+          "calc_write_ms": 11.922399993636645,
+          "total_ms": 47.08119999850169
+        },
+        {
+          "calc_write_ms": 13.395300004049204,
+          "total_ms": 27.450399997178465
+        },
+        {
+          "calc_write_ms": 13.493899998138659,
+          "total_ms": 26.45239999401383
+        },
+        {
+          "calc_write_ms": 15.676499999244697,
+          "total_ms": 30.34900000784546
+        },
+        {
+          "calc_write_ms": 13.871799994376488,
+          "total_ms": 27.556400003959425
+        },
+        {
+          "calc_write_ms": 16.91390000632964,
+          "total_ms": 30.55540000787005
+        }
+      ],
+      "median_ms": 28.328500004136004,
+      "release_ms": 48.41869999654591
+    }
+  },
+  "max_guide_error": 3.3306690738754696e-15,
+  "max_mesh_error": 0.0,
+  "within_tolerance": true,
+  "restored": true
+}

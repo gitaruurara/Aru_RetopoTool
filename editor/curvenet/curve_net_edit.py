@@ -31,6 +31,14 @@ from Aru_RetopoTool.editor.curvenet.aru_retopo_guide_plugin import (
 )
 
 
+_VIEW_REFRESH_DEPTH = 0
+
+
+def view_refresh_active():
+    """Whether a synchronous curve-edit frame is currently being rendered."""
+    return _VIEW_REFRESH_DEPTH > 0
+
+
 def _dirty_shape_view():
     """現在の retopoGuideNode シェイプを VP2 dirty にして再描画する。
 
@@ -49,7 +57,12 @@ def _dirty_shape_view():
             pass
     if cmds.about(batch=True):
         return
-    cmds.refresh(currentView=True)
+    global _VIEW_REFRESH_DEPTH
+    _VIEW_REFRESH_DEPTH += 1
+    try:
+        cmds.refresh(currentView=True)
+    finally:
+        _VIEW_REFRESH_DEPTH -= 1
 
 
 def _request_rebind(node: str) -> None:
@@ -478,13 +491,9 @@ def _reset_control_points(node: str, n: int) -> None:
     try:
         selection=om2.MSelectionList();selection.add(node)
         plug=om2.MFnDependencyNode(selection.getDependNode(0)).findPlug('controlPoints',False)
-        existing=[i for i in plug.getExistingArrayAttributeIndices() if i<n]
-        if len(existing)<n/4:
-            indices=[i for i in existing if any(v!=0. for v in cmds.getAttr("{}.controlPoints[{}]".format(node,i))[0])]
-        else:
-            values=cmds.getAttr("{}.controlPoints[0:{}]".format(node,n-1))
-            if values is None or len(values)!=n:raise ValueError('Unexpected tweak array size')
-            indices=[i for i,value in enumerate(values) if any(component!=0. for component in value)]
+        from Aru_RetopoTool.maya_data import double3_array_values
+        values=double3_array_values(plug)
+        indices=sorted(i for i,value in values.items() if i<n and any(component!=0. for component in value))
     except (RuntimeError,ValueError,TypeError):
         indices=list(range(n))
     ranges=[]
@@ -1945,9 +1954,14 @@ def reset_manual_handles(node_name="", cv_indices=None):
                 targets.add(sp[1])
             if sp[3] in sel or sp[2] in sel:
                 targets.add(sp[2])
-        targets &= cn.manual_handles
     else:
         targets = set(cn.manual_handles)
+    from .curve_net_context import _find_mirror_handle
+    # Resolve partners before filtering manual flags: a selected automatic handle
+    # can still have a fixed counterpart left by an older asymmetric reset.
+    targets.update(m for h in list(targets)
+                   for m in [_find_mirror_handle(cn, acc.mesh_name, h)] if m is not None)
+    targets &= cn.manual_handles
     if not targets:
         return 0
 
@@ -2109,11 +2123,10 @@ def prune_orphan_cvs_and_write(shape, cn):
 
     old_cp = {}
     try:
-        for i in (cmds.getAttr("{}.controlPoints".format(shape),
-                               multiIndices=True) or []):
-            v = cmds.getAttr("{}.controlPoints[{}]".format(shape, i))[0]
-            if any(abs(c) > 1e-12 for c in v):
-                old_cp[i] = v
+        from Aru_RetopoTool.maya_data import double3_array_values
+        selection=om2.MSelectionList();selection.add(shape)
+        plug=om2.MFnDependencyNode(selection.getDependNode(0)).findPlug('controlPoints',False)
+        old_cp={i:value for i,value in double3_array_values(plug).items() if any(abs(c)>1e-12 for c in value)}
     except Exception:
         old_cp = {}
 
@@ -2501,17 +2514,15 @@ class RetopoGuideAccessor:
         if not self.exists:
             return RetopoGuideData()
         raw = cmds.getAttr("{}.netData".format(self._node)) or ""
-        return RetopoGuideData.from_json(raw) if raw else RetopoGuideData()
+        return RetopoGuideData.from_json(raw, lazy_objects=True) if raw else RetopoGuideData()
 
     def write(self, cn: RetopoGuideData, *, refresh=True) -> None:
         """RetopoGuideData をノードに書き込み、CP リセット + VP2 再描画する。"""
         if not self.exists:
             return
         cn.classify_endpoints()
-        from Aru_RetopoTool.patch_transfer import prepare
-        patch_updates=prepare(self._node,cn)
-        from Aru_RetopoTool.local_edit_transfer import prepare as prepare_local
-        local_updates=prepare_local(self._node,cn)
+        from Aru_RetopoTool.patch_transfer import prepare_all
+        patch_updates,local_updates=prepare_all(self._node,cn)
         n_old = _get_cv_count(self._node)
         json_str = cn.to_json()
         cmds.setAttr("{}.netData".format(self._node),
@@ -2524,6 +2535,7 @@ class RetopoGuideAccessor:
             cmds.setAttr(generator+'.influenceField',json.dumps(fields),type='string')
             cmds.setAttr(generator+'.loopReductions',json.dumps(reductions),type='string')
         if hasattr(cn,"_retopo_parents"):del cn._retopo_parents
+        if hasattr(cn,"_retopo_spline_sources"):del cn._retopo_spline_sources
 
         # controlPoints をゼロにリセット (ベース位置は netData に反映済み)。
         # ただしデフォーマ駆動時は CP が

@@ -1,0 +1,42 @@
+The system cannot find the path specified.
+[RetopoGuide] Plugin loaded.
+元に戻す: Aru Retopo: native backend
+やり直し: Aru Retopo: native backend
+元に戻す: Aru Retopo: disable native backend
+元に戻す: Aru Retopo: disable native backend
+PASS UI fast-update toggle, enable failure state and Undo
+[RetopoGuide] 23:07:00 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 23:07:00 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 23:07:00 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 23:07:00 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 23:07:00 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 23:07:00 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+ファイルの読み取りに  0.025 秒かかりました。
+[RetopoGuide] 23:07:00 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 23:07:00 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+PASS native scene reopen resolves version-specific plugin by name
+PASS plan parsed-guide cache hit/miss, skipped decode and ownership
+PASS native graph: empty selection, enable/disable Undo/Redo, patch edits, CP, solver settings, subdivisions, selection
+[RetopoGuide] 23:07:00 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 23:07:00 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 23:07:00 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 23:07:00 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 23:07:00 INFO >>> uninitializePlugin: deleting scene nodes
+RetopoGuide : INFO : >>> uninitializePlugin: deleting scene nodes
+[RetopoGuide] 23:07:00 INFO >>> uninitializePlugin: deregistering
+RetopoGuide : INFO : >>> uninitializePlugin: deregistering
+[RetopoGuide] 23:07:00 INFO <<< uninitializePlugin done
+RetopoGuide : INFO : <<< uninitializePlugin done
+[RetopoGuide] Plugin unloaded.

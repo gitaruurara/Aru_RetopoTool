@@ -1,0 +1,25 @@
+[RetopoGuide] Plugin loaded.
+PASS normals-only arrays: native exact normals and explicit reference failure, transforms, empty and ownership
+PASS relax adjacency reuse and topology invalidation
+PASS shared brush snapshot parity, empty brush and scene ownership
+���ɖ߂�: surface relax test
+PASS relax projection, smoothing, world transforms, stable connectivity, Undo
+PASS Shift click preserves merge; Shift drag relaxes without merging
+PASS sphere junction tangent continuity and surface error 0.0036853862170483074
+���ɖ߂�: MMB route fit test
+PASS MMB release route fit, fixed EP positions, manual handles, Undo
+PASS actual relax with required native DLL, projection, topology, Undo and Shift handling
+PASS retained arrays, reference transforms/deformation, invalid values, missing projector, explicit DLL failures
+ENDPOINT CASES EXACT 40
+[RetopoGuide] 09:06:31 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 09:06:31 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 09:06:31 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 09:06:31 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 09:06:31 INFO >>> _before_scene_clear
+[RetopoGuide] 09:06:31 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

@@ -1,0 +1,626 @@
+{
+  "trials": [
+    {
+      "mode": "baseline",
+      "numeric": {
+        "samples": [
+          {
+            "total_ms": 47.02460000407882,
+            "affected": 443,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.321299995761365,
+                "redraw_ms": 14.12999999593012,
+                "native_stages_ms": [
+                  2.1737,
+                  0.1721,
+                  2.9692,
+                  0.884
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 41.47479998937342,
+            "affected": 448,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.72709999687504,
+                "redraw_ms": 10.78609999967739,
+                "native_stages_ms": [
+                  2.2794,
+                  0.2369,
+                  2.1731,
+                  0.9198
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 44.713499999488704,
+            "affected": 443,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.771199997980148,
+                "redraw_ms": 14.587400000891648,
+                "native_stages_ms": [
+                  2.1552,
+                  0.1736,
+                  2.3744,
+                  0.9407
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 31.25
+              }
+            ]
+          },
+          {
+            "total_ms": 42.352399992523715,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.521599992993288,
+                "redraw_ms": 10.802200005855411,
+                "native_stages_ms": [
+                  2.7491,
+                  0.1713,
+                  2.3727,
+                  1.1092
+                ],
+                "draw_thread_ms": 0.0,
+                "draw_process_ms": 0.0
+              }
+            ]
+          },
+          {
+            "total_ms": 44.1214000020409,
+            "affected": 444,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.061099993530661,
+                "redraw_ms": 12.501599994720891,
+                "native_stages_ms": [
+                  2.9806,
+                  0.1749,
+                  1.8667,
+                  0.9201
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 42.42389999853913,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.9298999985912815,
+                "redraw_ms": 11.364799996954389,
+                "native_stages_ms": [
+                  2.2258,
+                  0.1702,
+                  2.3424,
+                  1.0628
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 46.43650000798516,
+            "affected": 444,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.526600012672134,
+                "redraw_ms": 14.133599994238466,
+                "native_stages_ms": [
+                  2.1524,
+                  0.1714,
+                  2.2026,
+                  0.8767
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 113.86440000205766,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.038199993781745,
+                "redraw_ms": 14.464899999438785,
+                "native_stages_ms": [
+                  2.2975,
+                  0.1772,
+                  2.5161,
+                  0.9193
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          }
+        ],
+        "median_ms": 44.1214000020409,
+        "release_ms": 70.61209999665152,
+        "guide_hash": "ed85062a0677f7443c5f91ff9665e14a436248a470db54c9bfc27aec410db663",
+        "mesh_hash": "0fd50d5c355de51d1b7a9ea7a84408ed9ab7d0b804b96065d8aece64625ce922"
+      }
+    },
+    {
+      "mode": "candidate",
+      "numeric": {
+        "samples": [
+          {
+            "total_ms": 115.78140000347048,
+            "affected": 443,
+            "stages": [
+              {
+                "native_evaluate_ms": 7.485399997676723,
+                "redraw_ms": 13.788700001896359,
+                "native_stages_ms": [
+                  2.0689,
+                  0.2558,
+                  4.0924,
+                  0.9419
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 40.880999993532896,
+            "affected": 448,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.686999997124076,
+                "redraw_ms": 11.890299996593967,
+                "native_stages_ms": [
+                  2.2978,
+                  0.1753,
+                  2.2111,
+                  0.8823
+                ],
+                "draw_thread_ms": 0.0,
+                "draw_process_ms": 0.0
+              }
+            ]
+          },
+          {
+            "total_ms": 43.84470000513829,
+            "affected": 443,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.527599991182797,
+                "redraw_ms": 13.971199994557537,
+                "native_stages_ms": [
+                  2.2658,
+                  0.1722,
+                  2.0954,
+                  0.8886
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 41.05530001106672,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.307799994829111,
+                "redraw_ms": 11.200599998119287,
+                "native_stages_ms": [
+                  2.8392,
+                  0.1846,
+                  2.2943,
+                  0.8666
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 43.00990000774618,
+            "affected": 444,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.4931999950204045,
+                "redraw_ms": 13.580099999671802,
+                "native_stages_ms": [
+                  2.8598,
+                  0.1705,
+                  2.3135,
+                  1.0277
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 109.375
+              }
+            ]
+          },
+          {
+            "total_ms": 46.1805000086315,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.626400001347065,
+                "redraw_ms": 16.69469999615103,
+                "native_stages_ms": [
+                  2.3358,
+                  0.1791,
+                  2.139,
+                  0.857
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 234.375
+              }
+            ]
+          },
+          {
+            "total_ms": 42.63209999771789,
+            "affected": 444,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.354399996576831,
+                "redraw_ms": 13.512000004993752,
+                "native_stages_ms": [
+                  2.0392,
+                  0.1699,
+                  2.1288,
+                  0.9074
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 39.77639999357052,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.593599998974241,
+                "redraw_ms": 11.225499998545274,
+                "native_stages_ms": [
+                  2.3469,
+                  0.182,
+                  2.0489,
+                  0.8906
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          }
+        ],
+        "median_ms": 42.63209999771789,
+        "release_ms": 70.96319999254774,
+        "guide_hash": "ed85062a0677f7443c5f91ff9665e14a436248a470db54c9bfc27aec410db663",
+        "mesh_hash": "0fd50d5c355de51d1b7a9ea7a84408ed9ab7d0b804b96065d8aece64625ce922"
+      }
+    },
+    {
+      "mode": "candidate",
+      "numeric": {
+        "samples": [
+          {
+            "total_ms": 46.64790000242647,
+            "affected": 443,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.739299991750158,
+                "redraw_ms": 15.087499996297993,
+                "native_stages_ms": [
+                  2.2132,
+                  0.1721,
+                  3.2446,
+                  0.9651
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 40.912199998274446,
+            "affected": 448,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.945799988694489,
+                "redraw_ms": 11.430700003984384,
+                "native_stages_ms": [
+                  2.3254,
+                  0.1724,
+                  2.3903,
+                  0.9101
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 43.5826999892015,
+            "affected": 443,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.6576000060886145,
+                "redraw_ms": 14.351299992995337,
+                "native_stages_ms": [
+                  2.1644,
+                  0.1737,
+                  2.2712,
+                  0.9215
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 31.25
+              }
+            ]
+          },
+          {
+            "total_ms": 112.68459999701008,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 74.96730001003016,
+                "redraw_ms": 13.830500000040047,
+                "native_stages_ms": [
+                  71.4306,
+                  0.1425,
+                  2.3264,
+                  0.9229
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 42.71189999417402,
+            "affected": 444,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.733400001190603,
+                "redraw_ms": 11.228800009121187,
+                "native_stages_ms": [
+                  2.3537,
+                  0.1749,
+                  2.1714,
+                  0.8878
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 44.33589999098331,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.921599993598647,
+                "redraw_ms": 14.308300000266172,
+                "native_stages_ms": [
+                  2.2027,
+                  0.1743,
+                  2.2441,
+                  1.1239
+                ],
+                "draw_thread_ms": 0.0,
+                "draw_process_ms": 0.0
+              }
+            ]
+          },
+          {
+            "total_ms": 42.1762000041781,
+            "affected": 444,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.948299993178807,
+                "redraw_ms": 12.579300004290417,
+                "native_stages_ms": [
+                  2.4064,
+                  0.1678,
+                  2.3474,
+                  0.8875
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 43.484399997396395,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.457499995827675,
+                "redraw_ms": 14.1250000015134,
+                "native_stages_ms": [
+                  2.3801,
+                  0.1726,
+                  1.8608,
+                  0.9208
+                ],
+                "draw_thread_ms": 0.0,
+                "draw_process_ms": 0.0
+              }
+            ]
+          }
+        ],
+        "median_ms": 43.484399997396395,
+        "release_ms": 70.06060000276193,
+        "guide_hash": "ed85062a0677f7443c5f91ff9665e14a436248a470db54c9bfc27aec410db663",
+        "mesh_hash": "0fd50d5c355de51d1b7a9ea7a84408ed9ab7d0b804b96065d8aece64625ce922"
+      }
+    },
+    {
+      "mode": "baseline",
+      "numeric": {
+        "samples": [
+          {
+            "total_ms": 46.44890000054147,
+            "affected": 443,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.627499999012798,
+                "redraw_ms": 13.670600004843436,
+                "native_stages_ms": [
+                  2.2721,
+                  0.17,
+                  3.1466,
+                  0.9218
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 41.90969999763183,
+            "affected": 448,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.393199990270659,
+                "redraw_ms": 10.544200005824678,
+                "native_stages_ms": [
+                  2.9129,
+                  0.1714,
+                  2.2799,
+                  0.9167
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 44.54269999405369,
+            "affected": 443,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.589199998416007,
+                "redraw_ms": 13.160200003767386,
+                "native_stages_ms": [
+                  3.0698,
+                  0.1792,
+                  2.3054,
+                  0.9126
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 41.78310000861529,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.566500010900199,
+                "redraw_ms": 11.071100001572631,
+                "native_stages_ms": [
+                  2.1949,
+                  0.1697,
+                  2.1628,
+                  0.9089
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 31.25
+              }
+            ]
+          },
+          {
+            "total_ms": 44.27719999512192,
+            "affected": 444,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.593599998974241,
+                "redraw_ms": 13.296899996930733,
+                "native_stages_ms": [
+                  2.2283,
+                  0.1697,
+                  2.1604,
+                  0.9096
+                ],
+                "draw_thread_ms": 0.0,
+                "draw_process_ms": 0.0
+              }
+            ]
+          },
+          {
+            "total_ms": 43.27989999728743,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.800400002044626,
+                "redraw_ms": 11.437900000601076,
+                "native_stages_ms": [
+                  2.3266,
+                  0.1777,
+                  2.2548,
+                  0.9215
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          },
+          {
+            "total_ms": 115.31540000578389,
+            "affected": 444,
+            "stages": [
+              {
+                "native_evaluate_ms": 5.6982000096468255,
+                "redraw_ms": 84.10860000003595,
+                "native_stages_ms": [
+                  2.3063,
+                  0.1806,
+                  2.1762,
+                  0.9079
+                ],
+                "draw_thread_ms": 93.75,
+                "draw_process_ms": 265.625
+              }
+            ]
+          },
+          {
+            "total_ms": 46.56409999006428,
+            "affected": 445,
+            "stages": [
+              {
+                "native_evaluate_ms": 6.743300007656217,
+                "redraw_ms": 14.120999985607341,
+                "native_stages_ms": [
+                  3.3383,
+                  0.1759,
+                  2.1772,
+                  0.9256
+                ],
+                "draw_thread_ms": 15.625,
+                "draw_process_ms": 15.625
+              }
+            ]
+          }
+        ],
+        "median_ms": 44.27719999512192,
+        "release_ms": 71.58530000015162,
+        "guide_hash": "ed85062a0677f7443c5f91ff9665e14a436248a470db54c9bfc27aec410db663",
+        "mesh_hash": "0fd50d5c355de51d1b7a9ea7a84408ed9ab7d0b804b96065d8aece64625ce922"
+      }
+    }
+  ],
+  "exact_outputs": true,
+  "native_calls": 32
+}

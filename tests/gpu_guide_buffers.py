@@ -10,6 +10,8 @@ from Aru_RetopoTool.editor.curvenet import gpu_guides
 
 
 def run():
+    from Aru_RetopoTool import guides
+    guides.load()
     positions,splines=polygon(7)
     owner=SimpleNamespace(_positions=positions,_splines=splines)
     buffer=gpu_guides.positions(owner)

@@ -1,0 +1,3 @@
+maya_projector_basis_candidate.cpp
+D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\cpp\path_fit_basis_candidate.cpp(74): warning C4189: 'u': ローカル変数が初期化されましたが、参照されていません
+   ライブラリ aru_retopo_maya_projector_basis.lib とオブジェクト aru_retopo_maya_projector_basis.exp を作成中

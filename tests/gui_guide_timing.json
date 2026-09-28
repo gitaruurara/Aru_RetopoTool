@@ -1,0 +1,50 @@
+{
+  "sync_topology": {
+    "count": 22,
+    "total_ms": 3.23579998803325,
+    "median_ms": 0.2119999917340465,
+    "max_ms": 0.31709999893791974
+  },
+  "updateDG": {
+    "count": 22,
+    "total_ms": 32.78000002319459,
+    "median_ms": 1.3725000026170164,
+    "max_ms": 3.781499995966442
+  },
+  "configure_controls": {
+    "count": 22,
+    "total_ms": 9.184100024867803,
+    "median_ms": 0.411750006605871,
+    "max_ms": 0.6551999977091327
+  },
+  "updateRenderItems": {
+    "count": 22,
+    "total_ms": 10.309600009350106,
+    "median_ms": 0.4613999990397133,
+    "max_ms": 0.7059000054141507
+  },
+  "addUIDrawables": {
+    "count": 22,
+    "total_ms": 5.82419999409467,
+    "median_ms": 0.04635000368580222,
+    "max_ms": 4.728400002932176
+  },
+  "positions": {
+    "count": 22,
+    "total_ms": 21.430000037071295,
+    "median_ms": 0.9663000018917955,
+    "max_ms": 1.316699999733828
+  },
+  "upload_indices": {
+    "count": 22,
+    "total_ms": 2.0364999800221995,
+    "median_ms": 0.08174999675247818,
+    "max_ms": 0.1959000073838979
+  },
+  "populateGeometry": {
+    "count": 22,
+    "total_ms": 26.44799998961389,
+    "median_ms": 1.1919999960809946,
+    "max_ms": 1.5873999946052209
+  }
+}

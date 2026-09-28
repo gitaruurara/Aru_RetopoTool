@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<string>", line 6, in topology_check
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\gui_buffer_topology.py", line 41, in run
+    check('quad',[4],[0,1,2,3])
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\gui_buffer_topology.py", line 31, in check
+    storage=om.MFnMeshData().create();fn=om.MFnMesh();fn.create(vertices,counts,indices,parent=storage)
+                                                      ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: MFloatPoint ?U???I MPoint ?I?V?[?P???X?a?c???U?e?U??

@@ -1,0 +1,52 @@
+{
+  "k3dSolidShader": [
+    "solidColor",
+    "selectionHiddenColor",
+    "isSelectionHighlightingON",
+    "Pm",
+    "WorldViewProj",
+    "DepthPriority",
+    "orthographic",
+    "depthPriorityThreshold",
+    "depthPriorityScale",
+    "Instanced",
+    "MultiDraw"
+  ],
+  "k3dThickLineShader": [
+    "solidColor",
+    "selectionHiddenColor",
+    "isSelectionHighlightingON",
+    "lineWidth",
+    "screenSize",
+    "orthographic",
+    "nearClipPlane",
+    "isCulled",
+    "Pm",
+    "WorldViewProj",
+    "DepthPriority",
+    "depthPriorityThreshold",
+    "depthPriorityScale",
+    "Instanced",
+    "MultiDraw"
+  ],
+  "k3dFatPointShader": [
+    "solidColor",
+    "selectionHiddenColor",
+    "isSelectionHighlightingON",
+    "pointSize",
+    "screenSize",
+    "quadPositionUV",
+    "viewprojectioninverse",
+    "isCulled",
+    "DepthPriorityUnit",
+    "orthographic",
+    "depthPriorityThreshold",
+    "Pm",
+    "WorldViewProj",
+    "DepthPriority",
+    "depthPriorityScale",
+    "Instanced",
+    "MultiDraw"
+  ],
+  "k3dDepthShader": []
+}

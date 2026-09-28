@@ -248,7 +248,7 @@ def project_to_plane(pos, mesh_name: str,
 # EP の対応付け
 # ---------------------------------------------------------------------------
 
-def find_mirror_ep(cn, mesh_name: str, ep: int, tol: float):
+def find_mirror_ep(cn, mesh_name: str, ep: int, tol: float, exclude=()):
     """*ep* の反転位置にある既存 EP を探す。見つからなければ None。
 
     対称面の上にある EP は自分自身を返す。
@@ -258,9 +258,20 @@ def find_mirror_ep(cn, mesh_name: str, ep: int, tol: float):
     pos = cn.positions[ep]
     mpos = mirror_point(pos, mesh_name)
     d2 = sum((mpos[i] - pos[i]) ** 2 for i in range(3))
-    if d2 <= tol * tol:
+    # A nearby counterpart is not the center seam. Keep separate endpoints
+    # distinct even when details are much smaller than the reference mesh.
+    eps=set(cn.endpoint_indices()).difference(exclude)
+    separations=[sum((cn.positions[v][k]-pos[k])**2 for k in range(3)) for v in eps if v!=ep]
+    positive=[d for d in separations if d>0.]
+    if positive:tol=min(tol,min(positive)**.5*.1)
+    if d2 <= min(tol,1e-8)**2:
         return ep
-    found = cn.find_nearest_cv(mpos, tol, exclude=ep)
-    if found is None:
-        return None
-    return found if found in cn.endpoint_indices() else None
+    source_side=plane_coord(pos,mesh_name)
+    candidates=[]
+    for v in eps:
+        if v==ep:continue
+        distance=sum((cn.positions[v][k]-mpos[k])**2 for k in range(3))
+        if distance>tol*tol:continue
+        if plane_coord(cn.positions[v],mesh_name)*source_side>=0:continue
+        candidates.append((distance,v))
+    return min(candidates)[1] if candidates else None

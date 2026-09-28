@@ -1,0 +1,33 @@
+         2184312 function calls in 0.542 seconds
+
+   Ordered by: cumulative time
+   List reduced from 30 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.226    0.226    0.542    0.542 core_compose_candidate.py.txt:249(compile_stencil)
+  1212246    0.106    0.000    0.106    0.000 {method 'append' of 'list' objects}
+        3    0.091    0.030    0.106    0.035 stencil_compose_candidate.py:17(compose)
+   567488    0.033    0.000    0.033    0.000 {built-in method builtins.abs}
+    46901    0.028    0.000    0.028    0.000 {built-in method builtins.sorted}
+    16959    0.021    0.000    0.028    0.000 core_compose_candidate.py.txt:256(sample)
+    30872    0.011    0.000    0.011    0.000 {method 'extend' of 'array.array' objects}
+   106955    0.010    0.000    0.010    0.000 {method 'get' of 'dict' objects}
+    84382    0.007    0.000    0.007    0.000 {built-in method builtins.len}
+    48221    0.004    0.000    0.004    0.000 {method 'items' of 'dict' objects}
+    15798    0.002    0.000    0.002    0.000 {method 'append' of 'array.array' objects}
+    21066    0.001    0.000    0.001    0.000 {built-in method builtins.min}
+     1176    0.001    0.000    0.001    0.000 core_compose_candidate.py.txt:251(accumulate)
+    15436    0.001    0.000    0.001    0.000 {method 'values' of 'dict' objects}
+    10533    0.001    0.000    0.001    0.000 {built-in method builtins.max}
+     1250    0.000    0.000    0.000    0.000 core_compose_candidate.py.txt:303(<genexpr>)
+      750    0.000    0.000    0.000    0.000 core_compose_candidate.py.txt:299(<genexpr>)
+     2373    0.000    0.000    0.000    0.000 core_compose_candidate.py.txt:320(<genexpr>)
+     1250    0.000    0.000    0.000    0.000 core_compose_candidate.py.txt:305(<genexpr>)
+      600    0.000    0.000    0.000    0.000 {method 'setdefault' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        4    0.000    0.000    0.000    0.000 loader.py:59(feature_import)
+        4    0.000    0.000    0.000    0.000 feature.py:88(feature_import)
+       21    0.000    0.000    0.000    0.000 {method 'from_buffer' of '_ctypes.PyCArrayType' objects}
+        4    0.000    0.000    0.000    0.000 loader.py:67(feature_imported)
+
+

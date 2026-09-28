@@ -1,0 +1,6439 @@
+{
+  "before": [
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 411.0019999934593,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.8240000024670735
+        ],
+        [
+          "_find_spline_under_screen",
+          4.26480000896845
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.0539000106509775
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.259000005433336
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.1987999934935942
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.0905999990645796
+        ],
+        [
+          "patch_transfer",
+          132.12840000051074
+        ],
+        [
+          "_reset_control_points",
+          0.48380000225733966
+        ],
+        [
+          "_dirty_shape_view",
+          249.38160000601783
+        ],
+        [
+          "_commit_net_data",
+          392.53359999565873
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 32.65280000050552,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              0.9828000038396567
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              2.48539999302011
+            ],
+            [
+              "_find_spline_under_screen",
+              3.2820999913383275
+            ],
+            [
+              "_dirty_shape_view",
+              21.83899999363348
+            ]
+          ]
+        },
+        {
+          "ms": 23.608699993928894,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0747000051196665
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6232000014279038
+            ],
+            [
+              "_find_spline_under_screen",
+              3.647399993496947
+            ],
+            [
+              "_dirty_shape_view",
+              15.565499998047017
+            ]
+          ]
+        },
+        {
+          "ms": 25.429900008020923,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0629999887896702
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6292999896686524
+            ],
+            [
+              "_find_spline_under_screen",
+              3.6678999895229936
+            ],
+            [
+              "_dirty_shape_view",
+              17.30199999292381
+            ]
+          ]
+        },
+        {
+          "ms": 23.453999994671904,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0884999937843531
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6290000019362196
+            ],
+            [
+              "_find_spline_under_screen",
+              3.790699993260205
+            ],
+            [
+              "_dirty_shape_view",
+              15.246499999193475
+            ]
+          ]
+        },
+        {
+          "ms": 23.030299998936243,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1119999981019646
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6269000004976988
+            ],
+            [
+              "_find_spline_under_screen",
+              3.8388999964809045
+            ],
+            [
+              "_dirty_shape_view",
+              14.740799990249798
+            ]
+          ]
+        },
+        {
+          "ms": 25.670600007288158,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.300699994317256
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6232999876374379
+            ],
+            [
+              "_find_spline_under_screen",
+              3.981200003181584
+            ],
+            [
+              "_dirty_shape_view",
+              16.86380000319332
+            ]
+          ]
+        },
+        {
+          "ms": 23.879400003352202,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.458800004911609
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6689999863738194
+            ],
+            [
+              "_find_spline_under_screen",
+              4.293300007702783
+            ],
+            [
+              "_dirty_shape_view",
+              14.409399998839945
+            ]
+          ]
+        },
+        {
+          "ms": 23.187099999631755,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1165000032633543
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.625400003627874
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7632000021403655
+            ],
+            [
+              "_dirty_shape_view",
+              15.031499991891906
+            ]
+          ]
+        }
+      ],
+      "median_ms": 23.74404999864055,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 36.0 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 0,
+          "ms": 0.12430000060703605
+        },
+        {
+          "generation": 0,
+          "ms": 0.11969999468419701
+        },
+        {
+          "generation": 0,
+          "ms": 0.03229999856557697
+        },
+        {
+          "generation": 0,
+          "ms": 0.03359999391250312
+        },
+        {
+          "generation": 0,
+          "ms": 0.04440000338945538
+        },
+        {
+          "generation": 0,
+          "ms": 0.1559000083943829
+        },
+        {
+          "generation": 0,
+          "ms": 0.2128000051015988
+        },
+        {
+          "generation": 0,
+          "ms": 0.026900001103058457
+        },
+        {
+          "generation": 1,
+          "ms": 0.27329998556524515
+        },
+        {
+          "generation": 0,
+          "ms": 0.031799994758330286
+        },
+        {
+          "generation": 0,
+          "ms": 0.05639999289996922
+        },
+        {
+          "generation": 0,
+          "ms": 0.03189999551977962
+        },
+        {
+          "generation": 0,
+          "ms": 0.025899993488565087
+        },
+        {
+          "generation": 0,
+          "ms": 0.13869999384041876
+        },
+        {
+          "generation": 0,
+          "ms": 0.02849999873433262
+        },
+        {
+          "generation": 0,
+          "ms": 0.02540000423323363
+        },
+        {
+          "generation": 0,
+          "ms": 0.0450000079581514
+        },
+        {
+          "generation": 0,
+          "ms": 0.0627999979769811
+        },
+        {
+          "generation": 0,
+          "ms": 0.07890000415500253
+        },
+        {
+          "generation": 0,
+          "ms": 0.025600005756132305
+        },
+        {
+          "generation": 1,
+          "ms": 0.33540000731591135
+        },
+        {
+          "generation": 0,
+          "ms": 0.036900004488416016
+        },
+        {
+          "generation": 0,
+          "ms": 0.030399998649954796
+        },
+        {
+          "generation": 0,
+          "ms": 0.030700000934302807
+        },
+        {
+          "generation": 0,
+          "ms": 0.09450000652577728
+        },
+        {
+          "generation": 0,
+          "ms": 0.026699999580159783
+        },
+        {
+          "generation": 0,
+          "ms": 0.03759999526664615
+        },
+        {
+          "generation": 0,
+          "ms": 0.03540000761859119
+        },
+        {
+          "generation": 0,
+          "ms": 0.029400005587376654
+        },
+        {
+          "generation": 0,
+          "ms": 0.028799986466765404
+        },
+        {
+          "generation": 0,
+          "ms": 0.3842000005533919
+        },
+        {
+          "generation": 0,
+          "ms": 0.06320000102277845
+        },
+        {
+          "generation": 1,
+          "ms": 0.724500001524575
+        },
+        {
+          "generation": 2,
+          "ms": 73.08479999483097
+        },
+        {
+          "generation": 0,
+          "ms": 0.012499993317760527
+        },
+        {
+          "generation": 0,
+          "ms": 0.022100008209235966
+        },
+        {
+          "generation": 0,
+          "ms": 0.028700000257231295
+        },
+        {
+          "generation": 0,
+          "ms": 0.04560001252684742
+        },
+        {
+          "generation": 0,
+          "ms": 0.04959999932907522
+        },
+        {
+          "generation": 0,
+          "ms": 0.01820000761654228
+        },
+        {
+          "generation": 0,
+          "ms": 0.02260001201648265
+        },
+        {
+          "generation": 0,
+          "ms": 0.034199998481199145
+        },
+        {
+          "generation": 0,
+          "ms": 0.02540000423323363
+        },
+        {
+          "generation": 0,
+          "ms": 0.027300004148855805
+        },
+        {
+          "generation": 0,
+          "ms": 0.024100008886307478
+        },
+        {
+          "generation": 1,
+          "ms": 0.20640000002458692
+        },
+        {
+          "generation": 0,
+          "ms": 0.02540000423323363
+        },
+        {
+          "generation": 0,
+          "ms": 0.03370000922586769
+        },
+        {
+          "generation": 0,
+          "ms": 0.029400005587376654
+        },
+        {
+          "generation": 0,
+          "ms": 0.031100003980100155
+        },
+        {
+          "generation": 0,
+          "ms": 0.023800006601959467
+        },
+        {
+          "generation": 0,
+          "ms": 0.2972000074805692
+        },
+        {
+          "generation": 0,
+          "ms": 0.02920000406447798
+        },
+        {
+          "generation": 0,
+          "ms": 0.024900000425986946
+        },
+        {
+          "generation": 0,
+          "ms": 0.10170000314246863
+        },
+        {
+          "generation": 0,
+          "ms": 0.024299995857290924
+        },
+        {
+          "generation": 0,
+          "ms": 0.0771000050008297
+        },
+        {
+          "generation": 1,
+          "ms": 0.43739999819081277
+        },
+        {
+          "generation": 0,
+          "ms": 0.031099989428184927
+        },
+        {
+          "generation": 0,
+          "ms": 0.04389999958220869
+        },
+        {
+          "generation": 0,
+          "ms": 0.04600000102072954
+        },
+        {
+          "generation": 0,
+          "ms": 0.033899996196851134
+        },
+        {
+          "generation": 0,
+          "ms": 0.08149999484885484
+        },
+        {
+          "generation": 0,
+          "ms": 0.027600006433203816
+        },
+        {
+          "generation": 0,
+          "ms": 0.02680000034160912
+        },
+        {
+          "generation": 0,
+          "ms": 0.02780000795610249
+        },
+        {
+          "generation": 0,
+          "ms": 0.03260000084992498
+        },
+        {
+          "generation": 0,
+          "ms": 2.5163999962387607
+        },
+        {
+          "generation": 0,
+          "ms": 0.04369999805931002
+        }
+      ]
+    },
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 329.7388999926625,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.9099000017158687
+        ],
+        [
+          "_find_spline_under_screen",
+          4.017200000816956
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.141400007531047
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.277800003066659
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.2284000006038696
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.211899991380051
+        ],
+        [
+          "patch_transfer",
+          57.35099999583326
+        ],
+        [
+          "_reset_control_points",
+          0.5707999953301623
+        ],
+        [
+          "_dirty_shape_view",
+          242.76940000709146
+        ],
+        [
+          "_commit_net_data",
+          311.2121999874944
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 107.17770000337623,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              0.9858999983407557
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              1.7002000095089898
+            ],
+            [
+              "_find_spline_under_screen",
+              3.2414999877801165
+            ],
+            [
+              "_dirty_shape_view",
+              97.18690000590868
+            ]
+          ]
+        },
+        {
+          "ms": 45.454199993400835,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0715999960666522
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6131999980425462
+            ],
+            [
+              "_find_spline_under_screen",
+              3.376099994056858
+            ],
+            [
+              "_dirty_shape_view",
+              37.776999990455806
+            ]
+          ]
+        },
+        {
+          "ms": 45.5670000083046,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.090599995222874
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.622600011411123
+            ],
+            [
+              "_find_spline_under_screen",
+              3.748200004338287
+            ],
+            [
+              "_dirty_shape_view",
+              37.42759999295231
+            ]
+          ]
+        },
+        {
+          "ms": 47.48259999905713,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.050299993949011
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6385000015143305
+            ],
+            [
+              "_find_spline_under_screen",
+              3.6145000049145892
+            ],
+            [
+              "_dirty_shape_view",
+              39.61519998847507
+            ]
+          ]
+        },
+        {
+          "ms": 43.831600007251836,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.103500006138347
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6173000001581386
+            ],
+            [
+              "_find_spline_under_screen",
+              3.8807999953860417
+            ],
+            [
+              "_dirty_shape_view",
+              35.615400003734976
+            ]
+          ]
+        },
+        {
+          "ms": 50.1358000037726,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1002999963238835
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6243999960133806
+            ],
+            [
+              "_find_spline_under_screen",
+              3.608600003644824
+            ],
+            [
+              "_dirty_shape_view",
+              42.252300001564436
+            ]
+          ]
+        },
+        {
+          "ms": 46.66190000716597,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1188000062247738
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6206999969435856
+            ],
+            [
+              "_find_spline_under_screen",
+              3.563100006431341
+            ],
+            [
+              "_dirty_shape_view",
+              38.761200004955754
+            ]
+          ]
+        },
+        {
+          "ms": 42.629300005501136,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1219000007258728
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6252000021049753
+            ],
+            [
+              "_find_spline_under_screen",
+              3.6327999987406656
+            ],
+            [
+              "_dirty_shape_view",
+              34.59060000022873
+            ]
+          ]
+        }
+      ],
+      "median_ms": 46.114450007735286,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 34.7 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 1,
+          "ms": 0.13529999705497175
+        },
+        {
+          "generation": 0,
+          "ms": 0.10720000136643648
+        },
+        {
+          "generation": 0,
+          "ms": 0.054799995268695056
+        },
+        {
+          "generation": 0,
+          "ms": 0.032199997804127634
+        },
+        {
+          "generation": 0,
+          "ms": 0.04339999577496201
+        },
+        {
+          "generation": 0,
+          "ms": 0.1652000064495951
+        },
+        {
+          "generation": 0,
+          "ms": 0.0948999950196594
+        },
+        {
+          "generation": 0,
+          "ms": 0.027400004910305142
+        },
+        {
+          "generation": 0,
+          "ms": 0.0320999970426783
+        },
+        {
+          "generation": 0,
+          "ms": 0.026000008801929653
+        },
+        {
+          "generation": 0,
+          "ms": 0.055900003644637764
+        },
+        {
+          "generation": 0,
+          "ms": 0.032199997804127634
+        },
+        {
+          "generation": 1,
+          "ms": 0.5639999872073531
+        },
+        {
+          "generation": 0,
+          "ms": 0.1412999990861863
+        },
+        {
+          "generation": 0,
+          "ms": 0.028700000257231295
+        },
+        {
+          "generation": 0,
+          "ms": 0.024900000425986946
+        },
+        {
+          "generation": 0,
+          "ms": 0.042799991206265986
+        },
+        {
+          "generation": 0,
+          "ms": 0.062399994931183755
+        },
+        {
+          "generation": 0,
+          "ms": 0.08440000237897038
+        },
+        {
+          "generation": 0,
+          "ms": 0.024500011932104826
+        },
+        {
+          "generation": 0,
+          "ms": 0.03260000084992498
+        },
+        {
+          "generation": 0,
+          "ms": 0.033499993151053786
+        },
+        {
+          "generation": 0,
+          "ms": 0.029300004825927317
+        },
+        {
+          "generation": 0,
+          "ms": 0.029999995604157448
+        },
+        {
+          "generation": 1,
+          "ms": 0.5337000038707629
+        },
+        {
+          "generation": 0,
+          "ms": 0.03260000084992498
+        },
+        {
+          "generation": 0,
+          "ms": 0.04049998824484646
+        },
+        {
+          "generation": 0,
+          "ms": 0.03239999932702631
+        },
+        {
+          "generation": 0,
+          "ms": 0.02849999873433262
+        },
+        {
+          "generation": 0,
+          "ms": 0.02849999873433262
+        },
+        {
+          "generation": 0,
+          "ms": 0.5179999861866236
+        },
+        {
+          "generation": 0,
+          "ms": 0.0577000027988106
+        },
+        {
+          "generation": 0,
+          "ms": 0.008300004992634058
+        },
+        {
+          "generation": 0,
+          "ms": 0.07199999527074397
+        },
+        {
+          "generation": 0,
+          "ms": 0.030499999411404133
+        },
+        {
+          "generation": 0,
+          "ms": 0.02580000727903098
+        },
+        {
+          "generation": 1,
+          "ms": 0.5670000100508332
+        },
+        {
+          "generation": 0,
+          "ms": 0.0329999893438071
+        },
+        {
+          "generation": 0,
+          "ms": 0.01959998917300254
+        },
+        {
+          "generation": 0,
+          "ms": 0.022199994418770075
+        },
+        {
+          "generation": 0,
+          "ms": 0.032199997804127634
+        },
+        {
+          "generation": 0,
+          "ms": 0.02510000194888562
+        },
+        {
+          "generation": 0,
+          "ms": 0.029300004825927317
+        },
+        {
+          "generation": 0,
+          "ms": 0.024900000425986946
+        },
+        {
+          "generation": 0,
+          "ms": 0.047600013203918934
+        },
+        {
+          "generation": 0,
+          "ms": 0.025999994250014424
+        },
+        {
+          "generation": 0,
+          "ms": 0.05119999696034938
+        },
+        {
+          "generation": 0,
+          "ms": 0.02540000423323363
+        },
+        {
+          "generation": 1,
+          "ms": 0.22100000933278352
+        },
+        {
+          "generation": 0,
+          "ms": 0.02519998815841973
+        },
+        {
+          "generation": 0,
+          "ms": 0.08620000153314322
+        },
+        {
+          "generation": 0,
+          "ms": 0.09129999671131372
+        },
+        {
+          "generation": 0,
+          "ms": 0.025999994250014424
+        },
+        {
+          "generation": 0,
+          "ms": 0.10489999840501696
+        },
+        {
+          "generation": 0,
+          "ms": 0.05489999603014439
+        },
+        {
+          "generation": 0,
+          "ms": 0.0838999985717237
+        },
+        {
+          "generation": 0,
+          "ms": 0.03229999856557697
+        },
+        {
+          "generation": 0,
+          "ms": 0.030499999411404133
+        },
+        {
+          "generation": 0,
+          "ms": 0.08280000474769622
+        },
+        {
+          "generation": 0,
+          "ms": 0.04940001235809177
+        },
+        {
+          "generation": 1,
+          "ms": 0.22450000687967986
+        },
+        {
+          "generation": 0,
+          "ms": 0.0822000001790002
+        },
+        {
+          "generation": 0,
+          "ms": 0.030199997127056122
+        },
+        {
+          "generation": 0,
+          "ms": 0.02920000406447798
+        },
+        {
+          "generation": 0,
+          "ms": 0.028700000257231295
+        },
+        {
+          "generation": 0,
+          "ms": 0.03390001074876636
+        },
+        {
+          "generation": 0,
+          "ms": 2.1826000011060387
+        },
+        {
+          "generation": 0,
+          "ms": 0.039399994420818985
+        }
+      ]
+    },
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 338.9008000085596,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.8686000073794276
+        ],
+        [
+          "_find_spline_under_screen",
+          4.0863000031095
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.609400005894713
+        ],
+        [
+          "_attach_ep_to_spline",
+          8.12450000375975
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.2810000082245097
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.0729000098071992
+        ],
+        [
+          "patch_transfer",
+          59.48749999515712
+        ],
+        [
+          "_reset_control_points",
+          0.4776999994646758
+        ],
+        [
+          "_dirty_shape_view",
+          249.20609999389853
+        ],
+        [
+          "_commit_net_data",
+          319.8512000089977
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 54.03309999383055,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0551000013947487
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              2.4397999950451776
+            ],
+            [
+              "_find_spline_under_screen",
+              3.50399999297224
+            ],
+            [
+              "_dirty_shape_view",
+              43.06199999700766
+            ]
+          ]
+        },
+        {
+          "ms": 51.92610000085551,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1897999938810244
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6552999984705821
+            ],
+            [
+              "_find_spline_under_screen",
+              3.9103000017348677
+            ],
+            [
+              "_dirty_shape_view",
+              43.22690000117291
+            ]
+          ]
+        },
+        {
+          "ms": 54.59280000650324,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1694000131683424
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6536000000778586
+            ],
+            [
+              "_find_spline_under_screen",
+              3.9059000118868425
+            ],
+            [
+              "_dirty_shape_view",
+              46.00340001343284
+            ]
+          ]
+        },
+        {
+          "ms": 49.542799999471754,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1606000043684617
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6637000042246655
+            ],
+            [
+              "_find_spline_under_screen",
+              4.0287000010721385
+            ],
+            [
+              "_dirty_shape_view",
+              40.79069998988416
+            ]
+          ]
+        },
+        {
+          "ms": 46.78489999787416,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1802999943029135
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6622000073548406
+            ],
+            [
+              "_find_spline_under_screen",
+              3.9933999942149967
+            ],
+            [
+              "_dirty_shape_view",
+              37.91369999817107
+            ]
+          ]
+        },
+        {
+          "ms": 54.05880000034813,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1478000087663531
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6539000023622066
+            ],
+            [
+              "_find_spline_under_screen",
+              3.852900001220405
+            ],
+            [
+              "_dirty_shape_view",
+              45.70060000696685
+            ]
+          ]
+        },
+        {
+          "ms": 120.00840000109747,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1962000135099515
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6670999864581972
+            ],
+            [
+              "_find_spline_under_screen",
+              4.209799997624941
+            ],
+            [
+              "_dirty_shape_view",
+              111.08129999774974
+            ]
+          ]
+        },
+        {
+          "ms": 48.67560000275262,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1965000012423843
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6701000093016773
+            ],
+            [
+              "_find_spline_under_screen",
+              3.8372000126400962
+            ],
+            [
+              "_dirty_shape_view",
+              40.17849999945611
+            ]
+          ]
+        }
+      ],
+      "median_ms": 52.97959999734303,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 35.1 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 0,
+          "ms": 0.18190000264439732
+        },
+        {
+          "generation": 0,
+          "ms": 0.12450000212993473
+        },
+        {
+          "generation": 0,
+          "ms": 0.031100003980100155
+        },
+        {
+          "generation": 0,
+          "ms": 0.03239999932702631
+        },
+        {
+          "generation": 0,
+          "ms": 0.04300000728107989
+        },
+        {
+          "generation": 0,
+          "ms": 0.1441999920643866
+        },
+        {
+          "generation": 0,
+          "ms": 0.10009999095927924
+        },
+        {
+          "generation": 0,
+          "ms": 0.029699993319809437
+        },
+        {
+          "generation": 0,
+          "ms": 0.030399998649954796
+        },
+        {
+          "generation": 1,
+          "ms": 0.33129999064840376
+        },
+        {
+          "generation": 0,
+          "ms": 0.0577000027988106
+        },
+        {
+          "generation": 0,
+          "ms": 0.03390001074876636
+        },
+        {
+          "generation": 0,
+          "ms": 0.027000001864507794
+        },
+        {
+          "generation": 0,
+          "ms": 0.1500999933341518
+        },
+        {
+          "generation": 0,
+          "ms": 0.032199997804127634
+        },
+        {
+          "generation": 0,
+          "ms": 0.02469999890308827
+        },
+        {
+          "generation": 0,
+          "ms": 0.04490000719670206
+        },
+        {
+          "generation": 0,
+          "ms": 0.06210000719875097
+        },
+        {
+          "generation": 0,
+          "ms": 0.08759999764151871
+        },
+        {
+          "generation": 0,
+          "ms": 0.026699999580159783
+        },
+        {
+          "generation": 0,
+          "ms": 0.031799994758330286
+        },
+        {
+          "generation": 1,
+          "ms": 0.42699999175965786
+        },
+        {
+          "generation": 0,
+          "ms": 0.03260000084992498
+        },
+        {
+          "generation": 0,
+          "ms": 0.031199990189634264
+        },
+        {
+          "generation": 0,
+          "ms": 0.07170000753831118
+        },
+        {
+          "generation": 0,
+          "ms": 0.026399997295811772
+        },
+        {
+          "generation": 0,
+          "ms": 0.038300000596791506
+        },
+        {
+          "generation": 0,
+          "ms": 0.034599986975081265
+        },
+        {
+          "generation": 0,
+          "ms": 0.029100003303028643
+        },
+        {
+          "generation": 0,
+          "ms": 0.03199999628122896
+        },
+        {
+          "generation": 0,
+          "ms": 0.5400000081863254
+        },
+        {
+          "generation": 0,
+          "ms": 0.040700004319660366
+        },
+        {
+          "generation": 0,
+          "ms": 0.011299998732283711
+        },
+        {
+          "generation": 1,
+          "ms": 0.9900000004563481
+        },
+        {
+          "generation": 0,
+          "ms": 0.03159999323543161
+        },
+        {
+          "generation": 0,
+          "ms": 0.03709999145939946
+        },
+        {
+          "generation": 0,
+          "ms": 0.053499999921768904
+        },
+        {
+          "generation": 0,
+          "ms": 0.02269999822601676
+        },
+        {
+          "generation": 0,
+          "ms": 0.020699997548945248
+        },
+        {
+          "generation": 0,
+          "ms": 0.023899992811493576
+        },
+        {
+          "generation": 0,
+          "ms": 0.04780000017490238
+        },
+        {
+          "generation": 0,
+          "ms": 0.027000001864507794
+        },
+        {
+          "generation": 0,
+          "ms": 0.02780000795610249
+        },
+        {
+          "generation": 0,
+          "ms": 0.023100001271814108
+        },
+        {
+          "generation": 0,
+          "ms": 0.04460000491235405
+        },
+        {
+          "generation": 1,
+          "ms": 0.2601000014692545
+        },
+        {
+          "generation": 0,
+          "ms": 0.06500000017695129
+        },
+        {
+          "generation": 0,
+          "ms": 0.027300004148855805
+        },
+        {
+          "generation": 0,
+          "ms": 0.031100003980100155
+        },
+        {
+          "generation": 0,
+          "ms": 0.023900007363408804
+        },
+        {
+          "generation": 0,
+          "ms": 0.08710000838618726
+        },
+        {
+          "generation": 0,
+          "ms": 0.03440000000409782
+        },
+        {
+          "generation": 0,
+          "ms": 0.0838999985717237
+        },
+        {
+          "generation": 0,
+          "ms": 0.1176999940071255
+        },
+        {
+          "generation": 0,
+          "ms": 0.02649999805726111
+        },
+        {
+          "generation": 0,
+          "ms": 0.08530000923201442
+        },
+        {
+          "generation": 0,
+          "ms": 0.032800002372823656
+        },
+        {
+          "generation": 1,
+          "ms": 0.3353999927639961
+        },
+        {
+          "generation": 0,
+          "ms": 0.045500011765398085
+        },
+        {
+          "generation": 0,
+          "ms": 0.06880000000819564
+        },
+        {
+          "generation": 0,
+          "ms": 0.03619999915827066
+        },
+        {
+          "generation": 0,
+          "ms": 0.08509999315720052
+        },
+        {
+          "generation": 0,
+          "ms": 0.02929999027401209
+        },
+        {
+          "generation": 0,
+          "ms": 0.02680000034160912
+        },
+        {
+          "generation": 0,
+          "ms": 0.028000009479001164
+        },
+        {
+          "generation": 0,
+          "ms": 0.0337999954354018
+        },
+        {
+          "generation": 0,
+          "ms": 2.0683999900938943
+        },
+        {
+          "generation": 0,
+          "ms": 0.04359999729786068
+        }
+      ]
+    },
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 335.78080000006594,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.8021999965421855
+        ],
+        [
+          "_find_spline_under_screen",
+          3.9311000000452623
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.1360000100685284
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.4096999887842685
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.14609999966342
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.0016999915242195
+        ],
+        [
+          "patch_transfer",
+          56.51699998998083
+        ],
+        [
+          "_reset_control_points",
+          0.41229999624192715
+        ],
+        [
+          "_dirty_shape_view",
+          250.98339999385644
+        ],
+        [
+          "_commit_net_data",
+          317.76379999064375
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 56.39940001128707,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              0.9957999864127487
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              1.7271999968215823
+            ],
+            [
+              "_find_spline_under_screen",
+              3.3417000086046755
+            ],
+            [
+              "_dirty_shape_view",
+              46.07380001107231
+            ]
+          ]
+        },
+        {
+          "ms": 49.8381000070367,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.265600003534928
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.7555000047432259
+            ],
+            [
+              "_find_spline_under_screen",
+              3.6373999901115894
+            ],
+            [
+              "_dirty_shape_view",
+              41.37430000992026
+            ]
+          ]
+        },
+        {
+          "ms": 48.46940000425093,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.3165999989723787
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.7247000030474737
+            ],
+            [
+              "_find_spline_under_screen",
+              3.8453000015579164
+            ],
+            [
+              "_dirty_shape_view",
+              39.6688000037102
+            ]
+          ]
+        },
+        {
+          "ms": 50.49670000153128,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.122599991504103
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6327000010060146
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7375999963842332
+            ],
+            [
+              "_dirty_shape_view",
+              42.28000000875909
+            ]
+          ]
+        },
+        {
+          "ms": 45.75389999081381,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.097600004868582
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6354000070132315
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7611000007018447
+            ],
+            [
+              "_dirty_shape_view",
+              37.6212000119267
+            ]
+          ]
+        },
+        {
+          "ms": 42.220500006806105,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1291999981040135
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6225999968592077
+            ],
+            [
+              "_find_spline_under_screen",
+              3.715099999681115
+            ],
+            [
+              "_dirty_shape_view",
+              34.151900006690994
+            ]
+          ]
+        },
+        {
+          "ms": 50.45569999492727,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1074999929405749
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6239999929675832
+            ],
+            [
+              "_find_spline_under_screen",
+              3.609799998230301
+            ],
+            [
+              "_dirty_shape_view",
+              42.482799995923415
+            ]
+          ]
+        },
+        {
+          "ms": 111.76379999960773,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.3799999869661406
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.720500000170432
+            ],
+            [
+              "_find_spline_under_screen",
+              4.033799996250309
+            ],
+            [
+              "_dirty_shape_view",
+              102.85949999524746
+            ]
+          ]
+        }
+      ],
+      "median_ms": 50.14690000098199,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 35.8 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 0,
+          "ms": 0.03340000694151968
+        },
+        {
+          "generation": 0,
+          "ms": 0.09119999594986439
+        },
+        {
+          "generation": 0,
+          "ms": 0.0934000127017498
+        },
+        {
+          "generation": 0,
+          "ms": 0.032199997804127634
+        },
+        {
+          "generation": 0,
+          "ms": 0.03189999551977962
+        },
+        {
+          "generation": 0,
+          "ms": 0.043799998820759356
+        },
+        {
+          "generation": 0,
+          "ms": 0.14600000577047467
+        },
+        {
+          "generation": 0,
+          "ms": 0.0855999969644472
+        },
+        {
+          "generation": 0,
+          "ms": 0.02610000956337899
+        },
+        {
+          "generation": 0,
+          "ms": 0.028700000257231295
+        },
+        {
+          "generation": 0,
+          "ms": 0.0261999957729131
+        },
+        {
+          "generation": 1,
+          "ms": 0.9449000062886626
+        },
+        {
+          "generation": 0,
+          "ms": 0.03710000601131469
+        },
+        {
+          "generation": 0,
+          "ms": 0.028700000257231295
+        },
+        {
+          "generation": 0,
+          "ms": 0.1320000010309741
+        },
+        {
+          "generation": 0,
+          "ms": 0.028599999495781958
+        },
+        {
+          "generation": 0,
+          "ms": 0.023500004317611456
+        },
+        {
+          "generation": 0,
+          "ms": 0.04159999662078917
+        },
+        {
+          "generation": 0,
+          "ms": 0.062700011767447
+        },
+        {
+          "generation": 0,
+          "ms": 0.07860000187065452
+        },
+        {
+          "generation": 0,
+          "ms": 0.025200002710334957
+        },
+        {
+          "generation": 0,
+          "ms": 0.03270000161137432
+        },
+        {
+          "generation": 0,
+          "ms": 0.03440000000409782
+        },
+        {
+          "generation": 1,
+          "ms": 0.4158000083407387
+        },
+        {
+          "generation": 0,
+          "ms": 0.03260000084992498
+        },
+        {
+          "generation": 0,
+          "ms": 0.06390000635292381
+        },
+        {
+          "generation": 0,
+          "ms": 0.02580000727903098
+        },
+        {
+          "generation": 0,
+          "ms": 0.03599999763537198
+        },
+        {
+          "generation": 0,
+          "ms": 0.032500000088475645
+        },
+        {
+          "generation": 0,
+          "ms": 0.029999995604157448
+        },
+        {
+          "generation": 0,
+          "ms": 0.027999994927085936
+        },
+        {
+          "generation": 0,
+          "ms": 0.5160000000614673
+        },
+        {
+          "generation": 0,
+          "ms": 0.032100011594593525
+        },
+        {
+          "generation": 0,
+          "ms": 0.006999995093792677
+        },
+        {
+          "generation": 0,
+          "ms": 0.04130000888835639
+        },
+        {
+          "generation": 1,
+          "ms": 0.6036999984644353
+        },
+        {
+          "generation": 0,
+          "ms": 0.030300012440420687
+        },
+        {
+          "generation": 0,
+          "ms": 0.0467000063508749
+        },
+        {
+          "generation": 0,
+          "ms": 0.04429998807609081
+        },
+        {
+          "generation": 0,
+          "ms": 0.020400009816512465
+        },
+        {
+          "generation": 0,
+          "ms": 0.022599997464567423
+        },
+        {
+          "generation": 0,
+          "ms": 0.04470000567380339
+        },
+        {
+          "generation": 0,
+          "ms": 0.025600005756132305
+        },
+        {
+          "generation": 0,
+          "ms": 0.02780000795610249
+        },
+        {
+          "generation": 0,
+          "ms": 0.023900007363408804
+        },
+        {
+          "generation": 0,
+          "ms": 0.04529999569058418
+        },
+        {
+          "generation": 0,
+          "ms": 0.024599998141638935
+        },
+        {
+          "generation": 1,
+          "ms": 0.2457999944454059
+        },
+        {
+          "generation": 0,
+          "ms": 0.02849999873433262
+        },
+        {
+          "generation": 0,
+          "ms": 0.02819999644998461
+        },
+        {
+          "generation": 0,
+          "ms": 0.025200002710334957
+        },
+        {
+          "generation": 0,
+          "ms": 0.08660000457894057
+        },
+        {
+          "generation": 0,
+          "ms": 0.03029999788850546
+        },
+        {
+          "generation": 0,
+          "ms": 0.027699992642737925
+        },
+        {
+          "generation": 0,
+          "ms": 0.10200000542681664
+        },
+        {
+          "generation": 0,
+          "ms": 0.024300010409206152
+        },
+        {
+          "generation": 0,
+          "ms": 0.06379999103955925
+        },
+        {
+          "generation": 0,
+          "ms": 0.07749999349471182
+        },
+        {
+          "generation": 0,
+          "ms": 0.030399998649954796
+        },
+        {
+          "generation": 1,
+          "ms": 0.2142000012099743
+        },
+        {
+          "generation": 0,
+          "ms": 0.04600000102072954
+        },
+        {
+          "generation": 0,
+          "ms": 0.035299992305226624
+        },
+        {
+          "generation": 0,
+          "ms": 0.08260000322479755
+        },
+        {
+          "generation": 0,
+          "ms": 0.027600006433203816
+        },
+        {
+          "generation": 0,
+          "ms": 0.028599999495781958
+        },
+        {
+          "generation": 0,
+          "ms": 0.02750000567175448
+        },
+        {
+          "generation": 0,
+          "ms": 0.0315000070258975
+        },
+        {
+          "generation": 0,
+          "ms": 2.722800010815263
+        },
+        {
+          "generation": 0,
+          "ms": 0.058599995099939406
+        }
+      ]
+    },
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 390.80120000289753,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.8505000005243346
+        ],
+        [
+          "_find_spline_under_screen",
+          4.001400011475198
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.089799992972985
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.220700004836544
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.181100004236214
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.012900004046969
+        ],
+        [
+          "patch_transfer",
+          121.31709999812301
+        ],
+        [
+          "_reset_control_points",
+          0.4120999947190285
+        ],
+        [
+          "_dirty_shape_view",
+          239.72589999902993
+        ],
+        [
+          "_commit_net_data",
+          372.79389999457635
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 48.30559999390971,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              0.9770000033313408
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              1.628600002732128
+            ],
+            [
+              "_find_spline_under_screen",
+              3.2792999991215765
+            ],
+            [
+              "_dirty_shape_view",
+              38.621599989710376
+            ]
+          ]
+        },
+        {
+          "ms": 47.35860000073444,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.088100005290471
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6246999982977286
+            ],
+            [
+              "_find_spline_under_screen",
+              3.668299992568791
+            ],
+            [
+              "_dirty_shape_view",
+              39.276800001971424
+            ]
+          ]
+        },
+        {
+          "ms": 46.57740000402555,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.2909000070067123
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6222000083653256
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7699000095017254
+            ],
+            [
+              "_dirty_shape_view",
+              38.003800000296906
+            ]
+          ]
+        },
+        {
+          "ms": 44.63799999211915,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0959000064758584
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6216000037966296
+            ],
+            [
+              "_find_spline_under_screen",
+              3.9561000012326986
+            ],
+            [
+              "_dirty_shape_view",
+              36.31460000178777
+            ]
+          ]
+        },
+        {
+          "ms": 47.785400005523115,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.3390999956754968
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6429000059142709
+            ],
+            [
+              "_find_spline_under_screen",
+              3.9422999980160967
+            ],
+            [
+              "_dirty_shape_view",
+              39.11300000618212
+            ]
+          ]
+        },
+        {
+          "ms": 43.073399996501394,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1258000013185665
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6238000059965998
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7460000021383166
+            ],
+            [
+              "_dirty_shape_view",
+              34.98539999418426
+            ]
+          ]
+        },
+        {
+          "ms": 48.26949999551289,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1903999984497204
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.7049999985611066
+            ],
+            [
+              "_find_spline_under_screen",
+              3.6595999990822747
+            ],
+            [
+              "_dirty_shape_view",
+              40.00260001339484
+            ]
+          ]
+        },
+        {
+          "ms": 43.116300003021024,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1157000117236748
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6223999953363091
+            ],
+            [
+              "_find_spline_under_screen",
+              3.689299992402084
+            ],
+            [
+              "_dirty_shape_view",
+              35.0386000063736
+            ]
+          ]
+        }
+      ],
+      "median_ms": 46.968000002379995,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 34.3 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 0,
+          "ms": 0.11610001092776656
+        },
+        {
+          "generation": 0,
+          "ms": 0.10109999857377261
+        },
+        {
+          "generation": 0,
+          "ms": 0.029999995604157448
+        },
+        {
+          "generation": 0,
+          "ms": 0.029800008633174002
+        },
+        {
+          "generation": 0,
+          "ms": 0.04980000085197389
+        },
+        {
+          "generation": 0,
+          "ms": 0.15900000289548188
+        },
+        {
+          "generation": 1,
+          "ms": 0.2001999964704737
+        },
+        {
+          "generation": 0,
+          "ms": 0.030499999411404133
+        },
+        {
+          "generation": 0,
+          "ms": 0.03260000084992498
+        },
+        {
+          "generation": 0,
+          "ms": 0.02680000034160912
+        },
+        {
+          "generation": 0,
+          "ms": 0.06390000635292381
+        },
+        {
+          "generation": 0,
+          "ms": 0.031100003980100155
+        },
+        {
+          "generation": 0,
+          "ms": 0.025600005756132305
+        },
+        {
+          "generation": 0,
+          "ms": 0.1357000001007691
+        },
+        {
+          "generation": 0,
+          "ms": 0.030100010917522013
+        },
+        {
+          "generation": 0,
+          "ms": 0.023800006601959467
+        },
+        {
+          "generation": 0,
+          "ms": 0.09969998791348189
+        },
+        {
+          "generation": 0,
+          "ms": 0.032800002372823656
+        },
+        {
+          "generation": 1,
+          "ms": 0.2660000027390197
+        },
+        {
+          "generation": 0,
+          "ms": 0.025999994250014424
+        },
+        {
+          "generation": 0,
+          "ms": 0.03880000440403819
+        },
+        {
+          "generation": 0,
+          "ms": 0.12100000458303839
+        },
+        {
+          "generation": 0,
+          "ms": 0.03099998866673559
+        },
+        {
+          "generation": 0,
+          "ms": 0.029499991796910763
+        },
+        {
+          "generation": 0,
+          "ms": 0.06079999729990959
+        },
+        {
+          "generation": 0,
+          "ms": 0.027699992642737925
+        },
+        {
+          "generation": 0,
+          "ms": 0.0388999906135723
+        },
+        {
+          "generation": 0,
+          "ms": 0.032199997804127634
+        },
+        {
+          "generation": 0,
+          "ms": 0.02989999484270811
+        },
+        {
+          "generation": 0,
+          "ms": 0.02890000178012997
+        },
+        {
+          "generation": 1,
+          "ms": 0.6652000010944903
+        },
+        {
+          "generation": 2,
+          "ms": 64.83370000205468
+        },
+        {
+          "generation": 0,
+          "ms": 0.017499987734481692
+        },
+        {
+          "generation": 0,
+          "ms": 0.049000009312294424
+        },
+        {
+          "generation": 0,
+          "ms": 0.05160000000614673
+        },
+        {
+          "generation": 0,
+          "ms": 0.030800001695752144
+        },
+        {
+          "generation": 0,
+          "ms": 0.04469999112188816
+        },
+        {
+          "generation": 0,
+          "ms": 0.022499996703118086
+        },
+        {
+          "generation": 0,
+          "ms": 0.02160000440198928
+        },
+        {
+          "generation": 0,
+          "ms": 0.022099993657320738
+        },
+        {
+          "generation": 0,
+          "ms": 0.08779999916441739
+        },
+        {
+          "generation": 0,
+          "ms": 0.0261999957729131
+        },
+        {
+          "generation": 0,
+          "ms": 0.029499991796910763
+        },
+        {
+          "generation": 1,
+          "ms": 0.14590000500902534
+        },
+        {
+          "generation": 0,
+          "ms": 0.045199994929134846
+        },
+        {
+          "generation": 0,
+          "ms": 0.025699991965666413
+        },
+        {
+          "generation": 0,
+          "ms": 0.054799995268695056
+        },
+        {
+          "generation": 0,
+          "ms": 0.027999994927085936
+        },
+        {
+          "generation": 0,
+          "ms": 0.02749999111983925
+        },
+        {
+          "generation": 0,
+          "ms": 0.024200009647756815
+        },
+        {
+          "generation": 0,
+          "ms": 0.086499989265576
+        },
+        {
+          "generation": 0,
+          "ms": 0.03060000017285347
+        },
+        {
+          "generation": 0,
+          "ms": 0.027300004148855805
+        },
+        {
+          "generation": 0,
+          "ms": 0.10879999899771065
+        },
+        {
+          "generation": 0,
+          "ms": 0.06150000263005495
+        },
+        {
+          "generation": 1,
+          "ms": 0.2673000126378611
+        },
+        {
+          "generation": 0,
+          "ms": 0.030099996365606785
+        },
+        {
+          "generation": 0,
+          "ms": 0.03189999551977962
+        },
+        {
+          "generation": 0,
+          "ms": 0.047900000936351717
+        },
+        {
+          "generation": 0,
+          "ms": 0.047599998652003706
+        },
+        {
+          "generation": 0,
+          "ms": 0.03850000211969018
+        },
+        {
+          "generation": 0,
+          "ms": 0.07510000432375818
+        },
+        {
+          "generation": 0,
+          "ms": 0.026299996534362435
+        },
+        {
+          "generation": 0,
+          "ms": 0.027000001864507794
+        },
+        {
+          "generation": 0,
+          "ms": 0.028399997972883284
+        },
+        {
+          "generation": 0,
+          "ms": 0.032500000088475645
+        },
+        {
+          "generation": 0,
+          "ms": 2.1458000119309872
+        },
+        {
+          "generation": 1,
+          "ms": 0.985999999102205
+        }
+      ]
+    },
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 326.8526999891037,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.8853000035742298
+        ],
+        [
+          "_find_spline_under_screen",
+          3.995300008682534
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.0810999994864687
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.243799991556443
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.2717999963788316
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.0820000063395128
+        ],
+        [
+          "patch_transfer",
+          56.360799993854016
+        ],
+        [
+          "_reset_control_points",
+          0.44380000326782465
+        ],
+        [
+          "_dirty_shape_view",
+          241.1871000076644
+        ],
+        [
+          "_commit_net_data",
+          308.7377000047127
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 115.15159999544267,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              0.9662000084063038
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              2.132800000254065
+            ],
+            [
+              "_find_spline_under_screen",
+              3.2152999920072034
+            ],
+            [
+              "_dirty_shape_view",
+              105.24230000737589
+            ]
+          ]
+        },
+        {
+          "ms": 45.29880000336561,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0783000034280121
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6173000001581386
+            ],
+            [
+              "_find_spline_under_screen",
+              3.609199993661605
+            ],
+            [
+              "_dirty_shape_view",
+              37.05289999197703
+            ]
+          ]
+        },
+        {
+          "ms": 45.52450000483077,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0872999991988763
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6216999900061637
+            ],
+            [
+              "_find_spline_under_screen",
+              3.5358999884920195
+            ],
+            [
+              "_dirty_shape_view",
+              37.67370000423398
+            ]
+          ]
+        },
+        {
+          "ms": 44.97610000544228,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0511000000406057
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6314999918686226
+            ],
+            [
+              "_find_spline_under_screen",
+              3.616999994846992
+            ],
+            [
+              "_dirty_shape_view",
+              37.06610000517685
+            ]
+          ]
+        },
+        {
+          "ms": 45.02150000189431,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1168999917572364
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6279000081121922
+            ],
+            [
+              "_find_spline_under_screen",
+              3.8083999970695004
+            ],
+            [
+              "_dirty_shape_view",
+              36.876199999824166
+            ]
+          ]
+        },
+        {
+          "ms": 45.44960000202991,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0980000079143792
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6235000037122518
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7704999995185062
+            ],
+            [
+              "_dirty_shape_view",
+              37.36190000199713
+            ]
+          ]
+        },
+        {
+          "ms": 48.25140000320971,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.3765000039711595
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.629100002697669
+            ],
+            [
+              "_find_spline_under_screen",
+              3.71070000983309
+            ],
+            [
+              "_dirty_shape_view",
+              39.81770000245888
+            ]
+          ]
+        },
+        {
+          "ms": 48.124699998879805,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.2387999886414036
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6207000114955008
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7290999898687005
+            ],
+            [
+              "_dirty_shape_view",
+              39.74670000025071
+            ]
+          ]
+        }
+      ],
+      "median_ms": 45.48705000343034,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 34.4 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 0,
+          "ms": 0.12149999383836985
+        },
+        {
+          "generation": 0,
+          "ms": 0.1134999911300838
+        },
+        {
+          "generation": 0,
+          "ms": 0.032500000088475645
+        },
+        {
+          "generation": 0,
+          "ms": 0.035500008380040526
+        },
+        {
+          "generation": 0,
+          "ms": 0.045900000259280205
+        },
+        {
+          "generation": 0,
+          "ms": 0.15600000915583223
+        },
+        {
+          "generation": 1,
+          "ms": 0.20260000019334257
+        },
+        {
+          "generation": 0,
+          "ms": 0.030800001695752144
+        },
+        {
+          "generation": 0,
+          "ms": 0.032500000088475645
+        },
+        {
+          "generation": 0,
+          "ms": 0.028000009479001164
+        },
+        {
+          "generation": 0,
+          "ms": 0.05439999222289771
+        },
+        {
+          "generation": 0,
+          "ms": 0.03139999171253294
+        },
+        {
+          "generation": 0,
+          "ms": 0.029400005587376654
+        },
+        {
+          "generation": 0,
+          "ms": 0.13309999485500157
+        },
+        {
+          "generation": 0,
+          "ms": 0.029600007110275328
+        },
+        {
+          "generation": 0,
+          "ms": 0.024599998141638935
+        },
+        {
+          "generation": 0,
+          "ms": 0.0425000034738332
+        },
+        {
+          "generation": 0,
+          "ms": 0.11269999959040433
+        },
+        {
+          "generation": 1,
+          "ms": 0.7740000000922009
+        },
+        {
+          "generation": 0,
+          "ms": 0.02609999501146376
+        },
+        {
+          "generation": 0,
+          "ms": 0.032500000088475645
+        },
+        {
+          "generation": 0,
+          "ms": 0.03409999771974981
+        },
+        {
+          "generation": 0,
+          "ms": 0.03340000694151968
+        },
+        {
+          "generation": 0,
+          "ms": 0.03130000550299883
+        },
+        {
+          "generation": 0,
+          "ms": 0.06650001159869134
+        },
+        {
+          "generation": 0,
+          "ms": 0.026399997295811772
+        },
+        {
+          "generation": 0,
+          "ms": 0.03599999763537198
+        },
+        {
+          "generation": 0,
+          "ms": 0.03339999238960445
+        },
+        {
+          "generation": 0,
+          "ms": 0.033200005418621004
+        },
+        {
+          "generation": 0,
+          "ms": 0.028700000257231295
+        },
+        {
+          "generation": 1,
+          "ms": 0.8299999899463728
+        },
+        {
+          "generation": 0,
+          "ms": 0.049700000090524554
+        },
+        {
+          "generation": 0,
+          "ms": 0.008699993486516178
+        },
+        {
+          "generation": 0,
+          "ms": 0.04650000482797623
+        },
+        {
+          "generation": 0,
+          "ms": 0.05509999755304307
+        },
+        {
+          "generation": 0,
+          "ms": 0.027300004148855805
+        },
+        {
+          "generation": 0,
+          "ms": 0.04600000102072954
+        },
+        {
+          "generation": 0,
+          "ms": 0.022899999748915434
+        },
+        {
+          "generation": 0,
+          "ms": 0.021900006686337292
+        },
+        {
+          "generation": 0,
+          "ms": 0.022700012777931988
+        },
+        {
+          "generation": 0,
+          "ms": 0.04630000330507755
+        },
+        {
+          "generation": 0,
+          "ms": 0.028599999495781958
+        },
+        {
+          "generation": 1,
+          "ms": 0.11470000026747584
+        },
+        {
+          "generation": 0,
+          "ms": 0.02400000812485814
+        },
+        {
+          "generation": 0,
+          "ms": 0.046599991037510335
+        },
+        {
+          "generation": 0,
+          "ms": 0.0388999906135723
+        },
+        {
+          "generation": 0,
+          "ms": 0.05420000525191426
+        },
+        {
+          "generation": 0,
+          "ms": 0.026300011086277664
+        },
+        {
+          "generation": 0,
+          "ms": 0.02819999644998461
+        },
+        {
+          "generation": 0,
+          "ms": 0.024599998141638935
+        },
+        {
+          "generation": 0,
+          "ms": 0.09000000136438757
+        },
+        {
+          "generation": 0,
+          "ms": 0.04650000482797623
+        },
+        {
+          "generation": 0,
+          "ms": 0.027000001864507794
+        },
+        {
+          "generation": 0,
+          "ms": 0.1438999897800386
+        },
+        {
+          "generation": 1,
+          "ms": 0.1601000112714246
+        },
+        {
+          "generation": 0,
+          "ms": 0.07069999992381781
+        },
+        {
+          "generation": 0,
+          "ms": 0.031800009310245514
+        },
+        {
+          "generation": 0,
+          "ms": 0.029400005587376654
+        },
+        {
+          "generation": 0,
+          "ms": 0.04359999729786068
+        },
+        {
+          "generation": 0,
+          "ms": 0.04709999484475702
+        },
+        {
+          "generation": 0,
+          "ms": 0.034899989259429276
+        },
+        {
+          "generation": 0,
+          "ms": 0.07510000432375818
+        },
+        {
+          "generation": 0,
+          "ms": 0.028800001018680632
+        },
+        {
+          "generation": 0,
+          "ms": 0.02720000338740647
+        },
+        {
+          "generation": 0,
+          "ms": 0.02710000262595713
+        },
+        {
+          "generation": 0,
+          "ms": 0.03159999323543161
+        },
+        {
+          "generation": 1,
+          "ms": 3.471399992122315
+        },
+        {
+          "generation": 0,
+          "ms": 0.04549999721348286
+        }
+      ]
+    }
+  ],
+  "after": [
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 314.99539999640547,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.8381000079680234
+        ],
+        [
+          "_find_spline_under_screen",
+          3.9960000140126795
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.133800007868558
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.295199990039691
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.3363999935099855
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.4705000105313957
+        ],
+        [
+          "patch_transfer",
+          56.67309999989811
+        ],
+        [
+          "_reset_control_points",
+          0.4074000025866553
+        ],
+        [
+          "_dirty_shape_view",
+          228.72949999873526
+        ],
+        [
+          "_commit_net_data",
+          296.3230999885127
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 51.722599993809126,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.2178000033600256
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              1.7611999937798828
+            ],
+            [
+              "_find_spline_under_screen",
+              3.276699993875809
+            ],
+            [
+              "_dirty_shape_view",
+              41.44129999622237
+            ]
+          ]
+        },
+        {
+          "ms": 45.74260000663344,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.08229999023024
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6253000028664246
+            ],
+            [
+              "_find_spline_under_screen",
+              3.528000001097098
+            ],
+            [
+              "_dirty_shape_view",
+              37.82830000272952
+            ]
+          ]
+        },
+        {
+          "ms": 50.03949999809265,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.057099987519905
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6430999928852543
+            ],
+            [
+              "_find_spline_under_screen",
+              3.8303000037558377
+            ],
+            [
+              "_dirty_shape_view",
+              41.86880000634119
+            ]
+          ]
+        },
+        {
+          "ms": 47.66799999924842,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.105399991502054
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.7728999917162582
+            ],
+            [
+              "_find_spline_under_screen",
+              4.001399996923283
+            ],
+            [
+              "_dirty_shape_view",
+              39.038600007188506
+            ]
+          ]
+        },
+        {
+          "ms": 46.80279998865444,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1104000004706904
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6202999938977882
+            ],
+            [
+              "_find_spline_under_screen",
+              3.715999991982244
+            ],
+            [
+              "_dirty_shape_view",
+              38.75900000275578
+            ]
+          ]
+        },
+        {
+          "ms": 48.058600004878826,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1109000042779371
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6203999946592376
+            ],
+            [
+              "_find_spline_under_screen",
+              3.700699991895817
+            ],
+            [
+              "_dirty_shape_view",
+              40.010899989283644
+            ]
+          ]
+        },
+        {
+          "ms": 46.96469999908004,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.094599996577017
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6219999922905117
+            ],
+            [
+              "_find_spline_under_screen",
+              3.6511999933281913
+            ],
+            [
+              "_dirty_shape_view",
+              38.954500007093884
+            ]
+          ]
+        },
+        {
+          "ms": 111.07620000257157,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0745000035967678
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6281000096350908
+            ],
+            [
+              "_find_spline_under_screen",
+              3.6715999885927886
+            ],
+            [
+              "_dirty_shape_view",
+              103.20319999300409
+            ]
+          ]
+        }
+      ],
+      "median_ms": 47.863300002063625,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 34.6 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 0,
+          "ms": 0.03290000313427299
+        },
+        {
+          "generation": 0,
+          "ms": 0.09620000491850078
+        },
+        {
+          "generation": 0,
+          "ms": 0.11560000712051988
+        },
+        {
+          "generation": 0,
+          "ms": 0.03340000694151968
+        },
+        {
+          "generation": 0,
+          "ms": 0.030700000934302807
+        },
+        {
+          "generation": 0,
+          "ms": 0.048000001697801054
+        },
+        {
+          "generation": 0,
+          "ms": 0.16160000814124942
+        },
+        {
+          "generation": 0,
+          "ms": 0.0931999966269359
+        },
+        {
+          "generation": 0,
+          "ms": 0.028599999495781958
+        },
+        {
+          "generation": 0,
+          "ms": 0.029399991035461426
+        },
+        {
+          "generation": 0,
+          "ms": 0.026599998818710446
+        },
+        {
+          "generation": 1,
+          "ms": 0.4797000001417473
+        },
+        {
+          "generation": 0,
+          "ms": 0.03519999154377729
+        },
+        {
+          "generation": 0,
+          "ms": 0.025900008040480316
+        },
+        {
+          "generation": 0,
+          "ms": 0.13760000001639128
+        },
+        {
+          "generation": 0,
+          "ms": 0.02989999484270811
+        },
+        {
+          "generation": 0,
+          "ms": 0.024599998141638935
+        },
+        {
+          "generation": 0,
+          "ms": 0.04430000262800604
+        },
+        {
+          "generation": 0,
+          "ms": 0.05980000423733145
+        },
+        {
+          "generation": 0,
+          "ms": 0.07819999882485718
+        },
+        {
+          "generation": 0,
+          "ms": 0.02570000651758164
+        },
+        {
+          "generation": 0,
+          "ms": 0.03329999162815511
+        },
+        {
+          "generation": 0,
+          "ms": 0.033899996196851134
+        },
+        {
+          "generation": 1,
+          "ms": 0.44519999937620014
+        },
+        {
+          "generation": 0,
+          "ms": 0.03399999695830047
+        },
+        {
+          "generation": 0,
+          "ms": 0.06739998934790492
+        },
+        {
+          "generation": 0,
+          "ms": 0.027300004148855805
+        },
+        {
+          "generation": 0,
+          "ms": 0.03650000144261867
+        },
+        {
+          "generation": 0,
+          "ms": 0.03290000313427299
+        },
+        {
+          "generation": 0,
+          "ms": 0.029700007871724665
+        },
+        {
+          "generation": 0,
+          "ms": 0.028400012524798512
+        },
+        {
+          "generation": 0,
+          "ms": 0.567299997783266
+        },
+        {
+          "generation": 0,
+          "ms": 0.08800000068731606
+        },
+        {
+          "generation": 0,
+          "ms": 0.010099989594891667
+        },
+        {
+          "generation": 0,
+          "ms": 0.05729999975301325
+        },
+        {
+          "generation": 1,
+          "ms": 1.0274999949615449
+        },
+        {
+          "generation": 0,
+          "ms": 0.03310000465717167
+        },
+        {
+          "generation": 0,
+          "ms": 0.04610000178217888
+        },
+        {
+          "generation": 0,
+          "ms": 0.02440001117065549
+        },
+        {
+          "generation": 0,
+          "ms": 0.01920000067912042
+        },
+        {
+          "generation": 0,
+          "ms": 0.0281000102404505
+        },
+        {
+          "generation": 0,
+          "ms": 0.04100000660400838
+        },
+        {
+          "generation": 0,
+          "ms": 0.024200009647756815
+        },
+        {
+          "generation": 0,
+          "ms": 0.026900001103058457
+        },
+        {
+          "generation": 0,
+          "ms": 0.023599990527145565
+        },
+        {
+          "generation": 0,
+          "ms": 0.044800006435252726
+        },
+        {
+          "generation": 0,
+          "ms": 0.02580000727903098
+        },
+        {
+          "generation": 1,
+          "ms": 0.1795999996829778
+        },
+        {
+          "generation": 0,
+          "ms": 0.02609999501146376
+        },
+        {
+          "generation": 0,
+          "ms": 0.027999994927085936
+        },
+        {
+          "generation": 0,
+          "ms": 0.02440001117065549
+        },
+        {
+          "generation": 0,
+          "ms": 0.08549999620299786
+        },
+        {
+          "generation": 0,
+          "ms": 0.030199997127056122
+        },
+        {
+          "generation": 0,
+          "ms": 0.026900001103058457
+        },
+        {
+          "generation": 0,
+          "ms": 0.10239999392069876
+        },
+        {
+          "generation": 0,
+          "ms": 0.023499989765696228
+        },
+        {
+          "generation": 0,
+          "ms": 0.06269999721553177
+        },
+        {
+          "generation": 0,
+          "ms": 0.046299988753162324
+        },
+        {
+          "generation": 0,
+          "ms": 0.04749999789055437
+        },
+        {
+          "generation": 1,
+          "ms": 0.1998000079765916
+        },
+        {
+          "generation": 0,
+          "ms": 0.047599998652003706
+        },
+        {
+          "generation": 0,
+          "ms": 0.03710000601131469
+        },
+        {
+          "generation": 0,
+          "ms": 0.07950000872369856
+        },
+        {
+          "generation": 0,
+          "ms": 0.16830000095069408
+        },
+        {
+          "generation": 0,
+          "ms": 0.030399998649954796
+        },
+        {
+          "generation": 0,
+          "ms": 0.026299996534362435
+        },
+        {
+          "generation": 0,
+          "ms": 0.031400006264448166
+        },
+        {
+          "generation": 0,
+          "ms": 3.0587999935960397
+        },
+        {
+          "generation": 0,
+          "ms": 0.044599990360438824
+        }
+      ]
+    },
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 418.3035000023665,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.9264999971492216
+        ],
+        [
+          "_find_spline_under_screen",
+          4.408200009493157
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.2083999938331544
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.659599999897182
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.454300003591925
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.3480000090785325
+        ],
+        [
+          "patch_transfer",
+          138.72960000298917
+        ],
+        [
+          "_reset_control_points",
+          0.48499999684281647
+        ],
+        [
+          "_dirty_shape_view",
+          248.0667999916477
+        ],
+        [
+          "_commit_net_data",
+          398.5023999994155
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 50.52629999408964,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              0.9991999977501109
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              1.766499990480952
+            ],
+            [
+              "_find_spline_under_screen",
+              3.333000000566244
+            ],
+            [
+              "_dirty_shape_view",
+              40.19770000013523
+            ]
+          ]
+        },
+        {
+          "ms": 49.907900000107475,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.6654000064590946
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6377999961841851
+            ],
+            [
+              "_find_spline_under_screen",
+              3.632899999502115
+            ],
+            [
+              "_dirty_shape_view",
+              41.03259999828879
+            ]
+          ]
+        },
+        {
+          "ms": 52.96749999979511,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1031000030925497
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6414999952539802
+            ],
+            [
+              "_find_spline_under_screen",
+              3.682199996546842
+            ],
+            [
+              "_dirty_shape_view",
+              44.8647000011988
+            ]
+          ]
+        },
+        {
+          "ms": 50.054500010446645,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.2399999977787957
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.7428999961121008
+            ],
+            [
+              "_find_spline_under_screen",
+              4.175699999905191
+            ],
+            [
+              "_dirty_shape_view",
+              40.956899989396334
+            ]
+          ]
+        },
+        {
+          "ms": 47.50859999330714,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1329999979352579
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.633700008620508
+            ],
+            [
+              "_find_spline_under_screen",
+              3.737200007890351
+            ],
+            [
+              "_dirty_shape_view",
+              39.36900000553578
+            ]
+          ]
+        },
+        {
+          "ms": 50.650899996981025,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.382500006002374
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6120999896666035
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7653000035788864
+            ],
+            [
+              "_dirty_shape_view",
+              42.08690000814386
+            ]
+          ]
+        },
+        {
+          "ms": 50.48029999306891,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1070999898947775
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6344000139506534
+            ],
+            [
+              "_find_spline_under_screen",
+              3.953799998271279
+            ],
+            [
+              "_dirty_shape_view",
+              42.09180000179913
+            ]
+          ]
+        },
+        {
+          "ms": 55.90720000327565,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.381299996864982
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.7388000085484236
+            ],
+            [
+              "_find_spline_under_screen",
+              3.765200002817437
+            ],
+            [
+              "_dirty_shape_view",
+              47.14830000011716
+            ]
+          ]
+        }
+      ],
+      "median_ms": 50.503299993579276,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 36.4 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 0,
+          "ms": 0.14280001050792634
+        },
+        {
+          "generation": 0,
+          "ms": 0.1453000004403293
+        },
+        {
+          "generation": 0,
+          "ms": 0.03709999145939946
+        },
+        {
+          "generation": 0,
+          "ms": 0.029999995604157448
+        },
+        {
+          "generation": 0,
+          "ms": 0.044800006435252726
+        },
+        {
+          "generation": 0,
+          "ms": 0.16989999858196825
+        },
+        {
+          "generation": 1,
+          "ms": 0.2182000025641173
+        },
+        {
+          "generation": 0,
+          "ms": 0.031499992473982275
+        },
+        {
+          "generation": 0,
+          "ms": 0.03029999788850546
+        },
+        {
+          "generation": 0,
+          "ms": 0.030800001695752144
+        },
+        {
+          "generation": 0,
+          "ms": 0.06479999865405262
+        },
+        {
+          "generation": 0,
+          "ms": 0.04270000499673188
+        },
+        {
+          "generation": 0,
+          "ms": 0.027400004910305142
+        },
+        {
+          "generation": 0,
+          "ms": 0.14819999341852963
+        },
+        {
+          "generation": 0,
+          "ms": 0.030700000934302807
+        },
+        {
+          "generation": 0,
+          "ms": 0.026000008801929653
+        },
+        {
+          "generation": 0,
+          "ms": 0.10790000669658184
+        },
+        {
+          "generation": 0,
+          "ms": 0.03409999771974981
+        },
+        {
+          "generation": 1,
+          "ms": 0.2690000110305846
+        },
+        {
+          "generation": 0,
+          "ms": 0.026400011847727
+        },
+        {
+          "generation": 0,
+          "ms": 0.04269999044481665
+        },
+        {
+          "generation": 0,
+          "ms": 0.03980001201853156
+        },
+        {
+          "generation": 0,
+          "ms": 0.03290000313427299
+        },
+        {
+          "generation": 0,
+          "ms": 0.03369999467395246
+        },
+        {
+          "generation": 0,
+          "ms": 0.06769999163225293
+        },
+        {
+          "generation": 0,
+          "ms": 0.025600005756132305
+        },
+        {
+          "generation": 0,
+          "ms": 0.03709999145939946
+        },
+        {
+          "generation": 0,
+          "ms": 0.03470000228844583
+        },
+        {
+          "generation": 0,
+          "ms": 0.03169999399688095
+        },
+        {
+          "generation": 0,
+          "ms": 0.03029999788850546
+        },
+        {
+          "generation": 1,
+          "ms": 1.025099991238676
+        },
+        {
+          "generation": 2,
+          "ms": 78.60030001029372
+        },
+        {
+          "generation": 0,
+          "ms": 0.019699989934451878
+        },
+        {
+          "generation": 0,
+          "ms": 0.061400001868605614
+        },
+        {
+          "generation": 0,
+          "ms": 0.03429999924264848
+        },
+        {
+          "generation": 0,
+          "ms": 0.04749999789055437
+        },
+        {
+          "generation": 0,
+          "ms": 0.04710000939667225
+        },
+        {
+          "generation": 0,
+          "ms": 0.024599998141638935
+        },
+        {
+          "generation": 0,
+          "ms": 0.021500003640539944
+        },
+        {
+          "generation": 0,
+          "ms": 0.022499996703118086
+        },
+        {
+          "generation": 0,
+          "ms": 0.053099996875971556
+        },
+        {
+          "generation": 0,
+          "ms": 0.027600006433203816
+        },
+        {
+          "generation": 0,
+          "ms": 0.03160000778734684
+        },
+        {
+          "generation": 1,
+          "ms": 0.15130000247154385
+        },
+        {
+          "generation": 0,
+          "ms": 0.0540999899385497
+        },
+        {
+          "generation": 0,
+          "ms": 0.026400011847727
+        },
+        {
+          "generation": 0,
+          "ms": 0.059300000430084765
+        },
+        {
+          "generation": 0,
+          "ms": 0.02950000634882599
+        },
+        {
+          "generation": 0,
+          "ms": 0.027700007194653153
+        },
+        {
+          "generation": 0,
+          "ms": 0.027000001864507794
+        },
+        {
+          "generation": 0,
+          "ms": 0.10140000085812062
+        },
+        {
+          "generation": 0,
+          "ms": 0.03099998866673559
+        },
+        {
+          "generation": 0,
+          "ms": 0.050300004659220576
+        },
+        {
+          "generation": 0,
+          "ms": 0.11480000102892518
+        },
+        {
+          "generation": 0,
+          "ms": 0.02570000651758164
+        },
+        {
+          "generation": 1,
+          "ms": 0.3355999942868948
+        },
+        {
+          "generation": 0,
+          "ms": 0.03139999171253294
+        },
+        {
+          "generation": 0,
+          "ms": 0.03509999078232795
+        },
+        {
+          "generation": 0,
+          "ms": 0.04579999949783087
+        },
+        {
+          "generation": 0,
+          "ms": 0.05250000685919076
+        },
+        {
+          "generation": 0,
+          "ms": 0.039300008211284876
+        },
+        {
+          "generation": 0,
+          "ms": 0.08670000534038991
+        },
+        {
+          "generation": 0,
+          "ms": 0.025600005756132305
+        },
+        {
+          "generation": 0,
+          "ms": 0.029000002541579306
+        },
+        {
+          "generation": 0,
+          "ms": 0.12749999586958438
+        },
+        {
+          "generation": 0,
+          "ms": 0.032500000088475645
+        },
+        {
+          "generation": 0,
+          "ms": 2.5451999972574413
+        },
+        {
+          "generation": 1,
+          "ms": 1.148700001067482
+        }
+      ]
+    },
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 388.3475000038743,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.8789999992586672
+        ],
+        [
+          "_find_spline_under_screen",
+          4.0982000064104795
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.3883999965619296
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.9966000048443675
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.303000001120381
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.3099000100046396
+        ],
+        [
+          "patch_transfer",
+          59.445000006235205
+        ],
+        [
+          "_reset_control_points",
+          0.4571000026771799
+        ],
+        [
+          "_dirty_shape_view",
+          298.73970001062844
+        ],
+        [
+          "_commit_net_data",
+          368.8936999969883
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 52.29259999759961,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              0.9655000030761585
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              1.7056000069715083
+            ],
+            [
+              "_find_spline_under_screen",
+              3.2202000002143905
+            ],
+            [
+              "_dirty_shape_view",
+              42.424200000823475
+            ]
+          ]
+        },
+        {
+          "ms": 52.55300000135321,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1008000001311302
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6272000027820468
+            ],
+            [
+              "_find_spline_under_screen",
+              3.794799995375797
+            ],
+            [
+              "_dirty_shape_view",
+              44.125200001872145
+            ]
+          ]
+        },
+        {
+          "ms": 52.81930000637658,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.586200000019744
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6435000104829669
+            ],
+            [
+              "_find_spline_under_screen",
+              3.683699993416667
+            ],
+            [
+              "_dirty_shape_view",
+              43.874199996935204
+            ]
+          ]
+        },
+        {
+          "ms": 51.139000002876855,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0953000019071624
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6207999977050349
+            ],
+            [
+              "_find_spline_under_screen",
+              3.670799997053109
+            ],
+            [
+              "_dirty_shape_view",
+              43.01809999742545
+            ]
+          ]
+        },
+        {
+          "ms": 50.833700006478466,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.105600007576868
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6378000107361004
+            ],
+            [
+              "_find_spline_under_screen",
+              3.806499997153878
+            ],
+            [
+              "_dirty_shape_view",
+              42.58529999060556
+            ]
+          ]
+        },
+        {
+          "ms": 53.529100012383424,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1468000011518598
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6347000016830862
+            ],
+            [
+              "_find_spline_under_screen",
+              4.135299997869879
+            ],
+            [
+              "_dirty_shape_view",
+              44.64249999728054
+            ]
+          ]
+        },
+        {
+          "ms": 51.775899992208,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.137900006142445
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6375999946612865
+            ],
+            [
+              "_find_spline_under_screen",
+              3.874699992593378
+            ],
+            [
+              "_dirty_shape_view",
+              43.33770000084769
+            ]
+          ]
+        },
+        {
+          "ms": 47.85730000003241,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.2573999993037432
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6782999989809468
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7755999946966767
+            ],
+            [
+              "_dirty_shape_view",
+              39.312799999606796
+            ]
+          ]
+        }
+      ],
+      "median_ms": 52.0342499949038,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 36.2 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 0,
+          "ms": 0.382099999114871
+        },
+        {
+          "generation": 0,
+          "ms": 0.12360000982880592
+        },
+        {
+          "generation": 0,
+          "ms": 0.03309999010525644
+        },
+        {
+          "generation": 1,
+          "ms": 0.18570000247564167
+        },
+        {
+          "generation": 0,
+          "ms": 0.049700000090524554
+        },
+        {
+          "generation": 0,
+          "ms": 0.14309999824035913
+        },
+        {
+          "generation": 0,
+          "ms": 0.08600000001024455
+        },
+        {
+          "generation": 0,
+          "ms": 0.027600006433203816
+        },
+        {
+          "generation": 0,
+          "ms": 0.03290000313427299
+        },
+        {
+          "generation": 0,
+          "ms": 0.025899993488565087
+        },
+        {
+          "generation": 0,
+          "ms": 0.054100004490464926
+        },
+        {
+          "generation": 0,
+          "ms": 0.030700000934302807
+        },
+        {
+          "generation": 0,
+          "ms": 0.027400004910305142
+        },
+        {
+          "generation": 0,
+          "ms": 0.14150000060908496
+        },
+        {
+          "generation": 0,
+          "ms": 0.030000010156072676
+        },
+        {
+          "generation": 1,
+          "ms": 0.4484999954001978
+        },
+        {
+          "generation": 0,
+          "ms": 0.04429998807609081
+        },
+        {
+          "generation": 0,
+          "ms": 0.0746000005165115
+        },
+        {
+          "generation": 0,
+          "ms": 0.08060000254772604
+        },
+        {
+          "generation": 0,
+          "ms": 0.02570000651758164
+        },
+        {
+          "generation": 0,
+          "ms": 0.03340000694151968
+        },
+        {
+          "generation": 0,
+          "ms": 0.03399999695830047
+        },
+        {
+          "generation": 0,
+          "ms": 0.03060000017285347
+        },
+        {
+          "generation": 0,
+          "ms": 0.028700000257231295
+        },
+        {
+          "generation": 0,
+          "ms": 0.07249999907799065
+        },
+        {
+          "generation": 0,
+          "ms": 0.030700000934302807
+        },
+        {
+          "generation": 0,
+          "ms": 0.03809999907389283
+        },
+        {
+          "generation": 1,
+          "ms": 0.5654999986290932
+        },
+        {
+          "generation": 0,
+          "ms": 0.032100011594593525
+        },
+        {
+          "generation": 0,
+          "ms": 0.030800001695752144
+        },
+        {
+          "generation": 0,
+          "ms": 0.606999994488433
+        },
+        {
+          "generation": 0,
+          "ms": 0.03510000533424318
+        },
+        {
+          "generation": 0,
+          "ms": 0.02849999873433262
+        },
+        {
+          "generation": 0,
+          "ms": 0.04460000491235405
+        },
+        {
+          "generation": 0,
+          "ms": 0.027300004148855805
+        },
+        {
+          "generation": 0,
+          "ms": 0.030499999411404133
+        },
+        {
+          "generation": 0,
+          "ms": 0.046200002543628216
+        },
+        {
+          "generation": 0,
+          "ms": 0.02300000051036477
+        },
+        {
+          "generation": 0,
+          "ms": 0.019400002202019095
+        },
+        {
+          "generation": 1,
+          "ms": 0.7786999922245741
+        },
+        {
+          "generation": 2,
+          "ms": 61.82850000914186
+        },
+        {
+          "generation": 0,
+          "ms": 0.04220000118948519
+        },
+        {
+          "generation": 0,
+          "ms": 0.03360000846441835
+        },
+        {
+          "generation": 0,
+          "ms": 0.02609999501146376
+        },
+        {
+          "generation": 0,
+          "ms": 0.04959999932907522
+        },
+        {
+          "generation": 0,
+          "ms": 0.027600006433203816
+        },
+        {
+          "generation": 0,
+          "ms": 0.05360000068321824
+        },
+        {
+          "generation": 0,
+          "ms": 0.02609999501146376
+        },
+        {
+          "generation": 0,
+          "ms": 0.027799993404187262
+        },
+        {
+          "generation": 0,
+          "ms": 0.023800006601959467
+        },
+        {
+          "generation": 0,
+          "ms": 0.08209999941755086
+        },
+        {
+          "generation": 0,
+          "ms": 0.03199999628122896
+        },
+        {
+          "generation": 1,
+          "ms": 0.13810000382363796
+        },
+        {
+          "generation": 0,
+          "ms": 0.061400001868605614
+        },
+        {
+          "generation": 0,
+          "ms": 0.022899999748915434
+        },
+        {
+          "generation": 0,
+          "ms": 0.02370000584051013
+        },
+        {
+          "generation": 0,
+          "ms": 0.061700004152953625
+        },
+        {
+          "generation": 0,
+          "ms": 0.052799994591623545
+        },
+        {
+          "generation": 0,
+          "ms": 0.0543000060133636
+        },
+        {
+          "generation": 0,
+          "ms": 0.039300008211284876
+        },
+        {
+          "generation": 0,
+          "ms": 0.04509999416768551
+        },
+        {
+          "generation": 0,
+          "ms": 0.038999991375021636
+        },
+        {
+          "generation": 0,
+          "ms": 0.09299999510403723
+        },
+        {
+          "generation": 0,
+          "ms": 0.02749999111983925
+        },
+        {
+          "generation": 1,
+          "ms": 0.44079999497625977
+        },
+        {
+          "generation": 0,
+          "ms": 0.029600007110275328
+        },
+        {
+          "generation": 0,
+          "ms": 0.0295999925583601
+        },
+        {
+          "generation": 0,
+          "ms": 2.381099999183789
+        },
+        {
+          "generation": 0,
+          "ms": 0.04469999112188816
+        }
+      ]
+    },
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 315.23330000345595,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          1.1574999953154474
+        ],
+        [
+          "_find_spline_under_screen",
+          4.125099992961623
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.11049999052193
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.5385000091046095
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.219999994849786
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.4539000005461276
+        ],
+        [
+          "patch_transfer",
+          56.74279999220744
+        ],
+        [
+          "_reset_control_points",
+          0.38840000343043357
+        ],
+        [
+          "_dirty_shape_view",
+          227.85660000226926
+        ],
+        [
+          "_commit_net_data",
+          296.1269999941578
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 115.56600000767503,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.2764999992214143
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              2.1564000053331256
+            ],
+            [
+              "_find_spline_under_screen",
+              3.229599999031052
+            ],
+            [
+              "_dirty_shape_view",
+              105.2437999896938
+            ]
+          ]
+        },
+        {
+          "ms": 46.029000004637055,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.077699998859316
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6222999945748597
+            ],
+            [
+              "_find_spline_under_screen",
+              3.469599992968142
+            ],
+            [
+              "_dirty_shape_view",
+              38.28200000862125
+            ]
+          ]
+        },
+        {
+          "ms": 47.203800000716,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0924999951384962
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6180000054882839
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7715000071329996
+            ],
+            [
+              "_dirty_shape_view",
+              38.99499999533873
+            ]
+          ]
+        },
+        {
+          "ms": 47.13419999461621,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0779000003822148
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6296999927144498
+            ],
+            [
+              "_find_spline_under_screen",
+              3.807300003245473
+            ],
+            [
+              "_dirty_shape_view",
+              38.988300002529286
+            ]
+          ]
+        },
+        {
+          "ms": 48.8405999931274,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1195999977644533
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6221000076038763
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7167000118643045
+            ],
+            [
+              "_dirty_shape_view",
+              40.80000000249129
+            ]
+          ]
+        },
+        {
+          "ms": 46.338800006196834,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0966000118060037
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6279999943217263
+            ],
+            [
+              "_find_spline_under_screen",
+              3.695999999763444
+            ],
+            [
+              "_dirty_shape_view",
+              38.335599994752556
+            ]
+          ]
+        },
+        {
+          "ms": 45.90720000851434,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.26680001267232
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6330999894998968
+            ],
+            [
+              "_find_spline_under_screen",
+              3.6385999992489815
+            ],
+            [
+              "_dirty_shape_view",
+              37.621700001182035
+            ]
+          ]
+        },
+        {
+          "ms": 45.385400007944554,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1172999948030338
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6105000065872446
+            ],
+            [
+              "_find_spline_under_screen",
+              3.6992999957874417
+            ],
+            [
+              "_dirty_shape_view",
+              37.328400008846074
+            ]
+          ]
+        }
+      ],
+      "median_ms": 46.73650000040652,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 35.0 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 1,
+          "ms": 0.4574000049615279
+        },
+        {
+          "generation": 0,
+          "ms": 0.10629999451339245
+        },
+        {
+          "generation": 0,
+          "ms": 0.05810000584460795
+        },
+        {
+          "generation": 0,
+          "ms": 0.032199997804127634
+        },
+        {
+          "generation": 0,
+          "ms": 0.07999999797903001
+        },
+        {
+          "generation": 0,
+          "ms": 0.1360000023851171
+        },
+        {
+          "generation": 0,
+          "ms": 0.09039998985826969
+        },
+        {
+          "generation": 0,
+          "ms": 0.028399997972883284
+        },
+        {
+          "generation": 0,
+          "ms": 0.02989999484270811
+        },
+        {
+          "generation": 0,
+          "ms": 0.02510000194888562
+        },
+        {
+          "generation": 0,
+          "ms": 0.055800002883188426
+        },
+        {
+          "generation": 0,
+          "ms": 0.030800001695752144
+        },
+        {
+          "generation": 1,
+          "ms": 0.5732999998144805
+        },
+        {
+          "generation": 0,
+          "ms": 0.13729999773204327
+        },
+        {
+          "generation": 0,
+          "ms": 0.031000003218650818
+        },
+        {
+          "generation": 0,
+          "ms": 0.02439999661874026
+        },
+        {
+          "generation": 0,
+          "ms": 0.04780000017490238
+        },
+        {
+          "generation": 0,
+          "ms": 0.08019999950192869
+        },
+        {
+          "generation": 0,
+          "ms": 0.1505999971413985
+        },
+        {
+          "generation": 0,
+          "ms": 0.025300003471784294
+        },
+        {
+          "generation": 0,
+          "ms": 0.03239999932702631
+        },
+        {
+          "generation": 0,
+          "ms": 0.03260000084992498
+        },
+        {
+          "generation": 0,
+          "ms": 0.02990000939462334
+        },
+        {
+          "generation": 0,
+          "ms": 0.0315000070258975
+        },
+        {
+          "generation": 1,
+          "ms": 0.5536999960895628
+        },
+        {
+          "generation": 0,
+          "ms": 0.03779999678954482
+        },
+        {
+          "generation": 0,
+          "ms": 0.037699996028095484
+        },
+        {
+          "generation": 0,
+          "ms": 0.03259998629800975
+        },
+        {
+          "generation": 0,
+          "ms": 0.028700000257231295
+        },
+        {
+          "generation": 0,
+          "ms": 0.027799993404187262
+        },
+        {
+          "generation": 0,
+          "ms": 0.3465000045252964
+        },
+        {
+          "generation": 0,
+          "ms": 0.04669999179895967
+        },
+        {
+          "generation": 0,
+          "ms": 0.007999988156370819
+        },
+        {
+          "generation": 0,
+          "ms": 0.043799998820759356
+        },
+        {
+          "generation": 0,
+          "ms": 0.10320000001229346
+        },
+        {
+          "generation": 0,
+          "ms": 0.02750000567175448
+        },
+        {
+          "generation": 1,
+          "ms": 0.7811999967088923
+        },
+        {
+          "generation": 0,
+          "ms": 0.02890000178012997
+        },
+        {
+          "generation": 0,
+          "ms": 0.021499989088624716
+        },
+        {
+          "generation": 0,
+          "ms": 0.02239999594166875
+        },
+        {
+          "generation": 0,
+          "ms": 0.042800005758181214
+        },
+        {
+          "generation": 0,
+          "ms": 0.024499997380189598
+        },
+        {
+          "generation": 0,
+          "ms": 0.028099995688535273
+        },
+        {
+          "generation": 0,
+          "ms": 0.0236999912885949
+        },
+        {
+          "generation": 0,
+          "ms": 0.044500004150904715
+        },
+        {
+          "generation": 0,
+          "ms": 0.02579999272711575
+        },
+        {
+          "generation": 0,
+          "ms": 0.05639999289996922
+        },
+        {
+          "generation": 0,
+          "ms": 0.025899993488565087
+        },
+        {
+          "generation": 1,
+          "ms": 0.22259999241214246
+        },
+        {
+          "generation": 0,
+          "ms": 0.02469999890308827
+        },
+        {
+          "generation": 0,
+          "ms": 0.08789999992586672
+        },
+        {
+          "generation": 0,
+          "ms": 0.1024999946821481
+        },
+        {
+          "generation": 0,
+          "ms": 0.026900001103058457
+        },
+        {
+          "generation": 0,
+          "ms": 0.10049999400507659
+        },
+        {
+          "generation": 0,
+          "ms": 0.023599990527145565
+        },
+        {
+          "generation": 0,
+          "ms": 0.07650000043213367
+        },
+        {
+          "generation": 0,
+          "ms": 0.03159999323543161
+        },
+        {
+          "generation": 0,
+          "ms": 0.031100003980100155
+        },
+        {
+          "generation": 0,
+          "ms": 0.04600000102072954
+        },
+        {
+          "generation": 0,
+          "ms": 0.04430000262800604
+        },
+        {
+          "generation": 1,
+          "ms": 0.21569999807979912
+        },
+        {
+          "generation": 0,
+          "ms": 0.07080000068526715
+        },
+        {
+          "generation": 0,
+          "ms": 0.028800001018680632
+        },
+        {
+          "generation": 0,
+          "ms": 0.03029999788850546
+        },
+        {
+          "generation": 0,
+          "ms": 0.027599991881288588
+        },
+        {
+          "generation": 0,
+          "ms": 0.0320999970426783
+        },
+        {
+          "generation": 0,
+          "ms": 3.016499991645105
+        },
+        {
+          "generation": 0,
+          "ms": 0.040099999750964344
+        }
+      ]
+    },
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 375.98509999224916,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.8548000041628256
+        ],
+        [
+          "_find_spline_under_screen",
+          4.079899998032488
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.1170999971218407
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.299699995201081
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.574900005129166
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          62.636300004669465
+        ],
+        [
+          "patch_transfer",
+          56.01600000227336
+        ],
+        [
+          "_reset_control_points",
+          0.4354999982751906
+        ],
+        [
+          "_dirty_shape_view",
+          229.91300000285264
+        ],
+        [
+          "_commit_net_data",
+          296.6983999940567
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 49.4332999951439,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              0.949699999182485
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              2.2252000053413212
+            ],
+            [
+              "_find_spline_under_screen",
+              3.2315000134985894
+            ],
+            [
+              "_dirty_shape_view",
+              39.42149999784306
+            ]
+          ]
+        },
+        {
+          "ms": 44.59540000243578,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.109300006646663
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6243999960133806
+            ],
+            [
+              "_find_spline_under_screen",
+              3.5881000076187775
+            ],
+            [
+              "_dirty_shape_view",
+              36.603799992008135
+            ]
+          ]
+        },
+        {
+          "ms": 47.36650000268128,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1001999955624342
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6206000107340515
+            ],
+            [
+              "_find_spline_under_screen",
+              3.8160999974934384
+            ],
+            [
+              "_dirty_shape_view",
+              39.181600004667416
+            ]
+          ]
+        },
+        {
+          "ms": 44.02339999796823,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0974000033456832
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6451000081142411
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7339999980758876
+            ],
+            [
+              "_dirty_shape_view",
+              35.93900000851136
+            ]
+          ]
+        },
+        {
+          "ms": 45.97190000640694,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1055999930249527
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6165000086184591
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7564000085694715
+            ],
+            [
+              "_dirty_shape_view",
+              37.82820000196807
+            ]
+          ]
+        },
+        {
+          "ms": 46.790400010650046,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1849000002257526
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6849000055808574
+            ],
+            [
+              "_find_spline_under_screen",
+              4.020799999125302
+            ],
+            [
+              "_dirty_shape_view",
+              38.12179999658838
+            ]
+          ]
+        },
+        {
+          "ms": 47.637900002882816,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.602499993168749
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6457999988924712
+            ],
+            [
+              "_find_spline_under_screen",
+              3.6269999982323498
+            ],
+            [
+              "_dirty_shape_view",
+              38.98870000557508
+            ]
+          ]
+        },
+        {
+          "ms": 42.97789999691304,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1303000064799562
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6160000048112124
+            ],
+            [
+              "_find_spline_under_screen",
+              3.9572999958181754
+            ],
+            [
+              "_dirty_shape_view",
+              34.64640000311192
+            ]
+          ]
+        }
+      ],
+      "median_ms": 46.38115000852849,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 36.3 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 0,
+          "ms": 0.11910000466741621
+        },
+        {
+          "generation": 0,
+          "ms": 0.11569999333005399
+        },
+        {
+          "generation": 0,
+          "ms": 0.030399998649954796
+        },
+        {
+          "generation": 1,
+          "ms": 0.16460000188089907
+        },
+        {
+          "generation": 2,
+          "ms": 60.311599998385645
+        },
+        {
+          "generation": 0,
+          "ms": 0.14810000720899552
+        },
+        {
+          "generation": 0,
+          "ms": 0.08509999315720052
+        },
+        {
+          "generation": 0,
+          "ms": 0.026599998818710446
+        },
+        {
+          "generation": 0,
+          "ms": 0.03060000017285347
+        },
+        {
+          "generation": 0,
+          "ms": 0.02609999501146376
+        },
+        {
+          "generation": 0,
+          "ms": 0.05509999755304307
+        },
+        {
+          "generation": 0,
+          "ms": 0.03260000084992498
+        },
+        {
+          "generation": 0,
+          "ms": 0.025500004994682968
+        },
+        {
+          "generation": 0,
+          "ms": 0.308899994706735
+        },
+        {
+          "generation": 0,
+          "ms": 0.02890000178012997
+        },
+        {
+          "generation": 0,
+          "ms": 0.024599998141638935
+        },
+        {
+          "generation": 1,
+          "ms": 0.47140000970102847
+        },
+        {
+          "generation": 0,
+          "ms": 0.06269999721553177
+        },
+        {
+          "generation": 0,
+          "ms": 0.07680000271648169
+        },
+        {
+          "generation": 0,
+          "ms": 0.0261999957729131
+        },
+        {
+          "generation": 0,
+          "ms": 0.033200005418621004
+        },
+        {
+          "generation": 0,
+          "ms": 0.03369999467395246
+        },
+        {
+          "generation": 0,
+          "ms": 0.03160000778734684
+        },
+        {
+          "generation": 0,
+          "ms": 0.041399995097890496
+        },
+        {
+          "generation": 0,
+          "ms": 0.06459999713115394
+        },
+        {
+          "generation": 0,
+          "ms": 0.030700000934302807
+        },
+        {
+          "generation": 0,
+          "ms": 0.03809999907389283
+        },
+        {
+          "generation": 0,
+          "ms": 0.031499992473982275
+        },
+        {
+          "generation": 1,
+          "ms": 0.6062999891582876
+        },
+        {
+          "generation": 0,
+          "ms": 0.03090000245720148
+        },
+        {
+          "generation": 0,
+          "ms": 0.8156999974744394
+        },
+        {
+          "generation": 0,
+          "ms": 0.023599990527145565
+        },
+        {
+          "generation": 0,
+          "ms": 0.030099996365606785
+        },
+        {
+          "generation": 0,
+          "ms": 0.017099999240599573
+        },
+        {
+          "generation": 0,
+          "ms": 0.06819999543949962
+        },
+        {
+          "generation": 0,
+          "ms": 0.03060000017285347
+        },
+        {
+          "generation": 0,
+          "ms": 0.04889999399892986
+        },
+        {
+          "generation": 0,
+          "ms": 0.025000001187436283
+        },
+        {
+          "generation": 0,
+          "ms": 0.02339998900424689
+        },
+        {
+          "generation": 0,
+          "ms": 0.021400002879090607
+        },
+        {
+          "generation": 1,
+          "ms": 0.04600000102072954
+        },
+        {
+          "generation": 0,
+          "ms": 0.029000002541579306
+        },
+        {
+          "generation": 0,
+          "ms": 0.030499999411404133
+        },
+        {
+          "generation": 0,
+          "ms": 0.02579999272711575
+        },
+        {
+          "generation": 0,
+          "ms": 0.045500011765398085
+        },
+        {
+          "generation": 0,
+          "ms": 0.02379999205004424
+        },
+        {
+          "generation": 0,
+          "ms": 0.054100004490464926
+        },
+        {
+          "generation": 0,
+          "ms": 0.027799993404187262
+        },
+        {
+          "generation": 0,
+          "ms": 0.028700000257231295
+        },
+        {
+          "generation": 0,
+          "ms": 0.02370000584051013
+        },
+        {
+          "generation": 0,
+          "ms": 0.0872999953571707
+        },
+        {
+          "generation": 0,
+          "ms": 0.09129999671131372
+        },
+        {
+          "generation": 1,
+          "ms": 0.23010000586509705
+        },
+        {
+          "generation": 0,
+          "ms": 0.10059999476652592
+        },
+        {
+          "generation": 0,
+          "ms": 0.035900011425837874
+        },
+        {
+          "generation": 0,
+          "ms": 0.06809999467805028
+        },
+        {
+          "generation": 0,
+          "ms": 0.03189999551977962
+        },
+        {
+          "generation": 0,
+          "ms": 0.02990000939462334
+        },
+        {
+          "generation": 0,
+          "ms": 0.04579999949783087
+        },
+        {
+          "generation": 0,
+          "ms": 0.04699999408330768
+        },
+        {
+          "generation": 0,
+          "ms": 0.036900004488416016
+        },
+        {
+          "generation": 0,
+          "ms": 0.07500000356230885
+        },
+        {
+          "generation": 0,
+          "ms": 0.029000002541579306
+        },
+        {
+          "generation": 0,
+          "ms": 0.02710000262595713
+        },
+        {
+          "generation": 1,
+          "ms": 0.6164999940665439
+        },
+        {
+          "generation": 0,
+          "ms": 0.03160000778734684
+        },
+        {
+          "generation": 0,
+          "ms": 2.326999994693324
+        },
+        {
+          "generation": 0,
+          "ms": 0.044800006435252726
+        }
+      ]
+    },
+    {
+      "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+      "ep": 645,
+      "start_screen": [
+        1546,
+        1145
+      ],
+      "merge_target": null,
+      "hover_spline": [
+        889,
+        0.4166666666666667,
+        [
+          0.07735780454552457,
+          2.989249644985779,
+          0.23992793781436852
+        ]
+      ],
+      "release_ms": 385.89170000341255,
+      "release_stages": [
+        [
+          "_reset_control_points",
+          0.7948999991640449
+        ],
+        [
+          "_find_spline_under_screen",
+          3.851000001304783
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.188500002375804
+        ],
+        [
+          "_attach_ep_to_spline",
+          7.2862999950302765
+        ],
+        [
+          "_recompute_handles_for_ep",
+          2.2062999923946336
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.0649999933084473
+        ],
+        [
+          "patch_transfer",
+          122.40809999639168
+        ],
+        [
+          "_reset_control_points",
+          0.3853999951388687
+        ],
+        [
+          "_dirty_shape_view",
+          234.92889999761246
+        ],
+        [
+          "_commit_net_data",
+          368.0317999969702
+        ]
+      ],
+      "samples": [
+        {
+          "ms": 49.53850001038518,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              0.9666999976616353
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              2.468200007569976
+            ],
+            [
+              "_find_spline_under_screen",
+              3.2964999991236255
+            ],
+            [
+              "_dirty_shape_view",
+              38.863199995830655
+            ]
+          ]
+        },
+        {
+          "ms": 43.14470000099391,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.5617000026395544
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6307000003289431
+            ],
+            [
+              "_find_spline_under_screen",
+              3.4577999904286116
+            ],
+            [
+              "_dirty_shape_view",
+              34.78289999475237
+            ]
+          ]
+        },
+        {
+          "ms": 45.26569999870844,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.0820000024978071
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6237000052351505
+            ],
+            [
+              "_find_spline_under_screen",
+              3.7241999962134287
+            ],
+            [
+              "_dirty_shape_view",
+              37.212700000964105
+            ]
+          ]
+        },
+        {
+          "ms": 46.332199999596924,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1839999933727086
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6243999960133806
+            ],
+            [
+              "_find_spline_under_screen",
+              3.9480999985244125
+            ],
+            [
+              "_dirty_shape_view",
+              37.82899999350775
+            ]
+          ]
+        },
+        {
+          "ms": 48.6875000060536,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.228699999046512
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.8609999931650236
+            ],
+            [
+              "_find_spline_under_screen",
+              3.8887999980943277
+            ],
+            [
+              "_dirty_shape_view",
+              40.036499995039776
+            ]
+          ]
+        },
+        {
+          "ms": 44.03220000676811,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.3081999932182953
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6592999998247251
+            ],
+            [
+              "_find_spline_under_screen",
+              3.84920000215061
+            ],
+            [
+              "_dirty_shape_view",
+              35.494900002959184
+            ]
+          ]
+        },
+        {
+          "ms": 46.201499993912876,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1286999942967668
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6204000092111528
+            ],
+            [
+              "_find_spline_under_screen",
+              4.144499995163642
+            ],
+            [
+              "_dirty_shape_view",
+              37.58489999745507
+            ]
+          ]
+        },
+        {
+          "ms": 43.895299997529946,
+          "stages": [
+            [
+              "_recompute_handles_for_ep",
+              1.1268000089330599
+            ],
+            [
+              "_smooth_moved_ep_routes",
+              0.6227999983821064
+            ],
+            [
+              "_find_spline_under_screen",
+              3.9637000008951873
+            ],
+            [
+              "_dirty_shape_view",
+              35.552700006519444
+            ]
+          ]
+        }
+      ],
+      "median_ms": 45.73359999631066,
+      "mesh_status": {
+        "aruRetopoGenerator1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / 35.1 ms / C++"
+      },
+      "plan_status": {
+        "aruRetopoPlan1": "498 \u9818\u57df / 46,320 quads / 46,700 \u9802\u70b9 / Native"
+      },
+      "buffers": {
+        "aruRetopoNative1": {
+          "vertices": 46700,
+          "faces": 46320,
+          "positions_hash": "bb266e4c42edad6079af22f3da9e82b9650edba684b73bc71d71b2f253965f16",
+          "topology_hash": "5710a74a2c76b07e1b718edf34ca1e912a460d35e4a281574d0e21220872df99"
+        }
+      },
+      "changed": true,
+      "final_hash": "96e4b9c6ce7b351ee96946d856b9088c0482c18df3b7bf31687d5902fe7b391a",
+      "topology_counts": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ],
+      "restored": true,
+      "numeric_preview": true,
+      "release_gc": [
+        {
+          "generation": 0,
+          "ms": 0.13050000416114926
+        },
+        {
+          "generation": 1,
+          "ms": 0.13179999950807542
+        },
+        {
+          "generation": 0,
+          "ms": 0.031800009310245514
+        },
+        {
+          "generation": 0,
+          "ms": 0.03170000854879618
+        },
+        {
+          "generation": 0,
+          "ms": 0.04959999932907522
+        },
+        {
+          "generation": 0,
+          "ms": 0.15100000018719584
+        },
+        {
+          "generation": 0,
+          "ms": 0.09549999958835542
+        },
+        {
+          "generation": 0,
+          "ms": 0.028399997972883284
+        },
+        {
+          "generation": 0,
+          "ms": 0.03060000017285347
+        },
+        {
+          "generation": 0,
+          "ms": 0.025500004994682968
+        },
+        {
+          "generation": 0,
+          "ms": 0.05660000897478312
+        },
+        {
+          "generation": 0,
+          "ms": 0.03269998705945909
+        },
+        {
+          "generation": 0,
+          "ms": 0.025300003471784294
+        },
+        {
+          "generation": 1,
+          "ms": 0.3563999925972894
+        },
+        {
+          "generation": 0,
+          "ms": 0.030399998649954796
+        },
+        {
+          "generation": 0,
+          "ms": 0.026599998818710446
+        },
+        {
+          "generation": 0,
+          "ms": 0.1036000030580908
+        },
+        {
+          "generation": 0,
+          "ms": 0.031800009310245514
+        },
+        {
+          "generation": 0,
+          "ms": 0.05129999772179872
+        },
+        {
+          "generation": 0,
+          "ms": 0.02570000651758164
+        },
+        {
+          "generation": 0,
+          "ms": 0.0391000066883862
+        },
+        {
+          "generation": 0,
+          "ms": 0.03440000000409782
+        },
+        {
+          "generation": 0,
+          "ms": 0.030499999411404133
+        },
+        {
+          "generation": 0,
+          "ms": 0.030800001695752144
+        },
+        {
+          "generation": 0,
+          "ms": 0.05750000127591193
+        },
+        {
+          "generation": 1,
+          "ms": 0.5683000053977594
+        },
+        {
+          "generation": 0,
+          "ms": 0.05400000372901559
+        },
+        {
+          "generation": 0,
+          "ms": 0.03329999162815511
+        },
+        {
+          "generation": 0,
+          "ms": 0.02929999027401209
+        },
+        {
+          "generation": 0,
+          "ms": 0.02780000795610249
+        },
+        {
+          "generation": 0,
+          "ms": 0.4504999960772693
+        },
+        {
+          "generation": 0,
+          "ms": 0.04119999357499182
+        },
+        {
+          "generation": 0,
+          "ms": 0.009000010322779417
+        },
+        {
+          "generation": 0,
+          "ms": 0.04909999552182853
+        },
+        {
+          "generation": 0,
+          "ms": 0.028599999495781958
+        },
+        {
+          "generation": 0,
+          "ms": 0.02540000423323363
+        },
+        {
+          "generation": 0,
+          "ms": 0.04669999179895967
+        },
+        {
+          "generation": 1,
+          "ms": 0.5405999982031062
+        },
+        {
+          "generation": 2,
+          "ms": 64.40269999438897
+        },
+        {
+          "generation": 0,
+          "ms": 0.06609999400097877
+        },
+        {
+          "generation": 0,
+          "ms": 0.04460000491235405
+        },
+        {
+          "generation": 0,
+          "ms": 0.024900000425986946
+        },
+        {
+          "generation": 0,
+          "ms": 0.027400004910305142
+        },
+        {
+          "generation": 0,
+          "ms": 0.02469999890308827
+        },
+        {
+          "generation": 0,
+          "ms": 0.044599990360438824
+        },
+        {
+          "generation": 0,
+          "ms": 0.023999993572942913
+        },
+        {
+          "generation": 0,
+          "ms": 0.057199998991563916
+        },
+        {
+          "generation": 0,
+          "ms": 0.029300004825927317
+        },
+        {
+          "generation": 0,
+          "ms": 0.028700000257231295
+        },
+        {
+          "generation": 0,
+          "ms": 0.024499997380189598
+        },
+        {
+          "generation": 1,
+          "ms": 0.22780000290367752
+        },
+        {
+          "generation": 0,
+          "ms": 0.03599999763537198
+        },
+        {
+          "generation": 0,
+          "ms": 0.0408000050811097
+        },
+        {
+          "generation": 0,
+          "ms": 0.1314000110141933
+        },
+        {
+          "generation": 0,
+          "ms": 0.0425000034738332
+        },
+        {
+          "generation": 0,
+          "ms": 0.07069999992381781
+        },
+        {
+          "generation": 0,
+          "ms": 0.05339999916031957
+        },
+        {
+          "generation": 0,
+          "ms": 0.039700011257082224
+        },
+        {
+          "generation": 0,
+          "ms": 0.043499996536411345
+        },
+        {
+          "generation": 0,
+          "ms": 0.0847000046633184
+        },
+        {
+          "generation": 0,
+          "ms": 0.03759999526664615
+        },
+        {
+          "generation": 0,
+          "ms": 0.07680000271648169
+        },
+        {
+          "generation": 1,
+          "ms": 0.46690000453963876
+        },
+        {
+          "generation": 0,
+          "ms": 0.027900008717551827
+        },
+        {
+          "generation": 0,
+          "ms": 0.0315000070258975
+        },
+        {
+          "generation": 0,
+          "ms": 0.0337999954354018
+        },
+        {
+          "generation": 0,
+          "ms": 2.2942999930819497
+        },
+        {
+          "generation": 0,
+          "ms": 0.03959999594371766
+        }
+      ]
+    }
+  ],
+  "median_ms": {
+    "before": 335.78080000006594,
+    "after": 385.89170000341255
+  },
+  "median_without_gc_ms": {
+    "before": 321.9828000146663,
+    "after": 313.7711999588646
+  },
+  "identical_output": true
+}

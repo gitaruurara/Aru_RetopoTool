@@ -1,0 +1,39 @@
+[RetopoGuide] Plugin loaded.
+���ɖ߂�: Aru Retopo: create
+��蒼��: Aru Retopo: create
+PASS repeated native enable reuses the same graph
+[RetopoGuide] 14:05:03 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 14:05:03 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 14:05:03 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 14:05:03 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 14:05:03 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 14:05:03 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+�t�@�C���̓ǂݎ���  0.18 �b������܂����B
+[RetopoGuide] 14:05:03 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 14:05:03 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+PASS native scene reopen resolves version-specific plugin by name
+PASS plan parsed-guide cache hit/miss, skipped decode and ownership
+PASS native graph: empty selection, create Undo/Redo, patch edits, CP, solver settings, subdivisions, selection
+[RetopoGuide] 14:05:03 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 14:05:03 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 14:05:03 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 14:05:03 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 14:05:03 INFO >>> uninitializePlugin: deleting scene nodes
+RetopoGuide : INFO : >>> uninitializePlugin: deleting scene nodes
+[RetopoGuide] 14:05:03 INFO >>> uninitializePlugin: deregistering
+RetopoGuide : INFO : >>> uninitializePlugin: deregistering
+[RetopoGuide] 14:05:03 INFO <<< uninitializePlugin done
+RetopoGuide : INFO : <<< uninitializePlugin done
+[RetopoGuide] Plugin unloaded.

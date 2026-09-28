@@ -1,0 +1,156 @@
+[
+  {
+    "mesh": "sphere",
+    "count": 0,
+    "transformed": false,
+    "draft": true,
+    "times": {
+      "separate": 0.01239999255631119,
+      "bound": 0.014900011592544615
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 0,
+    "transformed": false,
+    "draft": false,
+    "times": {
+      "separate": 0.008399991202168167,
+      "bound": 0.016999998479150236
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 1,
+    "transformed": false,
+    "draft": true,
+    "times": {
+      "separate": 0.05370000144466758,
+      "bound": 0.04440000338945538
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 1,
+    "transformed": false,
+    "draft": false,
+    "times": {
+      "separate": 0.11409999569877982,
+      "bound": 0.10800000745803118
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 15,
+    "transformed": false,
+    "draft": true,
+    "times": {
+      "separate": 0.4638999962480739,
+      "bound": 0.4748999926960096
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 15,
+    "transformed": false,
+    "draft": false,
+    "times": {
+      "separate": 1.4156999968690798,
+      "bound": 1.4875999913783744
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 16,
+    "transformed": false,
+    "draft": true,
+    "times": {
+      "separate": 0.4726999904960394,
+      "bound": 0.32049999572336674
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 16,
+    "transformed": false,
+    "draft": false,
+    "times": {
+      "separate": 0.906000001123175,
+      "bound": 0.8066000009421259
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 500,
+    "transformed": false,
+    "draft": true,
+    "times": {
+      "separate": 8.201199991162866,
+      "bound": 6.679599988274276
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 500,
+    "transformed": false,
+    "draft": false,
+    "times": {
+      "separate": 18.401900000753812,
+      "bound": 14.983000000938773
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 500,
+    "transformed": true,
+    "draft": true,
+    "times": {
+      "separate": 18.42019999457989,
+      "bound": 16.64530001289677
+    },
+    "exact": true
+  },
+  {
+    "mesh": "sphere",
+    "count": 500,
+    "transformed": true,
+    "draft": false,
+    "times": {
+      "separate": 55.156299989903346,
+      "bound": 53.268899995600805
+    },
+    "exact": true
+  },
+  {
+    "mesh": "cube",
+    "count": 500,
+    "transformed": true,
+    "draft": true,
+    "times": {
+      "separate": 6.429199987906031,
+      "bound": 6.7260999931022525
+    },
+    "exact": true
+  },
+  {
+    "mesh": "cube",
+    "count": 500,
+    "transformed": true,
+    "draft": false,
+    "times": {
+      "separate": 16.692999997758307,
+      "bound": 19.206299999495968
+    },
+    "exact": true
+  }
+]

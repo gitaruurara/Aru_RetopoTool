@@ -1,0 +1,14 @@
+def fit_routes(mesh_fn,controls,draft=True,*,as_array=False):
+    from . import curve_net_context as context
+    projector=get_projector(mesh_fn)
+    if projector is None:return None
+    values=np.ascontiguousarray(controls,dtype=np.float64).reshape(-1,12)
+    output=np.empty((len(values),6),dtype=np.float64)
+    d=C.POINTER(C.c_double)
+    iterations=context._FIT_DRAFT_ITERS if draft else context._FIT_ITERS
+    segments=context._GEO_DRAFT_SEGMENTS if iterations<=context._FIT_DRAFT_ITERS else context._GEO_SEGMENTS
+    samples=context._FIT_DRAFT_SAMPLES if draft else context._FIT_SAMPLES
+    if not projector.lib.aru_maya_fit_routes(projector.handle,values.ctypes.data_as(d),len(values),segments,iterations,samples,context._FIT_PARAM_ROUNDS,context._GEO_RELAX,context._FIT_EPS_RATIO,context._TANGENT_RESTORE_MIN,output.ctypes.data_as(d)):
+        raise RuntimeError('Batch route fitting failed')
+    result=output.reshape(-1,2,3)
+    return result if as_array else result.tolist()

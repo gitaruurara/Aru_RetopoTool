@@ -1,0 +1,47 @@
+{
+  "prepare_all_ms": [
+    39.75039999932051,
+    37.283599987858906,
+    39.84869999112561,
+    38.52430000551976
+  ],
+  "identical_selected_and_local_edits": true,
+  "max_normal_delta": 0.0,
+  "live_rows": [
+    [
+      "_add_spline_to_cn",
+      3.149,
+      0
+    ],
+    [
+      "_split_splines_at_intersections",
+      57.744,
+      0
+    ],
+    [
+      "_split_splines_at_intersections",
+      57.528,
+      0
+    ],
+    [
+      "_split_splines_at_intersections",
+      59.971,
+      0
+    ],
+    [
+      "_split_splines_at_intersections",
+      64.735,
+      0
+    ],
+    [
+      "_add_spline_to_cn",
+      3.582,
+      0
+    ],
+    [
+      "_add_spline_to_cn",
+      3.764,
+      0
+    ]
+  ]
+}

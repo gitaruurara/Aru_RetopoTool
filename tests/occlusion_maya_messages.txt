@@ -1,0 +1,29 @@
+0: updateRenderOverride;
+
+1: [RetopoGuide] 11:23:42 INFO >>> _before_scene_clear
+
+2: >>> _before_scene_clear
+1: [RetopoGuide] 11:23:42 INFO <<< _before_scene_clear done
+
+2: <<< _before_scene_clear done
+1: [RetopoGuide] 11:23:42 INFO >>> _after_scene_clear
+
+2: >>> _after_scene_clear
+1: [RetopoGuide] 11:23:42 INFO <<< _after_scene_clear done
+
+2: <<< _after_scene_clear done
+1: [RetopoGuide] 11:23:42 INFO >>> _before_scene_clear
+
+2: >>> _before_scene_clear
+1: [RetopoGuide] 11:23:42 INFO <<< _before_scene_clear done
+
+2: <<< _before_scene_clear done
+2: ファイルの読み取りに  0.032 秒かかりました。
+1: [RetopoGuide] 11:23:42 INFO >>> _after_scene_clear
+
+2: >>> _after_scene_clear
+1: [RetopoGuide] 11:23:42 INFO <<< _after_scene_clear done
+
+2: <<< _after_scene_clear done
+0: updateRenderOverride;
+

@@ -1,0 +1,57 @@
+def _nearest_spline_t_excluding(cn: RetopoGuideData, point: list, radius: float,
+                                exclude_ep: int = None,
+                                mesh_name: str = ""):
+    """*point* の近くを通るスプラインの (index, t) を返す。無ければ None。
+
+    端点のごく近くで当たった場合は None を返す (分割すると元の EP と
+    ほぼ同じ位置に無駄な点ができるため)。*exclude_ep* を端点に持つ
+    スプラインは対象外にする。
+
+    *mesh_name* を渡すと、太ももと尻尾のように密着した別パーツの
+    カーブを掴まないよう法線の向きでも絞り込む。探索半径はメッシュ
+    AABB 基準なので、パーツ間の隙間より広くなりうるため。
+    """
+    best_sp = -1
+    best_t = 0.5
+    best_d2 = radius * radius
+    N = 32
+    mesh_fn = None
+    if mesh_name and cmds.objExists(mesh_name):
+        try:
+            mesh_fn, _dag = _get_mesh_fn(mesh_name)
+        except Exception:
+            mesh_fn = None
+    for si, sp in enumerate(cn.splines):
+        if any(i >= len(cn.positions) for i in sp):
+            continue
+        if exclude_ep is not None and (sp[0] == exclude_ep
+                                       or sp[3] == exclude_ep):
+            continue
+        p0, p1, p2, p3 = [cn.positions[i] for i in sp]
+        for k in range(N + 1):
+            t = k / float(N)
+            bp = _bezier_point(p0, p1, p2, p3, t)
+            d2 = sum((bp[j] - point[j]) ** 2 for j in range(3))
+            if d2 < best_d2:
+                # 最良を更新するときだけ判定する (1 操作あたり数回で済む)
+                if (mesh_fn is not None
+                        and not _same_surface_side(mesh_fn, point, bp)):
+                    continue
+                best_d2 = d2
+                best_sp = si
+                best_t = t
+    if best_sp < 0:
+        return None
+
+    import numpy as _np
+    sp = cn.splines[best_sp]
+    pts = [_np.asarray(cn.positions[i], dtype=float) for i in sp]
+    _cp, t_ref, dist = closest_point_on_bezier(
+        pts[0], pts[1], pts[2], pts[3],
+        _np.asarray(point, dtype=float), t_hint=best_t)
+    if dist > radius:
+        return None
+    if t_ref < 0.05 or t_ref > 0.95:
+        return None
+    return (best_sp, float(t_ref))
+

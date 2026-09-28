@@ -15,3 +15,6 @@ bin/aru_retopo_core_v2.dll
 bin/aru_retopo_core_v3.dll
 bin/aru_retopo_display.dll
 bin/aru_retopo_display_v2.dll
+
+# Local scene snapshot for latency measurements.
+tests/current_curve_latency_scene.mb

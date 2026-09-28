@@ -1,0 +1,6 @@
+{
+  "queries": 200,
+  "full_metadata_ms": 0.29460000223480165,
+  "normals_only_ms": 0.09589999899617396,
+  "exact": true
+}

@@ -1,5 +1,6 @@
 // Experimental direct VP2 preview. DG access is confined to updateDG.
 #include <maya/MPxLocatorNode.h>
+#include <maya/MBoundingBox.h>
 #include <maya/MPxGeometryOverride.h>
 #include <maya/MFnPlugin.h>
 #include <maya/MFnTypedAttribute.h>
@@ -55,7 +56,21 @@ public:
         indices=a.create("faceIndices","fi",MFnData::kIntArray); addAttribute(indices);
         return MS::kSuccess;
     }
-    bool isBounded() const override { return false; }
+    // Object-set render passes still use DAG bounds for their visibility list.
+    // An empty origin box drops retopo geometry far from the world origin.
+    bool isBounded() const override { return true; }
+    MBoundingBox boundingBox() const override {
+        MStatus status;
+        MFnDoubleArrayData data(MPlug(thisMObject(),positions).asMObject(),&status);
+        MBoundingBox box;
+        if(status) {
+            const MDoubleArray values=data.array();
+            for(unsigned i=0;i+2<values.length();i+=3)
+                if(std::isfinite(values[i]) && std::isfinite(values[i+1]) && std::isfinite(values[i+2]))
+                    box.expand(MPoint(values[i],values[i+1],values[i+2]));
+        }
+        return box;
+    }
     MStatus setDependentsDirty(const MPlug&,MPlugArray&) override {
         MRenderer::setGeometryDrawDirty(thisMObject()); return MS::kSuccess;
     }
@@ -161,6 +176,7 @@ public:
             if(!item) {
                 indexingDirty=true;
                 item=MRenderItem::Create(names[i],MRenderItem::DecorationItem,i?MGeometry::kLines:MGeometry::kTriangles);
+                item->setAllowIsolateSelectCopy(true);
                 item->setDrawMode(MGeometry::kAll);
                 item->depthPriority(i?5:0);
                 item->castsShadows(false); item->receivesShadows(false);
@@ -194,10 +210,10 @@ public:
         }
         for(int i=0;i<items.length();++i) {
             const auto* item=items.itemAt(i);
-            const auto& indices=item->name()=="retopoSurface"?triangles:edges;
+            const auto& indices=item->primitive()==MGeometry::kTriangles?triangles:edges;
             if(indices.empty()) continue;
 #ifdef ARU_BUFFER_TIMING
-            int slot=item->name()=="retopoSurface"?0:1;
+            int slot=item->primitive()==MGeometry::kTriangles?0:1;
             unsigned long long hash=1469598103934665603ULL;
             for(unsigned value:indices){hash^=value;hash*=1099511628211ULL;}
             bufferSizes[slot].store(static_cast<long long>(indices.size()));bufferHashes[slot].store(static_cast<long long>(hash));

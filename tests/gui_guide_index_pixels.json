@@ -1,0 +1,52 @@
+{
+  "cases": [
+    {
+      "ep": null,
+      "candidate": "D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\tests\\guide_index_pixels\\0_candidate.png",
+      "baseline": "D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\tests\\guide_index_pixels\\0_baseline.png",
+      "stats": {
+        "queries": 7,
+        "reused": 7,
+        "uploads": 0,
+        "failed": 0
+      },
+      "png_bytes_identical": true
+    },
+    {
+      "ep": 645,
+      "candidate": "D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\tests\\guide_index_pixels\\1_candidate.png",
+      "baseline": "D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\tests\\guide_index_pixels\\1_baseline.png",
+      "stats": {
+        "queries": 8,
+        "reused": 0,
+        "uploads": 1,
+        "failed": 0
+      },
+      "png_bytes_identical": true
+    },
+    {
+      "ep": null,
+      "candidate": "D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\tests\\guide_index_pixels\\2_candidate.png",
+      "baseline": "D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\tests\\guide_index_pixels\\2_baseline.png",
+      "stats": {
+        "queries": 8,
+        "reused": 0,
+        "uploads": 1,
+        "failed": 0
+      },
+      "png_bytes_identical": true
+    },
+    {
+      "ep": 646,
+      "candidate": "D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\tests\\guide_index_pixels\\3_candidate.png",
+      "baseline": "D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\tests\\guide_index_pixels\\3_baseline.png",
+      "stats": {
+        "queries": 8,
+        "reused": 0,
+        "uploads": 1,
+        "failed": 0
+      },
+      "png_bytes_identical": false
+    }
+  ]
+}

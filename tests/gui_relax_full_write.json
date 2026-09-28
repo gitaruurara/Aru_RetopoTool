@@ -1,0 +1,5 @@
+{
+  "full_relax_ms": 229.58579999976791,
+  "affected": 200,
+  "scope": "Actual relax + accessor.write + synchronous refresh, current ordinary mesh GPU preview; no brush_weights"
+}

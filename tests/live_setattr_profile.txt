@@ -1,0 +1,29 @@
+         24 function calls in 0.000 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method setGeometryDrawDirty}
+        1    0.000    0.000    0.000    0.000 shibokensupport/signature/loader.py:59(feature_import)
+        1    0.000    0.000    0.000    0.000 shibokensupport/feature.py:88(feature_import)
+        1    0.000    0.000    0.000    0.000 D:/Jenkins/workspace/maya/build/RelWithDebInfo/runTime/Python/Lib/site-packages/maya/OpenMaya.py:3723(__init__)
+        1    0.000    0.000    0.000    0.000 {method 'add' of 'OpenMaya.MSelectionList' objects}
+        1    0.000    0.000    0.000    0.000 D:/Jenkins/workspace/maya/build/RelWithDebInfo/runTime/Python/Lib/site-packages/maya/OpenMaya.py:3226(__init__)
+        1    0.000    0.000    0.000    0.000 shibokensupport/signature/loader.py:67(feature_imported)
+        1    0.000    0.000    0.000    0.000 D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/aru_retopo_plan_plugin.py:18(setDependentsDirty)
+        1    0.000    0.000    0.000    0.000 {built-in method maya._OpenMaya.MFnAttribute_swiginit}
+        1    0.000    0.000    0.000    0.000 shibokensupport/feature.py:134(feature_imported)
+        1    0.000    0.000    0.000    0.000 {method 'getDependNode' of 'OpenMaya.MSelectionList' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method maya._OpenMaya.new_MFnAttribute}
+        2    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {built-in method maya._OpenMaya.new_MFnDependencyNode}
+        1    0.000    0.000    0.000    0.000 {built-in method sys._getframe}
+        1    0.000    0.000    0.000    0.000 {built-in method maya._OpenMayaMPx.MPxNode_setDependentsDirty}
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_node.py:1212(worldShapeOutAttr)
+        1    0.000    0.000    0.000    0.000 {built-in method maya._OpenMaya.MFnDependencyNode_swiginit}
+        1    0.000    0.000    0.000    0.000 {method 'attribute' of 'OpenMaya.MPlug' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method builtins.callable}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+
+

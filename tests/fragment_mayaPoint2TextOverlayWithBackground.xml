@@ -1,0 +1,223 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2TextOverlayWithBackground" name="mayaPoint2TextOverlayWithBackground" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+expand a point into two screen aligned quads for text foreground and background]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <undefined  name="GPUStage" semantic="GPUStage" />
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float2  name="screenSize" semantic="viewportPixelSize" />
+        <float4  name="quadPositionUV" semantic="quadPositionUVType1" size="4" />
+        <float4  name="pointQuad" semantic="pointQuad" flags="isRequirementOnly,varyingInputParam" />
+        <float2  name="backgroundSize" semantic="backgroundSize" flags="isRequirementOnly,varyingInputParam" />
+    </properties>
+    <values>
+    </values>
+    <outputs>
+        <triStream  name="outStream" size="14" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad( geometryInS inputs[1], float2 screenSize, float4 quadPositionUV[4], 
+    inout TriangleStream<geometryInS> outStream  ) 
+{ 
+    float zIn = inputs[0].Pc.z / inputs[0].Pc.w; 
+    if (zIn < 0 || zIn > 1) return; 
+    geometryInS outS = inputs[0]; 
+    outS.Pc.zw = float2( max(zIn, 0.001), 1.0 ); 
+    float2 sizeText       = inputs[0].pointQuad.xy / screenSize.xy; 
+    float2 sizeBackground = inputs[0].backgroundSize / screenSize.xy; 
+    float2 position       = inputs[0].Pc.xy / inputs[0].Pc.w; 
+    float  textYbias      = ( sizeBackground.y - sizeText.y ) * 0.5f; 
+    outS.uvQuad  = float4( -1.0f, -1.0f, 0.0f, 0.0f); 
+    [unroll] for( int i = 0; i < 2; i++ ) { 
+        outS.Pc.xy = position + sizeBackground * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outStream.Append( outS ); 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        outStream.Append( outS ); 
+    } 
+    [unroll] for( int i = 3; i > 1; i-- ) { 
+        outS.Pc.xy = position + sizeBackground * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outStream.Append( outS ); 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        outStream.Append( outS ); 
+    } 
+    outS.Pc.xy = position + sizeBackground * (quadPositionUV[0].xy + inputs[0].pointQuad.zw); 
+    outStream.Append( outS ); 
+    outS.Pc.xy = position + sizeText * (quadPositionUV[0].xy + inputs[0].pointQuad.zw); 
+    outS.Pc.y += textYbias; 
+    outStream.Append( outS ); 
+    outStream.RestartStrip(); 
+    [unroll] for( int i = 0; i < 4; ++i ) { 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        float2 uv = inputs[0].uvQuad.xy + inputs[0].uvQuad.zw * quadPositionUV[i].zw; 
+        outS.uvQuad = float4( uv, 0.0f, 0.0f); 
+        outStream.Append( outS ); 
+    } 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad( AttribArray<geometryInS>inputs, float2 screenSize, float4 quadPositionUV[4]) 
+{ 
+    float zIn = inputs[0].Pc.z / inputs[0].Pc.w; 
+    if (zIn < -1 || zIn > 1) return; 
+    geometryInS outS = inputs[0]; 
+    outS.Pc.zw = float2( max(zIn, -0.999), 1.0 ); 
+    float2 sizeText       = inputs[0].pointQuad.xy / screenSize.xy; 
+    float2 sizeBackground = inputs[0].backgroundSize / screenSize.xy; 
+    float2 position       = inputs[0].Pc.xy / inputs[0].Pc.w; 
+    float  textYbias      = ( sizeBackground.y - sizeText.y ) * 0.5f; 
+    outS.uvQuad = float4( -1.0f, -1.0f, 0.0f, 0.0f); 
+    for( int i = 0; i < 2; i++ ) { 
+        outS.Pc.xy = position + sizeBackground * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        emitVertex( outS ); 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        emitVertex( outS ); 
+    } 
+    for( int i = 3; i > 1; i-- ) { 
+        outS.Pc.xy = position + sizeBackground * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        emitVertex( outS ); 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        emitVertex( outS ); 
+    } 
+    outS.Pc.xy = position + sizeBackground * (quadPositionUV[0].xy + inputs[0].pointQuad.zw); 
+    emitVertex( outS ); 
+    outS.Pc.xy = position + sizeText * (quadPositionUV[0].xy + inputs[0].pointQuad.zw); 
+    outS.Pc.y += textYbias; 
+    emitVertex( outS ); 
+    restartStrip(); 
+    for( int i = 0; i < 4; ++i ) { 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        float2 uv = inputs[0].uvQuad.xy + inputs[0].uvQuad.zw * quadPositionUV[i].zw; 
+        outS.uvQuad = float4( uv, 0.0f, 0.0f); 
+        emitVertex( outS ); 
+    } 
+    restartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad(  vec2 screenSize, vec4 quadPositionUV[4]) 
+{ 
+    float zIn = gl_in[0].gl_Position.z / gl_in[0].gl_Position.w; 
+    if (zIn < -1 || zIn > 1) return; 
+    GEO_OUT_struct outS = copyFromGEO_IN(0); 
+    outS.Pc.zw = vec2( max(zIn, -0.999), 1.0 ); 
+    vec2 sizeText       = GEO_IN[0].pointQuad.xy / screenSize.xy; 
+    vec2 sizeBackground = GEO_IN[0].backgroundSize / screenSize.xy; 
+    vec2 position       = gl_in[0].gl_Position.xy / gl_in[0].gl_Position.w; 
+    float  textYbias      = ( sizeBackground.y - sizeText.y ) * 0.5f; 
+    outS.uvQuad = vec4( -1.0f, -1.0f, 0.0f, 0.0f); 
+    for( int i = 0; i < 2; i++ ) { 
+        outS.Pc.xy = position + sizeBackground * (quadPositionUV[i].xy + GEO_IN[0].pointQuad.zw); 
+        EmitGeoStruct( outS ); 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + GEO_IN[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        EmitGeoStruct( outS ); 
+    } 
+    for( int i = 3; i > 1; i-- ) { 
+        outS.Pc.xy = position + sizeBackground * (quadPositionUV[i].xy + GEO_IN[0].pointQuad.zw); 
+        EmitGeoStruct( outS ); 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + GEO_IN[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        EmitGeoStruct( outS ); 
+    } 
+    outS.Pc.xy = position + sizeBackground * (quadPositionUV[0].xy + GEO_IN[0].pointQuad.zw); 
+    EmitGeoStruct( outS ); 
+    outS.Pc.xy = position + sizeText * (quadPositionUV[0].xy + GEO_IN[0].pointQuad.zw); 
+    outS.Pc.y += textYbias; 
+    EmitGeoStruct( outS ); 
+    EndPrimitive(); 
+    for( int i = 0; i < 4; ++i ) { 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + GEO_IN[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        vec2 uv = GEO_IN[0].uvQuad.xy + GEO_IN[0].uvQuad.zw * quadPositionUV[i].zw; 
+        outS.uvQuad = vec4( uv, 0.0f, 0.0f); 
+        EmitGeoStruct( outS ); 
+    } 
+    EndPrimitive(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad( geometryInS inputs[1], float2 screenSize, float4 quadPositionUV[4], 
+    inout TriangleStream<geometryInS> outStream  ) 
+{ 
+    float zIn = inputs[0].Pc.z / inputs[0].Pc.w; 
+    if (zIn < 0 || zIn > 1) return; 
+    geometryInS outS = inputs[0]; 
+    outS.Pc.zw = float2( max(zIn, 0.001), 1.0 ); 
+    float2 sizeText       = inputs[0].pointQuad.xy / screenSize.xy; 
+    float2 sizeBackground = inputs[0].backgroundSize / screenSize.xy; 
+    float2 position       = inputs[0].Pc.xy / inputs[0].Pc.w; 
+    float  textYbias      = ( sizeBackground.y - sizeText.y ) * 0.5f; 
+    outS.uvQuad  = float4( -1.0f, -1.0f, 0.0f, 0.0f); 
+    [unroll] for( int i = 0; i < 2; i++ ) { 
+        outS.Pc.xy = position + sizeBackground * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outStream.Append( outS ); 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        outStream.Append( outS ); 
+    } 
+    [unroll] for( int i = 3; i > 1; i-- ) { 
+        outS.Pc.xy = position + sizeBackground * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outStream.Append( outS ); 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        outStream.Append( outS ); 
+    } 
+    outS.Pc.xy = position + sizeBackground * (quadPositionUV[0].xy + inputs[0].pointQuad.zw); 
+    outStream.Append( outS ); 
+    outS.Pc.xy = position + sizeText * (quadPositionUV[0].xy + inputs[0].pointQuad.zw); 
+    outS.Pc.y += textYbias; 
+    outStream.Append( outS ); 
+    outStream.RestartStrip(); 
+    [unroll] for( int i = 0; i < 4; ++i ) { 
+        outS.Pc.xy = position + sizeText * (quadPositionUV[i].xy + inputs[0].pointQuad.zw); 
+        outS.Pc.y += textYbias; 
+        float2 uv = inputs[0].uvQuad.xy + inputs[0].uvQuad.zw * quadPositionUV[i].zw; 
+        outS.uvQuad = float4( uv, 0.0f, 0.0f); 
+        outStream.Append( outS ); 
+    } 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

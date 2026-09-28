@@ -1,4 +1,4 @@
-"""Ctrl+MMB surface extrusion inside the combined editing context."""
+"""Ctrl+Shift+MMB surface extrusion inside the combined editing context."""
 import json
 import time
 from maya import cmds
@@ -22,7 +22,7 @@ def mouse():
 
 
 def overlays(node):
-    return [cmds.ls(s,long=True)[0] for s in cmds.listConnections(node+'.outMesh',s=False,d=True,shapes=True,type='aruRetopoOverlay') or []]
+    return [cmds.ls(s,long=True)[0] for s in cmds.listConnections(api.output_plug(node),s=False,d=True,shapes=True,type='aruRetopoOverlay') or []]
 
 
 def selection(node):
@@ -88,7 +88,7 @@ def show_boundary(node,cn,edges):
 
 def hover_boundary(node):
     selected_lines.clear()
-    if not qt.QApplication.keyboardModifiers() & qt.Qt.ControlModifier:return
+    if not (qt.QApplication.keyboardModifiers() & qt.Qt.ControlModifier and qt.QApplication.keyboardModifiers() & qt.Qt.ShiftModifier):return
     xy=mouse()
     if xy is None:return
     guide,cn,_,_=selection(node)
@@ -102,11 +102,11 @@ class Gesture:
         self.node=node;self.pending=None;self.last=0.;self.moved=False
         self.guide,self.cn,self.matrix,selected=selection(node)
         xy=mouse()
-        if xy is None:raise ValueError('ビューポートの境界EP上でCtrl＋中ドラッグしてください。')
+        if xy is None:raise ValueError('ビューポートの境界EP上でCtrl＋Shift＋中ドラッグしてください。')
         self.origin=xy
         self.mesh=edit.RetopoGuideAccessor(self.guide).mesh_name
         picked=pick_boundary(self.cn,self.mesh,patch_context.selected(node),xy)
-        if picked is None:raise ValueError('境界カーブにカーソルを合わせてCtrl＋中ドラッグしてください。')
+        if picked is None:raise ValueError('境界カーブにカーソルを合わせてCtrl＋Shift＋中ドラッグしてください。')
         self.edges,self.anchor=picked
         ep=self.edges[0][0]
         self.start=context._screen_to_view_plane(*xy,self.anchor)

@@ -1,0 +1,10 @@
+{
+  "points": 1090,
+  "candidates": 324,
+  "exact": true,
+  "median_ms": {
+    "old": 0.44079999497625977,
+    "new": 0.229199999012053
+  },
+  "scope": "pixel projection + brush candidate construction, no visibility/relax/display"
+}

@@ -1,0 +1,282 @@
+[
+  {
+    "kind": "sphere",
+    "transformed": false,
+    "count": 0,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": false,
+    "count": 0,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": false,
+    "count": 1,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": false,
+    "count": 1,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": false,
+    "count": 63,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": false,
+    "count": 63,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": false,
+    "count": 64,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": false,
+    "count": 64,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": false,
+    "count": 500,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": false,
+    "count": 500,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": true,
+    "count": 0,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": true,
+    "count": 0,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": true,
+    "count": 1,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": true,
+    "count": 1,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": true,
+    "count": 63,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": true,
+    "count": 63,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": true,
+    "count": 64,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": true,
+    "count": 64,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": true,
+    "count": 500,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "sphere",
+    "transformed": true,
+    "count": 500,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": false,
+    "count": 0,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": false,
+    "count": 0,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": false,
+    "count": 1,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": false,
+    "count": 1,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": false,
+    "count": 63,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": false,
+    "count": 63,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": false,
+    "count": 64,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": false,
+    "count": 64,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": false,
+    "count": 500,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": false,
+    "count": 500,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": true,
+    "count": 0,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": true,
+    "count": 0,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": true,
+    "count": 1,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": true,
+    "count": 1,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": true,
+    "count": 63,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": true,
+    "count": 63,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": true,
+    "count": 64,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": true,
+    "count": 64,
+    "smooth": true,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": true,
+    "count": 500,
+    "smooth": false,
+    "exact": true
+  },
+  {
+    "kind": "cube",
+    "transformed": true,
+    "count": 500,
+    "smooth": true,
+    "exact": true
+  }
+]

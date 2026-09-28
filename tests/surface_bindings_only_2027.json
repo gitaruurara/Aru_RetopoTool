@@ -1,0 +1,66 @@
+[
+  {
+    "mesh": "sphere",
+    "count": 0,
+    "timings": {
+      "old": 0.000200001522898674,
+      "bindings": 0.000100000761449337
+    }
+  },
+  {
+    "mesh": "sphere",
+    "count": 1,
+    "timings": {
+      "old": 0.01274999522138387,
+      "bindings": 0.0109999964479357
+    }
+  },
+  {
+    "mesh": "sphere",
+    "count": 644,
+    "timings": {
+      "old": 4.811099992366508,
+      "bindings": 4.699700002674945
+    }
+  },
+  {
+    "mesh": "sphere",
+    "count": 4096,
+    "timings": {
+      "old": 34.79809999407735,
+      "bindings": 30.419399998208974
+    }
+  },
+  {
+    "mesh": "cube",
+    "count": 0,
+    "timings": {
+      "old": 0.000200001522898674,
+      "bindings": 0.000100000761449337
+    }
+  },
+  {
+    "mesh": "cube",
+    "count": 1,
+    "timings": {
+      "old": 0.011999996786471456,
+      "bindings": 0.010500007192604244
+    }
+  },
+  {
+    "mesh": "cube",
+    "count": 644,
+    "timings": {
+      "old": 0.8151500005624257,
+      "bindings": 0.542200003110338
+    }
+  },
+  {
+    "mesh": "cube",
+    "count": 4096,
+    "timings": {
+      "old": 7.603949998156168,
+      "bindings": 4.177099996013567
+    }
+  }
+]

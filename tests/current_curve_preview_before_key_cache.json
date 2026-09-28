@@ -1,0 +1,64 @@
+{
+  "rows": [
+    {
+      "preview_ms": 37.82060000230558,
+      "rebuilt": 0,
+      "total_patches": 190,
+      "release_ms": 54.163799999514595,
+      "evaluation_ms": 40.68350000306964,
+      "vertices": 3144,
+      "profiled": false,
+      "native_stages": [
+        32.8886,
+        0.0149,
+        6.7415,
+        0.7544
+      ]
+    },
+    {
+      "preview_ms": 32.28369998396374,
+      "rebuilt": 0,
+      "total_patches": 190,
+      "release_ms": 23.90719999675639,
+      "evaluation_ms": 27.73840000736527,
+      "vertices": 3144,
+      "profiled": false,
+      "native_stages": [
+        21.0587,
+        0.0106,
+        5.9546,
+        0.4891
+      ]
+    },
+    {
+      "preview_ms": 31.972500000847504,
+      "rebuilt": 0,
+      "total_patches": 190,
+      "release_ms": 26.578100019833073,
+      "evaluation_ms": 30.71490000002086,
+      "vertices": 3144,
+      "profiled": false,
+      "native_stages": [
+        23.1733,
+        0.0157,
+        6.6813,
+        0.6043
+      ]
+    },
+    {
+      "preview_ms": 57.32069999794476,
+      "rebuilt": 0,
+      "total_patches": 190,
+      "release_ms": 38.021799991838634,
+      "evaluation_ms": 44.13140000542626,
+      "vertices": 3144,
+      "profiled": true,
+      "native_stages": [
+        34.2091,
+        0.0488,
+        8.7534,
+        0.8034
+      ]
+    }
+  ]
+}

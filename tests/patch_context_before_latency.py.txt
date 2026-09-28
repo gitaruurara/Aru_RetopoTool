@@ -1,0 +1,334 @@
+"""Explicit patch painting. Hover is draw-only; clicks persist boundary IDs."""
+import json
+from maya import cmds
+import maya.api.OpenMaya as om
+import maya.api.OpenMayaUI as omui
+from . import qt
+from . import core, maya_api as api
+from .native import Surface, stencil
+
+NAME = 'aruRetopoPatchContext'
+_active = None
+_preferred_owner = None
+preview = {}  # overlay full path -> world-space triangle vertices
+
+
+def viewport_receiver(obj):
+    if qt.QApplication.activePopupWidget() or qt.QApplication.activeModalWidget():return False
+    if not isinstance(obj,qt.QWidget):return False
+    view=omui.M3dView.active3dView()
+    widget=qt.wrapInstance(int(view.widget()),qt.QWidget)
+    return obj==widget or widget.isAncestorOf(obj)
+
+
+def selected(node):
+    from .regions_native import canonical_keys
+    net = json.loads(cmds.getAttr(node+'.guideData'))
+    return canonical_keys(net['positions'], net['splines'],
+                          json.loads(cmds.getAttr(node+'.selectedPatches') or '[]'))
+
+
+def confirm(node, key, remove=False):
+    keys = selected(node)
+    from .drag_extrude import selection
+    from .editor.curvenet import curve_net_edit as edit
+    from .symmetry_ops import patch_keys
+    guide,cn,_,_=selection(node)
+    paired=patch_keys(cn,edit.RetopoGuideAccessor(guide).mesh_name,{key})
+    if remove: keys.difference_update(paired)
+    else: keys.update(paired)
+    with api.undo_chunk('Aru Retopo: remove patch' if remove else 'Aru Retopo: fill patch'):
+        cmds.setAttr(node+'.selectedPatches', json.dumps(sorted(keys)), type='string')
+        cmds.setAttr(node+'.rebuildSerial', cmds.getAttr(node+'.rebuildSerial')+1)
+
+
+class PatchTool(qt.QObject):
+    def __init__(self, node, context=NAME):
+        super().__init__(qt.getMayaMainWindow())
+        self.node = node
+        self.context = context
+        self.key = None
+        self.cache = None
+        self.candidates = []
+        self.surface = None
+        self.stopped = False
+        from .brush_context import Interaction
+        self.brush=Interaction(self)
+        from .local_edit_context import Interaction as LocalInteraction
+        self.local=LocalInteraction(self)
+        self._revision=0
+        self._last_hover=None
+        self._dirty_callback=om.MNodeMessage.addNodeDirtyCallback(_object(node),self.invalidate)
+        self.timer = qt.QTimer(self)
+        self.timer.setInterval(70)
+        self.timer.timeout.connect(self.tick)
+        qt.QApplication.instance().installEventFilter(self)
+        self.timer.start()
+
+    def invalidate(self,*args):
+        self._revision+=1
+
+    def stop(self):
+        global _active
+        if self.stopped: return
+        self.stopped = True
+        if getattr(self,"loop_preview",None):self.loop_preview.clear()
+        self.brush.close()
+        self.local.close()
+        if _active is self: _active = None
+        self.timer.stop()
+        if getattr(self,"_dirty_callback",None) is not None:
+            om.MMessage.removeCallback(self._dirty_callback);self._dirty_callback=None
+        qt.QApplication.instance().removeEventFilter(self)
+        from . import drag_extrude
+        drag_extrude.selected_points.clear(); drag_extrude.selected_lines.clear()
+        gesture=getattr(self,'gesture',None)
+        if gesture: gesture.clear(); self.gesture=None
+        drag_extrude.selected_points.clear(); drag_extrude.selected_lines.clear()
+        preview.clear()
+        if self.surface: self.surface.close(); self.surface = None
+        cmds.refresh(force=True)
+        self.deleteLater()
+
+    def rebuild(self):
+        dep = om.MFnDependencyNode(_object(self.node))
+        raw = cmds.getAttr(self.node+'.guideData')
+        matrix = om.MMatrix(cmds.getAttr(self.node+'.guideMatrix'))
+        ref = dep.findPlug('referenceMesh', False).asMObject()
+        # Connected worldMesh supplies world-space geometry via data handle.
+        ref = dep.findPlug('referenceMesh', False).asMDataHandle().asMeshTransformed()
+        fn = om.MFnMesh(ref)
+        refs = tuple((p.x,p.y,p.z) for p in fn.getPoints())
+        _, triangles = fn.getTriangles()
+        from .editor.curvenet import curve_net_symmetry as sym
+        cache = (raw, tuple(matrix), refs, tuple(triangles),sym.get_axis(),sym.get_space())
+        if cache == self.cache: return
+        net = json.loads(raw)
+        points = []
+        for p in net['positions']:
+            q = om.MPoint(*p)*matrix; points.append((q.x,q.y,q.z))
+        splines = net['splines']
+        if self.surface: self.surface.close()
+        self.surface = Surface(refs, tuple(triangles))
+        normals = self.surface.project(points, guard=False)[2]
+        lookup = {p:n for p,n in zip(points,normals)}
+        normal = lambda p: lookup[tuple(p)]
+        self.candidates = []
+        try: loops = core.regions(points, splines, normal)
+        except ValueError: loops = []
+        for loop in loops:
+            key = core.patch_key(loop)
+            plan = core.Plan(points, splines, normal, 3, selected={key})
+            verts, _ = self.surface.relax(plan.evaluate(points,splines,stencil),plan,iterations=2,guard=False)
+            mesh_data = om.MFnMeshData().create()
+            obj = om.MFnMesh().create([om.MPoint(*p) for p in verts], [4]*len(plan.faces),
+                                    [v for f in plan.faces for v in f], parent=mesh_data)
+            mesh_fn = om.MFnMesh(obj)
+            _, tri = mesh_fn.getTriangles()
+            self.candidates.append((key, mesh_data, mesh_fn, [verts[i] for i in tri]))
+        from .editor.curvenet.curve_net_data import RetopoGuideData
+        from .editor.curvenet import curve_net_edit as edit
+        from .symmetry_ops import mirrored_splines
+        cn=RetopoGuideData.from_dict(net);cn.positions=[list(p) for p in points]
+        guide=(cmds.listConnections(self.node+'.guideData',s=True,d=False,shapes=True) or [None])[0]
+        mapping=mirrored_splines(cn,edit.RetopoGuideAccessor(guide).mesh_name,range(len(splines)))
+        regions={core.patch_key(loop):frozenset(si for side in loop for si,_ in side) for loop in loops}
+        lookup={ids:key for key,ids in regions.items()}
+        self.paired={key:lookup.get(frozenset(mapping[i] for i in ids)) for key,ids in regions.items() if ids<=mapping.keys()}
+        self.cache = cache
+
+    def hover(self, x, y, view):
+        self.rebuild()
+        origin, direction = om.MPoint(), om.MVector()
+        view.viewToWorld(x,y,origin,direction)
+        hits = []
+        # Require a reference hit, then choose the patch at that surface depth.
+        dep = om.MFnDependencyNode(_object(self.node))
+        ref = om.MFnMesh(dep.findPlug('referenceMesh',False).asMDataHandle().asMeshTransformed())
+        surface_hit = ref.closestIntersection(om.MFloatPoint(origin), om.MFloatVector(direction),om.MSpace.kObject,1e10,False)
+        if surface_hit:
+            for key, data, fn, triangles in self.candidates:
+                hit = fn.closestIntersection(om.MFloatPoint(origin),om.MFloatVector(direction),om.MSpace.kObject,1e10,False)
+                if hit:
+                    distance = abs(hit[1]-surface_hit[1])
+                    if distance < max(.02, abs(surface_hit[1])*.015): hits.append((distance,key,triangles))
+        self.key = min(hits, key=lambda h:h[0])[1] if hits else None
+        preview.clear()
+        if hits:
+            triangles = list(min(hits, key=lambda h:h[0])[2])
+            pair=getattr(self,'paired',{}).get(self.key)
+            if pair and pair!=self.key:
+                triangles.extend(p for key,_,_,verts in self.candidates if key==pair for p in verts)
+            for overlay in cmds.listConnections(api.output_plug(self.node),s=False,d=True,shapes=True,type='aruRetopoOverlay') or []:
+                preview[(cmds.ls(overlay,long=True) or [overlay])[0]] = triangles
+        cmds.refresh(force=True)
+
+    def tick(self, force=False):
+        try:
+            if cmds.currentCtx()!=self.context or not cmds.objExists(self.node):
+                self.stop(); return
+            if getattr(self,"_extrude_press",False):return
+            self.brush.update()
+            modifiers=qt.QApplication.keyboardModifiers()
+            if (self.context!=NAME and modifiers & qt.Qt.ControlModifier
+                    and not modifiers & (qt.Qt.ShiftModifier|qt.Qt.AltModifier)):
+                from .curve_loop import Preview
+                if not getattr(self,'loop_preview',None):self.loop_preview=Preview(self.node)
+                try:self.loop_preview.update()
+                except ValueError:self.loop_preview.clear()
+                if self.loop_preview.pending:
+                    preview.clear();self.key=None
+                    return
+            elif getattr(self,'loop_preview',None):
+                self.loop_preview.clear();self.loop_preview=None
+            if not force and qt.QApplication.mouseButtons()!=qt.Qt.NoButton:
+                return
+            from . import drag_extrude
+            if self.context != NAME:
+                drag_extrude.highlight(self.node)
+                drag_extrude.hover_boundary(self.node)
+            view = omui.M3dView.active3dView()
+            widget = qt.wrapInstance(int(view.widget()), qt.QWidget)
+            point = widget.mapFromGlobal(qt.QCursor.pos())
+            if widget.rect().contains(point):
+                from .local_edit_context import painting
+                from .editor.curvenet import curve_net_symmetry as symmetry
+                from .editor.curvenet.aru_retopo_guide_plugin import _ctx
+                signature=(point.x(),point.y(),tuple(view.modelViewMatrix()),tuple(view.projectionMatrix()),
+                           self._revision,int(qt.QApplication.keyboardModifiers().value) if hasattr(qt.QApplication.keyboardModifiers(),'value') else int(qt.QApplication.keyboardModifiers()),
+                           symmetry.get_axis(),symmetry.get_space(),_ctx.sel_ep,view.portWidth(),view.portHeight(),painting())
+                if not force and signature==self._last_hover:return
+                ratio = view.portWidth()/max(1,widget.width())
+                self.hover(int(point.x()*ratio),int((widget.height()-point.y()-1)*ratio),view)
+                if self.context!=NAME:self.local.hover(int(point.x()*ratio),int((widget.height()-point.y()-1)*ratio),view)
+                from .local_edit_context import painting
+                if painting():preview.clear()
+                self._last_hover=signature
+            elif preview:
+                preview.clear(); self.key=None; cmds.refresh(force=True)
+        except Exception as exc:
+            self.key=None; preview.clear()
+            self.timer.stop()
+            cmds.warning('[Aru Retopo patch] '+str(exc))
+
+    def eventFilter(self, obj, event):
+        if event.type() not in (qt.QEvent.MouseButtonPress,qt.QEvent.MouseButtonRelease,qt.QEvent.MouseMove,qt.QEvent.KeyPress,qt.QEvent.KeyRelease,qt.QEvent.ShortcutOverride,qt.QEvent.ApplicationDeactivate):return False
+        if cmds.currentCtx()!=getattr(self,'context',NAME): return False
+        # This filter is installed on QApplication: UI controls and popup menus
+        # also arrive here, even while they overlap the viewport on screen.
+        if event.type()!=qt.QEvent.ApplicationDeactivate:
+            if not viewport_receiver(obj):return False
+        interaction=getattr(self,'brush',None)
+        if interaction and self.context!=NAME and interaction.event(event):return True
+        if (event.type()==qt.QEvent.MouseButtonPress and event.button()==qt.Qt.MiddleButton
+                and event.modifiers() & qt.Qt.ControlModifier
+                and not event.modifiers() & (qt.Qt.ShiftModifier|qt.Qt.AltModifier)):
+            from .curve_loop import Preview
+            if not getattr(self,'loop_preview',None):self.loop_preview=Preview(self.node)
+            try:
+                self.loop_preview.update()
+                if self.loop_preview.pending:
+                    self.loop_preview.commit()
+                    self._patch_press=True
+                    return True
+            except ValueError as exc:cmds.warning('[Aru Retopo] '+str(exc))
+        local=getattr(self,'local',None)
+        if local and self.context!=NAME and not (event.modifiers() & qt.Qt.ControlModifier and event.modifiers() & qt.Qt.ShiftModifier):
+            try:
+                if local.event(event):return True
+            except Exception as exc:
+                local.close();cmds.warning('[Aru Retopo] '+str(exc));return True
+        from . import drag_extrude
+        gesture=getattr(self,'gesture',None)
+        if gesture and event.type()==qt.QEvent.KeyPress and event.key()==qt.Qt.Key_Escape:
+            gesture.clear(); self.gesture=None
+            return True
+        if getattr(self,'_extrude_press',False):
+            if event.type()==qt.QEvent.MouseMove:
+                if gesture:
+                    try: gesture.update()
+                    except Exception: gesture.reset_preview()
+                return True
+            if event.type()==qt.QEvent.MouseButtonRelease and event.button()==qt.Qt.MiddleButton:
+                self._extrude_press=False
+                try:
+                    if gesture: gesture.finish()
+                except Exception as exc: cmds.warning('[Aru Retopo] '+str(exc))
+                finally:
+                    if gesture: gesture.clear()
+                    self.gesture=None
+                return True
+        if (getattr(self,'context',NAME)!=NAME and event.type()==qt.QEvent.MouseButtonPress
+                and event.button()==qt.Qt.MiddleButton
+                and event.modifiers() & qt.Qt.ControlModifier
+                and event.modifiers() & qt.Qt.ShiftModifier
+                and not event.modifiers() & qt.Qt.AltModifier
+                and drag_extrude.mouse() is not None):
+            if getattr(self,"loop_preview",None):
+                self.loop_preview.clear();self.loop_preview=None
+            self._extrude_press=True
+            preview.clear(); self.key=None
+            try: self.gesture=drag_extrude.Gesture(self.node)
+            except Exception as exc: cmds.warning('[Aru Retopo] '+str(exc))
+            return True
+        if event.type()==qt.QEvent.MouseButtonRelease and getattr(self,'_patch_press',False):
+            if event.button()==qt.Qt.MiddleButton:
+                self._patch_press=False
+                return True
+        if event.type()==qt.QEvent.MouseMove and getattr(self,'_patch_press',False): return True
+        if event.type()==qt.QEvent.MouseButtonPress and event.button()==qt.Qt.MiddleButton:
+            if event.modifiers() & qt.Qt.AltModifier: return False
+            self.tick(force=True)
+            if getattr(self,'context',NAME) != NAME and self.near_control_point(): return False
+            if self.key:
+                confirm(self.node,self.key,bool(event.modifiers() & qt.Qt.ShiftModifier))
+                self._patch_press=True
+                return True
+        return False
+
+    def near_control_point(self):
+        """MMB on an EP/handle belongs to curve editing, not patch filling."""
+        view=omui.M3dView.active3dView()
+        widget=qt.wrapInstance(int(view.widget()),qt.QWidget)
+        mouse=widget.mapFromGlobal(qt.QCursor.pos())
+        ratio=view.portWidth()/max(1,widget.width())
+        x,y=mouse.x()*ratio,(widget.height()-mouse.y()-1)*ratio
+        from .editor.curvenet.curve_net_edit import _world_to_screen
+        net=json.loads(cmds.getAttr(self.node+'.guideData'))
+        matrix=om.MMatrix(cmds.getAttr(self.node+'.guideMatrix'))
+        for p in net['positions']:
+            q=om.MPoint(*p)*matrix
+            point=_world_to_screen([q.x,q.y,q.z])
+            if point and (point[0]-x)**2+(point[1]-y)**2 < (14*ratio)**2: return True
+        return False
+
+
+def _object(node):
+    sel=om.MSelectionList();sel.add(node);return sel.getDependNode(0)
+
+
+def resume_for_guide(guide):
+    """Attach patch editing on every context entry, including Maya's last tool."""
+    node = _preferred_owner
+    connections = cmds.listConnections(guide+'.outNetData', s=False, d=True, type='aruRetopoMesh') or []
+    if not node or node not in connections:
+        node = api.generator_for_guide(guide)
+    if node:
+        from .editor.curvenet.aru_retopo_guide_plugin import _DRAGGER_CTX
+        return start(node, _DRAGGER_CTX, activate=False)
+
+
+def start(node, context=NAME, activate=True):
+    global _active
+    if _active:
+        try: _active.stop()
+        except RuntimeError: pass
+    from . import viewport_session
+    if not viewport_session.active(): api.set_foreground(node,True)
+    if not cmds.draggerContext(NAME,exists=True):
+        cmds.draggerContext(NAME,cursor='crossHair',undoMode='step')
+    if activate and cmds.currentCtx() != context: cmds.setToolTo(context)
+    # Context entry may already have attached the combined patch tool.
+    if _active: _active.stop()
+    _active=PatchTool(node,context)
+    return _active

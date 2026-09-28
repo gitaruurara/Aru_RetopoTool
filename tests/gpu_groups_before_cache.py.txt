@@ -1,0 +1,13 @@
+def configure_controls(owner,items,enabled):
+    """Point/tangent render items reference the shared control-vertex prefix."""
+    active=enabled and owner._is_valid
+    groups=[]
+    if active:
+        lines,batches=cached_controls(owner,owner._style)
+        groups=[(render.MGeometry.kLines,(.55,.55,.55,.7),1.,lines)]
+        # One item per visual style, not per contiguous run. Selected markers
+        # have final priority when points overlap, keeping selection legible.
+        by_style={}
+        for key,indices in batches:by_style.setdefault(key,[]).extend(indices)
+        for (color,size),indices in sorted(by_style.items(),key=lambda pair:pair[0][0]==(0.,1.,0.,1.)):
+            groups.append((render.MGeometry.kPoints,color,size,indices))

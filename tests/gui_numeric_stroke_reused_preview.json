@@ -1,0 +1,277 @@
+{
+  "scope": "8 consecutive brush calls and synchronous GPU redraw; scripted screen path, not physical mouse events",
+  "modes": {
+    "ordinary": {
+      "samples": [
+        {
+          "total_ms": 163.35819999949308,
+          "affected": 200,
+          "stages": [
+            {
+              "native_evaluate_ms": 23.044300003675744,
+              "redraw_ms": 17.250199998670723,
+              "native_stages_ms": [
+                7.4494,
+                0.1591,
+                14.693,
+                0.6502
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 79.91359999869019,
+          "affected": 206,
+          "stages": [
+            {
+              "native_evaluate_ms": 20.893900000373833,
+              "redraw_ms": 17.366100000799634,
+              "native_stages_ms": [
+                5.6351,
+                0.1735,
+                14.3705,
+                0.6255
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 80.33469999645604,
+          "affected": 203,
+          "stages": [
+            {
+              "native_evaluate_ms": 22.39499999996042,
+              "redraw_ms": 16.752199997426942,
+              "native_stages_ms": [
+                5.3585,
+                0.1543,
+                16.1743,
+                0.6178
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 79.0978000004543,
+          "affected": 202,
+          "stages": [
+            {
+              "native_evaluate_ms": 21.85940000344999,
+              "redraw_ms": 16.768900000897702,
+              "native_stages_ms": [
+                5.9472,
+                0.1778,
+                15.0415,
+                0.6068
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 79.50619999610353,
+          "affected": 203,
+          "stages": [
+            {
+              "native_evaluate_ms": 21.69609999691602,
+              "redraw_ms": 17.43459999852348,
+              "native_stages_ms": [
+                6.7056,
+                0.1689,
+                14.0993,
+                0.6306
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 149.27529999840772,
+          "affected": 202,
+          "stages": [
+            {
+              "native_evaluate_ms": 91.15540000493638,
+              "redraw_ms": 17.0739000022877,
+              "native_stages_ms": [
+                74.6072,
+                0.1466,
+                15.5951,
+                0.7153
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 83.30089999799384,
+          "affected": 204,
+          "stages": [
+            {
+              "native_evaluate_ms": 23.100200000044424,
+              "redraw_ms": 17.072200003894977,
+              "native_stages_ms": [
+                5.8967,
+                0.2788,
+                16.174,
+                0.6399
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 84.46410000033211,
+          "affected": 202,
+          "stages": [
+            {
+              "native_evaluate_ms": 22.18840000568889,
+              "redraw_ms": 17.39839999936521,
+              "native_stages_ms": [
+                6.0999,
+                0.2534,
+                15.1449,
+                0.6046
+              ]
+            }
+          ]
+        }
+      ],
+      "median_ms": 80.33469999645604,
+      "release_ms": 85.86020000075223
+    },
+    "numeric": {
+      "samples": [
+        {
+          "total_ms": 58.68999999802327,
+          "affected": 200,
+          "stages": [
+            {
+              "native_evaluate_ms": 17.465199998696335,
+              "redraw_ms": 16.717200000130106,
+              "native_stages_ms": [
+                2.5248,
+                0.1834,
+                14.0923,
+                0.586
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 136.06469999649562,
+          "affected": 206,
+          "stages": [
+            {
+              "native_evaluate_ms": 18.669799996132497,
+              "redraw_ms": 93.30429999681655,
+              "native_stages_ms": [
+                2.3581,
+                0.159,
+                15.4457,
+                0.6187
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 63.30020000314107,
+          "affected": 203,
+          "stages": [
+            {
+              "native_evaluate_ms": 22.46170000580605,
+              "redraw_ms": 16.683900001225993,
+              "native_stages_ms": [
+                3.6468,
+                0.2552,
+                17.8385,
+                0.6204
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 58.51729999994859,
+          "affected": 202,
+          "stages": [
+            {
+              "native_evaluate_ms": 19.911600000341423,
+              "redraw_ms": 15.761499998916406,
+              "native_stages_ms": [
+                3.1181,
+                0.1595,
+                15.9216,
+                0.6271
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 59.70109999907436,
+          "affected": 203,
+          "stages": [
+            {
+              "native_evaluate_ms": 18.693400001211558,
+              "redraw_ms": 16.527600004337728,
+              "native_stages_ms": [
+                2.3372,
+                0.1766,
+                15.4564,
+                0.6312
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 57.48469999525696,
+          "affected": 202,
+          "stages": [
+            {
+              "native_evaluate_ms": 17.249800002900884,
+              "redraw_ms": 16.954699996858835,
+              "native_stages_ms": [
+                2.2239,
+                0.1631,
+                13.9354,
+                0.842
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 58.80790000082925,
+          "affected": 204,
+          "stages": [
+            {
+              "native_evaluate_ms": 18.548300002294127,
+              "redraw_ms": 16.49570000154199,
+              "native_stages_ms": [
+                2.2783,
+                0.166,
+                15.4237,
+                0.5988
+              ]
+            }
+          ]
+        },
+        {
+          "total_ms": 57.11090000113472,
+          "affected": 202,
+          "stages": [
+            {
+              "native_evaluate_ms": 17.936199998075608,
+              "redraw_ms": 15.950900000461843,
+              "native_stages_ms": [
+                3.1288,
+                0.1793,
+                13.9069,
+                0.6353
+              ]
+            }
+          ]
+        }
+      ],
+      "median_ms": 58.80790000082925,
+      "release_ms": 79.12429999851156
+    }
+  },
+  "exact_final_data": true,
+  "restored": true,
+  "direct_buffer": true,
+  "gpu_controls": true
+}

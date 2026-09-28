@@ -1086,8 +1086,8 @@ class RetopoGuideData:
         return json.dumps(self.to_dict(), separators=(",", ":"))
 
     @classmethod
-    def from_json(cls, s: str) -> "RetopoGuideData":
-        return cls.from_dict(json.loads(s))
+    def from_json(cls, s: str, *, lazy_objects=False) -> "RetopoGuideData":
+        return cls.from_dict(json.loads(s), lazy_objects=lazy_objects)
 
     # 同じ netData 文字列は 1 回の評価・再描画で何度もパースされる
     # (ノードの各 compute、バウンディングボックス、描画オーバーライド)。

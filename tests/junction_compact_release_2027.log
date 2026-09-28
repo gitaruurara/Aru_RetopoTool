@@ -1,0 +1,25 @@
+[RetopoGuide] Plugin loaded.
+PASS normals-only arrays: native/fallback exact normals, transforms, empty and ownership
+PASS relax adjacency reuse and topology invalidation
+PASS shared brush snapshot parity, empty brush and scene ownership
+���ɖ߂�: surface relax test
+PASS relax projection, smoothing, world transforms, stable connectivity, Undo
+PASS Shift click preserves merge; Shift drag relaxes without merging
+PASS sphere junction tangent continuity and surface error 0.0036853862170483074
+���ɖ߂�: MMB route fit test
+PASS MMB release route fit, fixed EP positions, manual handles, Undo
+PASS compact rejects oversized count and deleted reference owner
+PASS compact ownership, malformed input, normalized-direction guard, empty and SVD fallback
+[{"mesh": "sphere", "count": 1, "transformed": false, "max_error": 1.1102230246251565e-16, "times": {"python": 0.4175999929429963, "native": 0.2153999957954511}}, {"mesh": "sphere", "count": 15, "transformed": false, "max_error": 1.1102230246251565e-16, "times": {"python": 0.9549999958835542, "native": 0.7059000054141507}}, {"mesh": "sphere", "count": 16, "transformed": false, "max_error": 1.1102230246251565e-16, "times": {"python": 0.967200001468882, "native": 0.520500005222857}}, {"mesh": "sphere", "count": 500, "transformed": false, "max_error": 2.220446049250313e-16, "times": {"python": 8.749600005103275, "native": 6.327399998554029}}, {"mesh": "sphere", "count": 500, "transformed": true, "max_error": 2.220446049250313e-16, "times": {"python": 46.00919999938924, "native": 49.544699999387376}}, {"mesh": "cube", "count": 500, "transformed": true, "max_error": 5.551115123125783e-16, "times": {"python": 8.057900005951524, "native": 5.378099987865426}}]
+[RetopoGuide] 08:47:54 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 08:47:54 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 08:47:54 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 08:47:54 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 08:47:54 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 08:47:54 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

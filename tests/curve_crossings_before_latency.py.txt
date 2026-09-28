@@ -1,0 +1,87 @@
+def _find_curve_crossings(cn: "RetopoGuideData", sp_a: int, sp_b: int,
+                          tol: float, mesh_fn=None,
+                          samples: int = 32) -> list:
+    """スプライン sp_a と sp_b が **実際に交差する** 点を返す。
+
+    弦ではなく実際のベジエ曲線どうしで判定する。曲面上のカーブは
+    メッシュに沿って曲がるので、弦で代用すると本当は通っていない
+    場所を横切ったことになってしまう。
+
+    Returns
+    -------
+    list
+        ``[(t_a, t_b, point), ...]``。
+    """
+    from Aru_RetopoTool.editor.curvenet.curve_net_data import (
+        _v3_sub, _v3_cross, _v3_len)
+
+    A = _sample_spline(cn, sp_a, samples)
+    B = _sample_spline(cn, sp_b, samples)
+    if not A or not B:
+        return []
+
+    # スプライン単位の早期棄却
+    if not _bounds_overlap(_polyline_bounds(A, tol), _polyline_bounds(B)):
+        return []
+
+    out = []
+    for i in range(len(A) - 1):
+        ta0, a0 = A[i]
+        ta1, a1 = A[i + 1]
+        lo = [min(a0[k], a1[k]) - tol for k in range(3)]
+        hi = [max(a0[k], a1[k]) + tol for k in range(3)]
+        for j in range(len(B) - 1):
+            tb0, b0 = B[j]
+            tb1, b1 = B[j + 1]
+            # 線分単位の早期棄却 (ここが効くので全体は十分速い)
+            if (max(b0[0], b1[0]) < lo[0] or min(b0[0], b1[0]) > hi[0]
+                    or max(b0[1], b1[1]) < lo[1] or min(b0[1], b1[1]) > hi[1]
+                    or max(b0[2], b1[2]) < lo[2] or min(b0[2], b1[2]) > hi[2]):
+                continue
+
+            mid = [(a0[k] + a1[k] + b0[k] + b1[k]) * 0.25 for k in range(3)]
+            normal = None
+            if mesh_fn is not None:
+                try:
+                    normal = _get_normal_at_point(mesh_fn, mid)
+                except Exception:
+                    normal = None
+            if normal is None:
+                # メッシュが無い場合は 2 本の向きから面を作る。
+                # 並走しているとここが縮退するが、その場合は交差でもない。
+                normal = _v3_cross(_v3_sub(a1, a0), _v3_sub(b1, b0))
+                if _v3_len(normal) < 1e-12:
+                    continue
+
+            hit = _segments_cross(a0, a1, b0, b1, normal)
+            if hit is None:
+                continue
+            s, u = hit
+            pa = [a0[k] + (a1[k] - a0[k]) * s for k in range(3)]
+            pb = [b0[k] + (b1[k] - b0[k]) * u for k in range(3)]
+            # 接平面では交差していても、面から浮いて立体交差している
+            # (別のパーツを跨いでいる) ことがあるので距離も見る
+            d = _v3_len(_v3_sub(pa, pb))
+            if d > tol:
+                continue
+            # 隣り合った別パーツ (太ももと尻尾など) を跨いでいないか。
+            # 許容値はメッシュ AABB 基準なので、密着したパーツ同士の
+            # 隙間より大きくなりうる。そのままだと尻尾のカーブと
+            # 太もものカーブが勝手に繋がってしまう。
+            if mesh_fn is not None and not _same_surface_side(mesh_fn, pa, pb):
+                continue
+            out.append((ta0 + (ta1 - ta0) * s,
+                        tb0 + (tb1 - tb0) * u,
+                        [(pa[k] + pb[k]) * 0.5 for k in range(3)]))
+
+    if len(out) < 2:
+        return out
+
+    # 同じ場所を重複して拾った分をまとめる
+    out.sort(key=lambda h: h[0])
+    merged = [out[0]]
+    for h in out[1:]:
+        if abs(h[0] - merged[-1][0]) > 1e-3:
+            merged.append(h)
+    return merged
+

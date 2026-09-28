@@ -1,0 +1,482 @@
+{
+  "attach": {
+    "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+    "ep": 645,
+    "start_screen": [
+      841,
+      688
+    ],
+    "merge_target": null,
+    "hover_spline": [
+      812,
+      0.5416666666666666,
+      [
+        0.06825128181510522,
+        2.9976718295005247,
+        0.08443906233491297
+      ]
+    ],
+    "release_ms": 413.16189999633934,
+    "release_stages": [
+      [
+        "_reset_control_points",
+        0.8794000023044646
+      ],
+      [
+        "_find_spline_under_screen",
+        6.816900000558235
+      ],
+      [
+        "_recompute_handles_for_ep",
+        2.579299994977191
+      ],
+      [
+        "_attach_ep_to_spline",
+        7.19770000432618
+      ],
+      [
+        "_recompute_handles_for_ep",
+        2.7263999945716932
+      ],
+      [
+        "_smooth_moved_ep_routes",
+        2.521700007491745
+      ],
+      [
+        "patch_transfer",
+        60.152399993967265
+      ],
+      [
+        "_reset_control_points",
+        0.44850000995211303
+      ],
+      [
+        "_dirty_shape_view",
+        319.13600000552833
+      ],
+      [
+        "_commit_net_data",
+        390.59580001048744
+      ]
+    ],
+    "samples": [
+      {
+        "ms": 36.22180000820663,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.051200000802055
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            2.395900010014884
+          ],
+          [
+            "_find_spline_under_screen",
+            5.659200003719889
+          ],
+          [
+            "_dirty_shape_view",
+            22.246399996220134
+          ]
+        ]
+      },
+      {
+        "ms": 30.37239999684971,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.508099987404421
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.6770000036340207
+          ],
+          [
+            "_find_spline_under_screen",
+            7.4508999969111755
+          ],
+          [
+            "_dirty_shape_view",
+            17.225500007043593
+          ]
+        ]
+      },
+      {
+        "ms": 28.940400006831624,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.1986000026809052
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.6683999963570386
+          ],
+          [
+            "_find_spline_under_screen",
+            6.407499997294508
+          ],
+          [
+            "_dirty_shape_view",
+            17.683300000499003
+          ]
+        ]
+      },
+      {
+        "ms": 26.203300003544427,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.1975000088568777
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.6729000015184283
+          ],
+          [
+            "_find_spline_under_screen",
+            6.115299998782575
+          ],
+          [
+            "_dirty_shape_view",
+            15.218399988953024
+          ]
+        ]
+      },
+      {
+        "ms": 28.79670000402257,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.144699999713339
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.945099993259646
+          ],
+          [
+            "_find_spline_under_screen",
+            6.80429999192711
+          ],
+          [
+            "_dirty_shape_view",
+            16.637000007904135
+          ]
+        ]
+      },
+      {
+        "ms": 20.257099997252226,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.170299990917556
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.7143999973777682
+          ],
+          [
+            "_dirty_shape_view",
+            15.113200002815574
+          ]
+        ]
+      },
+      {
+        "ms": 27.653400000417605,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.4535000082105398
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.7094999891705811
+          ],
+          [
+            "_find_spline_under_screen",
+            6.601100001716986
+          ],
+          [
+            "_dirty_shape_view",
+            15.63759999407921
+          ]
+        ]
+      },
+      {
+        "ms": 101.99799999827519,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.1652999965008348
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.6601999921258539
+          ],
+          [
+            "_find_spline_under_screen",
+            6.23160001123324
+          ],
+          [
+            "_dirty_shape_view",
+            90.9280000050785
+          ]
+        ]
+      }
+    ],
+    "median_ms": 28.868550005427096,
+    "mesh_status": {
+      "aruRetopoGenerator1": "496 \u9818\u57df / 46,144 quads / 46,552 \u9802\u70b9 / 35.8 ms / C++"
+    },
+    "plan_status": {
+      "aruRetopoPlan1": "496 \u9818\u57df / 46,144 quads / 46,552 \u9802\u70b9 / Native"
+    },
+    "changed": true,
+    "final_hash": "3ebfa09420bac46b324bf2f31070de760c46c7bc68a2bc874b8c58217adb7d9e",
+    "topology_counts": [
+      {
+        "positions": 4268,
+        "splines": 1589
+      },
+      {
+        "positions": 4270,
+        "splines": 1590
+      }
+    ],
+    "restored": true,
+    "numeric_preview": true
+  },
+  "no_attach_diagnostic": {
+    "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+    "ep": 645,
+    "start_screen": [
+      841,
+      688
+    ],
+    "merge_target": null,
+    "hover_spline": null,
+    "release_ms": 55.11090000800323,
+    "release_stages": [
+      [
+        "_reset_control_points",
+        0.8013000042410567
+      ],
+      [
+        "_find_spline_under_screen",
+        0.032500000088475645
+      ],
+      [
+        "_recompute_handles_for_ep",
+        1.6170000017154962
+      ],
+      [
+        "_smooth_moved_ep_routes",
+        0.6770000036340207
+      ],
+      [
+        "patch_transfer",
+        0.3178000042680651
+      ],
+      [
+        "_reset_control_points",
+        0.3930999955628067
+      ],
+      [
+        "_dirty_shape_view",
+        43.38570000254549
+      ],
+      [
+        "_commit_net_data",
+        51.51389999082312
+      ]
+    ],
+    "samples": [
+      {
+        "ms": 47.864900014246814,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            0.992799992673099
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            1.6659999964758754
+          ],
+          [
+            "_find_spline_under_screen",
+            0.027999994927085936
+          ],
+          [
+            "_dirty_shape_view",
+            40.335800003958866
+          ]
+        ]
+      },
+      {
+        "ms": 43.877700009034015,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.2438999983714893
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.6858000124339014
+          ],
+          [
+            "_find_spline_under_screen",
+            0.028999987989664078
+          ],
+          [
+            "_dirty_shape_view",
+            38.79470001265872
+          ]
+        ]
+      },
+      {
+        "ms": 46.56799999065697,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.328400001511909
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.9353999921586365
+          ],
+          [
+            "_find_spline_under_screen",
+            0.029499991796910763
+          ],
+          [
+            "_dirty_shape_view",
+            40.84089999378193
+          ]
+        ]
+      },
+      {
+        "ms": 44.6520999976201,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.2298999936319888
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.6660999933956191
+          ],
+          [
+            "_find_spline_under_screen",
+            0.028399997972883284
+          ],
+          [
+            "_dirty_shape_view",
+            39.573800007929094
+          ]
+        ]
+      },
+      {
+        "ms": 44.005199990351684,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.4349999983096495
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.7038000039756298
+          ],
+          [
+            "_find_spline_under_screen",
+            0.02920000406447798
+          ],
+          [
+            "_dirty_shape_view",
+            38.584599999012426
+          ]
+        ]
+      },
+      {
+        "ms": 45.146699994802475,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.5159999893512577
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.6891000084578991
+          ],
+          [
+            "_dirty_shape_view",
+            39.5839000120759
+          ]
+        ]
+      },
+      {
+        "ms": 46.577500004787,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.2197000032756478
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.7053999870549887
+          ],
+          [
+            "_find_spline_under_screen",
+            0.029700007871724665
+          ],
+          [
+            "_dirty_shape_view",
+            41.35800000221934
+          ]
+        ]
+      },
+      {
+        "ms": 46.145300002535805,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.2054999970132485
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.6902000022819266
+          ],
+          [
+            "_find_spline_under_screen",
+            0.031799994758330286
+          ],
+          [
+            "_dirty_shape_view",
+            40.86540000571404
+          ]
+        ]
+      }
+    ],
+    "median_ms": 45.64599999866914,
+    "mesh_status": {
+      "aruRetopoGenerator1": "500 \u9818\u57df / 46,528 quads / 46,873 \u9802\u70b9 / 834.4 ms / C++"
+    },
+    "plan_status": {
+      "aruRetopoPlan1": "500 \u9818\u57df / 46,528 quads / 46,873 \u9802\u70b9 / Native"
+    },
+    "changed": true,
+    "final_hash": "760ca7aaf40aab2b73ede14dd6fea674ec376e16be76a43993f62129ce310b14",
+    "topology_counts": [
+      {
+        "positions": 4268,
+        "splines": 1589
+      },
+      {
+        "positions": 4268,
+        "splines": 1589
+      }
+    ],
+    "restored": true,
+    "numeric_preview": true
+  }
+}

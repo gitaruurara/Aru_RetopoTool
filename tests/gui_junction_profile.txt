@@ -1,0 +1,43 @@
+         15936 function calls (15865 primitive calls) in 0.076 seconds
+
+   Ordered by: cumulative time
+   List reduced from 97 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       72    0.045    0.001    0.046    0.001 maya_projector.py:38(points)
+      126    0.015    0.000    0.015    0.000 {built-in method numpy.asarray}
+       18    0.001    0.000    0.007    0.000 _linalg.py:2178(pinv)
+       18    0.005    0.000    0.005    0.000 _linalg.py:1689(svd)
+       90    0.000    0.000    0.001    0.000 fromnumeric.py:2241(clip)
+      126    0.000    0.000    0.001    0.000 fromnumeric.py:51(_wrapfunc)
+     8772    0.001    0.000    0.001    0.000 {method 'tolist' of 'numpy.ndarray' objects}
+       90    0.000    0.000    0.001    0.000 {method 'clip' of 'numpy.ndarray' objects}
+       90    0.001    0.000    0.001    0.000 _methods.py:98(_clip)
+       18    0.001    0.000    0.001    0.000 _linalg.py:3350(matmul)
+       36    0.001    0.000    0.001    0.000 shape_base.py:380(stack)
+       18    0.001    0.000    0.001    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+      288    0.000    0.000    0.001    0.000 loader.py:59(feature_import)
+       36    0.000    0.000    0.000    0.000 _linalg.py:2623(norm)
+       18    0.000    0.000    0.000    0.000 function_base.py:26(linspace)
+      288    0.000    0.000    0.000    0.000 feature.py:88(feature_import)
+       18    0.000    0.000    0.000    0.000 _stride_tricks_impl.py:367(broadcast_to)
+      144    0.000    0.000    0.000    0.000 _internal.py:280(data_as)
+       54    0.000    0.000    0.000    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+       18    0.000    0.000    0.000    0.000 _stride_tricks_impl.py:340(_broadcast_to)
+      144    0.000    0.000    0.000    0.000 __init__.py:530(cast)
+      324    0.000    0.000    0.000    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+      288    0.000    0.000    0.000    0.000 loader.py:67(feature_imported)
+       18    0.000    0.000    0.000    0.000 fromnumeric.py:3168(amax)
+       18    0.000    0.000    0.000    0.000 fromnumeric.py:69(_wrapreduction)
+      792    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+      288    0.000    0.000    0.000    0.000 feature.py:134(feature_imported)
+      144    0.000    0.000    0.000    0.000 _internal.py:263(__init__)
+       36    0.000    0.000    0.000    0.000 _linalg.py:276(transpose)
+       18    0.000    0.000    0.000    0.000 {method 'intersection' of 'set' objects}
+       18    0.000    0.000    0.000    0.000 _twodim_base_impl.py:176(eye)
+       90    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:645(parent)
+       18    0.000    0.000    0.000    0.000 _ufunc_config.py:448(__enter__)
+       72    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:1390(_handle_fromlist)
+       36    0.000    0.000    0.000    0.000 shape_base.py:370(_stack_dispatcher)
+
+

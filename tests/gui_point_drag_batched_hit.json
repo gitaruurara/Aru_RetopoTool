@@ -1,0 +1,182 @@
+{
+  "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+  "ep": 645,
+  "start_screen": [
+    1546,
+    1145
+  ],
+  "release_ms": 1258.6305000004359,
+  "samples": [
+    {
+      "ms": 149.40669999487,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0347999996156432
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.8629999942495488
+        ],
+        [
+          "_find_spline_under_screen",
+          58.448699994187336
+        ],
+        [
+          "_commit_net_data",
+          78.36359999782871
+        ]
+      ]
+    },
+    {
+      "ms": 146.66330000181915,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.065500000549946
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.4829999965731986
+        ],
+        [
+          "_find_spline_under_screen",
+          60.15060000208905
+        ],
+        [
+          "_commit_net_data",
+          73.09069999610074
+        ]
+      ]
+    },
+    {
+      "ms": 206.16549999976996,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.064599993696902
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.3677999997744337
+        ],
+        [
+          "_find_spline_under_screen",
+          59.74440000136383
+        ],
+        [
+          "_commit_net_data",
+          133.61620000068797
+        ]
+      ]
+    },
+    {
+      "ms": 142.09250000567408,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0968999995384365
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.8115999957663007
+        ],
+        [
+          "_find_spline_under_screen",
+          60.20669999998063
+        ],
+        [
+          "_commit_net_data",
+          68.70250000065425
+        ]
+      ]
+    },
+    {
+      "ms": 140.51569999719504,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0869999969145283
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.7597999942372553
+        ],
+        [
+          "_find_spline_under_screen",
+          57.05119999765884
+        ],
+        [
+          "_commit_net_data",
+          70.28089999948861
+        ]
+      ]
+    },
+    {
+      "ms": 202.50469999882625,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.2166999949840829
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.7967999994871207
+        ],
+        [
+          "_find_spline_under_screen",
+          56.56720000115456
+        ],
+        [
+          "_commit_net_data",
+          132.39569999859668
+        ]
+      ]
+    },
+    {
+      "ms": 139.05289999820525,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.1115999950561672
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.343000000109896
+        ],
+        [
+          "_find_spline_under_screen",
+          56.805600004736334
+        ],
+        [
+          "_commit_net_data",
+          69.05109999934211
+        ]
+      ]
+    },
+    {
+      "ms": 138.74260000011418,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0697000034269877
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.522599999792874
+        ],
+        [
+          "_find_spline_under_screen",
+          57.918899998185225
+        ],
+        [
+          "_commit_net_data",
+          68.10860000405228
+        ]
+      ]
+    }
+  ],
+  "median_ms": 144.37790000374662,
+  "changed": true,
+  "restored": true
+}

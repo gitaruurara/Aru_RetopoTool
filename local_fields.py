@@ -5,36 +5,53 @@ from collections import defaultdict
 RESOLUTION=16
 
 
-def coordinates(plan):
-    """Follow the native subdivision face order with bilinear parameter splits.
+from functools import lru_cache
 
-    Quads use a square; n-gons use a regular polygon in the same unit square.
-    Coordinates never depend on guide positions or the number of selected patches.
-    """
-    rows=[]
-    for key,loop in zip(plan.region_keys,plan.region_loops):
-        n=len(loop)
-        uv=[(0.,0.),(1.,0.),(1.,1.),(0.,1.)] if n==4 else [
-            (.5+.5*math.cos(2*math.pi*i/n),.5+.5*math.sin(2*math.pi*i/n)) for i in range(n)]
-        rows.append((key,uv))
-    for level in range(plan.levels):
+
+@lru_cache(maxsize=4)
+def decoded(raw):
+    """Shared read-only paint payload for transfer and native plan evaluation."""
+    import json
+    return json.loads(raw or '{}')
+
+
+@lru_cache(maxsize=64)
+def _coordinate_faces(n,levels):
+    uv=((0.,0.),(1.,0.),(1.,1.),(0.,1.)) if n==4 else tuple(
+        (.5+.5*math.cos(2*math.pi*i/n),.5+.5*math.sin(2*math.pi*i/n)) for i in range(n))
+    rows=(uv,)
+    for _ in range(levels):
         next_rows=[]
-        for key,uv in rows:
-            center=tuple(sum(p[k] for p in uv)/len(uv) for k in range(2))
+        for uv in rows:
+            center=(sum(p[0] for p in uv)/len(uv),sum(p[1] for p in uv)/len(uv))
             for i,p in enumerate(uv):
                 after=uv[(i+1)%len(uv)];before=uv[i-1]
-                next_rows.append((key,[p,tuple((p[k]+after[k])*.5 for k in range(2)),
-                                       center,tuple((p[k]+before[k])*.5 for k in range(2))]))
-        rows=next_rows
-    if len(rows)!=len(plan.faces):raise ValueError('Patch coordinate/face count mismatch')
-    result=defaultdict(dict)
-    for face,(key,uv) in zip(plan.faces,rows):
-        for v,p in zip(face,uv):
-            old=result[key].get(v)
-            if old is not None and max(abs(old[k]-p[k]) for k in range(2))>1e-10:
-                raise ValueError('Inconsistent patch coordinates')
-            result[key][v]=p
-    return dict(result)
+                next_rows.append((p,((p[0]+after[0])*.5,(p[1]+after[1])*.5),center,
+                                  ((p[0]+before[0])*.5,(p[1]+before[1])*.5)))
+        rows=tuple(next_rows)
+    return rows
+
+
+def coordinates(plan, keys=None):
+    """Follow native face order using shared immutable parameter templates."""
+    result={};offset=0
+    for key,loop in zip(plan.region_keys,plan.region_loops):
+        # Quad subdivision produces n * 4**(levels-1) faces per region.
+        # Retain offsets even when this patch carries no paint.
+        count = len(loop) * 4**(plan.levels-1)
+        if keys is not None and key not in keys:
+            offset += count
+            continue
+        rows=_coordinate_faces(len(loop),plan.levels);values={}
+        for face,uv in zip(plan.faces[offset:offset+len(rows)],rows):
+            for v,p in zip(face,uv):
+                old=values.get(v)
+                if old is not None and old!=p and max(abs(old[k]-p[k]) for k in range(2))>1e-10:
+                    raise ValueError('Inconsistent patch coordinates')
+                values[v]=p
+        result[key]=values;offset+=len(rows)
+    if offset!=len(plan.faces):raise ValueError('Patch coordinate/face count mismatch')
+    return result
 
 
 def cells(u,v):
@@ -65,7 +82,7 @@ def weights(plan,fields,guide_weight=1.):
     base=[guide_weight if i in plan.guide_vertices else 0. for i in range(plan.count)]
     if not fields:return base
     values=defaultdict(list)
-    for key,uv in plan.edit_coordinates().items():
+    for key,uv in plan.edit_coordinates(fields).items():
         field=fields.get(key)
         if not field:continue
         for v,(u,w) in uv.items():

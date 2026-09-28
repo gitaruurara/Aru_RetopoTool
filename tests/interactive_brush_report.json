@@ -1,0 +1,28 @@
+{
+  "resize_no_geometry_changes": true,
+  "soft_real_press_drag_release": {
+    "weights": {
+      "1": 1.0,
+      "4": 0.0012250000000000021
+    },
+    "moved": [
+      1,
+      4
+    ],
+    "undo_redo": true
+  },
+  "escape_cancel": true,
+  "brush_payload": 1,
+  "tool_switches": {
+    "cycles": 2,
+    "faces": 32,
+    "generators": [
+      "aruRetopoGenerator1"
+    ],
+    "previews": [
+      "aruRetopoPreviewShape1"
+    ],
+    "fill_remove_undo": true
+  },
+  "passed": true
+}

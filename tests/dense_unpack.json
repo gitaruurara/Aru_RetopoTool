@@ -1,0 +1,59 @@
+{
+  "patches": 500,
+  "quads": 46528,
+  "vertices": 46873,
+  "guides": 1589,
+  "topology_ms": 413.0753999997978,
+  "samples": [
+    {
+      "evaluate_ms": 416.42439999850467,
+      "relax_ms": 197.21800000115763
+    },
+    {
+      "evaluate_ms": 3.2917999997152947,
+      "relax_ms": 40.47469999932218
+    },
+    {
+      "evaluate_ms": 2.6044000005640555,
+      "relax_ms": 12.32969999909983
+    },
+    {
+      "evaluate_ms": 2.6223999993817415,
+      "relax_ms": 13.913700000557583
+    },
+    {
+      "evaluate_ms": 2.634500000567641,
+      "relax_ms": 13.42550000117626
+    },
+    {
+      "evaluate_ms": 2.7265999997325707,
+      "relax_ms": 14.801700002863072
+    }
+  ],
+  "mesh_create_ms": 31.19460000016261,
+  "draw_cold_prepare_ms": {
+    "cold_ms": [
+      913.768300000811,
+      732.4236999993445,
+      694.4831999971939
+    ],
+    "idle_ms": [
+      24.352700002054917,
+      23.68659999774536,
+      23.651899999094894
+    ],
+    "idle_profile": "         140808 function calls in 0.065 seconds\n\n   Ordered by: cumulative time\n   List reduced from 25 to 10 due to restriction <10>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        3    0.042    0.014    0.065    0.022 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\aru_retopo_draw_plugin.py:54(prepareForDraw)\n   140622    0.020    0.000    0.020    0.000 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\aru_retopo_draw_plugin.py:90(<genexpr>)\n        3    0.001    0.000    0.001    0.000 {method 'asMObject' of 'OpenMaya.MPlug' objects}\n        3    0.001    0.000    0.001    0.000 {method 'getPoints' of 'OpenMaya.MFnMesh' objects}\n        3    0.001    0.000    0.001    0.000 {method 'getVertices' of 'OpenMaya.MFnMesh' objects}\n        3    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}\n       18    0.000    0.000    0.000    0.000 {method 'fullPathName' of 'OpenMaya.MDagPath' objects}\n       12    0.000    0.000    0.000    0.000 shibokensupport/signature/loader.py:59(feature_import)\n        6    0.000    0.000    0.000    0.000 {method 'findPlug' of 'OpenMaya.MFnDependencyNode' objects}\n        3    0.000    0.000    0.000    0.000 {method 'asBool' of 'OpenMaya.MPlug' objects}\n\n\n",
+    "orbit_ms": [
+      22.102300001279218,
+      317.9096000021673,
+      322.9728000005707
+    ],
+    "orbit_profile": "         140832 function calls in 0.661 seconds\n\n   Ordered by: cumulative time\n   List reduced from 32 to 10 due to restriction <10>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        3    0.177    0.059    0.661    0.220 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\aru_retopo_draw_plugin.py:54(prepareForDraw)\n        2    0.423    0.211    0.460    0.230 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\display_native.py:38(visible)\n        2    0.037    0.019    0.037    0.019 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:37(unpack)\n   140622    0.021    0.000    0.021    0.000 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\aru_retopo_draw_plugin.py:90(<genexpr>)\n        3    0.001    0.000    0.001    0.000 {method 'asMObject' of 'OpenMaya.MPlug' objects}\n        3    0.001    0.000    0.001    0.000 {method 'getPoints' of 'OpenMaya.MFnMesh' objects}\n        3    0.001    0.000    0.001    0.000 {method 'getVertices' of 'OpenMaya.MFnMesh' objects}\n        3    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}\n        4    0.000    0.000    0.000    0.000 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:36(packed)\n        4    0.000    0.000    0.000    0.000 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:34(doubles)\n\n\n",
+    "deform_ms": [
+      383.3073999994667,
+      381.4784999995027,
+      377.46189999961643
+    ],
+    "deform_profile": "         280488 function calls in 1.138 seconds\n\n   Ordered by: cumulative time\n   List reduced from 35 to 10 due to restriction <10>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n        3    0.317    0.106    1.138    0.379 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\aru_retopo_draw_plugin.py:54(prepareForDraw)\n        3    0.635    0.212    0.684    0.228 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\display_native.py:38(visible)\n        3    0.012    0.004    0.081    0.027 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\display_native.py:30(update)\n       12    0.017    0.001    0.069    0.006 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:36(packed)\n       12    0.052    0.004    0.052    0.004 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:34(doubles)\n        3    0.049    0.016    0.049    0.016 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\native.py:37(unpack)\n   140622    0.021    0.000    0.021    0.000 D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\aru_retopo_draw_plugin.py:90(<genexpr>)\n   139584    0.020    0.000    0.020    0.000 {method 'getPolygonNormal' of 'OpenMaya.MFnMesh' objects}\n        3    0.010    0.003    0.010    0.003 {method 'getTriangles' of 'OpenMaya.MFnMesh' objects}\n        3    0.003    0.001    0.003    0.001 {method 'asMObject' of 'OpenMaya.MPlug' objects}\n\n\n"
+  }
+}

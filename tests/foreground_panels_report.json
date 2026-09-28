@@ -1,0 +1,10 @@
+{
+  "overrides": {
+    "modelPanel1": "aruRetopoGPUPreview",
+    "modelPanel2": "aruRetopoGPUPreview",
+    "modelPanel3": "aruRetopoGPUPreview",
+    "modelPanel4": "aruRetopoGPUPreview"
+  },
+  "restore_previous": true,
+  "passed": true
+}

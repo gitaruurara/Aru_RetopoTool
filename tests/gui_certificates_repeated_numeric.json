@@ -1,0 +1,1239 @@
+{
+  "pid": 48640,
+  "mode": "numeric",
+  "trials": [
+    {
+      "scope": "8 consecutive brush calls and synchronous GPU redraw; scripted screen path, not physical mouse events",
+      "modes": {
+        "ordinary": {
+          "samples": [
+            {
+              "total_ms": 173.39160000847187,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 25.21000000706408,
+                  "redraw_ms": 16.493800008902326,
+                  "native_stages_ms": [
+                    7.6024,
+                    0.2111,
+                    16.3542,
+                    0.901
+                  ],
+                  "draw_thread_ms": 0.0,
+                  "draw_process_ms": 156.25
+                }
+              ]
+            },
+            {
+              "total_ms": 90.09450000303332,
+              "affected": 448,
+              "stages": [
+                {
+                  "native_evaluate_ms": 21.98619999398943,
+                  "redraw_ms": 16.608999998425134,
+                  "native_stages_ms": [
+                    6.5518,
+                    0.2704,
+                    14.0717,
+                    0.9498
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 93.0755000008503,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 22.533399998792447,
+                  "redraw_ms": 16.205299994908273,
+                  "native_stages_ms": [
+                    6.8459,
+                    0.2031,
+                    14.3743,
+                    0.9454
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 93.89080000983085,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 21.514699998078868,
+                  "redraw_ms": 15.615800002706237,
+                  "native_stages_ms": [
+                    7.2414,
+                    0.2337,
+                    13.0143,
+                    0.8838
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 173.21649999939837,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 24.699899993720464,
+                  "redraw_ms": 15.938899989123456,
+                  "native_stages_ms": [
+                    9.1765,
+                    0.1748,
+                    14.3563,
+                    0.8573
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 93.09419999772217,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 24.021799996262416,
+                  "redraw_ms": 16.216500007431023,
+                  "native_stages_ms": [
+                    7.7519,
+                    0.2534,
+                    14.9733,
+                    0.8806
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 93.86149999045301,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 22.142200003145263,
+                  "redraw_ms": 16.28290000371635,
+                  "native_stages_ms": [
+                    7.4788,
+                    0.2347,
+                    13.344,
+                    0.9207
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 93.60079999896698,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 22.34840000164695,
+                  "redraw_ms": 15.785600000526756,
+                  "native_stages_ms": [
+                    8.1319,
+                    0.304,
+                    12.8758,
+                    0.9051
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            }
+          ],
+          "median_ms": 93.60079999896698,
+          "release_ms": 185.97469999804161,
+          "guide_hash": "ed85062a0677f7443c5f91ff9665e14a436248a470db54c9bfc27aec410db663",
+          "mesh_hash": "0fd50d5c355de51d1b7a9ea7a84408ed9ab7d0b804b96065d8aece64625ce922"
+        },
+        "numeric": {
+          "samples": [
+            {
+              "total_ms": 56.979600005433895,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.198399996734224,
+                  "redraw_ms": 14.72279999870807,
+                  "native_stages_ms": [
+                    2.0531,
+                    0.1615,
+                    11.9193,
+                    0.9262
+                  ],
+                  "draw_thread_ms": 0.0,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 57.97819999861531,
+              "affected": 448,
+              "stages": [
+                {
+                  "native_evaluate_ms": 16.235999995842576,
+                  "redraw_ms": 15.462399998796172,
+                  "native_stages_ms": [
+                    2.0906,
+                    0.1513,
+                    12.9112,
+                    0.9233
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 56.154899997636676,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 16.259500000160187,
+                  "redraw_ms": 14.502100006211549,
+                  "native_stages_ms": [
+                    2.5159,
+                    0.1471,
+                    12.519,
+                    0.9417
+                  ],
+                  "draw_thread_ms": 0.0,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 58.4794000023976,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.07819999824278,
+                  "redraw_ms": 15.660799996112473,
+                  "native_stages_ms": [
+                    2.0759,
+                    0.1493,
+                    11.8212,
+                    0.9036
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 144.2285999946762,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 17.393299989635125,
+                  "redraw_ms": 99.89939999650232,
+                  "native_stages_ms": [
+                    3.1965,
+                    0.1665,
+                    12.9933,
+                    0.8985
+                  ],
+                  "draw_thread_ms": 93.75,
+                  "draw_process_ms": 93.75
+                }
+              ]
+            },
+            {
+              "total_ms": 57.49969999305904,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 16.331400009221397,
+                  "redraw_ms": 15.484599993214943,
+                  "native_stages_ms": [
+                    2.1422,
+                    0.1672,
+                    13.0312,
+                    0.8743
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 31.25
+                }
+              ]
+            },
+            {
+              "total_ms": 58.332100001280196,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.829399999347515,
+                  "redraw_ms": 15.295600009267218,
+                  "native_stages_ms": [
+                    2.124,
+                    0.1606,
+                    12.5003,
+                    0.9067
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 57.558200001949444,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.945799998007715,
+                  "redraw_ms": 14.632699996582232,
+                  "native_stages_ms": [
+                    2.2619,
+                    0.1647,
+                    12.5021,
+                    0.8826
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            }
+          ],
+          "median_ms": 57.97819999861531,
+          "release_ms": 87.27990000625141,
+          "guide_hash": "ed85062a0677f7443c5f91ff9665e14a436248a470db54c9bfc27aec410db663",
+          "mesh_hash": "0fd50d5c355de51d1b7a9ea7a84408ed9ab7d0b804b96065d8aece64625ce922"
+        }
+      },
+      "brush_start": [
+        841,
+        688
+      ],
+      "exact_final_data": true,
+      "restored": true,
+      "direct_buffer": true,
+      "gpu_controls": true,
+      "hide_guides": false
+    },
+    {
+      "scope": "8 consecutive brush calls and synchronous GPU redraw; scripted screen path, not physical mouse events",
+      "modes": {
+        "ordinary": {
+          "samples": [
+            {
+              "total_ms": 86.00480000313837,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 21.69210001011379,
+                  "redraw_ms": 15.239100001053885,
+                  "native_stages_ms": [
+                    7.3744,
+                    0.1862,
+                    13.0527,
+                    0.9399
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 171.93779999797698,
+              "affected": 448,
+              "stages": [
+                {
+                  "native_evaluate_ms": 22.539300000062212,
+                  "redraw_ms": 17.17189999180846,
+                  "native_stages_ms": [
+                    6.5797,
+                    0.2053,
+                    14.7248,
+                    0.8888
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 94.530999995186,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 20.85339999757707,
+                  "redraw_ms": 17.228400000021793,
+                  "native_stages_ms": [
+                    6.2681,
+                    0.1651,
+                    13.2912,
+                    0.9541
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 94.08120000443887,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 21.82330000505317,
+                  "redraw_ms": 17.569799994817004,
+                  "native_stages_ms": [
+                    6.5621,
+                    0.18,
+                    14.0168,
+                    0.9222
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 94.43349999492057,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 22.35100000689272,
+                  "redraw_ms": 17.17709998774808,
+                  "native_stages_ms": [
+                    6.4284,
+                    0.18,
+                    14.6653,
+                    0.9227
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 174.04549999628216,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 25.165700004436076,
+                  "redraw_ms": 16.783900005975738,
+                  "native_stages_ms": [
+                    6.645,
+                    0.2442,
+                    17.2092,
+                    0.932
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 93.66579999914393,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 22.345999997924082,
+                  "redraw_ms": 15.948900007060729,
+                  "native_stages_ms": [
+                    6.3923,
+                    0.1798,
+                    14.7624,
+                    0.875
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 95.9902000031434,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 22.29290000104811,
+                  "redraw_ms": 15.588400012347847,
+                  "native_stages_ms": [
+                    6.2568,
+                    0.286,
+                    14.6764,
+                    0.9029
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 31.25
+                }
+              ]
+            }
+          ],
+          "median_ms": 94.530999995186,
+          "release_ms": 195.40919999417383,
+          "guide_hash": "ed85062a0677f7443c5f91ff9665e14a436248a470db54c9bfc27aec410db663",
+          "mesh_hash": "0fd50d5c355de51d1b7a9ea7a84408ed9ab7d0b804b96065d8aece64625ce922"
+        },
+        "numeric": {
+          "samples": [
+            {
+              "total_ms": 60.391799997887574,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 16.176399993128143,
+                  "redraw_ms": 15.712000007624738,
+                  "native_stages_ms": [
+                    2.2778,
+                    0.1526,
+                    12.6477,
+                    0.9507
+                  ],
+                  "draw_thread_ms": 0.0,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 59.75860000762623,
+              "affected": 448,
+              "stages": [
+                {
+                  "native_evaluate_ms": 16.428400005679578,
+                  "redraw_ms": 16.28799999889452,
+                  "native_stages_ms": [
+                    2.1872,
+                    0.1494,
+                    13.0769,
+                    0.8789
+                  ],
+                  "draw_thread_ms": 31.25,
+                  "draw_process_ms": 31.25
+                }
+              ]
+            },
+            {
+              "total_ms": 59.98320000071544,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 18.482700004824437,
+                  "redraw_ms": 15.24339999014046,
+                  "native_stages_ms": [
+                    3.1013,
+                    0.1587,
+                    14.1486,
+                    0.9323
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 59.78589999722317,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 16.257600000244565,
+                  "redraw_ms": 16.11369999591261,
+                  "native_stages_ms": [
+                    2.1586,
+                    0.1477,
+                    12.9025,
+                    0.9135
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 60.75639999471605,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 17.88759999908507,
+                  "redraw_ms": 15.475799998966977,
+                  "native_stages_ms": [
+                    2.9469,
+                    0.1491,
+                    13.72,
+                    0.9099
+                  ],
+                  "draw_thread_ms": 0.0,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 140.16920000722166,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.927100001135841,
+                  "redraw_ms": 96.75620000052731,
+                  "native_stages_ms": [
+                    2.1231,
+                    0.1442,
+                    12.6004,
+                    0.8941
+                  ],
+                  "draw_thread_ms": 93.75,
+                  "draw_process_ms": 93.75
+                }
+              ]
+            },
+            {
+              "total_ms": 57.11729999165982,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 17.48889998998493,
+                  "redraw_ms": 14.544300007401034,
+                  "native_stages_ms": [
+                    3.1653,
+                    0.1577,
+                    13.072,
+                    0.9222
+                  ],
+                  "draw_thread_ms": 0.0,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 59.23169999732636,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 16.192200011573732,
+                  "redraw_ms": 16.45670000289101,
+                  "native_stages_ms": [
+                    2.2037,
+                    0.1526,
+                    12.817,
+                    0.8869
+                  ],
+                  "draw_thread_ms": 31.25,
+                  "draw_process_ms": 46.875
+                }
+              ]
+            }
+          ],
+          "median_ms": 59.78589999722317,
+          "release_ms": 84.50949999678414,
+          "guide_hash": "ed85062a0677f7443c5f91ff9665e14a436248a470db54c9bfc27aec410db663",
+          "mesh_hash": "0fd50d5c355de51d1b7a9ea7a84408ed9ab7d0b804b96065d8aece64625ce922"
+        }
+      },
+      "brush_start": [
+        841,
+        688
+      ],
+      "exact_final_data": true,
+      "restored": true,
+      "direct_buffer": true,
+      "gpu_controls": true,
+      "hide_guides": false
+    },
+    {
+      "scope": "8 consecutive brush calls and synchronous GPU redraw; scripted screen path, not physical mouse events",
+      "modes": {
+        "ordinary": {
+          "samples": [
+            {
+              "total_ms": 86.9131999934325,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 22.31220000248868,
+                  "redraw_ms": 16.9097000034526,
+                  "native_stages_ms": [
+                    7.9219,
+                    0.2398,
+                    13.0164,
+                    0.9604
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 176.44589999690652,
+              "affected": 448,
+              "stages": [
+                {
+                  "native_evaluate_ms": 21.776900000986643,
+                  "redraw_ms": 97.73209999548271,
+                  "native_stages_ms": [
+                    6.7835,
+                    0.1742,
+                    13.7144,
+                    0.9189
+                  ],
+                  "draw_thread_ms": 109.375,
+                  "draw_process_ms": 125.0
+                }
+              ]
+            },
+            {
+              "total_ms": 89.67319999646861,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 20.321099989814684,
+                  "redraw_ms": 17.25480001186952,
+                  "native_stages_ms": [
+                    6.5894,
+                    0.1848,
+                    12.4837,
+                    0.9166
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 94.93629999633413,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 20.880900003248826,
+                  "redraw_ms": 17.523399990750477,
+                  "native_stages_ms": [
+                    6.5039,
+                    0.1717,
+                    13.1573,
+                    0.8908
+                  ],
+                  "draw_thread_ms": 31.25,
+                  "draw_process_ms": 31.25
+                }
+              ]
+            },
+            {
+              "total_ms": 93.19319999485742,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 20.527600005152635,
+                  "redraw_ms": 16.061999995145015,
+                  "native_stages_ms": [
+                    6.6136,
+                    0.1827,
+                    12.6705,
+                    0.9129
+                  ],
+                  "draw_thread_ms": 0.0,
+                  "draw_process_ms": 0.0
+                }
+              ]
+            },
+            {
+              "total_ms": 180.12000000453554,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 108.65850000118371,
+                  "redraw_ms": 15.863400010857731,
+                  "native_stages_ms": [
+                    92.4671,
+                    0.1837,
+                    14.9445,
+                    0.9295
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 95.13699999661185,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 23.485799989430234,
+                  "redraw_ms": 15.30060000368394,
+                  "native_stages_ms": [
+                    8.7159,
+                    0.1723,
+                    13.5706,
+                    0.8942
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 95.77309999440331,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 23.938700003782287,
+                  "redraw_ms": 15.531799988821149,
+                  "native_stages_ms": [
+                    8.7578,
+                    0.1901,
+                    13.893,
+                    0.9266
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            }
+          ],
+          "median_ms": 95.13699999661185,
+          "release_ms": 110.18290001084097,
+          "guide_hash": "ed85062a0677f7443c5f91ff9665e14a436248a470db54c9bfc27aec410db663",
+          "mesh_hash": "0fd50d5c355de51d1b7a9ea7a84408ed9ab7d0b804b96065d8aece64625ce922"
+        },
+        "numeric": {
+          "samples": [
+            {
+              "total_ms": 133.83320000139065,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.76730000670068,
+                  "redraw_ms": 14.523999998345971,
+                  "native_stages_ms": [
+                    2.0359,
+                    0.1522,
+                    12.2931,
+                    1.1307
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 58.20549999771174,
+              "affected": 448,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.739399997983128,
+                  "redraw_ms": 15.29980001214426,
+                  "native_stages_ms": [
+                    2.299,
+                    0.1517,
+                    12.2933,
+                    0.8489
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 55.86110000149347,
+              "affected": 443,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.691399996285327,
+                  "redraw_ms": 14.555000001564622,
+                  "native_stages_ms": [
+                    2.5823,
+                    0.1521,
+                    11.9749,
+                    0.8653
+                  ],
+                  "draw_thread_ms": 0.0,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 58.0816000001505,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.429999999469146,
+                  "redraw_ms": 14.931899990187958,
+                  "native_stages_ms": [
+                    2.2554,
+                    0.1481,
+                    12.0046,
+                    0.9025
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 56.62819999270141,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.839599989703856,
+                  "redraw_ms": 14.774600000237115,
+                  "native_stages_ms": [
+                    2.8679,
+                    0.1537,
+                    11.8322,
+                    0.8669
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 58.85370000032708,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 16.249300009803846,
+                  "redraw_ms": 16.057100001489744,
+                  "native_stages_ms": [
+                    2.2325,
+                    0.1664,
+                    12.7872,
+                    0.9314
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 58.88009999762289,
+              "affected": 444,
+              "stages": [
+                {
+                  "native_evaluate_ms": 15.975899994373322,
+                  "redraw_ms": 15.377200004877523,
+                  "native_stages_ms": [
+                    2.3606,
+                    0.1524,
+                    12.46,
+                    0.8795
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            },
+            {
+              "total_ms": 143.572499990114,
+              "affected": 445,
+              "stages": [
+                {
+                  "native_evaluate_ms": 100.81040000659414,
+                  "redraw_ms": 15.423799995915033,
+                  "native_stages_ms": [
+                    85.8056,
+                    0.2705,
+                    13.6903,
+                    0.9145
+                  ],
+                  "draw_thread_ms": 15.625,
+                  "draw_process_ms": 15.625
+                }
+              ]
+            }
+          ],
+          "median_ms": 58.20549999771174,
+          "release_ms": 83.99400000052992,
+          "guide_hash": "ed85062a0677f7443c5f91ff9665e14a436248a470db54c9bfc27aec410db663",
+          "mesh_hash": "0fd50d5c355de51d1b7a9ea7a84408ed9ab7d0b804b96065d8aece64625ce922"
+        }
+      },
+      "brush_start": [
+        841,
+        688
+      ],
+      "exact_final_data": true,
+      "restored": true,
+      "direct_buffer": true,
+      "gpu_controls": true,
+      "hide_guides": false
+    }
+  ],
+  "viewport": [
+    1600,
+    1000
+  ],
+  "guide_xray": true,
+  "owners": [
+    "D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/bin/2027/aru_retopo_mesh_buffer_numeric.mll"
+  ],
+  "anchor_ep": 645,
+  "brush_start": [
+    841,
+    688
+  ],
+  "camera": {
+    "translate": [
+      [
+        14.140764334412186,
+        10.605572982588253,
+        14.14076421520291
+      ]
+    ],
+    "rotate": [
+      [
+        -27.93835272960237,
+        47.299999999999976,
+        0.0
+      ]
+    ],
+    "scale": [
+      [
+        1.0,
+        1.0,
+        1.0
+      ]
+    ]
+  },
+  "input_hash": "3a2f61ea52a18845a8011c882e6c91c12f503a8d4be1aab7a3ffb502bb5a6046",
+  "point": {
+    "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+    "ep": 645,
+    "start_screen": [
+      841,
+      688
+    ],
+    "merge_target": null,
+    "hover_spline": [
+      812,
+      0.5416666666666666,
+      [
+        0.06825128181510522,
+        2.9976718295005247,
+        0.08443906233491297
+      ]
+    ],
+    "release_ms": 1068.153500003973,
+    "release_stages": [
+      [
+        "_reset_control_points",
+        0.8182999881682917
+      ],
+      [
+        "_find_spline_under_screen",
+        6.254399995668791
+      ],
+      [
+        "_recompute_handles_for_ep",
+        2.9135000077076256
+      ],
+      [
+        "_attach_ep_to_spline",
+        7.139599998481572
+      ],
+      [
+        "_recompute_handles_for_ep",
+        2.7362999971956015
+      ],
+      [
+        "_smooth_moved_ep_routes",
+        2.7040000131819397
+      ],
+      [
+        "patch_transfer",
+        192.59940000483766
+      ],
+      [
+        "_reset_control_points",
+        7.06279999576509
+      ],
+      [
+        "_dirty_shape_view",
+        835.6544999987818
+      ],
+      [
+        "_commit_net_data",
+        1046.3420000014594
+      ]
+    ],
+    "samples": [
+      {
+        "ms": 32.110200001625344,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.014900000882335
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            1.8124000052921474
+          ],
+          [
+            "_find_spline_under_screen",
+            5.781500003649853
+          ],
+          [
+            "_dirty_shape_view",
+            18.810099994880147
+          ]
+        ]
+      },
+      {
+        "ms": 29.031700003542937,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.3376999995671213
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.825099996291101
+          ],
+          [
+            "_find_spline_under_screen",
+            6.265799995162524
+          ],
+          [
+            "_dirty_shape_view",
+            17.76390000304673
+          ]
+        ]
+      },
+      {
+        "ms": 30.547100002877414,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.2904999894089997
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.8450000023003668
+          ],
+          [
+            "_find_spline_under_screen",
+            6.257199987885542
+          ],
+          [
+            "_dirty_shape_view",
+            19.14470001065638
+          ]
+        ]
+      },
+      {
+        "ms": 28.613800008315593,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.334599990514107
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.8308999967994168
+          ],
+          [
+            "_find_spline_under_screen",
+            6.5925000089919195
+          ],
+          [
+            "_dirty_shape_view",
+            16.86939998762682
+          ]
+        ]
+      },
+      {
+        "ms": 30.39730001182761,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.3251999916974455
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.833700003568083
+          ],
+          [
+            "_find_spline_under_screen",
+            6.760199990822002
+          ],
+          [
+            "_dirty_shape_view",
+            18.471600007615052
+          ]
+        ]
+      },
+      {
+        "ms": 20.670000012614764,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.1995999957434833
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.8020000095712021
+          ],
+          [
+            "_dirty_shape_view",
+            15.564400004222989
+          ]
+        ]
+      },
+      {
+        "ms": 29.96700000949204,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.1984000011580065
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.8061999978963286
+          ],
+          [
+            "_find_spline_under_screen",
+            6.570199999259785
+          ],
+          [
+            "_dirty_shape_view",
+            18.43850000295788
+          ]
+        ]
+      },
+      {
+        "ms": 27.495600006659515,
+        "stages": [
+          [
+            "_recompute_handles_for_ep",
+            1.3032999995630234
+          ],
+          [
+            "_smooth_moved_ep_routes",
+            0.8578999986639246
+          ],
+          [
+            "_find_spline_under_screen",
+            6.24489999609068
+          ],
+          [
+            "_dirty_shape_view",
+            16.15270000183955
+          ]
+        ]
+      }
+    ],
+    "median_ms": 29.49935000651749,
+    "changed": true,
+    "final_hash": "08a9c2775d5306a8aa9a30a15cc276e1eceae43c2d1e804e35128beb7b045440",
+    "topology_counts": [
+      {
+        "positions": 4268,
+        "splines": 1589
+      },
+      {
+        "positions": 4270,
+        "splines": 1590
+      }
+    ],
+    "restored": true,
+    "numeric_preview": true
+  }
+}

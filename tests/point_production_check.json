@@ -1,0 +1,25 @@
+{
+  "gpu": true,
+  "module": "D:\\Dropbox\\App\\DCC\\internal\\maya\\common\\scripts\\Aru_RetopoTool\\editor\\curvenet\\gpu_guides.py",
+  "parameters": [
+    "solidColor",
+    "selectionHiddenColor",
+    "isSelectionHighlightingON",
+    "pointSize",
+    "screenSize",
+    "quadPositionUV",
+    "viewprojectioninverse",
+    "isCulled",
+    "DepthPriorityUnit",
+    "orthographic",
+    "depthPriorityThreshold",
+    "Pm",
+    "WorldViewProj",
+    "DepthPriority",
+    "depthPriorityScale",
+    "Instanced",
+    "MultiDraw"
+  ],
+  "pointSize": "<OpenMayaRender.MShaderInstance object at 0x000002079CD34C10>",
+  "graph": "<fragment_graph  name=\"aruRetopoDepthPointShader\" ref=\"aruRetopoDepthPointShader\" class=\"FragmentGraph\" version=\"1.0\" feature_level=\"0\" >\n    <keyword value=\"componentShader\" />\n    <fragments>\n            <fragment_ref name=\"mayaSolidColorGS\" ref=\"mayaSolidColorGS\" />\n            <fragment_ref name=\"aruRetopoDepthPointQuad\" ref=\"aruRetopoDepthPointQuad\" />\n            <fragment_ref name=\"mayaDepthPriorityShader\" ref=\"mayaDepthPriorityShader\" />\n    </fragments>\n    <connections>\n        <connect from=\"aruRetopoDepthPointQuad.GPUStage\" to=\"mayaSolidColorGS.GPUStage\" name=\"GPUStage\" />\n    </connections>\n    <properties>\n        <float4  name=\"solidColor\" ref=\"mayaSolidColorGS.solidColor\" />\n        <float4  name=\"selectionHiddenColor\" ref=\"mayaSolidColorGS.selectionHiddenColor\" />\n        <bool  name=\"isSelectionHighlightingON\" ref=\"mayaSolidColorGS.isSelectionHighlightingON\" />\n        <struct  name=\"inputs\" ref=\"aruRetopoDepthPointQuad.inputs\" />\n        <float2  name=\"pointSize\" ref=\"aruRetopoDepthPointQuad.pointSize\" />\n        <float2  name=\"screenSize\" ref=\"aruRetopoDepthPointQuad.screenSize\" semantic=\"viewportPixelSize\" />\n        <float4  name=\"quadPositionUV\" ref=\"aruRetopoDepthPointQuad.quadPositionUV\" semantic=\"quadPositionUVType0\" />\n        <float4x4  name=\"viewprojectioninverse\" ref=\"aruRetopoDepthPointQuad.viewprojectioninverse\" semantic=\"viewprojectioninverse\" />\n        <bool  name=\"isCulled\" ref=\"aruRetopoDepthPointQuad.isCulled\" />\n        <float  name=\"DepthPriorityUnit\" ref=\"aruRetopoDepthPointQuad.DepthPriorityUnit\" semantic=\"DepthPriorityUnit\" />\n        <bool  name=\"orthographic\" ref=\"aruRetopoDepthPointQuad.orthographic\" semantic=\"isorthographic\" />\n        <float  name=\"depthPriorityThreshold\" ref=\"aruRetopoDepthPointQuad.depthPriorityThreshold\" semantic=\"mayadepthprioritythreshold\" />\n        <float3  name=\"Pm\" ref=\"mayaDepthPriorityShader.Pm\" semantic=\"POSITION\" flags=\"varyingInputParam\" />\n        <float4x4  name=\"WorldViewProj\" ref=\"mayaDepthPriorityShader.WorldViewProj\" semantic=\"worldviewprojection\" />\n        <float  name=\"DepthPriority\" ref=\"mayaDepthPriorityShader.DepthPriority\" semantic=\"DepthPriority\" />\n        <float  name=\"depthPriorityScale\" ref=\"mayaDepthPriorityShader.depthPriorityScale\" semantic=\"mayadepthprioirtyscale\" />\n    </properties>\n    <values>\n<float4 name=\"solidColor\" value=\"0.000000,0.000000,1.000000,1.000000\"  />\n<float4 name=\"selectionHiddenColor\" value=\"-1.000000,-1.000000,-1.000000,1.000000\"  />\n<bool name=\"isSelectionHighlightingON\" value=\"true\"  />\n<float2 name=\"pointSize\" value=\"3.000000,3.000000\"  />\n<bool name=\"isCulled\" value=\"false\"  />\n<float name=\"DepthPriorityUnit\" value=\"0.000001\"  />\n<bool name=\"orthographic\" value=\"false\"  />\n<float name=\"depthPriorityThreshold\" value=\"10000.000000\"  />\n<float name=\"DepthPriority\" value=\"0.000000\"  />\n<float name=\"depthPriorityScale\" value=\"1.000000\"  />\n    </values>\n    <outputs>\n        <float4  name=\"mayaSolidColorGS\" ref=\"mayaSolidColorGS.mayaSolidColorGS\" />\n    </outputs>\n</fragment_graph>"
+}

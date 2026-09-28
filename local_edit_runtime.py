@@ -5,6 +5,7 @@ import maya.api.OpenMaya as om
 from . import core,density,local_fields,native,maya_api as api
 from .editor.curvenet import curve_net_edit as edit,curve_net_symmetry as sym
 from .editor.curvenet.curve_net_relax import _world_data
+from .maya_data import plug_handle
 
 
 def read(node,name,default):return json.loads(cmds.getAttr(node+'.'+name) or default)
@@ -48,8 +49,9 @@ class Snapshot:
         from .symmetry_ops import patch_keys
         keys=patch_keys(self.cn,self.mesh,keys)
         dep=om.MFnDependencyNode(om.MSelectionList().add(node).getDependNode(0))
-        fn=om.MFnMesh(dep.findPlug('referenceMesh',False).asMDataHandle().asMeshTransformed())
-        _,tri=fn.getTriangles();self.surface=native.Surface([tuple(p)[:3] for p in fn.getPoints()],list(tri))
+        with plug_handle(dep.findPlug('referenceMesh',False)) as handle:
+            fn=om.MFnMesh(handle.asMeshTransformed())
+            _,tri=fn.getTriangles();self.surface=native.Surface([tuple(p)[:3] for p in fn.getPoints()],list(tri))
         try:
             eps=sorted(self.cn.endpoint_indices());points=[self.cn.positions[v] for v in eps]
             _,_,normals=self.surface.project(points,guard=False);lookup={tuple(p):n for p,n in zip(points,normals)}

@@ -1,0 +1,110 @@
+{
+  "scope": "8 consecutive brush calls and synchronous GPU redraw; scripted screen path, not physical mouse events",
+  "modes": {
+    "ordinary": {
+      "samples": [
+        {
+          "total_ms": 69.91579999157693,
+          "affected": 443,
+          "stages": []
+        },
+        {
+          "total_ms": 71.57429998915177,
+          "affected": 448,
+          "stages": []
+        },
+        {
+          "total_ms": 73.51639999251347,
+          "affected": 443,
+          "stages": []
+        },
+        {
+          "total_ms": 157.56310000142548,
+          "affected": 445,
+          "stages": []
+        },
+        {
+          "total_ms": 73.09249999525491,
+          "affected": 444,
+          "stages": []
+        },
+        {
+          "total_ms": 71.26730000891257,
+          "affected": 445,
+          "stages": []
+        },
+        {
+          "total_ms": 71.41450000926852,
+          "affected": 444,
+          "stages": []
+        },
+        {
+          "total_ms": 160.56450000905897,
+          "affected": 445,
+          "stages": []
+        }
+      ],
+      "median_ms": 73.09249999525491,
+      "release_ms": 82.7562000049511,
+      "guide_hash": "44fa1e79dbe7b912aa9b44c9f5665312449f3832326b484eb83373e3bf54162b",
+      "mesh_hash": "cf9e252ee7ce5979bc289befad33903b2eed74831b16374f150b3eae8fb389f0"
+    },
+    "numeric": {
+      "samples": [
+        {
+          "total_ms": 37.13089998927899,
+          "affected": 443,
+          "stages": []
+        },
+        {
+          "total_ms": 37.59639999771025,
+          "affected": 448,
+          "stages": []
+        },
+        {
+          "total_ms": 34.963799989782274,
+          "affected": 443,
+          "stages": []
+        },
+        {
+          "total_ms": 37.778600002638996,
+          "affected": 445,
+          "stages": []
+        },
+        {
+          "total_ms": 34.650500005227514,
+          "affected": 444,
+          "stages": []
+        },
+        {
+          "total_ms": 38.15469999972265,
+          "affected": 445,
+          "stages": []
+        },
+        {
+          "total_ms": 112.96530000981875,
+          "affected": 444,
+          "stages": []
+        },
+        {
+          "total_ms": 35.504600004060194,
+          "affected": 445,
+          "stages": []
+        }
+      ],
+      "median_ms": 37.59639999771025,
+      "release_ms": 68.3530999958748,
+      "guide_hash": "44fa1e79dbe7b912aa9b44c9f5665312449f3832326b484eb83373e3bf54162b",
+      "mesh_hash": "cf9e252ee7ce5979bc289befad33903b2eed74831b16374f150b3eae8fb389f0"
+    }
+  },
+  "brush_start": [
+    841,
+    688
+  ],
+  "exact_final_data": true,
+  "restored": true,
+  "direct_buffer": true,
+  "gpu_controls": true,
+  "hide_guides": false
+}

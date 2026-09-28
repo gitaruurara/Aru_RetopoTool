@@ -1,0 +1,55 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment_graph  name="mayaParticlePointShader" ref="mayaParticlePointShader" class="FragmentGraph" version="1.0" feature_level="0" >
+    <keyword value="componentShader" />
+    <fragments>
+            <fragment_ref name="mayaParticlePixelShader" ref="mayaParticlePixelShader" />
+            <fragment_ref name="mayaPoint2ParticleQuad" ref="mayaPoint2ParticleQuad" />
+            <fragment_ref name="mayaDepthPriorityShader" ref="mayaDepthPriorityShader" />
+    </fragments>
+    <connections>
+        <connect from="mayaPoint2ParticleQuad.GPUStage" to="mayaParticlePixelShader.GPUStage" name="GPUStage" />
+        <connect from="mayaDepthPriorityShader.GPUStage" to="mayaPoint2ParticleQuad.GPUStage" name="GPUStage" />
+    </connections>
+    <properties>
+        <float4  name="solidColor" ref="mayaParticlePixelShader.solidColor" />
+        <float3  name="Pw" ref="mayaParticlePixelShader.Pw" semantic="Pw" flags="varyingInputParam" />
+        <texture2  name="randomMap" ref="mayaParticlePixelShader.randomMap" />
+        <sampler  name="randomMapSampler" ref="mayaParticlePixelShader.randomMapSampler" />
+        <struct  name="inputs" ref="mayaPoint2ParticleQuad.inputs" />
+        <float2  name="pointSize" ref="mayaPoint2ParticleQuad.pointSize" />
+        <float2  name="screenSize" ref="mayaPoint2ParticleQuad.screenSize" semantic="viewportPixelSize" />
+        <float4  name="quadPositionUV" ref="mayaPoint2ParticleQuad.quadPositionUV" semantic="quadPositionUVType0" />
+        <float4x4  name="viewprojectioninverse" ref="mayaPoint2ParticleQuad.viewprojectioninverse" semantic="viewprojectioninverse" />
+        <float3  name="Nw" ref="mayaPoint2ParticleQuad.Nw" semantic="Nw" flags="isRequirementOnly" />
+        <float3  name="Vw" ref="mayaPoint2ParticleQuad.Vw" semantic="Vw" flags="isRequirementOnly" />
+        <bool  name="isCulled" ref="mayaPoint2ParticleQuad.isCulled" />
+        <int  name="normalDir" ref="mayaPoint2ParticleQuad.normalDir" />
+        <float3  name="Pm" ref="mayaDepthPriorityShader.Pm" semantic="POSITION" flags="varyingInputParam" />
+        <float4x4  name="WorldViewProj" ref="mayaDepthPriorityShader.WorldViewProj" semantic="worldviewprojection" />
+        <float  name="DepthPriority" ref="mayaDepthPriorityShader.DepthPriority" semantic="DepthPriority" />
+        <bool  name="orthographic" ref="mayaDepthPriorityShader.orthographic" semantic="isorthographic" />
+        <float  name="depthPriorityThreshold" ref="mayaDepthPriorityShader.depthPriorityThreshold" semantic="mayadepthprioritythreshold" />
+        <float  name="depthPriorityScale" ref="mayaDepthPriorityShader.depthPriorityScale" semantic="mayadepthprioirtyscale" />
+    </properties>
+    <values>
+<float4 name="solidColor" value="0.000000,0.000000,1.000000,1.000000"  />
+<float2 name="pointSize" value="3.000000,3.000000"  />
+<bool name="isCulled" value="false"  />
+<int name="normalDir" value="0"  />
+<float name="DepthPriority" value="0.000000"  />
+<bool name="orthographic" value="false"  />
+<float name="depthPriorityThreshold" value="0.999000"  />
+<float name="depthPriorityScale" value="1.000000"  />
+    </values>
+    <outputs>
+        <float4  name="mayaParticlePixelShader" ref="mayaParticlePixelShader.mayaParticlePixelShader" />
+    </outputs>
+</fragment_graph>

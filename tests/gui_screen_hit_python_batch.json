@@ -1,0 +1,5 @@
+{
+  "exact_cases": 29,
+  "scalar_median_ms": 141.0875000001397,
+  "batched_median_ms": 61.19659999967553
+}

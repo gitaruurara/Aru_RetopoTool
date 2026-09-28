@@ -1,0 +1,338 @@
+{
+  "scope": "real MMB context drag/release with scripted draggerContext queries; current viewport display, not physical mouse input",
+  "ep": 645,
+  "start_screen": [
+    1546,
+    1145
+  ],
+  "merge_target": null,
+  "hover_spline": [
+    889,
+    0.4166666666666667,
+    [
+      0.07735780454552459,
+      2.989249644985779,
+      0.23992793781436855
+    ]
+  ],
+  "release_ms": 1198.841999997967,
+  "release_stages": [
+    [
+      "_find_spline_under_screen",
+      6.579999993846286
+    ],
+    [
+      "_recompute_handles_for_ep",
+      2.198499998485204
+    ],
+    [
+      "_attach_ep_to_spline",
+      8.014200000616256
+    ],
+    [
+      "_recompute_handles_for_ep",
+      2.2551000001840293
+    ],
+    [
+      "_smooth_moved_ep_routes",
+      2.889600000344217
+    ],
+    [
+      "patch_transfer",
+      170.5158000040683
+    ],
+    [
+      "_reset_control_points",
+      6.105000000388827
+    ],
+    [
+      "_dirty_shape_view",
+      981.0750000033295
+    ],
+    [
+      "_commit_net_data",
+      1170.8899000004749
+    ]
+  ],
+  "samples": [
+    {
+      "ms": 90.35080000467133,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0600000023259781
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.4491000003763475
+        ],
+        [
+          "_find_spline_under_screen",
+          6.68759999825852
+        ],
+        [
+          "patch_transfer",
+          0.5451000033644959
+        ],
+        [
+          "_reset_control_points",
+          7.443399998010136
+        ],
+        [
+          "_dirty_shape_view",
+          53.427800005010795
+        ],
+        [
+          "_commit_net_data",
+          70.18050000624498
+        ]
+      ]
+    },
+    {
+      "ms": 81.81640000111656,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0535000037634745
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.3676999990129843
+        ],
+        [
+          "_find_spline_under_screen",
+          6.705099993268959
+        ],
+        [
+          "patch_transfer",
+          0.5410999947343953
+        ],
+        [
+          "_reset_control_points",
+          7.4497999958111905
+        ],
+        [
+          "_dirty_shape_view",
+          45.71919999580132
+        ],
+        [
+          "_commit_net_data",
+          62.16199999471428
+        ]
+      ]
+    },
+    {
+      "ms": 90.55329999682726,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0800000018207356
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.405300001555588
+        ],
+        [
+          "_find_spline_under_screen",
+          6.568099997821264
+        ],
+        [
+          "patch_transfer",
+          0.5214999982854351
+        ],
+        [
+          "_reset_control_points",
+          7.044800004223362
+        ],
+        [
+          "_dirty_shape_view",
+          54.72349999763537
+        ],
+        [
+          "_commit_net_data",
+          70.53910000104224
+        ]
+      ]
+    },
+    {
+      "ms": 162.19270000146935,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0563999967416748
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.430900000035763
+        ],
+        [
+          "_find_spline_under_screen",
+          6.795300003432203
+        ],
+        [
+          "patch_transfer",
+          0.5065000004833564
+        ],
+        [
+          "_reset_control_points",
+          7.160399996791966
+        ],
+        [
+          "_dirty_shape_view",
+          126.30709999939427
+        ],
+        [
+          "_commit_net_data",
+          141.85960000031628
+        ]
+      ]
+    },
+    {
+      "ms": 89.43960000033258,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0905000017373823
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.7743000027840026
+        ],
+        [
+          "_find_spline_under_screen",
+          6.492799999250565
+        ],
+        [
+          "patch_transfer",
+          0.5380000002332963
+        ],
+        [
+          "_reset_control_points",
+          6.593899997824337
+        ],
+        [
+          "_dirty_shape_view",
+          54.292000000714324
+        ],
+        [
+          "_commit_net_data",
+          69.55749999906402
+        ]
+      ]
+    },
+    {
+      "ms": 80.12779999990016,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.068899997335393
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.8552999938256107
+        ],
+        [
+          "_find_spline_under_screen",
+          6.407299995771609
+        ],
+        [
+          "patch_transfer",
+          0.537599997187499
+        ],
+        [
+          "_reset_control_points",
+          6.812100000388455
+        ],
+        [
+          "_dirty_shape_view",
+          45.3747999999905
+        ],
+        [
+          "_commit_net_data",
+          60.270699999819044
+        ]
+      ]
+    },
+    {
+      "ms": 85.78590000252007,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0858999958145432
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.417399999103509
+        ],
+        [
+          "_find_spline_under_screen",
+          6.566299998667091
+        ],
+        [
+          "patch_transfer",
+          0.5514000004041009
+        ],
+        [
+          "_reset_control_points",
+          6.409800000255927
+        ],
+        [
+          "_dirty_shape_view",
+          51.05840000032913
+        ],
+        [
+          "_commit_net_data",
+          65.59910000214586
+        ]
+      ]
+    },
+    {
+      "ms": 82.06800000334624,
+      "stages": [
+        [
+          "_recompute_handles_for_ep",
+          1.0958999991999008
+        ],
+        [
+          "_smooth_moved_ep_routes",
+          2.674499999557156
+        ],
+        [
+          "_find_spline_under_screen",
+          6.614499994611833
+        ],
+        [
+          "patch_transfer",
+          0.4197999951429665
+        ],
+        [
+          "_reset_control_points",
+          7.325099999434315
+        ],
+        [
+          "_dirty_shape_view",
+          45.772900004521944
+        ],
+        [
+          "_commit_net_data",
+          61.45819999801461
+        ]
+      ]
+    }
+  ],
+  "median_ms": 87.61275000142632,
+  "changed": true,
+  "final_hash": "7a67d0f39a94d505df97af4e8d42788e9770520607e14d2ba30b648e97a01ff7",
+  "topology_counts": [
+    {
+      "positions": 4268,
+      "splines": 1589
+    },
+    {
+      "positions": 4270,
+      "splines": 1590
+    }
+  ],
+  "restored": true,
+  "numeric_preview": false
+}

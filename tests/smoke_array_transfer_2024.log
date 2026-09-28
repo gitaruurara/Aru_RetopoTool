@@ -1,0 +1,102 @@
+PASS module discovers saved-scene plugin by filename
+[RetopoGuide] Plugin loaded.
+���ɖ߂�: Aru Retopo: remove patch
+PASS explicit patch fill/remove, empty by default, Undo
+���ɖ߂�: Aru Retopo: remove patch
+PASS middle mouse event dispatch and Shift removal
+PASS combined context gives control-point dragging priority
+PASS pentagon -> 80 quads; floating guides projected to reference
+PASS overlay toggles without changing geometry
+PASS guide controlPoints drive stable output topology
+PASS reference and guide transforms evaluated in world space
+���ɖ߂�: test settings
+PASS undo subdivision settings
+PASS bake independent copy, original still live
+PASS menu entry accepted
+SCENE_PLUGIN_REQUIREMENTS ['requires maya "2024";', 'requires -nodeType "aruRetopoOverlay" "aru_retopo_draw_plugin.py" "0.1.0";', 'requires -nodeType "aruRetopoMesh" "aru_retopo_plugin.py" "0.1.0";', 'requires -nodeType "retopoGuideNode" "aru_retopo_guide_plugin.py" "1.0";']
+[RetopoGuide] 19:48:50 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 19:48:50 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 19:48:50 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 19:48:50 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 19:48:50 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 19:48:50 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+�t�@�C���̓ǂݎ���  0.011 �b������܂����B
+[RetopoGuide] 19:48:50 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 19:48:50 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+PASS save/reopen retains live DG connections
+PASS instanced input rejected without partial output
+STATUS 1 �̈� / 80 quads / 101 ���_ / 0.4 ms / C++
+PASS shared brush snapshot parity, empty brush and scene ownership
+���ɖ߂�: surface relax test
+PASS relax projection, smoothing, world transforms, stable connectivity, Undo
+PASS Shift click preserves merge; Shift drag relaxes without merging
+PASS sphere junction tangent continuity and surface error 0.0036853862170483074
+���ɖ߂�: MMB route fit test
+PASS MMB release route fit, fixed EP positions, manual handles, Undo
+PASS ring counts, cut offset, phase rotation
+PASS closed boundary extrusion, 12 quads bands, original CVs retained
+PASS open boundary extrusion
+���ɖ߂�: Aru Retopo: construct guides
+���ɖ߂�: Aru Retopo: construct guides
+PASS extrusion commit with/without faces and single-step Undo
+���ɖ߂�: Aru Retopo: drag extrude
+PASS drag preview, click without motion, return to origin, cancel, commit and single Undo
+���ɖ߂�: Aru Retopo: construct guides
+���ɖ߂�: Aru Retopo: construct guides
+PASS ring bridge alignment, stable CVs, duplicate rejection, faces option, Undo
+PASS open bridge direction reversal and unequal-count rejection
+���ɖ߂�: Aru Retopo: remove patch
+PASS symmetric extrusion, paired patch fill/remove and Undo
+PASS mirrored bridge, seam deduplication, object-space reflection and paired rings
+PASS cube 12 straight features, deduplication, pinned relax corners, ring corners, explicit faces
+���ɖ߂�: divide filled patch
+��蒼��: divide filled patch
+PASS filled child patches, adjacent unfilled patch preserved, boundary resplit, Undo/Redo
+PASS native wire visibility matches Maya perspective/ortho rays with occluded inner mesh
+PASS batched foreground matches scalar projection, clipping, outline and all curve samples
+PASS GPU curve samples/indices preserve geometry and guide drawing uses evaluated output
+PASS typed positions match JSON: CP, legacy mesh, deformer/sculpt, surface bind, empty/restore
+���ɖ߂�: 
+���ɖ߂�: 
+���ɖ߂�: 
+PASS reference cache: DG/serial/parallel, animated transforms, CP edits, vertex edit/Undo, disconnect/reconnect
+PASS GPU control order, colors, sizes, hidden/selected/manual/mirrored controls {'guides': 1589, 'legacy_prepare_ms': 13.507200001185993, 'batch_prepare_ms': 2.8298999968683347}
+PASS empty owned guides; no legacy Python imports required
+[CurveNet] Plugin loaded.
+PASS legacy coexistence, independent import, world transforms, source preserved
+ALL MAYA SMOKE TESTS PASSED 2024
+[CurveNet] 19:48:51 INFO >>> _before_scene_clear
+CurveNet : INFO : >>> _before_scene_clear
+[CurveNet] 19:48:51 INFO <<< _before_scene_clear done
+CurveNet : INFO : <<< _before_scene_clear done
+[RetopoGuide] 19:48:51 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 19:48:51 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[CurveNet] 19:48:51 INFO >>> _after_scene_clear
+CurveNet : INFO : >>> _after_scene_clear
+[CurveNet] 19:48:51 INFO <<< _after_scene_clear done
+CurveNet : INFO : <<< _after_scene_clear done
+[RetopoGuide] 19:48:51 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 19:48:51 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 19:48:51 INFO >>> uninitializePlugin: deleting scene nodes
+RetopoGuide : INFO : >>> uninitializePlugin: deleting scene nodes
+[RetopoGuide] 19:48:51 INFO >>> uninitializePlugin: deregistering
+RetopoGuide : INFO : >>> uninitializePlugin: deregistering
+[RetopoGuide] 19:48:51 INFO <<< uninitializePlugin done
+RetopoGuide : INFO : <<< uninitializePlugin done
+[RetopoGuide] Plugin unloaded.
+[CurveNet] 19:48:51 INFO >>> _before_scene_clear
+CurveNet : INFO : >>> _before_scene_clear
+[CurveNet] 19:48:51 INFO <<< _before_scene_clear done
+CurveNet : INFO : <<< _before_scene_clear done

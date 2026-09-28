@@ -1,0 +1,128 @@
+{
+  "summary": {
+    "Aru_RetopoTool.editor.curvenet.curve_net_relax._world_data": 2.119900003890507,
+    "Aru_RetopoTool.editor.curvenet.maya_projector.surface_hits": 2.250000005005859,
+    "Aru_RetopoTool.editor.curvenet.maya_projector.normals_array": 0.19779999274760485,
+    "Aru_RetopoTool.editor.curvenet.maya_projector.fit_routes": 2.5231000036001205,
+    "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_relax_routes": 4.834599996684119,
+    "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_junction_lengths": 2.450100000714883,
+    "Aru_RetopoTool.editor.curvenet.curve_net_relax._smooth_junctions": 4.394500007038005,
+    "Aru_RetopoTool.editor.curvenet.curve_net_relax.relax": 12.403600005200133,
+    "calc_ms": 14.389100004336797,
+    "total_ms": 27.917200000956655
+  },
+  "samples": [
+    {
+      "calc_ms": 17.172399995615706,
+      "total_ms": 31.268699996871874,
+      "stages": {
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._world_data": 1.9147999992128462,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.surface_hits": 2.784500000416301,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.normals_array": 0.225499999942258,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.fit_routes": 2.445499994792044,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_relax_routes": 5.2933999977540225,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_junction_lengths": 2.584200003184378,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._smooth_junctions": 5.325799997081049,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax.relax": 15.138099988689646
+      }
+    },
+    {
+      "calc_ms": 15.015799988759682,
+      "total_ms": 27.13170000060927,
+      "stages": {
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._world_data": 2.119900003890507,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.surface_hits": 2.3225000040838495,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.normals_array": 0.19029999384656549,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.fit_routes": 2.487899997504428,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_relax_routes": 4.766199999721721,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_junction_lengths": 2.450100000714883,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._smooth_junctions": 4.282000008970499,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax.relax": 12.580199996591546
+      }
+    },
+    {
+      "calc_ms": 20.84630000172183,
+      "total_ms": 33.91270000429358,
+      "stages": {
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._world_data": 2.743499993812293,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.surface_hits": 3.0285999964689836,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.normals_array": 0.37059999885968864,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.fit_routes": 3.2675999973434955,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_relax_routes": 6.105699998443015,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_junction_lengths": 3.071700004511513,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._smooth_junctions": 6.466799997724593,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax.relax": 17.797199994674884
+      }
+    },
+    {
+      "calc_ms": 17.058999990695156,
+      "total_ms": 30.784000002313405,
+      "stages": {
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._world_data": 2.0158999977866188,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.surface_hits": 2.5700999976834282,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.normals_array": 0.25440000172238797,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.fit_routes": 3.1586000113748014,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_relax_routes": 5.831999995280057,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_junction_lengths": 2.7670999988913536,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._smooth_junctions": 5.478699997183867,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax.relax": 14.740099999471568
+      }
+    },
+    {
+      "calc_ms": 14.389100004336797,
+      "total_ms": 28.08069999446161,
+      "stages": {
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._world_data": 1.684600007138215,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.surface_hits": 2.250000005005859,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.normals_array": 0.20520001999102533,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.fit_routes": 3.0091999942669645,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_relax_routes": 5.429699987871572,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_junction_lengths": 2.1990999957779422,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._smooth_junctions": 4.059800005052239,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax.relax": 12.403600005200133
+      }
+    },
+    {
+      "calc_ms": 14.279499999247491,
+      "total_ms": 27.917200000956655,
+      "stages": {
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._world_data": 2.131000001099892,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.surface_hits": 1.7848999850684777,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.normals_array": 0.1846000086516142,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.fit_routes": 2.3634999961359426,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_relax_routes": 4.1406999953323975,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_junction_lengths": 2.8556000033859164,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._smooth_junctions": 4.614799996488728,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax.relax": 11.838300008093938
+      }
+    },
+    {
+      "calc_ms": 13.420699993730523,
+      "total_ms": 26.481099994271062,
+      "stages": {
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._world_data": 2.279599997564219,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.surface_hits": 1.7862000095192343,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.normals_array": 0.18060000729747117,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.fit_routes": 2.2096000029705465,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_relax_routes": 3.983900009188801,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_junction_lengths": 2.21869999950286,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._smooth_junctions": 3.9729999989503995,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax.relax": 10.777300005429424
+      }
+    },
+    {
+      "calc_ms": 14.029300000402145,
+      "total_ms": 26.95629998925142,
+      "stages": {
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._world_data": 1.814100003684871,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.surface_hits": 2.174699999159202,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.normals_array": 0.19779999274760485,
+        "Aru_RetopoTool.editor.curvenet.maya_projector.fit_routes": 2.5231000036001205,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_relax_routes": 4.834599996684119,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._fit_junction_lengths": 2.248899996629916,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax._smooth_junctions": 4.394500007038005,
+        "Aru_RetopoTool.editor.curvenet.curve_net_relax.relax": 11.940300013520755
+      }
+    }
+  ]
+}

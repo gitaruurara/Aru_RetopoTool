@@ -6,6 +6,7 @@ import maya.api.OpenMayaUI as omui
 from . import qt
 from . import core, maya_api as api
 from .native import Surface, stencil
+from .maya_data import plug_handle, ReferenceMeshSnapshot
 
 NAME = 'aruRetopoPatchContext'
 _active = None
@@ -22,7 +23,10 @@ def viewport_receiver(obj):
 
 
 def selected(node):
-    return set(json.loads(cmds.getAttr(node+'.selectedPatches') or '[]'))
+    from .regions_native import canonical_keys
+    net = json.loads(cmds.getAttr(node+'.guideData'))
+    return canonical_keys(net['positions'], net['splines'],
+                          json.loads(cmds.getAttr(node+'.selectedPatches') or '[]'))
 
 
 def confirm(node, key, remove=False):
@@ -56,6 +60,7 @@ class PatchTool(qt.QObject):
         self._revision=0
         self._last_hover=None
         self._dirty_callback=om.MNodeMessage.addNodeDirtyCallback(_object(node),self.invalidate)
+        self._reference_snapshot=ReferenceMeshSnapshot(om.MFnDependencyNode(_object(node)).findPlug("referenceMesh",False))
         self.timer = qt.QTimer(self)
         self.timer.setInterval(70)
         self.timer.timeout.connect(self.tick)
@@ -69,12 +74,15 @@ class PatchTool(qt.QObject):
         global _active
         if self.stopped: return
         self.stopped = True
+        if getattr(self,"loop_preview",None):self.loop_preview.clear()
         self.brush.close()
         self.local.close()
         if _active is self: _active = None
         self.timer.stop()
         if getattr(self,"_dirty_callback",None) is not None:
             om.MMessage.removeCallback(self._dirty_callback);self._dirty_callback=None
+        if getattr(self,"_reference_snapshot",None):
+            self._reference_snapshot.close();self._reference_snapshot=None
         qt.QApplication.instance().removeEventFilter(self)
         from . import drag_extrude
         drag_extrude.selected_points.clear(); drag_extrude.selected_lines.clear()
@@ -90,12 +98,16 @@ class PatchTool(qt.QObject):
         dep = om.MFnDependencyNode(_object(self.node))
         raw = cmds.getAttr(self.node+'.guideData')
         matrix = om.MMatrix(cmds.getAttr(self.node+'.guideMatrix'))
-        ref = dep.findPlug('referenceMesh', False).asMObject()
         # Connected worldMesh supplies world-space geometry via data handle.
-        ref = dep.findPlug('referenceMesh', False).asMDataHandle().asMeshTransformed()
-        fn = om.MFnMesh(ref)
-        refs = tuple((p.x,p.y,p.z) for p in fn.getPoints())
-        _, triangles = fn.getTriangles()
+        snapshot=getattr(self, '_reference_snapshot', None)
+        if snapshot is not None:
+            refs, triangles = snapshot.read()
+        else:
+            # Non-interactive callers without a managed callback lifetime.
+            with plug_handle(dep.findPlug('referenceMesh', False)) as handle:
+                fn = om.MFnMesh(handle.asMeshTransformed())
+                refs = tuple((p.x,p.y,p.z) for p in fn.getPoints())
+                _, triangles = fn.getTriangles()
         from .editor.curvenet import curve_net_symmetry as sym
         cache = (raw, tuple(matrix), refs, tuple(triangles),sym.get_axis(),sym.get_space())
         if cache == self.cache: return
@@ -104,24 +116,48 @@ class PatchTool(qt.QObject):
         for p in net['positions']:
             q = om.MPoint(*p)*matrix; points.append((q.x,q.y,q.z))
         splines = net['splines']
-        if self.surface: self.surface.close()
-        self.surface = Surface(refs, tuple(triangles))
-        normals = self.surface.project(points, guard=False)[2]
-        lookup = {p:n for p,n in zip(points,normals)}
+        surface_key=(refs,tuple(triangles))
+        if surface_key!=getattr(self,'_surface_key',None):
+            if self.surface:self.surface.close()
+            self.surface=Surface(*surface_key)
+            self._surface_key=surface_key
+            self._candidate_cache={}
+        endpoints=sorted({v for spline in splines for v in (spline[0],spline[3])})
+        normals = self.surface.project([points[v] for v in endpoints], guard=False)[2]
+        lookup = {points[v]:n for v,n in zip(endpoints,normals)}
         normal = lambda p: lookup[tuple(p)]
-        self.candidates = []
+        candidates=[];candidate_cache={}
+        previous=getattr(self,'_candidate_cache',{})
+        by_geometry={signature:candidate for signature,candidate in previous.values()}
         try: loops = core.regions(points, splines, normal)
         except ValueError: loops = []
         for loop in loops:
             key = core.patch_key(loop)
-            plan = core.Plan(points, splines, normal, 3, selected={key})
+            loop=min((loop[i:]+loop[:i] for i in range(len(loop))),
+                     key=lambda row:tuple(h for side in row for h in side))
+            # Relative endpoint order preserves Plan's vertex/triangle ordering
+            # while allowing global CV and spline indices to be compacted.
+            ends=sorted({splines[si][end] for side in loop for si,_ in side for end in (0,3)})
+            rank={v:i for i,v in enumerate(ends)}
+            signature=tuple(tuple((rank[splines[si][0 if direction==1 else 3]],
+                                   rank[splines[si][3 if direction==1 else 0]],
+                                   tuple(points[v] for v in (splines[si] if direction==1 else reversed(splines[si]))))
+                                  for si,direction in side) for side in loop)
+            cached=by_geometry.get(signature)
+            if cached is not None:
+                candidate=(key,cached[1],cached[2],cached[3])
+                candidate_cache[key]=(signature,candidate);candidates.append(candidate);continue
+            plan = core.Plan(points, splines, normal, 3, selected={key},region_loops=[loop])
             verts, _ = self.surface.relax(plan.evaluate(points,splines,stencil),plan,iterations=2,guard=False)
             mesh_data = om.MFnMeshData().create()
             obj = om.MFnMesh().create([om.MPoint(*p) for p in verts], [4]*len(plan.faces),
                                     [v for f in plan.faces for v in f], parent=mesh_data)
             mesh_fn = om.MFnMesh(obj)
             _, tri = mesh_fn.getTriangles()
-            self.candidates.append((key, mesh_data, mesh_fn, [verts[i] for i in tri]))
+            candidate=(key,mesh_data,mesh_fn,[verts[i] for i in tri])
+            candidates.append(candidate);candidate_cache[key]=(signature,candidate)
+        self.candidates=candidates
+        self._candidate_cache=candidate_cache
         from .editor.curvenet.curve_net_data import RetopoGuideData
         from .editor.curvenet import curve_net_edit as edit
         from .symmetry_ops import mirrored_splines
@@ -140,8 +176,9 @@ class PatchTool(qt.QObject):
         hits = []
         # Require a reference hit, then choose the patch at that surface depth.
         dep = om.MFnDependencyNode(_object(self.node))
-        ref = om.MFnMesh(dep.findPlug('referenceMesh',False).asMDataHandle().asMeshTransformed())
-        surface_hit = ref.closestIntersection(om.MFloatPoint(origin), om.MFloatVector(direction),om.MSpace.kObject,1e10,False)
+        with plug_handle(dep.findPlug('referenceMesh',False)) as handle:
+            ref = om.MFnMesh(handle.asMeshTransformed())
+            surface_hit = ref.closestIntersection(om.MFloatPoint(origin), om.MFloatVector(direction),om.MSpace.kObject,1e10,False)
         if surface_hit:
             for key, data, fn, triangles in self.candidates:
                 hit = fn.closestIntersection(om.MFloatPoint(origin),om.MFloatVector(direction),om.MSpace.kObject,1e10,False)
@@ -160,10 +197,27 @@ class PatchTool(qt.QObject):
         cmds.refresh(force=True)
 
     def tick(self, force=False):
+        from .editor.curvenet.curve_net_edit import view_refresh_active
+        # Maya processes Qt timers during refresh. Hover must not recursively
+        # rebuild/redraw inside the frame that confirms a curve edit.
+        if not force and view_refresh_active():return
         try:
             if cmds.currentCtx()!=self.context or not cmds.objExists(self.node):
                 self.stop(); return
+            if getattr(self,"_extrude_press",False):return
             self.brush.update()
+            modifiers=qt.QApplication.keyboardModifiers()
+            if (self.context!=NAME and modifiers & qt.Qt.ControlModifier
+                    and not modifiers & (qt.Qt.ShiftModifier|qt.Qt.AltModifier)):
+                from .curve_loop import Preview
+                if not getattr(self,'loop_preview',None):self.loop_preview=Preview(self.node)
+                try:self.loop_preview.update()
+                except ValueError:self.loop_preview.clear()
+                if self.loop_preview.pending:
+                    preview.clear();self.key=None
+                    return
+            elif getattr(self,'loop_preview',None):
+                self.loop_preview.clear();self.loop_preview=None
             if not force and qt.QApplication.mouseButtons()!=qt.Qt.NoButton:
                 return
             from . import drag_extrude
@@ -203,8 +257,20 @@ class PatchTool(qt.QObject):
             if not viewport_receiver(obj):return False
         interaction=getattr(self,'brush',None)
         if interaction and self.context!=NAME and interaction.event(event):return True
+        if (event.type()==qt.QEvent.MouseButtonPress and event.button()==qt.Qt.MiddleButton
+                and event.modifiers() & qt.Qt.ControlModifier
+                and not event.modifiers() & (qt.Qt.ShiftModifier|qt.Qt.AltModifier)):
+            from .curve_loop import Preview
+            if not getattr(self,'loop_preview',None):self.loop_preview=Preview(self.node)
+            try:
+                self.loop_preview.update()
+                if self.loop_preview.pending:
+                    self.loop_preview.commit()
+                    self._patch_press=True
+                    return True
+            except ValueError as exc:cmds.warning('[Aru Retopo] '+str(exc))
         local=getattr(self,'local',None)
-        if local and self.context!=NAME:
+        if local and self.context!=NAME and not (event.modifiers() & qt.Qt.ControlModifier and event.modifiers() & qt.Qt.ShiftModifier):
             try:
                 if local.event(event):return True
             except Exception as exc:
@@ -232,8 +298,11 @@ class PatchTool(qt.QObject):
         if (getattr(self,'context',NAME)!=NAME and event.type()==qt.QEvent.MouseButtonPress
                 and event.button()==qt.Qt.MiddleButton
                 and event.modifiers() & qt.Qt.ControlModifier
+                and event.modifiers() & qt.Qt.ShiftModifier
                 and not event.modifiers() & qt.Qt.AltModifier
                 and drag_extrude.mouse() is not None):
+            if getattr(self,"loop_preview",None):
+                self.loop_preview.clear();self.loop_preview=None
             self._extrude_press=True
             preview.clear(); self.key=None
             try: self.gesture=drag_extrude.Gesture(self.node)

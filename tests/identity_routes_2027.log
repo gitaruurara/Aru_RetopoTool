@@ -1,0 +1,11 @@
+DIFFERENCE {'transformed': False, 'mode': 8, 'max_abs': 2.220446049250313e-16}
+DIFFERENCE {'transformed': False, 'mode': 12, 'max_abs': 2.220446049250313e-16}
+IDENTITY ROUTES TOLERANCE CHECK PASSED 2027
+{'version': 'aru_retopo_maya_projector_v7', 'transformed': False, 'draft': True, 'count': 256, 'median_ms': 13.448099998640828}
+{'version': 'aru_retopo_maya_projector_v7', 'transformed': False, 'draft': False, 'count': 256, 'median_ms': 32.55940000235569}
+{'version': 'aru_retopo_maya_projector_identity', 'transformed': False, 'draft': True, 'count': 256, 'median_ms': 13.40619999973569}
+{'version': 'aru_retopo_maya_projector_identity', 'transformed': False, 'draft': False, 'count': 256, 'median_ms': 31.52209999097977}
+{'version': 'aru_retopo_maya_projector_v7', 'transformed': True, 'draft': True, 'count': 256, 'median_ms': 12.237699993420392}
+{'version': 'aru_retopo_maya_projector_v7', 'transformed': True, 'draft': False, 'count': 256, 'median_ms': 48.87100000632927}
+{'version': 'aru_retopo_maya_projector_identity', 'transformed': True, 'draft': True, 'count': 256, 'median_ms': 12.423399995896034}
+{'version': 'aru_retopo_maya_projector_identity', 'transformed': True, 'draft': False, 'count': 256, 'median_ms': 48.80409999168478}

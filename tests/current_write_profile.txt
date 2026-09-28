@@ -1,0 +1,68 @@
+         32985 function calls (32980 primitive calls) in 0.017 seconds
+
+   Ordered by: cumulative time
+   List reduced from 286 to 60 due to restriction <60>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.003    0.003 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:1085(to_json)
+        1    0.000    0.000    0.003    0.003 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\__init__.py:183(dumps)
+        1    0.000    0.000    0.003    0.003 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\encoder.py:183(encode)
+        1    0.003    0.003    0.003    0.003 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\encoder.py:205(iterencode)
+        1    0.000    0.000    0.002    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:467(updateRenderItems)
+        1    0.000    0.000    0.002    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:32(configure)
+        1    0.000    0.000    0.002    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:189(configure_controls)
+        1    0.000    0.000    0.002    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:168(render_control_groups)
+        1    0.000    0.000    0.002    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:144(cached_controls)
+        1    0.001    0.001    0.002    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:106(_control_batches)
+      5/3    0.002    0.000    0.002    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_node.py:2067(matchComponent)
+        2    0.001    0.001    0.001    0.001 D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/aru_retopo_draw_plugin.py:54(prepareForDraw)
+        1    0.000    0.000    0.001    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:762(classify_endpoints)
+     1646    0.001    0.000    0.001    0.000 {built-in method builtins.any}
+        1    0.000    0.000    0.001    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:329(updateDG)
+      186    0.000    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\construction.py:327(eventFilter)
+      186    0.000    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\patch_context.py:214(eventFilter)
+        1    0.000    0.000    0.001    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\aru_retopo_plan_plugin.py:42(compute)
+        1    0.000    0.000    0.001    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:924(_rebuild_curves)
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:511(populateGeometry)
+     7887    0.000    0.000    0.000    0.000 {built-in method builtins.abs}
+      187    0.000    0.000    0.000    0.000 {built-in method maya.cmds.currentCtx}
+        2    0.000    0.000    0.000    0.000 {method 'asString' of 'OpenMaya.MPlug' objects}
+        4    0.000    0.000    0.000    0.000 {method 'asString' of 'OpenMaya.MDataHandle' objects}
+     2325    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:111(<genexpr>)
+      372    0.000    0.000    0.000    0.000 {method 'type' of 'PySide6.QtCore.QEvent' objects}
+     5080    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+     1063    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:567(addUIDrawables)
+      461    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:939(_walk)
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\gpu_preview.py:117(setup)
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:1053(to_dict)
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\gpu_preview.py:62(_depth_limits)
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:59(positions)
+     4724    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_edit.py:487(<genexpr>)
+     2709    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+      377    0.000    0.000    0.000    0.000 C:\Program Files\Autodesk\Maya2027\Python\Lib\enum.py:695(__call__)
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\patch_context.py:166(tick)
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_rebind.py:158(deformers_of)
+        6    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:1098(from_json_cached)
+      2/1    0.000    0.000    0.000    0.000 {built-in method maya.cmds.listConnections}
+        2    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:865(handle_indices)
+        3    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:125(setColor)
+        8    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:102(flush)
+     1034    0.000    0.000    0.000    0.000 {method 'setdefault' of 'dict' objects}
+        3    0.000    0.000    0.000    0.000 {built-in method maya.cmds.modelPanel}
+     1033    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_edit.py:2591(_sync_orig_net_data)
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_edit.py:2572(orig_shapes)
+        7    0.000    0.000    0.000    0.000 {built-in method maya.cmds.objExists}
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\brush_context.py:89(update)
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:818(_build_ep_handle_objects)
+       38    0.000    0.000    0.000    0.000 shibokensupport/signature/loader.py:59(feature_import)
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:92(upload_indices)
+        2    0.000    0.000    0.000    0.000 D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/aru_retopo_draw_plugin.py:116(addUIDrawables)
+        2    0.000    0.000    0.000    0.000 {built-in method maya.cmds.listRelatives}
+        2    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\gpu_preview.py:72(cameraOverride)
+       15    0.000    0.000    0.000    0.000 {method 'findPlug' of 'OpenMaya.MFnDependencyNode' objects}
+      975    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:511(sync_manual_handles)
+
+

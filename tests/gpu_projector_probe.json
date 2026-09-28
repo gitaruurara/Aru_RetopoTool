@@ -1,0 +1,95 @@
+{
+  "queries": 46873,
+  "triangles": 3968,
+  "scope": "nearest-point projection only, GPU includes host upload and readback; CPU comparator is serial aru_project, not the parallel full Maya solver",
+  "cases": [
+    {
+      "count": 256,
+      "max_error": 4.440892098500626e-16,
+      "seed_mismatches": 0,
+      "cpu_serial_ms": 0.3239499965275172,
+      "gpu_transfer_inclusive_ms": 0.5656499997712672
+    },
+    {
+      "count": 46873,
+      "max_error": 4.440892098500626e-16,
+      "seed_mismatches": 5,
+      "cpu_serial_ms": 60.56785000328091,
+      "gpu_transfer_inclusive_ms": 4.333250002673594
+    }
+  ],
+  "continuous_projection": [
+    {
+      "step": 0,
+      "max_error": 4.440892098500626e-16,
+      "seed_mismatches": 0,
+      "gpu_ms": 4.072700001415797
+    },
+    {
+      "step": 1,
+      "max_error": 4.440892098500626e-16,
+      "seed_mismatches": 1,
+      "gpu_ms": 3.9785999979358166
+    },
+    {
+      "step": 2,
+      "max_error": 6.661338147750939e-16,
+      "seed_mismatches": 2,
+      "gpu_ms": 4.037999999127351
+    },
+    {
+      "step": 3,
+      "max_error": 6.661338147750939e-16,
+      "seed_mismatches": 0,
+      "gpu_ms": 3.918299997167196
+    },
+    {
+      "step": 4,
+      "max_error": 8.881784197001252e-16,
+      "seed_mismatches": 1,
+      "gpu_ms": 3.9494000011472963
+    },
+    {
+      "step": 5,
+      "max_error": 8.881784197001252e-16,
+      "seed_mismatches": 1,
+      "gpu_ms": 4.0756000016699545
+    },
+    {
+      "step": 6,
+      "max_error": 8.881784197001252e-16,
+      "seed_mismatches": 0,
+      "gpu_ms": 4.122300000744872
+    },
+    {
+      "step": 7,
+      "max_error": 1.1102230246251565e-15,
+      "seed_mismatches": 0,
+      "gpu_ms": 4.059500002767891
+    },
+    {
+      "step": 8,
+      "max_error": 1.3322676295501878e-15,
+      "seed_mismatches": 6,
+      "gpu_ms": 4.130100001930259
+    },
+    {
+      "step": 9,
+      "max_error": 1.3322676295501878e-15,
+      "seed_mismatches": 1,
+      "gpu_ms": 3.887600003508851
+    },
+    {
+      "step": 10,
+      "max_error": 1.5543122344752192e-15,
+      "seed_mismatches": 3,
+      "gpu_ms": 3.9281999997911043
+    },
+    {
+      "step": 11,
+      "max_error": 1.7763568394002505e-15,
+      "seed_mismatches": 1,
+      "gpu_ms": 4.00890000310028
+    }
+  ]
+}

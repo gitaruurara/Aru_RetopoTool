@@ -1,0 +1,3355 @@
+{
+  "scope": "brush and computation, no write/render",
+  "samples": [
+    {
+      "ms": 174.0016999974614,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 1.6337999986717477
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 3.616499998315703
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.7236999996821396
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.749499999685213
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.614199999195989
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.7154999992926605
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 5.051100000855513
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 5.105500000354368
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 5.305300001055002
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 5.335800000466406
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 5.835199997818563
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 5.866200001037214
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.577999999455642
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.600799998443108
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.86639999813633
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.904100001440383
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 20.010400003229734
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 20.032300002640113
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 20.426700000825804
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 20.460300002014264
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.429199999256525
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.49319999909494
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.283199997327756
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.331199999025557
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 27.98359999724198
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 28.679399998509325
+        },
+        {
+          "phase": "start",
+          "generation": 2,
+          "at_ms": 37.462799999048
+        },
+        {
+          "phase": "stop",
+          "generation": 2,
+          "at_ms": 163.83910000149626
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 165.65740000078222
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 165.70849999698112
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 167.2026000014739
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 167.2517999977572
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 168.72169999987818
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 168.77129999920726
+        }
+      ]
+    },
+    {
+      "ms": 48.12030000175582,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.4843000026303343
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.658799999859184
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.8026000034296885
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.8315000052098185
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.6801999993040226
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.7244000011705793
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.9351000048336573
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.9667000053450465
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.169399999023881
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.1999999991967343
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.4023000043816864
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.43290000455454
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.955200001655612
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.9931999999680556
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 17.878300001029857
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 17.905900000187103
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 18.19410000462085
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 19.19830000406364
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.342300001881085
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.37270000053104
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.838699998217635
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.889100003638305
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.080600000568666
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.158900000154972
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.116600002045743
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.174100003321655
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.99840000079712
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 28.106199999456294
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 37.90570000273874
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 38.10640000301646
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 39.82940000423696
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 39.888300001621246
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.42050000518793
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.47979999834206
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 42.99149999860674
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 43.049300002167
+        }
+      ]
+    },
+    {
+      "ms": 50.99450000125216,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.5496999985771254
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.003000001423061
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.101600002788473
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.127300002030097
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 2.9462000020430423
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 3.657000001112465
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.9267000029212795
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.981900001235772
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.238300003635231
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.395000003569294
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.597899998771027
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.6282999974209815
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 6.100200000219047
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 6.223800002771895
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.45700000214856
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.48670000274433
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.77450000413228
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.80339999863645
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.974299997556955
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 20.003300000098534
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 20.775500001036562
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 20.839400000113528
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.310199999192264
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.419400001235772
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.781099997810088
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.825999997730833
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 28.406199999153614
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 28.507399998488836
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 38.97980000328971
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 40.75410000223201
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 42.55150000244612
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 42.610700002114754
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 44.16050000145333
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 44.2207000014605
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 45.77499999868451
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 45.836199999030214
+        }
+      ]
+    },
+    {
+      "ms": 49.79359999560984,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.3198999949963763
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.5912999951979145
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.6722000000299886
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.6993999961414374
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.460299998347182
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.5089999980991706
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.7545999982976355
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.802899995003827
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.971199995954521
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.0050999994273297
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.1795999966561794
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.208699999959208
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.43480000103591
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.472399996302556
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 17.837999999755993
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 17.865900001197588
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 18.22140000149375
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 19.417700001213234
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.562499997846317
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.602000000304542
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 20.350899998447858
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 20.416300001670606
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.975100001436658
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.097799997136462
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.563799994823057
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.611500001512468
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 28.251299998373725
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 28.35619999677874
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 39.10560000076657
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 39.26890000002459
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 40.95759999472648
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.018399999302346
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 42.53729999618372
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 42.59749999619089
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 44.1177999964566
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 44.178500000271015
+        }
+      ]
+    },
+    {
+      "ms": 48.01030000089668,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.4191000009304844
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.7385999963153154
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.841700002842117
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.8677999978535809
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 2.691399997274857
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 3.2049000001279637
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.4717000016826205
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.5212000002502464
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.6984999969718046
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.731800003151875
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.944999996747356
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.975799998443108
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 5.243499996140599
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 5.280299999867566
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.456799996783957
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.486799999664072
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.817099997249898
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.846899998607114
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.090200003120117
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.129000000248197
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.963799997640308
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 20.026500002131797
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.54910000273958
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.654100001906045
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.145300002302974
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.195599999686237
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.77310000237776
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.88180000061402
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 37.239899997075554
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 38.5524000012083
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 40.20039999886649
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 40.259100002003834
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.792800002440345
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.8502999964403
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 43.35030000220286
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 43.40680000314023
+        }
+      ]
+    },
+    {
+      "ms": 45.50539999763714,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.3547999988077208
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.618499998585321
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.7079000026569702
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.7338999969069846
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.50650000089081
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.5535000022500753
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.8008000008412637
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.8495000005932525
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.020800002559554
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.055499997572042
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.2489000004716218
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.278700001828838
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.529799996817019
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.571199999190867
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 17.50460000039311
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 17.533400001411792
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 17.848199997388292
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 18.9950999993016
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.14299999771174
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.183199998224154
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.93640000000596
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.997900002636015
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.26130000135163
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.356700000178535
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.661199997761287
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.700700000219513
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.18060000188416
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.26950000214856
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 36.47369999816874
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 36.593199998605996
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 38.09760000149254
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 38.148899999214336
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 39.59069999837084
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 39.64309999719262
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.0965999981272
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.14750000007916
+        }
+      ]
+    },
+    {
+      "ms": 45.93210000166437,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.2022000009892508
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.3740000067627989
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.4708000016980805
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.4961000051698647
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 2.24240000534337
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 2.6320000033592805
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.2165000011445954
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.2725000055506825
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.467800001089927
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.526899999997113
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.7093999999342486
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.746400005184114
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 5.106600001454353
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 5.139900000358466
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.02700000553159
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.05420000164304
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.328500002098735
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.3513000010862
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.54690000618575
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.570400003227405
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.872100005159155
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.95030000398401
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.494500001717824
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.588800006720703
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.88750000379514
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.922800003376324
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.474300004541874
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.56950000184588
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 35.966600000392646
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 36.96600000694161
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 38.57170000264887
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 38.61740000138525
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 40.103600003931206
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 40.149500004190486
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.64920000039274
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.69190000538947
+        }
+      ]
+    },
+    {
+      "ms": 44.3608999994467,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.152099997852929
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.3285999957588501
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.4048999946680851
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.4302999989013188
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.1272000012686476
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.164599995012395
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.3722999976598658
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.4065999969025142
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.5525999953970313
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.574799997091759
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.7292000013403594
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.7521999945747666
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.8834000006318092
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.911200001311954
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 16.773600000306033
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 16.80119999946328
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 17.068900000595022
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 17.80940000026021
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 17.894099997647572
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 17.91840000078082
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.56269999552751
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.6150000008638
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 25.107900000875816
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 25.224500001058914
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 25.52070000092499
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 25.555399995937478
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.16159999888623
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.257899997290224
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 34.87979999772506
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 34.94649999629473
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 36.3835999960429
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 36.42599999875529
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 37.83649999968475
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 37.87759999977425
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 39.24389999883715
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 39.2846999966423
+        }
+      ]
+    },
+    {
+      "ms": 170.2766000016709,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.3308999987202697
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.558200005092658
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.6611000028206035
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.6899000038392842
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 2.467199999955483
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 2.834999999322463
+        },
+        {
+          "phase": "start",
+          "generation": 2,
+          "at_ms": 3.0547999995178543
+        },
+        {
+          "phase": "stop",
+          "generation": 2,
+          "at_ms": 125.29780000477331
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 125.47740000445629
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 125.50480000209063
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 125.66570000490174
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 125.69269999949029
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 127.13369999983115
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 127.1718999996665
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 140.34890000039013
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 140.3792999990401
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 140.68520000000717
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 140.71440000407165
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 140.91809999808902
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 140.94499999919208
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 141.46560000517638
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 141.51159999892116
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 148.48650000203634
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 148.61789999849861
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 148.9579000044614
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 148.99410000361968
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 149.5550000036019
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 149.61710000352468
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 149.74390000134008
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 149.77150000049733
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 158.85720000369474
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 159.83000000414904
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 161.4813000051072
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 161.53650000342168
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 163.5000000023865
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 163.57520000019576
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 165.18950000318
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 165.24590000335593
+        }
+      ]
+    },
+    {
+      "ms": 50.34220000379719,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.3184000054025091
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.6995000041788444
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.7766000019037165
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.7999000046984293
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.5710000045364723
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.6150000048801303
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.863900001102593
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.9080000022077
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.091900005529169
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.125300005194731
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.29730000521522
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.325300000142306
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.549800003587734
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.587400006130338
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.048300000373274
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.07770000596065
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 18.429400006425567
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 19.640099999378435
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.808800003374927
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.85390000481857
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 20.644500000344124
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 20.70530000491999
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.36670000012964
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.50730000116164
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.972500000032596
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 28.018200006044935
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 28.65890000248328
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 28.761500005202834
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 38.18690000480274
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 38.34389999974519
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 40.0246999997762
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 40.08560000511352
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.720000001078006
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.86620000109542
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 44.76080000313232
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 44.86739999993006
+        }
+      ]
+    },
+    {
+      "ms": 48.88760000176262,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.3254000004963018
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.5257000050041825
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.609999999345746
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.63569999858737
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 2.398399999947287
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 2.8705000004265457
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.1124000015552156
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.160200001730118
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.318600000056904
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.348300000652671
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.5102000038023107
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.538600001775194
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.805100004887208
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.843900002015289
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 17.694100002699997
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 17.72260000143433
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.033699998341035
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.06349999969825
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.282800003362354
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.31510000192793
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.102899997960776
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.166300000506453
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 25.928100003511645
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.06950000335928
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.579500001389533
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.688400001148693
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.534400003787596
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.63270000286866
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 36.99600000254577
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 38.42799999983981
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 40.142999998352025
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 40.200800001912285
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.836299998976756
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.97990000102436
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 43.77050000039162
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 43.83090000192169
+        }
+      ]
+    },
+    {
+      "ms": 48.2823999991524,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.3466000018524937
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.5549000017927028
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.6381000023102388
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.665200004936196
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.4361000032513402
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.483200005372055
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.752100001089275
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.801200003887061
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.9727000001003034
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.0040000056033023
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.1611000013072044
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.1900000030873343
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.397299999254756
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.436100003658794
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 17.363700004352722
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 17.39310000266414
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 17.709200001263525
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 18.963100003020372
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.14480000414187
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.201499999326188
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 20.016500006022397
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 20.080000002053566
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.888400003372226
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.055700003984384
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.56690000387607
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.624100002867635
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 28.31270000024233
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 28.409700003976468
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 37.752200005343184
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 37.91130000172416
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 39.54710000107298
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 39.605700003448874
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.13150000193855
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.18970000126865
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 42.89670000434853
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 42.970800001057796
+        }
+      ]
+    },
+    {
+      "ms": 47.86250000324799,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.2991000039619394
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.5171999984886497
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.5987000006134622
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.6251000051852316
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 2.398600001470186
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 2.9311000034795143
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.180700005032122
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.2282000029226765
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.3939999993890524
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.4262000044691376
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.6039000042364933
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.632400002970826
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.870600001595449
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.909100003715139
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 17.709799998556264
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 17.738499998813495
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.050899998343084
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.081900001561735
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.29610000277171
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.34390000294661
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.141600001603365
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.20350000000326
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 25.79630000400357
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 25.905900001816917
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.33810000406811
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.38239999942016
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.98900000541471
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.30600000359118
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 36.709899999550544
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 38.18110000429442
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 39.80710000178078
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 39.863999998488
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.35840000526514
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.41230000095675
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 42.88580000138609
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 42.939300001307856
+        }
+      ]
+    },
+    {
+      "ms": 47.44560000108322,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.3349000000744127
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.6359000001102686
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.7221000016434118
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.7475999993621372
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.516300002753269
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.564499998698011
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.831700003298465
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.8795999969588593
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.0589000016334467
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.0916999967303127
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.276800001913216
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.3053000006475486
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.5365999976638705
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.574999999022111
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.590400002722163
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.62000000255648
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 18.98329999676207
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 20.38650000031339
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 20.51699999719858
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 20.55590000236407
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 21.29399999830639
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 21.350900002289563
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.64729999762494
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.748200001951773
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 28.064199999789707
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 28.1025000003865
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 28.65929999825312
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 28.75540000241017
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 38.001699998858385
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 38.1206000020029
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 39.651500002946705
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 39.69969999889145
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.19389999686973
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.24060000322061
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 42.7036000037333
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 42.74969999823952
+        }
+      ]
+    },
+    {
+      "ms": 45.43920000287471,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.4011000021127984
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.6571000014664605
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.7594000019016676
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.7844000030891038
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 2.5490000043646432
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 2.991200002725236
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.241300000809133
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.287100000306964
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.4544000009191222
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.4847000060835853
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.6538000058499165
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.6796999993384816
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.874300000665244
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.904900000838097
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 17.714900001010392
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 17.742700001690537
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.009200000960846
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.03240000299411
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.224200000986457
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.255499999213498
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.144600002618972
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.228100005420856
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 25.65340000001015
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 25.737600000866223
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.02879999903962
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.063199999043718
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.612400004523806
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.70120000402676
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 35.60570000263397
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 36.68689999904018
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 38.2136000043829
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 38.257800006249454
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 39.74420000304235
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 39.786900000763126
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.262600003392436
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.30580000492046
+        }
+      ]
+    },
+    {
+      "ms": 160.02959999605082,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.253599999472499
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.4197999989846721
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.4939999964553863
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.5213999940897338
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.248799995868467
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.2908999962965026
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.5118999983533286
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.5552999941282906
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.711199995246716
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.7336999992257915
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.8906999941682443
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.9174999945098534
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.332299999077804
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.36959999933606
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 17.51959999819519
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 17.547399998875335
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 17.83649999561021
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 18.76589999301359
+        },
+        {
+          "phase": "start",
+          "generation": 2,
+          "at_ms": 18.85789999505505
+        },
+        {
+          "phase": "stop",
+          "generation": 2,
+          "at_ms": 131.22659999498865
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 131.73819999792613
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 131.770999993023
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 132.1858999945107
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 132.2234999970533
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 139.27139999577776
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 139.42469999892637
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 139.73899999837158
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 139.7718999942299
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 140.22750000003725
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 140.28469999902882
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 140.40679999743588
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 140.43309999397025
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 149.2688999933307
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 149.37719999579713
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 151.01599999616155
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 151.0716999982833
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 152.72999999433523
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 152.81589999358403
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 155.02519999427022
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 155.08749999571592
+        }
+      ]
+    },
+    {
+      "ms": 49.027299995941576,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.221499995153863
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.430399999662768
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 1.530999994429294
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 1.810900001146365
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.7300000001559965
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.911099996708799
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.1570999999530613
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.206299996236339
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.385899995919317
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.417399995669257
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.6334999967948534
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.673699997307267
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.9809999982244335
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 5.019299998821225
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.16829999734182
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.196299999544863
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.49989999755053
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.530499997723382
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.71269999537617
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.74149999639485
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.493299994792324
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.560699998692144
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.435799998580478
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.608000000123866
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.986599994415883
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.031099998566788
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 27.63759999652393
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 29.429299996991176
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 38.51310000027297
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 38.65119999682065
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 40.290299999469426
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 40.34949999913806
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.86479999771109
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.923999997379724
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 43.86459999659564
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 43.93999999592779
+        }
+      ]
+    },
+    {
+      "ms": 47.13389999960782,
+      "gc": [
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.2337000007391907
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.4367999974638224
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 1.523400002042763
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 1.5493000028072856
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.3010000004433095
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.347399997233879
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.6079000017489307
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.653600000485312
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 2.821100002620369
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 2.8524000008474104
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 3.0240999985835515
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 3.052400003070943
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 4.269400000339374
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 4.307499999413267
+        },
+        {
+          "phase": "start",
+          "generation": 1,
+          "at_ms": 17.46149999962654
+        },
+        {
+          "phase": "stop",
+          "generation": 1,
+          "at_ms": 18.412899997201748
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.72410000214586
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.755099998088554
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 18.899100003181957
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 18.928600002254825
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 19.679199998790864
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 19.744999997783452
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.184499998635147
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.29690000321716
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 26.901899997028522
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 26.96730000025127
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 27.66130000236444
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 27.762300000176765
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 36.85879999829922
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 36.99069999856874
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 38.63840000121854
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 38.69690000283299
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 40.22339999937685
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 40.28110000217566
+        },
+        {
+          "phase": "start",
+          "generation": 0,
+          "at_ms": 41.7992000002414
+        },
+        {
+          "phase": "stop",
+          "generation": 0,
+          "at_ms": 41.85680000227876
+        }
+      ]
+    }
+  ]
+}

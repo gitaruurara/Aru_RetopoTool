@@ -1,0 +1,16 @@
+[RetopoGuide] Plugin loaded.
+RELAX EVALUATED TOPOLOGY COPY / LOOP / STANDALONE / MUTABLE OWNERSHIP PASSED
+RELAX LAZY WRAPPERS / IMMEDIATE RELEASE / EXTERNAL EP OWNERSHIP PASSED
+RELAX NUMERIC READ / CP / TRANSFORM / CACHE OWNERSHIP PASSED 2024
+[RetopoGuide] 20:39:24 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 20:39:24 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 20:39:24 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 20:39:24 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 20:39:24 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 20:39:24 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

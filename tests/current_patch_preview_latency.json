@@ -1,0 +1,8 @@
+{
+  "legacy_ms": 1077.3994000046514,
+  "new_cold_ms": 346.41080000437796,
+  "new_cached_ms": 60.876899980939925,
+  "patches": 206,
+  "max_vertex_delta": 0.0,
+  "paired_equal": true
+}

@@ -1,0 +1,63 @@
+         166345 function calls (166315 primitive calls) in 0.069 seconds
+
+   Ordered by: cumulative time
+   List reduced from 345 to 55 due to restriction <55>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.014    0.014 patch_transfer.py:135(prepare)
+        2    0.000    0.000    0.010    0.005 patch_transfer.py:130(analysis)
+        1    0.000    0.000    0.010    0.010 patch_transfer.py:37(__init__)
+        1    0.003    0.003    0.010    0.010 core.py:51(__init__)
+        2    0.003    0.002    0.009    0.004 regions_native.py:51(regions)
+        1    0.000    0.000    0.008    0.008 core.py:38(selected_regions)
+        1    0.001    0.001    0.008    0.008 local_fields.py:75(weights)
+      567    0.000    0.000    0.007    0.000 __init__.py:183(dumps)
+      567    0.000    0.000    0.006    0.000 encoder.py:183(encode)
+      567    0.006    0.000    0.006    0.000 encoder.py:205(iterencode)
+      564    0.001    0.000    0.006    0.000 core.py:141(patch_key)
+        1    0.004    0.004    0.005    0.005 subdivision.py:7(plan)
+        4    0.002    0.000    0.005    0.001 regions_native.py:7(spline_aliases)
+        4    0.001    0.000    0.004    0.001 curve_net_data.py:762(classify_endpoints)
+        1    0.000    0.000    0.004    0.004 core.py:96(edit_coordinates)
+        1    0.003    0.003    0.004    0.004 local_fields.py:35(coordinates)
+        1    0.000    0.000    0.004    0.004 patch_transfer.py:85(transfer)
+      228    0.001    0.000    0.004    0.000 patch_transfer.py:64(targets)
+        1    0.000    0.000    0.003    0.003 curve_net_data.py:1088(from_json)
+        1    0.000    0.000    0.003    0.003 curve_net_data.py:1085(to_json)
+     2564    0.001    0.000    0.003    0.000 {built-in method builtins.any}
+    21066    0.003    0.000    0.003    0.000 {method 'get' of 'dict' objects}
+        1    0.000    0.000    0.002    0.002 curve_net_node.py:1837(_out_json)
+     5276    0.001    0.000    0.002    0.000 {built-in method builtins.min}
+     1036    0.001    0.000    0.002    0.000 local_fields.py:59(sample)
+     5776    0.001    0.000    0.002    0.000 {built-in method builtins.max}
+      193    0.000    0.000    0.002    0.000 __init__.py:299(loads)
+        4    0.001    0.000    0.002    0.001 curve_net_data.py:924(_rebuild_curves)
+      193    0.000    0.000    0.002    0.000 decoder.py:340(decode)
+        1    0.000    0.000    0.002    0.002 core.py:103(compile_stencil)
+        1    0.001    0.001    0.002    0.002 subdivision.py:68(compile)
+        1    0.001    0.001    0.002    0.002 transfer_native.py:10(matches)
+        1    0.000    0.000    0.002    0.002 curve_net_data.py:1065(from_dict)
+      193    0.002    0.000    0.002    0.000 decoder.py:351(raw_decode)
+     1036    0.001    0.000    0.002    0.000 local_fields.py:51(cells)
+      3/1    0.000    0.000    0.001    0.001 {built-in method maya.cmds.listConnections}
+        4    0.001    0.000    0.001    0.000 curve_net_data.py:455(used_cv_indices)
+     1594    0.001    0.000    0.001    0.000 {built-in method builtins.sum}
+     6648    0.001    0.000    0.001    0.000 regions_native.py:20(<genexpr>)
+        1    0.000    0.000    0.001    0.001 symmetry_constraints.py:28(_handles)
+        1    0.000    0.000    0.001    0.001 regions_native.py:32(canonical_keys)
+     1645    0.001    0.000    0.001    0.000 curve_net_data.py:939(_walk)
+      476    0.000    0.000    0.001    0.000 symmetry_constraints.py:31(on)
+        3    0.000    0.000    0.001    0.000 curve_net_data.py:527(sync_standalone)
+       24    0.000    0.000    0.001    0.000 numeric.py:1556(cross)
+        8    0.000    0.000    0.001    0.000 {built-in method builtins.all}
+      682    0.000    0.000    0.001    0.000 loader.py:59(feature_import)
+     9515    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+        1    0.001    0.001    0.001    0.001 native.py:99(project)
+      259    0.000    0.000    0.001    0.000 symmetry_constraints.py:20(transformed)
+        3    0.000    0.000    0.001    0.000 {built-in method fromkeys}
+      762    0.000    0.000    0.001    0.000 core.py:46(<lambda>)
+     8723    0.001    0.000    0.001    0.000 {method 'add' of 'set' objects}
+       69    0.001    0.000    0.001    0.000 {built-in method numpy.asarray}
+     4160    0.000    0.000    0.001    0.000 regions_native.py:53(<genexpr>)
+
+

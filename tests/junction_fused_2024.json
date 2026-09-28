@@ -1,0 +1,62 @@
+[
+  {
+    "mesh": "sphere",
+    "count": 1,
+    "transformed": false,
+    "max_error": 0.0,
+    "times": {
+      "python": 0.2010999887716025,
+      "native": 0.13250000483822078
+    }
+  },
+  {
+    "mesh": "sphere",
+    "count": 15,
+    "transformed": false,
+    "max_error": 1.1102230246251565e-16,
+    "times": {
+      "python": 0.43879999429918826,
+      "native": 0.3462000022409484
+    }
+  },
+  {
+    "mesh": "sphere",
+    "count": 16,
+    "transformed": false,
+    "max_error": 1.1102230246251565e-16,
+    "times": {
+      "python": 0.4765999910887331,
+      "native": 0.3542000049492344
+    }
+  },
+  {
+    "mesh": "sphere",
+    "count": 500,
+    "transformed": false,
+    "max_error": 1.1102230246251565e-16,
+    "times": {
+      "python": 5.34940000216011,
+      "native": 3.482700005406514
+    }
+  },
+  {
+    "mesh": "sphere",
+    "count": 500,
+    "transformed": true,
+    "max_error": 1.1102230246251565e-16,
+    "times": {
+      "python": 30.337699994561262,
+      "native": 19.92690000042785
+    }
+  },
+  {
+    "mesh": "cube",
+    "count": 500,
+    "transformed": true,
+    "max_error": 1.1102230246251565e-16,
+    "times": {
+      "python": 4.985699997632764,
+      "native": 3.5422999935690314
+    }
+  }
+]

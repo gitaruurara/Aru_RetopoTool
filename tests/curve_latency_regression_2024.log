@@ -1,0 +1,124 @@
+[CurveNet] Plugin loaded.
+[Aru_CurveNetRig] INFO  Log file: C:\Users\aruur\AppData\Local\Temp\Aru_CurveNetRig.log
+[Aru] 自動プロジェクト設定を有効化 (jobId: None)
+[Aru_CurveNetRig] <hl>CurveNet Plugin</hl> をロードしたわ (curve_net_plugin, curve_profile_deformer)。
+警告メッセージ: [Aru_CurveNetRig] プラグインは既にロード済みよ。
+[Aru] 自動プロジェクト設定を有効化 (jobId: None)
+警告メッセージ: [Aru_CurveNetRig] プラグインは既にロード済みよ。
+[Aru] 自動プロジェクト設定を有効化 (jobId: None)
+SiWeightEditor startup script has begun
+SiWeightEditor startup script has finished
+
+ ____________________________________
+|             _____                  |
+|            / ____|                 |
+|  _ __ ___ | |  __  ___  __ _ _ __  |
+| | '_ ` _ \| | |_ |/ _ \/ _` | '__| |
+| | | | | | | |__| |  __/ (_| | |    |
+| |_| |_| |_|\_____|\___|\__,_|_|    |
+|____________________________________|
+
+
+エラー: file: C:/Program Files/Autodesk/Maya2027/scripts/startup/initEvaluationManager.mel line 82: 後から任意でロードできません: C:/Program Files/Autodesk/Maya2027/bin/plug-ins/cacheEvaluator.mll
+指定されたプロシージャが見つかりません。
+
+エラー: file: C:/Program Files/Autodesk/Maya2027/scripts/startup/initEvaluationManager.mel line 82: 指定されたプロシージャが見つかりません。
+ (cacheEvaluator)
+[CurveNet] 22:38:34 INFO >>> _before_scene_clear
+CurveNet : INFO : >>> _before_scene_clear
+[CurveNet] 22:38:34 INFO <<< _before_scene_clear done
+CurveNet : INFO : <<< _before_scene_clear done
+[CurveNet] 22:38:34 INFO >>> _after_scene_clear
+CurveNet : INFO : >>> _after_scene_clear
+[CurveNet] 22:38:34 INFO <<< _after_scene_clear done
+CurveNet : INFO : <<< _after_scene_clear done
+[RetopoGuide] Plugin loaded.
+元に戻す: RetopoGuide
+やり直し: RetopoGuide
+PASS real curve clicks insert, connect, split filled patch, Undo/Redo
+[CurveNet] 22:38:35 INFO >>> _before_scene_clear
+CurveNet : INFO : >>> _before_scene_clear
+[CurveNet] 22:38:35 INFO <<< _before_scene_clear done
+CurveNet : INFO : <<< _before_scene_clear done
+[RetopoGuide] 22:38:35 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 22:38:35 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[CurveNet] 22:38:35 INFO >>> _after_scene_clear
+CurveNet : INFO : >>> _after_scene_clear
+[CurveNet] 22:38:35 INFO <<< _after_scene_clear done
+CurveNet : INFO : <<< _after_scene_clear done
+[RetopoGuide] 22:38:35 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 22:38:35 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+元に戻す: Aru Retopo: insert guide loop
+やり直し: Aru Retopo: insert guide loop
+PASS loop preview routes to native overlay without writes, commit, Undo/Redo
+[CurveNet] 22:38:35 INFO >>> _before_scene_clear
+CurveNet : INFO : >>> _before_scene_clear
+[CurveNet] 22:38:35 INFO <<< _before_scene_clear done
+CurveNet : INFO : <<< _before_scene_clear done
+[RetopoGuide] 22:38:35 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 22:38:35 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[CurveNet] 22:38:35 INFO >>> _after_scene_clear
+CurveNet : INFO : >>> _after_scene_clear
+[CurveNet] 22:38:35 INFO <<< _after_scene_clear done
+CurveNet : INFO : <<< _after_scene_clear done
+[RetopoGuide] 22:38:35 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 22:38:35 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+PASS symmetric loop insertion on a self-mirrored patch
+PASS Ctrl MMB curve insertion and patch reduction routing
+[CurveNet] 22:38:35 INFO >>> _before_scene_clear
+CurveNet : INFO : >>> _before_scene_clear
+[CurveNet] 22:38:35 INFO <<< _before_scene_clear done
+CurveNet : INFO : <<< _before_scene_clear done
+[RetopoGuide] 22:38:35 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 22:38:35 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[CurveNet] 22:38:35 INFO >>> _after_scene_clear
+CurveNet : INFO : >>> _after_scene_clear
+[CurveNet] 22:38:35 INFO <<< _after_scene_clear done
+CurveNet : INFO : <<< _after_scene_clear done
+[RetopoGuide] 22:38:35 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 22:38:35 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+元に戻す: Aru Retopo: drag extrude
+PASS drag preview, click without motion, return to origin, cancel, commit and single Undo
+PASS repeated loop reduction evenly redistributes positions and compiled stencils
+PASS general patch redistribution and native stencil parity
+.....................
+----------------------------------------------------------------------
+Ran 21 tests in 0.051s
+
+OK
+[CurveNet] 22:38:35 INFO >>> _before_scene_clear
+CurveNet : INFO : >>> _before_scene_clear
+[CurveNet] 22:38:35 INFO <<< _before_scene_clear done
+CurveNet : INFO : <<< _before_scene_clear done
+[RetopoGuide] 22:38:35 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 22:38:35 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[CurveNet] 22:38:35 INFO >>> _after_scene_clear
+CurveNet : INFO : >>> _after_scene_clear
+[CurveNet] 22:38:35 INFO <<< _after_scene_clear done
+CurveNet : INFO : <<< _after_scene_clear done
+[RetopoGuide] 22:38:35 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 22:38:35 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[CurveNet] 22:38:35 INFO >>> _before_scene_clear
+CurveNet : INFO : >>> _before_scene_clear
+[CurveNet] 22:38:35 INFO <<< _before_scene_clear done
+CurveNet : INFO : <<< _before_scene_clear done
+[RetopoGuide] 22:38:35 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 22:38:35 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

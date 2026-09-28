@@ -1,0 +1,11 @@
+{
+  "cycles": 8,
+  "faces": 256,
+  "generators": [
+    "aruRetopoGenerator1"
+  ],
+  "previews": [
+    "aruRetopoPreviewShape1"
+  ],
+  "fill_remove_undo": true
+}

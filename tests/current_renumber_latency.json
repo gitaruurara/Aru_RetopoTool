@@ -1,0 +1,23 @@
+{
+  "seeded_nonuniform_paint": true,
+  "retained_fields": 20,
+  "stale_fields_discarded_by_both": 0,
+  "fields": 20,
+  "reductions": 0,
+  "splines": 415,
+  "rows": [
+    {
+      "resampling_baseline": true,
+      "error": "Degenerate patch atlas",
+      "ms": 168.8080999883823
+    },
+    {
+      "resampling_baseline": false,
+      "ms": 9.672499989392236
+    },
+    {
+      "resampling_baseline": false,
+      "ms": 8.747099986067042
+    }
+  ]
+}

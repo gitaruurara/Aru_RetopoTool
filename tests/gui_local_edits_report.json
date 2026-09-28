@@ -1,0 +1,58 @@
+{
+  "paint_undo": true,
+  "density_debug": {
+    "type": "<class 'Aru_RetopoTool.local_edit_context.DensityStroke'>",
+    "count": 1,
+    "candidates": 7,
+    "pending": [
+      {
+        "patch": "[[0,-1],[4,1],[2,1],[5,-1]]",
+        "edge": [
+          [
+            0.625,
+            0.5
+          ],
+          [
+            0.625,
+            0.375
+          ]
+        ]
+      }
+    ]
+  },
+  "density_undo": {
+    "before": 128,
+    "after": 120
+  },
+  "symmetric_paint": true,
+  "symmetric_density": true,
+  "density_cancel": true,
+  "restore_menu_undo": true,
+  "right_drag_restore": true,
+  "paint_reset_undo": true,
+  "paint_cancel": true,
+  "right_menu_thinning": true,
+  "unfilled_density_then_confirm": true,
+  "boundary_extrusion_priority": true,
+  "real_menu_exit_no_paint": true,
+  "checkbox_and_escape_exit": true,
+  "popup_lifetime": true,
+  "passed": true,
+  "messages": [
+    "[RetopoGuide] 18:35:13 INFO <<< _before_scene_clear done\n",
+    "<<< _before_scene_clear done",
+    "[RetopoGuide] 18:35:13 INFO >>> _after_scene_clear\n",
+    ">>> _after_scene_clear",
+    "[RetopoGuide] 18:35:13 INFO <<< _after_scene_clear done\n",
+    "<<< _after_scene_clear done",
+    "updateRenderOverride;\n",
+    "\u5143\u306b\u623b\u3059: ",
+    "\u3084\u308a\u76f4\u3057: ",
+    "\u5143\u306b\u623b\u3059: ",
+    "\u3084\u308a\u76f4\u3057: ",
+    "\u5143\u306b\u623b\u3059: ",
+    "\u5143\u306b\u623b\u3059: ",
+    "\u5143\u306b\u623b\u3059: ",
+    "\u5143\u306b\u623b\u3059: "
+  ]
+}

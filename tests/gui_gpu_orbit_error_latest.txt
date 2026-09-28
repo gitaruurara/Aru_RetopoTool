@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\gui_gpu_orbit.py", line 34, in run
+    cmds.undo();opened=False
+    ~~~~~~~~~^^
+RuntimeError: 元に戻すコマンドがこれ以上ありません。
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<string>", line 6, in inspect_orbit_again
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\gui_gpu_orbit.py", line 43, in run
+    cmds.undo()
+    ~~~~~~~~~^^
+RuntimeError: 元に戻すコマンドがこれ以上ありません。
+

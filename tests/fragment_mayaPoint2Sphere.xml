@@ -1,0 +1,203 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2Sphere" name="mayaPoint2Sphere" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+draw a model space sphere per point]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float  name="vectorScale" />
+        <float4x4  name="viewProjection" semantic="viewProjection" />
+        <float4x4  name="worldInverseTranspose" semantic="worldinversetranspose" />
+        <float3  name="Pw" semantic="Pw" flags="isRequirementOnly" />
+    </properties>
+    <values>
+<float name="vectorScale" value="1.000000"  />
+    </values>
+    <outputs>
+        <triStream  name="outStream" size="70" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="createSphere" />
+        <source>
+            <![CDATA[
+void createSphere( geometryInS inputs[1], float vectorScale, float4x4 viewProjMtx, float4x4 worldIT,
+	  inout TriangleStream<geometryInS> outStream  ) 
+{ 
+    const unsigned int loops = 4; 
+    const unsigned int segmentsPerLoop = 6; 
+    float3 scale = float3(vectorScale, vectorScale, vectorScale); 
+    const float M_PI = 3.14159265358; 
+    float px, py, pz; 
+    int i, j; 
+    float incO = 2 * M_PI / segmentsPerLoop; 
+    float incA = M_PI / loops; 
+    float3 p0 = inputs[0].Pw; 
+    geometryInS gout = inputs[0]; 
+    [unroll] 
+    for (i = 0; i <= segmentsPerLoop; i++) { 
+        [unroll] 
+        for (j = 0; j <= loops; j++) { 
+            pz = cos(M_PI - (incA*j)); 
+            py = sin(M_PI - (incA*j))*sin(incO*i); 
+            px = sin(M_PI - (incA*j))*cos(incO*i); 
+            float3 nm = float3(px, py, pz); 
+            gout.Nw = mul(float4(nm, 1.0), worldIT).xyz; 
+            gout.Pw = p0 + nm*scale; 
+            gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+            outStream.Append(gout); 
+            pz = cos(M_PI - (incA*j)); 
+            py = sin(M_PI - (incA*j))*sin(incO*(i + 1)); 
+            px = sin(M_PI - (incA*j))*cos(incO*(i + 1)); 
+            nm = float3(px, py, pz); 
+            gout.Nw = mul(float4(nm, 1.0), worldIT).xyz; 
+            gout.Pw = p0 + nm*scale; 
+            gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+            outStream.Append(gout); 
+         }
+    }
+    outStream.RestartStrip(); 
+}
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="createSphere" />
+        <source>
+            <![CDATA[
+void createSphere( AttribArray<geometryInS> inputs, float vectorScale, float4x4 viewProjMtx, float4x4 worldIT) 
+{ 
+    const unsigned int loops = 4; 
+    const unsigned int segmentsPerLoop = 6; 
+    float3 scale = float3(vectorScale, vectorScale, vectorScale); 
+    const float M_PI = 3.14159265358; 
+    float px, py, pz; 
+    int i, j; 
+    float incO = 2 * M_PI / segmentsPerLoop; 
+    float incA = M_PI / loops; 
+    float3 p0 = inputs[0].Pw; 
+    geometryInS gout = inputs[0]; 
+    for (i = 0; i <= segmentsPerLoop; i++) { 
+        for (j = 0; j <= loops; j++) { 
+            pz = cos(M_PI - (incA*j)); 
+            py = sin(M_PI - (incA*j))*sin(incO*i); 
+            px = sin(M_PI - (incA*j))*cos(incO*i); 
+           float3 nm = float3(px, py, pz); 
+           gout.Nw = mul(worldIT, float4(nm, 1.0)).xyz; 
+           gout.Pw = p0 + nm*scale; 
+           gout.Pc = mul(viewProjMtx, float4(gout.Pw, 1.0)); 
+           emitVertex(gout); 
+           pz = cos(M_PI - (incA*j)); 
+           py = sin(M_PI - (incA*j))*sin(incO*(i + 1)); 
+           px = sin(M_PI - (incA*j))*cos(incO*(i + 1)); 
+           nm = float3(px, py, pz);
+           gout.Nw = mul(worldIT, float4(nm, 1.0)).xyz; 
+           gout.Pw = p0 + nm*scale; 
+           gout.Pc = mul(viewProjMtx, float4(gout.Pw, 1.0)); 
+           emitVertex(gout); 
+        } 
+    } 
+    restartStrip(); 
+}
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="createSphere" />
+        <source>
+            <![CDATA[
+void createSphere(  float vectorScale, mat4x4 viewProjMtx, mat4x4 worldIT) 
+{ 
+    const unsigned int loops = 4; 
+    const unsigned int segmentsPerLoop = 6; 
+    vec3 scale = vec3(vectorScale, vectorScale, vectorScale); 
+    const float M_PI = 3.14159265358; 
+    float px, py, pz; 
+    int i, j; 
+    float incO = 2 * M_PI / segmentsPerLoop; 
+    float incA = M_PI / loops; 
+    vec3 p0 = GEO_IN[0].Pw; 
+    GEO_OUT_struct gout = copyFromGEO_IN(0); 
+    for (i = 0; i <= segmentsPerLoop; i++) { 
+        for (j = 0; j <= loops; j++) { 
+            pz = cos(M_PI - (incA*j)); 
+            py = sin(M_PI - (incA*j))*sin(incO*i); 
+            px = sin(M_PI - (incA*j))*cos(incO*i); 
+           vec3 nm = vec3(px, py, pz); 
+           gout.Nw = mul(worldIT, vec4(nm, 1.0)).xyz; 
+           gout.Pw = p0 + nm*scale; 
+           gout.Pc = mul(viewProjMtx, vec4(gout.Pw, 1.0)); 
+           EmitGeoStruct(gout); 
+           pz = cos(M_PI - (incA*j)); 
+           py = sin(M_PI - (incA*j))*sin(incO*(i + 1)); 
+           px = sin(M_PI - (incA*j))*cos(incO*(i + 1)); 
+           nm = vec3(px, py, pz);
+           gout.Nw = mul(worldIT, vec4(nm, 1.0)).xyz; 
+           gout.Pw = p0 + nm*scale; 
+           gout.Pc = mul(viewProjMtx, vec4(gout.Pw, 1.0)); 
+           EmitGeoStruct(gout); 
+        } 
+    } 
+    EndPrimitive(); 
+}
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="createSphere" />
+        <source>
+            <![CDATA[
+void createSphere( geometryInS inputs[1], float vectorScale, float4x4 viewProjMtx, float4x4 worldIT,
+	  inout TriangleStream<geometryInS> outStream  ) 
+{ 
+    const unsigned int loops = 4; 
+    const unsigned int segmentsPerLoop = 6; 
+    float3 scale = float3(vectorScale, vectorScale, vectorScale); 
+    const float M_PI = 3.14159265358; 
+    float px, py, pz; 
+    int i, j; 
+    float incO = 2 * M_PI / segmentsPerLoop; 
+    float incA = M_PI / loops; 
+    float3 p0 = inputs[0].Pw; 
+    geometryInS gout = inputs[0]; 
+    [unroll] 
+    for (i = 0; i <= segmentsPerLoop; i++) { 
+        [unroll] 
+        for (j = 0; j <= loops; j++) { 
+            pz = cos(M_PI - (incA*j)); 
+            py = sin(M_PI - (incA*j))*sin(incO*i); 
+            px = sin(M_PI - (incA*j))*cos(incO*i); 
+            float3 nm = float3(px, py, pz); 
+            gout.Nw = mul(float4(nm, 1.0), worldIT).xyz; 
+            gout.Pw = p0 + nm*scale; 
+            gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+            outStream.Append(gout); 
+            pz = cos(M_PI - (incA*j)); 
+            py = sin(M_PI - (incA*j))*sin(incO*(i + 1)); 
+            px = sin(M_PI - (incA*j))*cos(incO*(i + 1)); 
+            nm = float3(px, py, pz); 
+            gout.Nw = mul(float4(nm, 1.0), worldIT).xyz; 
+            gout.Pw = p0 + nm*scale; 
+            gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+            outStream.Append(gout); 
+         }
+    }
+    outStream.RestartStrip(); 
+}
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

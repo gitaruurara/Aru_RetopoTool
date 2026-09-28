@@ -1,7 +1,7 @@
 """Cached topology provider for the opt-in native retopo backend."""
 import json,math
 import maya.api.OpenMaya as om
-from Aru_RetopoTool.core import Plan
+from Aru_RetopoTool.core import Plan, selected_regions
 from Aru_RetopoTool.native import Surface
 from Aru_RetopoTool.editor.curvenet.curve_net_data import RetopoGuideData
 
@@ -12,7 +12,14 @@ class RetopoPlan(om.MPxNode):
             'stencilWeights':om.MFnData.kDoubleArray,'faceCounts':om.MFnData.kIntArray,
             'faceIndices':om.MFnData.kIntArray,'adjacencyOffsets':om.MFnData.kIntArray,
             'adjacencyIndices':om.MFnData.kIntArray,'guideWeights':om.MFnData.kDoubleArray}
-    def __init__(self):super().__init__();self.key=None;self.payload=None
+    def __init__(self):
+        super().__init__();self.key=None;self.payload=None
+        self._surface=None;self._surface_dirty=True;self.layout_key=None
+    def setDependentsDirty(self,plug,affected):
+        if plug.attribute()==self.referenceMesh:
+            self._surface_dirty=True
+            self.key=None
+            self.layout_key=None
     @staticmethod
     def creator():return RetopoPlan()
     @staticmethod
@@ -65,30 +72,42 @@ class RetopoPlan(om.MPxNode):
                 if not all(math.isfinite(v) for p in points for v in p):raise ValueError('Invalid guide positions')
                 handle=data.inputValue(cls.referenceMesh);mesh=handle.asMesh()
                 if mesh.isNull() or not mesh.hasFn(om.MFn.kMesh):raise ValueError('Missing reference mesh')
-                fn=om.MFnMesh(handle.asMeshTransformed());_,tri=fn.getTriangles()
-                surface=Surface([tuple(v)[:3] for v in fn.getPoints()],list(tri))
-                try:
-                    eps=sorted({v for sp in splines for v in (sp[0],sp[3])})
-                    _,_,normals=surface.project([points[i] for i in eps],guard=False)
-                    lookup={points[i]:n for i,n in zip(eps,normals)}
-                    plan=Plan(points,splines,lambda p:lookup[tuple(p)],key[1],selected=selected)
-                finally:surface.close()
-                from Aru_RetopoTool.density import apply
-                plan=apply(plan,json.loads(reductions))
-                offsets,ids,weights=plan.compile_stencil(splines)
-                values=dict(stencilOffsets=offsets,stencilIndices=ids,stencilWeights=weights,
-                            faceCounts=[4]*len(plan.faces),faceIndices=[v for f in plan.faces for v in f],
-                            adjacencyOffsets=plan.adj_offsets,adjacencyIndices=plan.adj_ids)
-                self.payload={name:(om.MFnIntArrayData().create(value) if cls.ARRAYS[name]==om.MFnData.kIntArray else om.MFnDoubleArrayData().create(value)) for name,value in values.items()}
-                self.plan=plan;self.key=key;self.weight=None
+                if self._surface is None or self._surface_dirty:
+                    fn=om.MFnMesh(handle.asMeshTransformed());_,tri=fn.getTriangles()
+                    surface=Surface([tuple(v)[:3] for v in fn.getPoints()],list(tri))
+                    if self._surface is not None:self._surface.close()
+                    self._surface=surface;self._surface_dirty=False
+                surface=self._surface
+                eps=sorted({v for sp in splines for v in (sp[0],sp[3])})
+                _,_,normals=surface.project([points[i] for i in eps],guard=False)
+                lookup={points[i]:n for i,n in zip(eps,normals)}
+                normal=lambda p:lookup[tuple(p)]
+                loops=selected_regions(points,splines,normal,selected)
+                used=sorted({si for loop in loops for side in loop for si,_ in side})
+                layout=(tuple(tuple(tuple(side) for side in loop) for loop in loops),
+                        tuple((i,splines[i]) for i in used),key[1],key[2],reductions)
+                # Region discovery still runs: an inserted internal edge or a
+                # changed logical corner must invalidate the plan. Unselected
+                # guide additions can retain identical compiled mesh buffers.
+                if self.layout_key!=layout:
+                    plan=Plan(points,splines,normal,key[1],selected=selected,region_loops=loops)
+                    from Aru_RetopoTool.density import apply
+                    plan=apply(plan,json.loads(reductions))
+                    offsets,ids,weights=plan.compile_stencil(splines)
+                    values=dict(stencilOffsets=offsets,stencilIndices=ids,stencilWeights=weights,
+                                faceCounts=[4]*len(plan.faces),faceIndices=[v for f in plan.faces for v in f],
+                                adjacencyOffsets=plan.adj_offsets,adjacencyIndices=plan.adj_ids)
+                    self.payload={name:(om.MFnIntArrayData().create(value) if cls.ARRAYS[name]==om.MFnData.kIntArray else om.MFnDoubleArrayData().create(value)) for name,value in values.items()}
+                    self.plan=plan;self.layout_key=layout;self.weight=None
+                self.key=key
             if self.weight!=(weight,field):
-                from Aru_RetopoTool.local_fields import weights as field_weights
-                self.payload['guideWeights']=om.MFnDoubleArrayData().create(field_weights(self.plan,json.loads(field),weight))
+                from Aru_RetopoTool.local_fields import weights as field_weights, decoded
+                self.payload['guideWeights']=om.MFnDoubleArrayData().create(field_weights(self.plan,decoded(field),weight))
                 self.weight=(weight,field)
             message='{} 領域 / {:,} quads / {:,} 頂点 / Native'.format(self.plan.region_count,len(self.plan.faces),self.plan.count)
             if getattr(self.plan,'rejected',None):message+=' / {} 削減保留'.format(len(self.plan.rejected))
         except Exception as exc:
-            self.key=None
+            self.key=None;self.layout_key=None
             self.payload={name:(om.MFnIntArrayData().create([]) if kind==om.MFnData.kIntArray else om.MFnDoubleArrayData().create([])) for name,kind in cls.ARRAYS.items()}
             message='ERROR: '+str(exc)
         for name,obj in self.payload.items():

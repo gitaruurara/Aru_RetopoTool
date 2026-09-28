@@ -1,0 +1,63 @@
+         223874 function calls (223235 primitive calls) in 0.082 seconds
+
+   Ordered by: cumulative time
+   List reduced from 373 to 55 due to restriction <55>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.012    0.012 patch_transfer.py:135(prepare)
+        3    0.005    0.002    0.011    0.004 regions_native.py:53(regions)
+     5127    0.001    0.000    0.010    0.000 {built-in method builtins.min}
+        2    0.000    0.000    0.009    0.004 patch_transfer.py:130(analysis)
+        1    0.001    0.001    0.009    0.009 patch_transfer.py:37(__init__)
+        1    0.003    0.003    0.007    0.007 core.py:51(__init__)
+      450    0.000    0.000    0.007    0.000 symmetry_ops.py:25(<genexpr>)
+        6    0.002    0.000    0.006    0.001 curve_net_data.py:762(classify_endpoints)
+        1    0.000    0.000    0.006    0.006 core.py:38(selected_regions)
+        3    0.000    0.000    0.005    0.002 __init__.py:183(dumps)
+        3    0.000    0.000    0.005    0.002 encoder.py:183(encode)
+        3    0.005    0.002    0.005    0.002 encoder.py:205(iterencode)
+        1    0.001    0.001    0.004    0.004 local_fields.py:81(weights)
+        1    0.004    0.004    0.004    0.004 subdivision.py:7(plan)
+      194    0.000    0.000    0.004    0.000 __init__.py:299(loads)
+        2    0.001    0.001    0.004    0.002 curve_net_data.py:1065(from_dict)
+      194    0.000    0.000    0.004    0.000 decoder.py:340(decode)
+        1    0.003    0.003    0.003    0.003 transfer_native.py:10(matches)
+      194    0.003    0.000    0.003    0.000 decoder.py:351(raw_decode)
+        1    0.000    0.000    0.003    0.003 patch_transfer.py:85(transfer)
+     2981    0.001    0.000    0.003    0.000 {built-in method builtins.any}
+      228    0.001    0.000    0.003    0.000 patch_transfer.py:64(targets)
+        1    0.000    0.000    0.003    0.003 curve_net_data.py:1085(to_json)
+        6    0.001    0.000    0.003    0.000 curve_net_data.py:924(_rebuild_curves)
+        1    0.000    0.000    0.003    0.003 curve_net_data.py:1088(from_json)
+        1    0.000    0.000    0.003    0.003 curve_net_node.py:1837(_out_json)
+    18850    0.002    0.000    0.002    0.000 {method 'get' of 'dict' objects}
+        5    0.002    0.000    0.002    0.000 regions_native.py:7(spline_aliases)
+     1036    0.001    0.000    0.002    0.000 local_fields.py:65(sample)
+        1    0.000    0.000    0.002    0.002 core.py:114(compile_stencil)
+        1    0.001    0.001    0.002    0.002 subdivision.py:68(compile)
+    11837    0.002    0.000    0.002    0.000 patch_context.py:101(<genexpr>)
+      258    0.002    0.000    0.002    0.000 {built-in method maya.cmds.objExists}
+        5    0.001    0.000    0.002    0.000 curve_net_data.py:455(used_cv_indices)
+        2    0.001    0.001    0.002    0.001 native.py:99(project)
+      944    0.001    0.000    0.002    0.000 core.py:162(patch_key)
+     1036    0.001    0.000    0.002    0.000 local_fields.py:57(cells)
+     2469    0.001    0.000    0.001    0.000 curve_net_data.py:939(_walk)
+    24300    0.001    0.000    0.001    0.000 symmetry_ops.py:24(<genexpr>)
+        1    0.001    0.001    0.001    0.001 {method 'getTriangles' of 'OpenMaya.MFnMesh' objects}
+     1820    0.001    0.000    0.001    0.000 {built-in method builtins.sum}
+        4    0.000    0.000    0.001    0.000 curve_net_data.py:527(sync_standalone)
+      4/1    0.000    0.000    0.001    0.001 {built-in method maya.cmds.listConnections}
+        1    0.000    0.000    0.001    0.001 symmetry_constraints.py:28(_handles)
+    13906    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+     1588    0.001    0.000    0.001    0.000 patch_context.py:134(<genexpr>)
+      476    0.000    0.000    0.001    0.000 symmetry_constraints.py:31(on)
+     6240    0.001    0.000    0.001    0.000 regions_native.py:55(<genexpr>)
+        1    0.000    0.000    0.001    0.001 core.py:96(edit_coordinates)
+        4    0.000    0.000    0.001    0.000 {built-in method fromkeys}
+     1031    0.000    0.000    0.001    0.000 OpenMaya.py:7022(__init__)
+        1    0.001    0.001    0.001    0.001 local_fields.py:35(coordinates)
+        8    0.000    0.000    0.001    0.000 {built-in method builtins.all}
+       24    0.000    0.000    0.001    0.000 numeric.py:1556(cross)
+    11219    0.001    0.000    0.001    0.000 {method 'add' of 'set' objects}
+
+

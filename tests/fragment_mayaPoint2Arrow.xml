@@ -1,0 +1,195 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2Arrow" name="mayaPoint2Arrow" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+expand a point into a fluid arrow]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float3  name="velocity" semantic="TEXCOORD" flags="isRequirementOnly,varyingInputParam" />
+        <bool  name="drawHeads" />
+        <float  name="velocityScale" />
+        <float4x4  name="WorldViewProj" semantic="worldviewprojection" />
+        <float3  name="cameraDirection" semantic="viewdirection" />
+    </properties>
+    <values>
+<bool name="drawHeads" value="true"  />
+<float name="velocityScale" value="1.000000"  />
+    </values>
+    <outputs>
+        <lineStream  name="outStream" size="6" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="point2Arrow" />
+        <source>
+            <![CDATA[
+void point2Arrow( geometryInS inputs[1], bool drawHeads, float scale, 
+      float4x4 worldViewProjection, float3 cameraDirection, inout LineStream<geometryInS> outStream  ) 
+{ 
+    geometryInS out0  = inputs[0]; 
+    outStream.Append( out0 ); 
+    float3 dir = out0.velocity; 
+    float4 arrow = inputs[0].Pc  + mul( float4(dir,0), worldViewProjection ) * scale; 
+    out0.Pc = arrow; 
+    outStream.Append( out0 ); 
+    if(!drawHeads) return; 
+    float4 base = 0.75 * arrow + 0.25 * inputs[0].Pc; 
+    if(abs(cameraDirection.x) < abs(cameraDirection.z)) { 
+		if(dir.y == 0.0 && dir.x == 0.0) 
+			dir = float3(dir.z, 0.0, 0.0); 
+		else 
+			dir = float3(dir.y, -dir.x, 0.0); 
+	 }else{ 
+		if(dir.y == 0.0 && dir.z == 0.0) 
+			dir = float3(0.0, 0.0, dir.x); 
+		else 
+			dir = float3(0.0, dir.z, -dir.y); 
+	 } 
+    float2 radius = 0.1*length(dir)*mul( float4(normalize(dir), 0.0), worldViewProjection ).xy; 
+    out0.Pc = base  + float4(radius, 0.0, 0.0); 
+    outStream.Append( out0 ); 
+    out0.Pc = arrow; 
+    outStream.Append( out0 ); 
+    out0.Pc = base  - float4(radius, 0.0, 0.0); 
+    outStream.Append( out0 ); 
+    out0.Pc = arrow; 
+    outStream.Append( out0 ); 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="point2Arrow" />
+        <source>
+            <![CDATA[
+void point2Arrow( AttribArray<geometryInS>inputs, bool drawHeads, float scale, 
+      float4x4 worldViewProjection, float3 cameraDirection) 
+{ 
+    geometryInS out0  = inputs[0]; 
+    emitVertex( out0 ); 
+    float3 dir = out0.velocity; 
+    float4 arrow = inputs[0].Pc  + mul( worldViewProjection, float4(dir,0) ) * scale; 
+    out0.Pc = arrow; 
+    emitVertex( out0 ); 
+    if(!drawHeads) return; 
+    float4 base = 0.25 * inputs[0].Pc + 0.75 * arrow; 
+    if(abs(cameraDirection.x) < abs(cameraDirection.z)) { 
+		if(dir.y == 0.0 && dir.x == 0.0) 
+			dir = float3(dir.z, 0.0, 0.0); 
+		else 
+			dir = float3(dir.y, -dir.x, 0.0); 
+	 }else{ 
+		if(dir.y == 0.0 && dir.z == 0.0) 
+			dir = float3(0.0, 0.0, dir.x); 
+		else 
+			dir = float3(0.0, dir.z, -dir.y); 
+	 } 
+    float2 radius = 0.1*length(dir)*mul( worldViewProjection, float4(normalize(dir), 0.0) ).xy; 
+    out0.Pc = base  + float4(radius, 0.0, 0.0); 
+    emitVertex( out0 ); 
+    out0.Pc = arrow; 
+    emitVertex( out0 ); 
+    out0.Pc = base  - float4(radius, 0.0, 0.0); 
+    emitVertex( out0 ); 
+    out0.Pc = arrow; 
+    emitVertex( out0 ); 
+    restartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="point2Arrow" />
+        <source>
+            <![CDATA[
+void point2Arrow(  bool drawHeads, float scale, 
+      mat4x4 worldViewProjection, vec3 cameraDirection) 
+{ 
+    GEO_OUT_struct out0  = copyFromGEO_IN(0); 
+    EmitGeoStruct( out0 ); 
+    vec3 dir = out0.velocity; 
+    vec4 arrow = gl_in[0].gl_Position  + mul( worldViewProjection, vec4(dir,0) ) * scale; 
+    out0.Pc = arrow; 
+    EmitGeoStruct( out0 ); 
+    if(!drawHeads) return; 
+    vec4 base = 0.25 * gl_in[0].gl_Position + 0.75 * arrow; 
+    if(abs(cameraDirection.x) < abs(cameraDirection.z)) { 
+		if(dir.y == 0.0 && dir.x == 0.0) 
+			dir = vec3(dir.z, 0.0, 0.0); 
+		else 
+			dir = vec3(dir.y, -dir.x, 0.0); 
+	 }else{ 
+		if(dir.y == 0.0 && dir.z == 0.0) 
+			dir = vec3(0.0, 0.0, dir.x); 
+		else 
+			dir = vec3(0.0, dir.z, -dir.y); 
+	 } 
+    vec2 radius = 0.1*length(dir)*mul( worldViewProjection, vec4(normalize(dir), 0.0) ).xy; 
+    out0.Pc = base  + vec4(radius, 0.0, 0.0); 
+    EmitGeoStruct( out0 ); 
+    out0.Pc = arrow; 
+    EmitGeoStruct( out0 ); 
+    out0.Pc = base  - vec4(radius, 0.0, 0.0); 
+    EmitGeoStruct( out0 ); 
+    out0.Pc = arrow; 
+    EmitGeoStruct( out0 ); 
+    EndPrimitive(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="point2Arrow" />
+        <source>
+            <![CDATA[
+void point2Arrow( geometryInS inputs[1], bool drawHeads, float scale, 
+      float4x4 worldViewProjection, float3 cameraDirection, inout LineStream<geometryInS> outStream  ) 
+{ 
+    geometryInS out0  = inputs[0]; 
+    outStream.Append( out0 ); 
+    float3 dir = out0.velocity; 
+    float4 arrow = inputs[0].Pc  + mul( float4(dir,0), worldViewProjection ) * scale; 
+    out0.Pc = arrow; 
+    outStream.Append( out0 ); 
+    if(!drawHeads) return; 
+    float4 base = 0.75 * arrow + 0.25 * inputs[0].Pc; 
+    if(abs(cameraDirection.x) < abs(cameraDirection.z)) { 
+		if(dir.y == 0.0 && dir.x == 0.0) 
+			dir = float3(dir.z, 0.0, 0.0); 
+		else 
+			dir = float3(dir.y, -dir.x, 0.0); 
+	 }else{ 
+		if(dir.y == 0.0 && dir.z == 0.0) 
+			dir = float3(0.0, 0.0, dir.x); 
+		else 
+			dir = float3(0.0, dir.z, -dir.y); 
+	 } 
+    float2 radius = 0.1*length(dir)*mul( float4(normalize(dir), 0.0), worldViewProjection ).xy; 
+    out0.Pc = base  + float4(radius, 0.0, 0.0); 
+    outStream.Append( out0 ); 
+    out0.Pc = arrow; 
+    outStream.Append( out0 ); 
+    out0.Pc = base  - float4(radius, 0.0, 0.0); 
+    outStream.Append( out0 ); 
+    out0.Pc = arrow; 
+    outStream.Append( out0 ); 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

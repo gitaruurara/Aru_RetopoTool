@@ -1,0 +1,17 @@
+PASS off-origin preview bounds and position updates
+[RetopoGuide] Plugin loaded.
+PASS center EP stays on seam during asymmetric relax: world
+PASS center EP stays on seam during asymmetric relax: object
+PASS projection cannot cross symmetry plane in either direction
+[RetopoGuide] 20:33:40 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 20:33:40 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 20:33:40 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 20:33:40 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 20:33:40 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 20:33:40 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

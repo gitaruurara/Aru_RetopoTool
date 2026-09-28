@@ -1,0 +1,209 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2FilledCircle" name="mayaPoint2FilledCircle" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+expand a point into a screen aligned filled circle]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float  name="radius" semantic="Radius" flags="isRequirementOnly,varyingInputParam" />
+        <float2  name="screenSize" semantic="viewportPixelSize" />
+        <bool  name="isCulled" />
+        <bool  name="orthographic" semantic="isorthographic" />
+        <float4x4  name="projection" semantic="projection" />
+        <bool  name="FOVdependent" />
+    </properties>
+    <values>
+<bool name="isCulled" value="false"  />
+<bool name="orthographic" value="false"  />
+<bool name="FOVdependent" value="false"  />
+    </values>
+    <outputs>
+        <triStream  name="outStream" size="26" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="point2ScreenFilledCircle" />
+        <source>
+            <![CDATA[
+void point2ScreenFilledCircle( geometryInS inputs[1], /* int circleLOD, */ float2 screenSize,
+    bool isCulled, bool orthographic, float4x4 projection, bool isFOVdependent, inout TriangleStream<geometryInS> outStream  ) 
+{ 
+	 if (isCulled) return; 
+    geometryInS outS  = inputs[0]; 
+    int numSegment = 12; 
+    float theta = 3.141592654 / numSegment; // circleLOD;  
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    float2x2 rotateLeftMat = float2x2(cosine, sine, -sine, cosine); 
+    float2x2 rotateRightMat = transpose(rotateLeftMat); 
+    float radius = inputs[0].radius; 
+    if( isFOVdependent ) { 
+		radius *= screenSize.x * 2; 
+		if(orthographic) radius *= 0.5 * projection[0][0]; 
+    } else { 
+		radius *= outS.Pc.w; 
+    } 
+    float2 leftOffset = float2(radius, 0.0); 
+    float2 rightOffset = float2(radius, 0.0); 
+    float4 startPoint = inputs[0].Pc + float4(leftOffset/screenSize.xy, 0.0, 0.0); 
+    float4 endPoint = inputs[0].Pc - float4(leftOffset/screenSize.xy, 0.0, 0.0); 
+    outS.Pc = startPoint; 
+    outStream.Append( outS ); 
+    for( int i = 0; i < numSegment; ++i ) { 
+		 leftOffset = mul(leftOffset, rotateLeftMat); 
+        outS.Pc = inputs[0].Pc + float4(leftOffset/screenSize.xy, 0.0, 0.0); 
+        outStream.Append( outS ); 
+		 rightOffset = mul(rightOffset, rotateRightMat); 
+        outS.Pc = inputs[0].Pc + float4(rightOffset/screenSize.xy, 0.0, 0.0); 
+        outStream.Append( outS ); 
+    } 
+    outS.Pc = endPoint; 
+    outStream.Append( outS ); 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="point2ScreenFilledCircle" />
+        <source>
+            <![CDATA[
+void point2ScreenFilledCircle( AttribArray<geometryInS>inputs, /* int circleLOD, */ float2 screenSize, bool isCulled,
+    bool orthographic, float4x4 projection, bool isFOVdependent) 
+{ 
+	 if (isCulled) return; 
+    geometryInS outS  = inputs[0]; 
+    int numSegment = 12; 
+    float theta = 3.141592654 /  numSegment; //circleLOD;  
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    float2x2 rotateLeftMat = float2x2(cosine, -sine, sine, cosine); 
+    float2x2 rotateRightMat = transpose(rotateLeftMat); 
+    float radius = inputs[0].radius; 
+    if( isFOVdependent ) { 
+		radius *= screenSize.x * 2; 
+		if(orthographic) radius *= 0.5 * projection[0][0]; 
+    } else { 
+		radius *= outS.Pc.w; 
+    } 
+    float2 leftOffset = float2(radius, 0.0); 
+    float2 rightOffset = float2(radius, 0.0); 
+    float4 startPoint = inputs[0].Pc + float4(leftOffset/screenSize.xy, 0.0, 0.0); 
+    float4 endPoint = inputs[0].Pc - float4(leftOffset/screenSize.xy, 0.0, 0.0); 
+    outS.Pc = startPoint; 
+    emitVertex( outS ); 
+    for( int i = 0; i < numSegment-1 ; ++i ) { 
+		 leftOffset = mul(rotateLeftMat, leftOffset); 
+        outS.Pc = inputs[0].Pc + float4(leftOffset/screenSize.xy, 0.0, 0.0); 
+        emitVertex( outS ); 
+		 rightOffset = mul(rotateRightMat, rightOffset); 
+        outS.Pc = inputs[0].Pc + float4(rightOffset/screenSize.xy, 0.0, 0.0); 
+        emitVertex( outS ); 
+    }  
+    outS.Pc = endPoint; 
+    emitVertex( outS ); 
+    restartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="point2ScreenFilledCircle" />
+        <source>
+            <![CDATA[
+void point2ScreenFilledCircle(  /* int circleLOD, */ vec2 screenSize, bool isCulled,
+    bool orthographic, mat4x4 projection, bool isFOVdependent) 
+{ 
+	 if (isCulled) return; 
+    GEO_OUT_struct outS  = copyFromGEO_IN(0); 
+    int numSegment = 12; 
+    float theta = 3.141592654 /  numSegment; //circleLOD;  
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    mat2x2 rotateLeftMat = mat2x2(cosine, sine, -sine, cosine); 
+    mat2x2 rotateRightMat = transpose(rotateLeftMat); 
+    float radius = GEO_IN[0].radius; 
+    if( isFOVdependent ) { 
+		radius *= screenSize.x * 2; 
+		if(orthographic) radius *= 0.5 * projection[0][0]; 
+    } else { 
+		radius *= outS.Pc.w; 
+    } 
+    vec2 leftOffset = vec2(radius, 0.0); 
+    vec2 rightOffset = vec2(radius, 0.0); 
+    vec4 startPoint = gl_in[0].gl_Position + vec4(leftOffset/screenSize.xy, 0.0, 0.0); 
+    vec4 endPoint = gl_in[0].gl_Position - vec4(leftOffset/screenSize.xy, 0.0, 0.0); 
+    outS.Pc = startPoint; 
+    EmitGeoStruct( outS ); 
+    for( int i = 0; i < numSegment-1 ; ++i ) { 
+		 leftOffset = rotateLeftMat * leftOffset; 
+        outS.Pc = gl_in[0].gl_Position + vec4(leftOffset/screenSize.xy, 0.0, 0.0); 
+        EmitGeoStruct( outS ); 
+		 rightOffset = rotateRightMat * rightOffset; 
+        outS.Pc = gl_in[0].gl_Position + vec4(rightOffset/screenSize.xy, 0.0, 0.0); 
+        EmitGeoStruct( outS ); 
+    }  
+    outS.Pc = endPoint; 
+    EmitGeoStruct( outS ); 
+    EndPrimitive(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="point2ScreenFilledCircle" />
+        <source>
+            <![CDATA[
+void point2ScreenFilledCircle( geometryInS inputs[1], /* int circleLOD, */ float2 screenSize,
+    bool isCulled, bool orthographic, float4x4 projection, bool isFOVdependent, inout TriangleStream<geometryInS> outStream  ) 
+{ 
+	 if (isCulled) return; 
+    geometryInS outS  = inputs[0]; 
+    int numSegment = 12; 
+    float theta = 3.141592654 / numSegment; // circleLOD;  
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    float2x2 rotateLeftMat = float2x2(cosine, sine, -sine, cosine); 
+    float2x2 rotateRightMat = transpose(rotateLeftMat); 
+    float radius = inputs[0].radius; 
+    if( isFOVdependent ) { 
+		radius *= screenSize.x * 2; 
+		if(orthographic) radius *= 0.5 * projection[0][0]; 
+    } else { 
+		radius *= outS.Pc.w; 
+    } 
+    float2 leftOffset = float2(radius, 0.0); 
+    float2 rightOffset = float2(radius, 0.0); 
+    float4 startPoint = inputs[0].Pc + float4(leftOffset/screenSize.xy, 0.0, 0.0); 
+    float4 endPoint = inputs[0].Pc - float4(leftOffset/screenSize.xy, 0.0, 0.0); 
+    outS.Pc = startPoint; 
+    outStream.Append( outS ); 
+    for( int i = 0; i < numSegment; ++i ) { 
+		 leftOffset = mul(leftOffset, rotateLeftMat); 
+        outS.Pc = inputs[0].Pc + float4(leftOffset/screenSize.xy, 0.0, 0.0); 
+        outStream.Append( outS ); 
+		 rightOffset = mul(rightOffset, rotateRightMat); 
+        outS.Pc = inputs[0].Pc + float4(rightOffset/screenSize.xy, 0.0, 0.0); 
+        outStream.Append( outS ); 
+    } 
+    outS.Pc = endPoint; 
+    outStream.Append( outS ); 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

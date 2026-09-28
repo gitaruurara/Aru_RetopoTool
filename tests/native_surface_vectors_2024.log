@@ -1,0 +1,2 @@
+PASS native reference/guide transform and solver-setting changes
+PASS guide stencil + mesh parity / immutable outputs / invalid CSR recovery {'projection': True, 'patches': 500, 'controls': 4268, 'vertices': 46873, 'python_ms': 20.24494999932358, 'native_ms': 11.329649998515379}

@@ -1,0 +1,353 @@
+{
+  "live_release_maya_profile.json": {
+    "longest": [
+      {
+        "start": 150906557847,
+        "name": "QtUpdateRequest",
+        "extra": "(null)",
+        "ms": 70.007,
+        "thread": "39688"
+      },
+      {
+        "start": 150906558010,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 69.706,
+        "thread": "39688"
+      },
+      {
+        "start": 150906489805,
+        "name": "Vp2OverrideRender",
+        "extra": "(null)",
+        "ms": 65.884,
+        "thread": "39688"
+      },
+      {
+        "start": 150906492800,
+        "name": "Vp2ExecuteRenderOverride",
+        "extra": "(null)",
+        "ms": 62.876,
+        "thread": "39688"
+      },
+      {
+        "start": 150906492804,
+        "name": "Vp2SceneOperation",
+        "extra": "(null)",
+        "ms": 59.721,
+        "thread": "39688"
+      },
+      {
+        "start": 150906492815,
+        "name": "colorPass",
+        "extra": "(null)",
+        "ms": 59.708,
+        "thread": "39688"
+      },
+      {
+        "start": 150906492816,
+        "name": "Vp2SceneRender",
+        "extra": "(null)",
+        "ms": 59.706,
+        "thread": "39688"
+      },
+      {
+        "start": 150906493302,
+        "name": "Vp2UpdateScene",
+        "extra": "(null)",
+        "ms": 59.22,
+        "thread": "39688"
+      },
+      {
+        "start": 150906493303,
+        "name": "Vp2UpdateScene",
+        "extra": "(null)",
+        "ms": 56.932,
+        "thread": "39688"
+      },
+      {
+        "start": 150906430727,
+        "name": "sendAttributeChangedMsg",
+        "extra": "aruRetopoGuideShape1",
+        "ms": 56.785,
+        "thread": "39688"
+      },
+      {
+        "start": 150906493309,
+        "name": "Vp2PrepareToUpdate",
+        "extra": "(null)",
+        "ms": 34.417,
+        "thread": "39688"
+      },
+      {
+        "start": 150906493358,
+        "name": "Vp2PreparePerFrameUpdates",
+        "extra": "(null)",
+        "ms": 34.358,
+        "thread": "39688"
+      },
+      {
+        "start": 150906528552,
+        "name": "Vp2BuildRenderLists",
+        "extra": "(null)",
+        "ms": 21.668,
+        "thread": "39688"
+      },
+      {
+        "start": 150906493359,
+        "name": "Vp2PreparePerFrameUpdate",
+        "extra": "(null)",
+        "ms": 17.451,
+        "thread": "39688"
+      },
+      {
+        "start": 150906493360,
+        "name": "Vp2UpdatePlugIn",
+        "extra": "(null)",
+        "ms": 17.449,
+        "thread": "39688"
+      },
+      {
+        "start": 150906493379,
+        "name": "Compute",
+        "extra": "aruRetopoNative1",
+        "ms": 17.313,
+        "thread": "39688"
+      }
+    ],
+    "attribute_notifications": [
+      {
+        "start": 150906430727,
+        "name": "sendAttributeChangedMsg",
+        "extra": "aruRetopoGuideShape1",
+        "ms": 56.785,
+        "thread": "39688"
+      }
+    ],
+    "qt_paint": [
+      {
+        "start": 150906557947,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.014,
+        "thread": "39688"
+      },
+      {
+        "start": 150906557965,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.043,
+        "thread": "39688"
+      },
+      {
+        "start": 150906558010,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 69.706,
+        "thread": "39688"
+      }
+    ]
+  },
+  "live_release_hidden_data.mayaProfile": {
+    "longest": [
+      {
+        "start": 151216637914,
+        "name": "Vp2OverrideRender",
+        "extra": "(null)",
+        "ms": 81.396,
+        "thread": "39688"
+      },
+      {
+        "start": 151216640854,
+        "name": "Vp2ExecuteRenderOverride",
+        "extra": "(null)",
+        "ms": 78.443,
+        "thread": "39688"
+      },
+      {
+        "start": 151216640858,
+        "name": "Vp2SceneOperation",
+        "extra": "(null)",
+        "ms": 74.695,
+        "thread": "39688"
+      },
+      {
+        "start": 151216640864,
+        "name": "colorPass",
+        "extra": "(null)",
+        "ms": 74.686,
+        "thread": "39688"
+      },
+      {
+        "start": 151216640865,
+        "name": "Vp2SceneRender",
+        "extra": "(null)",
+        "ms": 74.684,
+        "thread": "39688"
+      },
+      {
+        "start": 151216641366,
+        "name": "Vp2UpdateScene",
+        "extra": "(null)",
+        "ms": 74.183,
+        "thread": "39688"
+      },
+      {
+        "start": 151216641367,
+        "name": "Vp2UpdateScene",
+        "extra": "(null)",
+        "ms": 71.08,
+        "thread": "39688"
+      },
+      {
+        "start": 151216641373,
+        "name": "Vp2PrepareToUpdate",
+        "extra": "(null)",
+        "ms": 47.497,
+        "thread": "39688"
+      },
+      {
+        "start": 151216641418,
+        "name": "Vp2PreparePerFrameUpdates",
+        "extra": "(null)",
+        "ms": 47.442,
+        "thread": "39688"
+      },
+      {
+        "start": 151216641420,
+        "name": "Vp2PreparePerFrameUpdate",
+        "extra": "(null)",
+        "ms": 30.369,
+        "thread": "39688"
+      },
+      {
+        "start": 151216641420,
+        "name": "Vp2UpdatePlugIn",
+        "extra": "(null)",
+        "ms": 30.368,
+        "thread": "39688"
+      },
+      {
+        "start": 151216641434,
+        "name": "Compute",
+        "extra": "aruRetopoNative1",
+        "ms": 30.239,
+        "thread": "39688"
+      },
+      {
+        "start": 151216641445,
+        "name": "Compute",
+        "extra": "aruRetopoPlan1",
+        "ms": 29.381,
+        "thread": "39688"
+      },
+      {
+        "start": 151216689865,
+        "name": "Vp2BuildRenderLists",
+        "extra": "(null)",
+        "ms": 22.567,
+        "thread": "39688"
+      },
+      {
+        "start": 151216671789,
+        "name": "Vp2PreparePerFrameUpdate",
+        "extra": "(null)",
+        "ms": 17.071,
+        "thread": "39688"
+      },
+      {
+        "start": 151216671792,
+        "name": "Vp2UpdatePlugIn",
+        "extra": "(null)",
+        "ms": 17.067,
+        "thread": "39688"
+      }
+    ],
+    "attribute_notifications": [],
+    "qt_paint": [
+      {
+        "start": 151216719797,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.012,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719812,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.023,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719838,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.021,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719861,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.009,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719871,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.033,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719905,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.01,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719915,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.009,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719925,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.006,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719932,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.006,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719939,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.022,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719962,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.006,
+        "thread": "39688"
+      },
+      {
+        "start": 151216719969,
+        "name": "QtPaint",
+        "extra": "(null)",
+        "ms": 0.224,
+        "thread": "39688"
+      }
+    ]
+  }
+}

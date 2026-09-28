@@ -1,0 +1,16 @@
+{
+  "viewport": [
+    2941,
+    1598
+  ],
+  "scope": "scripted GUI handlers and synchronous redraw; not physical mouse events",
+  "point_ms": 27.33894999983022,
+  "relax_ms": 42.623000001185574,
+  "point_final_hash": "7a67d0f39a94d505df97af4e8d42788e9770520607e14d2ba30b648e97a01ff7",
+  "point_restored": true,
+  "relax_restored": true,
+  "relax_exact": true,
+  "native": "numeric",
+  "projector": "normals",
+  "goal_60fps": false
+}

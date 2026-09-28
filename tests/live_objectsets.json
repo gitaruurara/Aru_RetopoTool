@@ -1,0 +1,20 @@
+{
+  "before": {
+    "faces": [
+      "aruRetopoPreviewShape1",
+      "aruRetopoOverlayShape1"
+    ],
+    "guides": [
+      "aruRetopoGuideShape1"
+    ]
+  },
+  "after": {
+    "faces": [
+      "aruRetopoPreviewShape1",
+      "aruRetopoOverlayShape1"
+    ],
+    "guides": [
+      "aruRetopoGuideShape1"
+    ]
+  }
+}

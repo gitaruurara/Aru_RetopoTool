@@ -1,0 +1,41 @@
+[RetopoGuide] Plugin loaded.
+Œ³‚É–ß‚·: Aru Retopo: remove patch
+‚â‚è’¼‚µ: Aru Retopo: remove patch
+PASS merged seam fill, remove, Undo/Redo through actual generator
+{'merged_regions': 2, 'quads': 32, 'reverse_duplicate': True, 'distinct_curves_preserved': True, 'guide_unmodified': True}
+test_normals_are_read_again_and_results_are_independent (Aru_RetopoTool.tests.test_regions.Tests.test_normals_are_read_again_and_results_are_independent) ... ok
+test_rejects_invalid_geometry_and_empty_network (Aru_RetopoTool.tests.test_regions.Tests.test_rejects_invalid_geometry_and_empty_network) ... ok
+test_shared_edge_direction_and_stable_order (Aru_RetopoTool.tests.test_regions.Tests.test_shared_edge_direction_and_stable_order) ... ok
+test_bvh_matches_brute_triangle_surfaces (Aru_RetopoTool.tests.test_core.Tests.test_bvh_matches_brute_triangle_surfaces) ... ok
+test_compiled_stencil_matches_reference_during_motion (Aru_RetopoTool.tests.test_core.Tests.test_compiled_stencil_matches_reference_during_motion) ... ok
+test_coons_templates_with_reversed_sides_and_cv_aliases (Aru_RetopoTool.tests.test_core.Tests.test_coons_templates_with_reversed_sides_and_cv_aliases) ... ok
+test_curved_quad_interior_follows_boundary (Aru_RetopoTool.tests.test_core.Tests.test_curved_quad_interior_follows_boundary) ... ok
+test_explicit_regions_only_and_stable_selection (Aru_RetopoTool.tests.test_core.Tests.test_explicit_regions_only_and_stable_selection) ... ok
+test_native_stencil_parity_and_motion (Aru_RetopoTool.tests.test_core.Tests.test_native_stencil_parity_and_motion) ... ok
+test_ngons_all_quads_and_euler (Aru_RetopoTool.tests.test_core.Tests.test_ngons_all_quads_and_euler) ... ok
+test_open_graph_rejected (Aru_RetopoTool.tests.test_core.Tests.test_open_graph_rejected) ... ok
+test_plan_numeric_storage_preserves_reference_evaluation (Aru_RetopoTool.tests.test_core.Tests.test_plan_numeric_storage_preserves_reference_evaluation) ... ok
+test_projection_and_relax (Aru_RetopoTool.tests.test_core.Tests.test_projection_and_relax) ... ok
+test_projection_guard_components (Aru_RetopoTool.tests.test_core.Tests.test_projection_guard_components) ... ok
+test_shared_boundary_and_dangling (Aru_RetopoTool.tests.test_core.Tests.test_shared_boundary_and_dangling) ... ok
+test_wrapping_dome_keeps_large_exterior_open (Aru_RetopoTool.tests.test_core.Tests.test_wrapping_dome_keeps_large_exterior_open) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.031s
+
+OK
+Œ³‚É–ß‚·: divide filled patch
+‚â‚è’¼‚µ: divide filled patch
+PASS filled child patches, adjacent unfilled patch preserved, boundary resplit, Undo/Redo
+[RetopoGuide] 21:15:31 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:15:31 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:15:31 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:15:31 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 21:15:31 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:15:31 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

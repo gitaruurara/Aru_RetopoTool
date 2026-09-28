@@ -1,0 +1,14 @@
+[RetopoGuide] Plugin loaded.
+PASS soft move falloff, absolute/idempotent drag, surface projection, fixed weights, seam, symmetry, topology
+[RetopoGuide] 20:34:56 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 20:34:56 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 20:34:56 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 20:34:56 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 20:34:56 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 20:34:56 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

@@ -1,0 +1,129 @@
+{
+  "version": "numeric_t16",
+  "maya": "2027",
+  "loaded_plugin": "D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/bin/2027/aru_retopo_mesh_buffer_numeric_t16.mll",
+  "scope": "8 consecutive 200 EP dabs via actual RelaxPreview and native outMesh; no picking or viewport",
+  "trials": [
+    {
+      "samples": [
+        {
+          "edit_ms": 20.39560000412166,
+          "total_ms": 39.10809999797493
+        },
+        {
+          "edit_ms": 9.751200006576255,
+          "total_ms": 25.690900001791306
+        },
+        {
+          "edit_ms": 11.345599996275268,
+          "total_ms": 26.143600000068545
+        },
+        {
+          "edit_ms": 10.325900002499111,
+          "total_ms": 23.75180000672117
+        },
+        {
+          "edit_ms": 12.968900002306327,
+          "total_ms": 26.798100006999448
+        },
+        {
+          "edit_ms": 10.462900012498721,
+          "total_ms": 24.152600002707914
+        },
+        {
+          "edit_ms": 12.244300000020303,
+          "total_ms": 26.65109999361448
+        },
+        {
+          "edit_ms": 11.063199999625795,
+          "total_ms": 24.657199988723733
+        }
+      ],
+      "median_ms": 25.690900001791306,
+      "release_ms": 56.42939999233931,
+      "guide_hash": "bda04f17ad8319e656440ef090fe72009c3449bad806a8dba2630c70ab5f133b",
+      "mesh_hash": "eb9d60d992a9582f0ef79ec03679d9f831fc5ad986a5a01b3ae4ef84c06f8262"
+    },
+    {
+      "samples": [
+        {
+          "edit_ms": 13.664500002050772,
+          "total_ms": 28.92440000141505
+        },
+        {
+          "edit_ms": 12.70930000464432,
+          "total_ms": 27.03779999865219
+        },
+        {
+          "edit_ms": 10.478599986527115,
+          "total_ms": 25.113199997576885
+        },
+        {
+          "edit_ms": 12.617600004887208,
+          "total_ms": 27.6601999939885
+        },
+        {
+          "edit_ms": 13.514999998733401,
+          "total_ms": 28.70239999901969
+        },
+        {
+          "edit_ms": 41.00519999337848,
+          "total_ms": 56.46579999302048
+        },
+        {
+          "edit_ms": 12.492500012740493,
+          "total_ms": 28.112400003010407
+        },
+        {
+          "edit_ms": 12.234099995112047,
+          "total_ms": 26.89930000633467
+        }
+      ],
+      "median_ms": 27.6601999939885,
+      "release_ms": 47.948599996743724,
+      "guide_hash": "bda04f17ad8319e656440ef090fe72009c3449bad806a8dba2630c70ab5f133b",
+      "mesh_hash": "eb9d60d992a9582f0ef79ec03679d9f831fc5ad986a5a01b3ae4ef84c06f8262"
+    },
+    {
+      "samples": [
+        {
+          "edit_ms": 18.330400009290315,
+          "total_ms": 34.006400004727766
+        },
+        {
+          "edit_ms": 16.715299992938526,
+          "total_ms": 31.51159999833908
+        },
+        {
+          "edit_ms": 16.946899995673448,
+          "total_ms": 32.32199999911245
+        },
+        {
+          "edit_ms": 17.420400006812997,
+          "total_ms": 34.53280001122039
+        },
+        {
+          "edit_ms": 18.301200005225837,
+          "total_ms": 32.21330000087619
+        },
+        {
+          "edit_ms": 15.427799997269176,
+          "total_ms": 29.90480000153184
+        },
+        {
+          "edit_ms": 12.845999997807667,
+          "total_ms": 27.465299994219095
+        },
+        {
+          "edit_ms": 14.214000009815209,
+          "total_ms": 29.903000002377667
+        }
+      ],
+      "median_ms": 31.51159999833908,
+      "release_ms": 50.075199993443675,
+      "guide_hash": "bda04f17ad8319e656440ef090fe72009c3449bad806a8dba2630c70ab5f133b",
+      "mesh_hash": "eb9d60d992a9582f0ef79ec03679d9f831fc5ad986a5a01b3ae4ef84c06f8262"
+    }
+  ],
+  "restored": true
+}

@@ -281,6 +281,31 @@ def _bezier_strips(pos, splines, raw=False):
         return out
 
 
+def _cached_bezier_strips(owner):
+    """Reuse exact world-space strips until their four controls change."""
+    pos = owner._positions
+    key = (len(pos), tuple(map(tuple, owner._splines)), _BEZIER_N)
+    if getattr(owner, '_ui_strip_key', None) != key:
+        owner._ui_strip_key = key
+        owner._ui_strip_controls = [sp for sp in key[1]
+                                   if all(0 <= i < len(pos) for i in sp)]
+        owner._ui_strip_previous = None
+        owner._ui_strips = [None] * len(owner._ui_strip_controls)
+    controls = _np.asarray(pos, dtype=float).reshape(-1, 3)
+    previous = owner._ui_strip_previous
+    if previous is None:
+        dirty = list(range(len(owner._ui_strip_controls)))
+    else:
+        changed = _np.any(controls != previous, axis=1)
+        dirty = [i for i, sp in enumerate(owner._ui_strip_controls)
+                 if any(changed[j] for j in sp)]
+    strips = _bezier_strips(pos, [owner._ui_strip_controls[i] for i in dirty])
+    for i, strip in zip(dirty, strips):
+        owner._ui_strips[i] = strip
+    owner._ui_strip_previous = controls.copy()
+    return owner._ui_strips
+
+
 class RetopoGuideGeometryOverride(omr.MPxGeometryOverride):
     """VP2 ジオメトリオーバーライド: カーブ描画 + コンポーネント選択。
 
@@ -466,7 +491,7 @@ class RetopoGuideGeometryOverride(omr.MPxGeometryOverride):
     # -----------------------------------------------------------------
     def updateRenderItems(self, dagPath, renderItemList):
         from .gpu_guides import configure
-        configure(self,renderItemList,_gpu_world_guides and self._xray)
+        configure(self,renderItemList,_gpu_world_guides, foreground=self._xray)
         idx = renderItemList.indexOf(_VERTEX_SEL_ITEM)
         if idx < 0:
             item = omr.MRenderItem.create(
@@ -612,12 +637,14 @@ class RetopoGuideGeometryOverride(omr.MPxGeometryOverride):
         drawManager.setColor(om2.MColor([cr, cg, cb, 1.0]))
         drawManager.setLineWidth(st["curve_width"])
         if not getattr(self,'_gpu_curve_active',False):
-            for pts in _bezier_strips(pos, self._splines, raw=isinstance(drawManager,_ForegroundDraw)):
+            for pts in (_bezier_strips(pos, self._splines, raw=True)
+                        if isinstance(drawManager, _ForegroundDraw)
+                        else _cached_bezier_strips(self)):
                 drawManager.lineStrip(pts, False)
 
-        if isinstance(drawManager, _WorldForegroundDraw):
+        if isinstance(drawManager, _WorldForegroundDraw) or not isinstance(drawManager, _ForegroundDraw):
             from .gpu_guides import draw_controls
-            draw_controls(self, drawManager, st)
+            draw_controls(self, drawManager, st, wrapped=isinstance(drawManager, _WorldForegroundDraw))
         else:
             # ---- ハンドル タンジェントライン ----
             # 選択中のハンドルは非表示でも描く (どこを掃んでいるか見えないと困る)

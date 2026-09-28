@@ -1,0 +1,300 @@
+{
+  "rows": [
+    {
+      "release_ms": 60.08669998846017,
+      "evaluation_ms": 44.17510001803748,
+      "vertices": 3144,
+      "profiled": false,
+      "native_stages": [
+        36.1866,
+        0.0936,
+        6.9053,
+        0.6879
+      ],
+      "stages": [
+        [
+          "_add_spline_to_cn",
+          16.3479000038933
+        ],
+        [
+          "_split_splines_at_intersections",
+          2.6453999744262546
+        ],
+        [
+          "_add_spline_to_cn",
+          1.1682000185828656
+        ],
+        [
+          "_split_splines_at_intersections",
+          2.0856000191997737
+        ],
+        [
+          "_mirror_spline",
+          4.96489999932237
+        ],
+        [
+          "<class 'Aru_RetopoTool.patch_transfer.SceneTransfer'>.__init__",
+          5.138499982422218
+        ],
+        [
+          "<class 'Aru_RetopoTool.patch_transfer.Transfer'>.__init__",
+          6.960699975024909
+        ],
+        [
+          "<module 'Aru_RetopoTool.patch_transfer' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\patch_transfer.py'>.prepare_all",
+          14.674299978651106
+        ],
+        [
+          "_commit_net_data",
+          21.408500004326925
+        ],
+        [
+          "selected_regions",
+          4.6098000020720065
+        ],
+        [
+          "<module 'Aru_RetopoTool.subdivision' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\subdivision.py'>.plan",
+          7.082700001774356
+        ],
+        [
+          "Plan",
+          11.182399990502745
+        ],
+        [
+          "<class 'Aru_RetopoTool.subdivision.Steps'>.compile",
+          2.5144999963231385
+        ],
+        [
+          "<module 'Aru_RetopoTool.local_fields' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\local_fields.py'>.weights",
+          4.147299972828478
+        ],
+        [
+          "provider.compute",
+          34.96479999739677
+        ]
+      ]
+    },
+    {
+      "release_ms": 26.482999994186684,
+      "evaluation_ms": 27.621899993391708,
+      "vertices": 3144,
+      "profiled": false,
+      "native_stages": [
+        21.0295,
+        0.0434,
+        5.8041,
+        0.4764
+      ],
+      "stages": [
+        [
+          "_add_spline_to_cn",
+          0.9647999831940979
+        ],
+        [
+          "_split_splines_at_intersections",
+          1.7408999847248197
+        ],
+        [
+          "_add_spline_to_cn",
+          0.8620000153314322
+        ],
+        [
+          "_split_splines_at_intersections",
+          1.4404999965336174
+        ],
+        [
+          "_mirror_spline",
+          3.489599999738857
+        ],
+        [
+          "<class 'Aru_RetopoTool.patch_transfer.SceneTransfer'>.__init__",
+          4.294299986213446
+        ],
+        [
+          "<class 'Aru_RetopoTool.patch_transfer.Transfer'>.__init__",
+          5.461700027808547
+        ],
+        [
+          "<module 'Aru_RetopoTool.patch_transfer' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\patch_transfer.py'>.prepare_all",
+          11.782700021285564
+        ],
+        [
+          "_commit_net_data",
+          16.517900017788634
+        ],
+        [
+          "selected_regions",
+          3.934300009859726
+        ],
+        [
+          "<module 'Aru_RetopoTool.subdivision' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\subdivision.py'>.plan",
+          4.410300025483593
+        ],
+        [
+          "Plan",
+          7.113100000424311
+        ],
+        [
+          "<class 'Aru_RetopoTool.subdivision.Steps'>.compile",
+          1.5583999920636415
+        ],
+        [
+          "<module 'Aru_RetopoTool.local_fields' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\local_fields.py'>.weights",
+          3.1039000023156404
+        ],
+        [
+          "provider.compute",
+          20.732800010591745
+        ]
+      ]
+    },
+    {
+      "release_ms": 24.50120000867173,
+      "evaluation_ms": 28.01400001044385,
+      "vertices": 3144,
+      "profiled": false,
+      "native_stages": [
+        20.2355,
+        0.0441,
+        6.7198,
+        0.7268
+      ],
+      "stages": [
+        [
+          "_add_spline_to_cn",
+          1.039800001308322
+        ],
+        [
+          "_split_splines_at_intersections",
+          1.584399986313656
+        ],
+        [
+          "_add_spline_to_cn",
+          0.8289999968837947
+        ],
+        [
+          "_split_splines_at_intersections",
+          1.4284999924711883
+        ],
+        [
+          "_mirror_spline",
+          3.3961999870371073
+        ],
+        [
+          "<class 'Aru_RetopoTool.patch_transfer.SceneTransfer'>.__init__",
+          4.082300001755357
+        ],
+        [
+          "<class 'Aru_RetopoTool.patch_transfer.Transfer'>.__init__",
+          4.164199985098094
+        ],
+        [
+          "<module 'Aru_RetopoTool.patch_transfer' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\patch_transfer.py'>.prepare_all",
+          10.252499982016161
+        ],
+        [
+          "_commit_net_data",
+          15.32429998042062
+        ],
+        [
+          "selected_regions",
+          3.398200002266094
+        ],
+        [
+          "<module 'Aru_RetopoTool.subdivision' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\subdivision.py'>.plan",
+          4.676399985328317
+        ],
+        [
+          "Plan",
+          7.329299987759441
+        ],
+        [
+          "<class 'Aru_RetopoTool.subdivision.Steps'>.compile",
+          1.4346999814733863
+        ],
+        [
+          "<module 'Aru_RetopoTool.local_fields' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\local_fields.py'>.weights",
+          2.8766999894287437
+        ],
+        [
+          "provider.compute",
+          19.971600006101653
+        ]
+      ]
+    },
+    {
+      "release_ms": 40.34239999600686,
+      "evaluation_ms": 42.193700006464496,
+      "vertices": 3144,
+      "profiled": true,
+      "native_stages": [
+        35.3484,
+        0.0118,
+        6.0671,
+        0.4758
+      ],
+      "stages": [
+        [
+          "_add_spline_to_cn",
+          1.9417000003159046
+        ],
+        [
+          "_split_splines_at_intersections",
+          2.106400002958253
+        ],
+        [
+          "_add_spline_to_cn",
+          2.0075000065844506
+        ],
+        [
+          "_split_splines_at_intersections",
+          2.38979997811839
+        ],
+        [
+          "_mirror_spline",
+          6.385100015904754
+        ],
+        [
+          "<class 'Aru_RetopoTool.patch_transfer.SceneTransfer'>.__init__",
+          4.763899982208386
+        ],
+        [
+          "<class 'Aru_RetopoTool.patch_transfer.Transfer'>.__init__",
+          10.330099990824237
+        ],
+        [
+          "<module 'Aru_RetopoTool.patch_transfer' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\patch_transfer.py'>.prepare_all",
+          18.860399984987453
+        ],
+        [
+          "_commit_net_data",
+          25.793600012548268
+        ],
+        [
+          "selected_regions",
+          8.65839998004958
+        ],
+        [
+          "<module 'Aru_RetopoTool.subdivision' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\subdivision.py'>.plan",
+          4.486999998334795
+        ],
+        [
+          "Plan",
+          10.36670000758022
+        ],
+        [
+          "<class 'Aru_RetopoTool.subdivision.Steps'>.compile",
+          2.085499989334494
+        ],
+        [
+          "<module 'Aru_RetopoTool.local_fields' from 'D:\\\\Dropbox\\\\App\\\\DCC\\\\internal\\\\maya\\\\common\\\\scripts\\\\Aru_RetopoTool\\\\local_fields.py'>.weights",
+          7.768200011923909
+        ],
+        [
+          "provider.compute",
+          35.11990001425147
+        ]
+      ]
+    }
+  ]
+}

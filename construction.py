@@ -290,7 +290,7 @@ class ConstructionWindow(qt.AruMainWindow):
                 patch_context._active=None
             if not cmds.draggerContext(NAME,exists=True):cmds.draggerContext(NAME,cursor='crossHair')
             cmds.setToolTo(NAME)
-        for overlay in cmds.listConnections(self.node+'.outMesh',s=False,d=True,shapes=True,type='aruRetopoOverlay') or []:
+        for overlay in cmds.listConnections(api.output_plug(self.node),s=False,d=True,shapes=True,type='aruRetopoOverlay') or []:
             path=cmds.ls(overlay,long=True)[0];preview_lines[path]=lines
             preview_points[path]=[cn.positions[i] for i in cn.endpoint_indices() if i not in old_eps]
             if triangles:patch_context.preview[path]=triangles

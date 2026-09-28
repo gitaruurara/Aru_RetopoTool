@@ -29,7 +29,7 @@ def sync_topology(owner, cn, *, shared_readonly=False):
         owner._draw_topology_key = key
 
 
-def configure(owner, items, enabled):
+def configure(owner, items, enabled, *, foreground=True):
     style=owner._style
     for index,name in enumerate(NAMES):
         i=items.indexOf(name)
@@ -51,9 +51,9 @@ def configure(owner, items, enabled):
             shader.setParameter('lineWidth',(width,width))
             item.setShader(shader)
         item.setDepthPriority(index)
-        item.enable(enabled and owner._is_valid)
+        item.enable(enabled and owner._is_valid and (index != 0 or foreground))
     owner._gpu_curve_active=enabled
-    configure_controls(owner,items,enabled and GPU_CONTROLS)
+    configure_controls(owner,items,enabled and GPU_CONTROLS and foreground)
 
 
 def positions(owner):
@@ -154,15 +154,17 @@ def cached_controls(owner, style):
     return owner._gpu_control_batches
 
 
-def draw_controls(owner, manager, style):
+def draw_controls(owner, manager, style, *, wrapped=True):
     if getattr(owner,'_gpu_controls_active',False):return
     lines,batches=cached_controls(owner,style);pos=owner._positions
     manager.setColor(om.MColor((.55,.55,.55,.7)))
-    manager.setLineWidth(1.);manager.outline=False
-    if lines:manager.manager.lineList(om.MPointArray([pos[i] for i in lines]),False)
+    manager.setLineWidth(1.)
+    if wrapped:manager.outline=False
+    target=manager.manager if wrapped else manager
+    if lines:target.lineList(om.MPointArray([pos[i] for i in lines]),False)
     for (color,size),indices in batches:
         manager.setColor(om.MColor(color));manager.setPointSize(size)
-        manager.manager.points(om.MPointArray([pos[i] for i in indices]),False)
+        target.points(om.MPointArray([pos[i] for i in indices]),False)
 
 
 def render_control_groups(owner, style):

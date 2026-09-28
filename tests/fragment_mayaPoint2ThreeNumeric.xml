@@ -1,0 +1,282 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2ThreeNumeric" name="mayaPoint2ThreeNumeric" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+Expand a point into a screen aligned quad from three values.]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <undefined  name="GPUStage" semantic="GPUStage" />
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float2  name="pointSize" />
+        <float2  name="screenSize" semantic="viewportPixelSize" />
+        <float4  name="quadPositionUV" semantic="quadPositionUVType3" size="4" />
+        <bool  name="isFloatValue" />
+        <float2  name="pointPlacement" />
+        <bool  name="isCulled" />
+        <int  name="fractionalLength" />
+        <float3  name="Numeric3Value" semantic="Numeric3Value" flags="isRequirementOnly,varyingInputParam" />
+    </properties>
+    <values>
+<float2 name="pointSize" value="12.000000,32.000000"  />
+<bool name="isFloatValue" value="false"  />
+<float2 name="pointPlacement" value="0.000000,0.000000"  />
+<bool name="isCulled" value="false"  />
+<int name="fractionalLength" value="3"  />
+    </values>
+    <outputs>
+        <triStream  name="outStream" size="12" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad( geometryInS inputs[1], float2 pointSz, float2 screenSize, float4 quadPositionUV[4], 
+    bool isFloatValue, float2 placement, bool isCulled, int fractionalLength, inout TriangleStream<geometryInS> outStream ) 
+{ 
+	if (isCulled)  return; 
+	geometryInS outS = inputs[0]; 
+	float2 sizeIn = pointSz / screenSize;  
+	outS.Pc = inputs[0].Pc / inputs[0].Pc.w;  
+	float2 pos = outS.Pc.xy;  
+	if (outS.Pc.z > 0.0 && outS.Pc.z < 1.0)  {  
+		// Parse the three values.	
+		float inValue[3]; 
+		inValue[0] = inputs[0].Numeric3Value.x; 
+		inValue[1] = inputs[0].Numeric3Value.y; 
+		inValue[2] = inputs[0].Numeric3Value.z; 
+      [unroll] for (int j = 0; j < 3; ++j) { 
+			int k = int(0);  
+			if (abs(inValue[j]) < 1.0e9f) {    
+				if (inValue[j] < 0) {    
+					// Minus number case.Add minus sign digit length.	
+					k += 1;  
+				} 
+				// Parse the integer part length.  
+				k += (int)log10( max(abs(inValue[j]), 1.0f) ) + 1;  
+				// Add decimal point digit & fractionalLength digits.	
+				if(isFloatValue)	
+					k += fractionalLength + 1;  
+			} 
+			else { 
+				// INF value case.	
+				k = 3;  
+			} 
+			float uvZ = 0.0f;  
+			// Add comma sign length if its the first & second value.	
+			// For example: Its supposed to be '123.456, -123.456, 123.456'.		
+			// Little Tick here: uvZ = 1.0f means there's a Comma sign between the values.	
+			if (j < 2) {    
+				k += 1;  
+				uvZ = 1.0f;  
+			} 
+			outS.NumericValue = inValue[j]; 
+			// Just output a Quad with the length of the input value.  
+			[unroll] for( int i = 0; i < 4; ++i ) {	
+				float2 quadUV = float2(quadPositionUV[i].z * k, quadPositionUV[i].w);  
+				float2 quadPts = float2(quadPositionUV[i].x * k, quadPositionUV[i].y);  
+				outS.Pc.xy = pos + sizeIn * (quadPts + placement); 
+				outS.UVFromGS = float3( quadUV, uvZ); 
+				outStream.Append( outS ); 
+			} 
+			outStream.RestartStrip(); 
+			pos.x += quadPositionUV[3].x * k * sizeIn; 
+		} 
+	} 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad( AttribArray<geometryInS>inputs, float2 pointSz, float2 screenSize, float4 quadPositionUV[4], 
+	 bool isFloatValue, float2 placement, bool isCulled, int fractionalLength ) 
+{ 
+	if (isCulled)  return; 
+	geometryInS outS = inputs[0]; 
+	float2 sizeIn = pointSz / screenSize;  
+	outS.Pc = inputs[0].Pc / inputs[0].Pc.w;  
+	float2 pos = outS.Pc.xy; 
+	if (outS.Pc.z > -1.0 && outS.Pc.z < 1.0)  {  
+		// Parse the three values.	
+		float inValue[3]; 
+		inValue[0] = inputs[0].Numeric3Value.x; 
+		inValue[1] = inputs[0].Numeric3Value.y; 
+		inValue[2] = inputs[0].Numeric3Value.z; 
+      for (int j = 0; j < 3; ++j) { 
+			int k = int(0);  
+			if (abs(inValue[j]) < 1.0e9f) {    
+				if (inValue[j] < 0) {    
+					// Minus number case.Add minus sign digit length.	
+					k += 1;  
+				} 
+				// Parse the integer part length		
+				k += int(log10( max(abs(inValue[j]), 1.0f) )) + 1;  
+				// Add decimal point digit & fractionalLength digits.	
+				if(isFloatValue)	
+					k += fractionalLength + 1;  
+			} 
+			else { 
+				// INF value case.	
+				k = 3;  
+			} 
+			float uvZ = 0.0f;  
+			// Add comma sign length if its the first & second value.	
+			// For example: Its supposed to be '123.456, -123.456, 123.456'.	
+			// Little Tick here: uvZ = 1.0f means there's a Comma sign between the values.	
+			if (j < 2) {    
+				k += 1;  
+				uvZ = 1.0f;  
+			} 
+			outS.NumericValue = inValue[j]; 
+			// Just output one Quad with the length of the input value	
+			for( int i = 0; i < 4; ++i ) { 
+				float2 quadUV = float2(quadPositionUV[i].z * k, quadPositionUV[i].w); 
+				float2 quadPts = float2(quadPositionUV[i].x * k, quadPositionUV[i].y); 
+				outS.Pc.xy = pos + sizeIn * (quadPts + placement); 
+				outS.UVFromGS = float3(quadUV, uvZ); 
+				emitVertex( outS ); 
+			} 
+			restartStrip(); 
+			pos.x += quadPositionUV[3].x * k * sizeIn.x; 
+		} 
+	} 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad(  vec2 pointSz, vec2 screenSize, vec4 quadPositionUV[4], 
+	 bool isFloatValue, vec2 placement, bool isCulled, int fractionalLength ) 
+{ 
+	if (isCulled)  return; 
+	GEO_OUT_struct outS = copyFromGEO_IN(0); 
+	vec2 sizeIn = pointSz / screenSize;  
+	outS.Pc = gl_in[0].gl_Position / gl_in[0].gl_Position.w;  
+	vec2 pos = outS.Pc.xy; 
+	if (outS.Pc.z > -1.0 && outS.Pc.z < 1.0)  {  
+		// Parse the three values.	
+		float inValue[3]; 
+		inValue[0] = GEO_IN[0].Numeric3Value.x; 
+		inValue[1] = GEO_IN[0].Numeric3Value.y; 
+		inValue[2] = GEO_IN[0].Numeric3Value.z; 
+      for (int j = 0; j < 3; ++j) { 
+			int k = int(0);  
+			if (abs(inValue[j]) < 1.0e9f) {    
+				if (inValue[j] < 0) {    
+					// Minus number case.Add minus sign digit length.	
+					k += 1;  
+				} 
+				// Parse the integer part length		
+				k += int(0.43429448190325176*log( max(abs(inValue[j]), 1.0f) )) + 1;  
+				// Add decimal point digit & fractionalLength digits.	
+				if(isFloatValue)	
+					k += fractionalLength + 1;  
+			} 
+			else { 
+				// INF value case.	
+				k = 3;  
+			} 
+			float uvZ = 0.0f;  
+			// Add comma sign length if its the first & second value.	
+			// For example: Its supposed to be '123.456, -123.456, 123.456'.	
+			// Little Tick here: uvZ = 1.0f means there's a Comma sign between the values.	
+			if (j < 2) {    
+				k += 1;  
+				uvZ = 1.0f;  
+			} 
+			outS.NumericValue = inValue[j]; 
+			// Just output_is_glsl_kw one Quad with the length of the input_is_glsl_kw value	
+			for( int i = 0; i < 4; ++i ) { 
+				vec2 quadUV = vec2(quadPositionUV[i].z * k, quadPositionUV[i].w); 
+				vec2 quadPts = vec2(quadPositionUV[i].x * k, quadPositionUV[i].y); 
+				outS.Pc.xy = pos + sizeIn * (quadPts + placement); 
+				outS.UVFromGS = vec3(quadUV, uvZ); 
+				EmitGeoStruct( outS ); 
+			} 
+			EndPrimitive(); 
+			pos.x += quadPositionUV[3].x * k * sizeIn.x; 
+		} 
+	} 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad( geometryInS inputs[1], float2 pointSz, float2 screenSize, float4 quadPositionUV[4], 
+    bool isFloatValue, float2 placement, bool isCulled, int fractionalLength, inout TriangleStream<geometryInS> outStream ) 
+{ 
+	if (isCulled)  return; 
+	geometryInS outS = inputs[0]; 
+	float2 sizeIn = pointSz / screenSize;  
+	outS.Pc = inputs[0].Pc / inputs[0].Pc.w;  
+	float2 pos = outS.Pc.xy;  
+	if (outS.Pc.z > 0.0 && outS.Pc.z < 1.0)  {  
+		// Parse the three values.	
+		float inValue[3]; 
+		inValue[0] = inputs[0].Numeric3Value.x; 
+		inValue[1] = inputs[0].Numeric3Value.y; 
+		inValue[2] = inputs[0].Numeric3Value.z; 
+      [unroll] for (int j = 0; j < 3; ++j) { 
+			int k = int(0);  
+			if (abs(inValue[j]) < 1.0e9f) {    
+				if (inValue[j] < 0) {    
+					// Minus number case.Add minus sign digit length.	
+					k += 1;  
+				} 
+				// Parse the integer part length.  
+				k += (int)log10( max(abs(inValue[j]), 1.0f) ) + 1;  
+				// Add decimal point digit & fractionalLength digits.	
+				if(isFloatValue)	
+					k += fractionalLength + 1;  
+			} 
+			else { 
+				// INF value case.	
+				k = 3;  
+			} 
+			float uvZ = 0.0f;  
+			// Add comma sign length if its the first & second value.	
+			// For example: Its supposed to be '123.456, -123.456, 123.456'.		
+			// Little Tick here: uvZ = 1.0f means there's a Comma sign between the values.	
+			if (j < 2) {    
+				k += 1;  
+				uvZ = 1.0f;  
+			} 
+			outS.NumericValue = inValue[j]; 
+			// Just output a Quad with the length of the input value.  
+			[unroll] for( int i = 0; i < 4; ++i ) {	
+				float2 quadUV = float2(quadPositionUV[i].z * k, quadPositionUV[i].w);  
+				float2 quadPts = float2(quadPositionUV[i].x * k, quadPositionUV[i].y);  
+				outS.Pc.xy = pos + sizeIn * (quadPts + placement); 
+				outS.UVFromGS = float3( quadUV, uvZ); 
+				outStream.Append( outS ); 
+			} 
+			outStream.RestartStrip(); 
+			pos.x += quadPositionUV[3].x * k * sizeIn; 
+		} 
+	} 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

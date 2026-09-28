@@ -1,0 +1,78 @@
+         6664134 function calls (6663280 primitive calls) in 2.257 seconds
+
+   Ordered by: cumulative time
+   List reduced from 369 to 70 due to restriction <70>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      204    0.009    0.000    1.858    0.009 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\core.py:51(__init__)
+      204    0.026    0.000    1.791    0.009 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\core.py:38(selected_regions)
+      205    0.379    0.002    0.964    0.005 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:51(regions)
+      409    0.352    0.001    0.658    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:7(spline_aliases)
+      204    0.006    0.000    0.423    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:32(canonical_keys)
+    42228    0.091    0.000    0.388    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\core.py:141(patch_key)
+   363404    0.118    0.000    0.242    0.000 {built-in method builtins.max}
+    91633    0.068    0.000    0.201    0.000 {built-in method builtins.any}
+      204    0.002    0.000    0.191    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\core.py:106(evaluate)
+    42229    0.032    0.000    0.147    0.000 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\__init__.py:183(dumps)
+   726384    0.095    0.000    0.124    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:20(<genexpr>)
+    42229    0.028    0.000    0.108    0.000 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\encoder.py:183(encode)
+      204    0.000    0.000    0.100    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\core.py:103(compile_stencil)
+      204    0.047    0.000    0.100    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\subdivision.py:68(compile)
+      204    0.081    0.000    0.098    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:108(relax)
+   455100    0.055    0.000    0.074    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:53(<genexpr>)
+      206    0.028    0.000    0.072    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:43(packed)
+      204    0.002    0.000    0.070    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:78(__call__)
+    42229    0.067    0.000    0.067    0.000 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\encoder.py:205(iterencode)
+    42440    0.030    0.000    0.060    0.000 {built-in method builtins.min}
+      614    0.054    0.000    0.054    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:37(doubles)
+      204    0.035    0.000    0.053    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\subdivision.py:7(plan)
+    42890    0.013    0.000    0.048    0.000 shibokensupport/signature/loader.py:59(feature_import)
+887362/887158    0.046    0.000    0.046    0.000 {built-in method builtins.len}
+      684    0.000    0.000    0.042    0.000 {built-in method builtins.next}
+   231855    0.028    0.000    0.039    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:55(<genexpr>)
+   348090    0.038    0.000    0.038    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:84(<genexpr>)
+    42890    0.022    0.000    0.035    0.000 shibokensupport/feature.py:88(feature_import)
+     5718    0.028    0.000    0.031    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\stencil_compiler.py:20(view)
+      205    0.017    0.000    0.031    0.000 {built-in method fromkeys}
+      240    0.008    0.000    0.031    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\symmetry_ops.py:14(<genexpr>)
+   272229    0.030    0.000    0.030    0.000 {method 'get' of 'dict' objects}
+   555686    0.029    0.000    0.029    0.000 {built-in method builtins.abs}
+   218592    0.029    0.000    0.029    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\core.py:145(<genexpr>)
+   183376    0.025    0.000    0.025    0.000 {method 'setdefault' of 'dict' objects}
+   218592    0.023    0.000    0.023    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\core.py:144(<genexpr>)
+    29304    0.012    0.000    0.023    0.000 {built-in method builtins.sum}
+    42890    0.010    0.000    0.023    0.000 shibokensupport/signature/loader.py:67(feature_imported)
+   193070    0.021    0.000    0.021    0.000 {method 'append' of 'list' objects}
+   364285    0.021    0.000    0.021    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:66(<genexpr>)
+     1022    0.020    0.000    0.021    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:38(ints)
+   362508    0.021    0.000    0.021    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\subdivision.py:71(<genexpr>)
+      204    0.001    0.000    0.019    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:75(__init__)
+        1    0.008    0.008    0.016    0.016 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:87(__init__)
+    90780    0.012    0.000    0.016    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\subdivision.py:70(<genexpr>)
+     1014    0.007    0.000    0.015    0.000 {built-in method builtins.all}
+   182245    0.013    0.000    0.013    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:68(<genexpr>)
+    42890    0.009    0.000    0.013    0.000 shibokensupport/feature.py:134(feature_imported)
+      444    0.011    0.000    0.011    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\symmetry_ops.py:22(<genexpr>)
+      204    0.010    0.000    0.010    0.000 {method 'create' of 'OpenMaya.MFnMesh' objects}
+    49200    0.010    0.000    0.010    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\patch_context.py:115(<lambda>)
+    85715    0.008    0.000    0.008    0.000 {built-in method builtins.isinstance}
+        1    0.000    0.000    0.007    0.007 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:70(_world_data)
+    42229    0.007    0.000    0.007    0.000 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\encoder.py:105(__init__)
+    90780    0.007    0.000    0.007    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:35(<genexpr>)
+        1    0.000    0.000    0.006    0.006 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:45(_evaluated_copy)
+        1    0.003    0.003    0.006    0.006 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:11(_copy_surface_bindings)
+    42229    0.005    0.000    0.005    0.000 {method 'join' of 'str' objects}
+    42890    0.004    0.000    0.004    0.000 {built-in method sys._getframe}
+    17328    0.003    0.000    0.004    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:124(<genexpr>)
+    43310    0.004    0.000    0.004    0.000 {built-in method builtins.hasattr}
+        2    0.004    0.002    0.004    0.002 {method 'asMeshTransformed' of 'OpenMaya.MDataHandle' objects}
+      205    0.004    0.000    0.004    0.000 {method 'getTriangles' of 'OpenMaya.MFnMesh' objects}
+      612    0.004    0.000    0.004    0.000 {method 'tolist' of 'array.array' objects}
+        1    0.003    0.003    0.003    0.003 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:99(project)
+        2    0.000    0.000    0.003    0.002 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\__init__.py:299(loads)
+        2    0.000    0.000    0.003    0.002 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\decoder.py:340(decode)
+        2    0.003    0.002    0.003    0.002 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\decoder.py:351(raw_decode)
+        1    0.000    0.000    0.003    0.003 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_node.py:1837(_out_json)
+        4    0.003    0.001    0.003    0.001 D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/aru_retopo_draw_plugin.py:54(prepareForDraw)
+
+

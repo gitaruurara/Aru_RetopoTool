@@ -344,6 +344,12 @@ def relax(node, weights, strength=.2, draft=True, smooth=True, *, _world=None, _
         if feature_data:
             projected=hard_surface.constrain(p,projected,feature_data)
             projected,face,bary=edit._closest_point_on_mesh(mesh_fn,mesh_dag,projected)
+        # Classify from the pre-stroke position: testing the relaxed point
+        # would lose center EPs as soon as asymmetric neighbors pull them away.
+        if symmetry.is_enabled():
+            side = symmetry.plane_coord(p, mesh)
+            projected, face, bary, _ = context._apply_symmetry_constraint(
+                mesh, projected, side=side)
         cn.positions[ep] = projected
         cn.surface_binding[ep] = (face, bary)
         delta = [projected[k]-p[k] for k in range(3)]

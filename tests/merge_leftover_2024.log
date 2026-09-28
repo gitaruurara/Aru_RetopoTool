@@ -1,0 +1,31 @@
+This plugin does not support createPlatformOpenGLContext!
+[RetopoGuide] Plugin loaded.
+Œ³‚É–ß‚·: weld adjoining patch borders
+‚â‚è’¼‚µ: weld adjoining patch borders
+PASS actual merge, distinct duplicate cleanup, patch fill, compact, Undo/Redo 1
+[RetopoGuide] 21:15:29 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:15:29 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:15:29 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:15:29 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+Œ³‚É–ß‚·: weld adjoining patch borders
+‚â‚è’¼‚µ: weld adjoining patch borders
+PASS actual merge, distinct duplicate cleanup, patch fill, compact, Undo/Redo 2
+PASS collapsed curve removal
+[RetopoGuide] merged EP 0 into 1
+PASS real release welds both symmetry sides despite coincident dragged endpoints
+[RetopoGuide] 21:15:29 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:15:29 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:15:29 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:15:29 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 21:15:29 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:15:29 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

@@ -31,7 +31,7 @@ class RetopoWindow(qt.AruMainWindow):
         layout.addLayout(row)
         construct=qt.QPushButton('輪切り・押し出し・ブリッジ')
         construct.clicked.connect(lambda:self.run(self.open_construction));layout.addWidget(construct)
-        self.drag_faces=qt.QCheckBox('Ctrl＋中ドラッグの押し出しで面も作成')
+        self.drag_faces=qt.QCheckBox('Ctrl＋Shift＋中ドラッグの押し出しで面も作成')
         self.drag_faces.setChecked(bool(cmds.optionVar(q='aruRetopoDragExtrudeFaces')) if cmds.optionVar(exists='aruRetopoDragExtrudeFaces') else True)
         self.drag_faces.toggled.connect(lambda value:cmds.optionVar(iv=('aruRetopoDragExtrudeFaces',int(value))))
         layout.addWidget(self.drag_faces)
@@ -132,7 +132,7 @@ class RetopoWindow(qt.AruMainWindow):
         if not self.guide.text().strip(): self.new_guide()
         if not self.node or not cmds.objExists(self.node): self.create()
         guides.edit(self.node)
-        self.status.setText('左：カーブ / 中ドラッグ：移動 / 境界カーブをCtrl＋中ドラッグ：押し出し（離して確定・Esc取消） / パッチ上の中：面確定 / Shift＋中：解除')
+        self.status.setText('左：カーブ / 中ドラッグ：移動 / カーブ上Ctrl＋中クリック：ループ追加 / 境界カーブをCtrl＋Shift＋中ドラッグ：押し出し（離して確定・Esc取消） / パッチ上の中：面確定 / Shift＋中：解除')
 
     def new_guide(self):
         from . import guides

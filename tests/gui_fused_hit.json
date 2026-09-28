@@ -1,0 +1,25 @@
+{
+  "cases": [
+    {
+      "turn": 0,
+      "orthographic": false,
+      "exact": 120,
+      "fused_ms": 2.4618000024929643,
+      "numpy_ms": 5.469700001413003
+    },
+    {
+      "turn": 13,
+      "orthographic": false,
+      "exact": 120,
+      "fused_ms": 2.4635000008856878,
+      "numpy_ms": 5.5659499994362704
+    },
+    {
+      "turn": -21,
+      "orthographic": true,
+      "exact": 120,
+      "fused_ms": 2.283949994307477,
+      "numpy_ms": 5.331449996447191
+    }
+  ]
+}

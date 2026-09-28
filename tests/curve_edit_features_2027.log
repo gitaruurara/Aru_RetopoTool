@@ -1,0 +1,54 @@
+[RetopoGuide] Plugin loaded.
+Œ³‚É–ß‚·: RetopoGuide
+‚â‚è’¼‚µ: RetopoGuide
+PASS real curve clicks insert, connect, split filled patch, Undo/Redo
+[RetopoGuide] 21:51:35 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:51:35 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:51:35 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:51:35 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+Œ³‚É–ß‚·: Aru Retopo: insert guide loop
+‚â‚è’¼‚µ: Aru Retopo: insert guide loop
+PASS loop preview routes to native overlay without writes, commit, Undo/Redo
+[RetopoGuide] 21:51:35 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:51:35 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:51:35 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:51:35 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+PASS symmetric loop insertion on a self-mirrored patch
+PASS Ctrl MMB curve insertion and patch reduction routing
+[RetopoGuide] 21:51:36 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:51:36 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:51:36 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:51:36 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+Œ³‚É–ß‚·: Aru Retopo: drag extrude
+PASS drag preview, click without motion, return to origin, cancel, commit and single Undo
+PASS repeated loop reduction evenly redistributes positions and compiled stencils
+PASS general patch redistribution and native stencil parity
+.....................
+----------------------------------------------------------------------
+Ran 21 tests in 0.139s
+
+OK
+[RetopoGuide] 21:51:36 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:51:36 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:51:36 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:51:36 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 21:51:36 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:51:36 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

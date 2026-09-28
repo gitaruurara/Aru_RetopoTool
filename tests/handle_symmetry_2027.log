@@ -1,0 +1,54 @@
+[RetopoGuide] Plugin loaded.
+[RetopoGuide] 2 個のハンドルを自動フィットに戻しました
+元に戻す: ResetManualHandles
+やり直し: ResetManualHandles
+PASS drag locks, release parity, fixed EP following, mirrored unlock Undo/Redo world False
+[RetopoGuide] 21:02:46 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:02:46 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:02:46 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:02:46 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 2 個のハンドルを自動フィットに戻しました
+元に戻す: ResetManualHandles
+やり直し: ResetManualHandles
+PASS drag locks, release parity, fixed EP following, mirrored unlock Undo/Redo world True
+[RetopoGuide] 21:02:46 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:02:46 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:02:46 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:02:46 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 2 個のハンドルを自動フィットに戻しました
+元に戻す: ResetManualHandles
+やり直し: ResetManualHandles
+PASS drag locks, release parity, fixed EP following, mirrored unlock Undo/Redo object False
+[RetopoGuide] 21:02:46 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:02:46 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:02:46 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:02:46 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 2 個のハンドルを自動フィットに戻しました
+元に戻す: ResetManualHandles
+やり直し: ResetManualHandles
+PASS drag locks, release parity, fixed EP following, mirrored unlock Undo/Redo object True
+PASS reciprocal seam handle matching
+[RetopoGuide] 21:02:46 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:02:46 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:02:46 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:02:46 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 21:02:46 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:02:46 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

@@ -1,0 +1,6 @@
+buffer_preview.cpp
+C:/Program Files/Autodesk/Maya2027/include\maya/MSharedPtr.h(77): warning C4100: '_ptr': 参照されないパラメーター
+C:/Program Files/Autodesk/Maya2027/include\maya/MSharedPtr.h(77): note: テンプレートインスタンス化コンテキスト (最初に最も古いもの) は
+C:/Program Files/Autodesk/Maya2027/include\maya/MHWGeometry.h(748): note: コンパイル対象の クラス テンプレート インスタンス化 'Autodesk::Maya::OpenMaya20270000::MSharedPtr<Autodesk::Maya::OpenMaya20270000::MUserData>' のリファレンスを確認してください
+C:/Program Files/Autodesk/Maya2027/include\maya/MSharedPtr.h(77): note: クラス テンプレート メンバー関数 'Autodesk::Maya::OpenMaya20270000::MSharedPtr<Autodesk::Maya::OpenMaya20270000::MUserData>::MSharedPtr(std::nullptr_t) noexcept' のコンパイル中
+   ライブラリ aru_retopo_buffer_preview_indices.lib とオブジェクト aru_retopo_buffer_preview_indices.exp を作成中

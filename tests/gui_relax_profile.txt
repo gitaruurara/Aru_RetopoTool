@@ -1,0 +1,28 @@
+         3067937 function calls (3054483 primitive calls) in 1.141 seconds
+
+   Ordered by: cumulative time
+   List reduced from 312 to 20 due to restriction <20>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    48600    0.156    0.000    0.291    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_edit.py:305(_bary3)
+   204754    0.051    0.000    0.160    0.000 D:/Jenkins/workspace/maya/build/RelWithDebInfo/runTime/Python/Lib/site-packages/maya/OpenMaya.py:7022(__init__)
+     3840    0.010    0.000    0.129    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_context.py:378(_sample_and_project)
+     3840    0.053    0.000    0.092    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_context.py:185(closest_many)
+   204754    0.087    0.000    0.087    0.000 {built-in method maya._OpenMaya.MPoint_swiginit}
+    50388    0.016    0.000    0.060    0.000 shibokensupport/signature/loader.py:59(feature_import)
+    64021    0.016    0.000    0.054    0.000 D:/Jenkins/workspace/maya/build/RelWithDebInfo/runTime/Python/Lib/site-packages/maya/OpenMaya.py:6878(__init__)
+    50388    0.027    0.000    0.044    0.000 shibokensupport/feature.py:88(feature_import)
+    14160    0.031    0.000    0.043    0.000 C:\Program Files\Autodesk\Maya2027\Python\Lib\site-packages\numpy\lib\_shape_base_impl.py:628(column_stack)
+    48700    0.031    0.000    0.031    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_context.py:1306(_bezier_point)
+    50388    0.014    0.000    0.029    0.000 shibokensupport/signature/loader.py:67(feature_imported)
+      646    0.001    0.000    0.027    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_context.py:409(_consider)
+      646    0.002    0.000    0.027    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_context.py:396(_path_error)
+    12806    0.026    0.000    0.026    0.000 {method 'add' of 'OpenMaya.MSelectionList' objects}
+      944    0.016    0.000    0.026    0.000 C:\Program Files\Autodesk\Maya2027\Python\Lib\site-packages\numpy\linalg\_linalg.py:2442(lstsq)
+    64021    0.024    0.000    0.024    0.000 {built-in method maya._OpenMaya.MPlug_swiginit}
+   197265    0.024    0.000    0.024    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:48(_v3_sub)
+   243646    0.024    0.000    0.024    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:57(_v3_dot)
+   217413    0.023    0.000    0.023    0.000 {method 'append' of 'list' objects}
+    26897    0.008    0.000    0.022    0.000 D:/Jenkins/workspace/maya/build/RelWithDebInfo/runTime/Python/Lib/site-packages/maya/OpenMaya.py:2323(__init__)
+
+

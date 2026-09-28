@@ -1,0 +1,36 @@
+         326785 function calls (326699 primitive calls) in 0.114 seconds
+
+   Ordered by: cumulative time
+   List reduced from 157 to 28 due to restriction <28>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       32    0.026    0.001    0.026    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\maya_projector.py:38(points)
+    14400    0.009    0.000    0.014    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:136(length3)
+        8    0.008    0.001    0.013    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:45(_evaluated_copy)
+       56    0.007    0.000    0.007    0.000 {built-in method numpy.asarray}
+    91392    0.007    0.000    0.007    0.000 {method 'append' of 'list' objects}
+     8000    0.004    0.000    0.006    0.000 {built-in method builtins.sum}
+     1600    0.001    0.000    0.005    0.000 {built-in method builtins.sorted}
+        8    0.003    0.000    0.005    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:11(_copy_surface_bindings)
+    14400    0.005    0.000    0.005    0.000 {method 'dot' of 'numpy.ndarray' objects}
+    26888    0.005    0.000    0.005    0.000 {method 'tolist' of 'numpy.ndarray' objects}
+     6400    0.004    0.000    0.004    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:157(<genexpr>)
+    11208    0.003    0.000    0.003    0.000 {built-in method numpy.array}
+        8    0.000    0.000    0.003    0.000 C:\Program Files\Autodesk\Maya2027\Python\Lib\site-packages\numpy\linalg\_linalg.py:2178(pinv)
+       16    0.003    0.000    0.003    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:517(endpoint_indices)
+       80    0.003    0.000    0.003    0.000 {built-in method numpy.ascontiguousarray}
+        8    0.002    0.000    0.002    0.000 C:\Program Files\Autodesk\Maya2027\Python\Lib\site-packages\numpy\linalg\_linalg.py:1689(svd)
+    28624    0.002    0.000    0.002    0.000 {method 'add' of 'set' objects}
+    25424    0.002    0.000    0.002    0.000 {method 'setdefault' of 'dict' objects}
+     2576    0.001    0.000    0.002    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:502(clear_manual_handles)
+    19200    0.002    0.000    0.002    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:317(<genexpr>)
+     2576    0.001    0.000    0.001    0.000 {method 'difference_update' of 'set' objects}
+        8    0.001    0.000    0.001    0.000 {method 'asString' of 'OpenMaya.MPlug' objects}
+        8    0.000    0.000    0.001    0.000 {built-in method maya.cmds.listConnections}
+     2602    0.001    0.000    0.001    0.000 {method 'get' of 'dict' objects}
+    11200    0.001    0.000    0.001    0.000 {built-in method builtins.max}
+       32    0.001    0.000    0.001    0.000 {built-in method maya.cmds.optionVar}
+      401    0.000    0.000    0.001    0.000 shibokensupport/signature/loader.py:59(feature_import)
+       24    0.000    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\hard_surface.py:9(enabled)
+
+

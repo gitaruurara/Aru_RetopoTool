@@ -1,0 +1,294 @@
+{
+  "span_raw": 218920,
+  "events": 2726,
+  "longest": [
+    {
+      "start": 150906557847,
+      "name": "QtUpdateRequest",
+      "extra": "(null)",
+      "duration": 70007,
+      "thread_duration": 25751502,
+      "thread": "39688",
+      "category": 6
+    },
+    {
+      "start": 150906558010,
+      "name": "QtPaint",
+      "extra": "(null)",
+      "duration": 69706,
+      "thread_duration": 25641106,
+      "thread": "39688",
+      "category": 6
+    },
+    {
+      "start": 150906489805,
+      "name": "Vp2OverrideRender",
+      "extra": "(null)",
+      "duration": 65884,
+      "thread_duration": 23593828,
+      "thread": "39688",
+      "category": 0
+    },
+    {
+      "start": 150906492800,
+      "name": "Vp2ExecuteRenderOverride",
+      "extra": "(null)",
+      "duration": 62876,
+      "thread_duration": 22486663,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906492804,
+      "name": "Vp2SceneOperation",
+      "extra": "(null)",
+      "duration": 59721,
+      "thread_duration": 21372164,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906492815,
+      "name": "colorPass",
+      "extra": "(null)",
+      "duration": 59708,
+      "thread_duration": 21367224,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906492816,
+      "name": "Vp2SceneRender",
+      "extra": "(null)",
+      "duration": 59706,
+      "thread_duration": 21366487,
+      "thread": "39688",
+      "category": 0
+    },
+    {
+      "start": 150906493302,
+      "name": "Vp2UpdateScene",
+      "extra": "(null)",
+      "duration": 59220,
+      "thread_duration": 21187347,
+      "thread": "39688",
+      "category": 0
+    },
+    {
+      "start": 150906493303,
+      "name": "Vp2UpdateScene",
+      "extra": "(null)",
+      "duration": 56932,
+      "thread_duration": 20346977,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906430727,
+      "name": "sendAttributeChangedMsg",
+      "extra": "aruRetopoGuideShape1",
+      "duration": 56785,
+      "thread_duration": 20902016,
+      "thread": "39688",
+      "category": 3
+    },
+    {
+      "start": 150906493309,
+      "name": "Vp2PrepareToUpdate",
+      "extra": "(null)",
+      "duration": 34417,
+      "thread_duration": 12626762,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906493358,
+      "name": "Vp2PreparePerFrameUpdates",
+      "extra": "(null)",
+      "duration": 34358,
+      "thread_duration": 12605530,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906528552,
+      "name": "Vp2BuildRenderLists",
+      "extra": "(null)",
+      "duration": 21668,
+      "thread_duration": 7410297,
+      "thread": "39688",
+      "category": 0
+    },
+    {
+      "start": 150906493359,
+      "name": "Vp2PreparePerFrameUpdate",
+      "extra": "(null)",
+      "duration": 17451,
+      "thread_duration": 6382604,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906493360,
+      "name": "Vp2UpdatePlugIn",
+      "extra": "(null)",
+      "duration": 17449,
+      "thread_duration": 6381940,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906493379,
+      "name": "Compute",
+      "extra": "aruRetopoNative1",
+      "duration": 17313,
+      "thread_duration": 6331958,
+      "thread": "39688",
+      "category": 1
+    },
+    {
+      "start": 150906510810,
+      "name": "Vp2PreparePerFrameUpdate",
+      "extra": "(null)",
+      "duration": 16905,
+      "thread_duration": 6222189,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906510812,
+      "name": "Vp2UpdatePlugIn",
+      "extra": "(null)",
+      "duration": 16903,
+      "thread_duration": 6221120,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906498734,
+      "name": "Compute",
+      "extra": "aruRetopoGuideShape1",
+      "duration": 10964,
+      "thread_duration": 4020025,
+      "thread": "39688",
+      "category": 1
+    },
+    {
+      "start": 150906542338,
+      "name": "Vp2UpdateDagObject",
+      "extra": "aruRetopoGuideShape1",
+      "duration": 6834,
+      "thread_duration": 2501467,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906493393,
+      "name": "Compute",
+      "extra": "aruRetopoPlan1",
+      "duration": 5321,
+      "thread_duration": 1958777,
+      "thread": "39688",
+      "category": 1
+    },
+    {
+      "start": 150906550236,
+      "name": "Vp2DrawOperation",
+      "extra": "(null)",
+      "duration": 2198,
+      "thread_duration": 807344,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906550293,
+      "name": "colorPass",
+      "extra": "(null)",
+      "duration": 2064,
+      "thread_duration": 758247,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906552530,
+      "name": "Vp2SceneOperation",
+      "extra": "(null)",
+      "duration": 1594,
+      "thread_duration": 559241,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906552532,
+      "name": "colorPass",
+      "extra": "(null)",
+      "duration": 1591,
+      "thread_duration": 557987,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906552533,
+      "name": "Vp2SceneRender",
+      "extra": "(null)",
+      "duration": 1589,
+      "thread_duration": 557508,
+      "thread": "39688",
+      "category": 0
+    },
+    {
+      "start": 150906552654,
+      "name": "Vp2UpdateScene",
+      "extra": "(null)",
+      "duration": 1467,
+      "thread_duration": 512907,
+      "thread": "39688",
+      "category": 0
+    },
+    {
+      "start": 150906550857,
+      "name": "uiGeometry",
+      "extra": "(null)",
+      "duration": 1183,
+      "thread_duration": 434727,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906550860,
+      "name": "postUIGeometry",
+      "extra": "(null)",
+      "duration": 1180,
+      "thread_duration": 433547,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906550861,
+      "name": "opaqueUIList",
+      "extra": "(null)",
+      "duration": 1178,
+      "thread_duration": 432773,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906554126,
+      "name": "Vp2SceneOperation",
+      "extra": "(null)",
+      "duration": 1150,
+      "thread_duration": 404207,
+      "thread": "39688",
+      "category": 7
+    },
+    {
+      "start": 150906554128,
+      "name": "colorPass",
+      "extra": "(null)",
+      "duration": 1146,
+      "thread_duration": 402806,
+      "thread": "39688",
+      "category": 7
+    }
+  ]
+}

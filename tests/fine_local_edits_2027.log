@@ -1,0 +1,59 @@
+[RetopoGuide] Plugin loaded.
+���ɖ߂�: 
+��蒼��: 
+���ɖ߂�: 
+��蒼��: 
+[RetopoGuide] 19:00:59 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 19:00:59 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 19:00:59 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 19:00:59 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 19:00:59 INFO >>> _before_scene_clear
+[RetopoGuide] 19:00:59 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+�t�@�C���̓ǂݎ���  0.01 �b������܂����B
+[RetopoGuide] 19:00:59 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 19:00:59 INFO <<< _after_scene_clear done
+PASS native influence changes geometry; loop removal; parity; Undo/Redo; guide movement; save/reopen
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 19:00:59 INFO >>> _before_scene_clear
+[RetopoGuide] 19:00:59 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 19:00:59 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 19:00:59 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+PASS painted patch splits into painted children; unfilled neighbor untouched; atomic Undo/Redo
+���ɖ߂�: split painted patch
+��蒼��: split painted patch
+[RetopoGuide] 19:01:00 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 19:01:00 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 19:01:00 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 19:01:00 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+���ɖ߂�: retopoGuideMirror
+��蒼��: retopoGuideMirror
+PASS explicit mirror copies paint and reductions with symmetry disabled; atomic Undo/Redo
+���ɖ߂�: delete painted source edge
+PASS deleted patch drops local edits; surviving renumbered patch retains paint/reduction; Undo
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 19:01:00 INFO >>> _before_scene_clear
+[RetopoGuide] 19:01:00 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 19:01:00 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 19:01:00 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 19:01:00 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 19:01:00 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

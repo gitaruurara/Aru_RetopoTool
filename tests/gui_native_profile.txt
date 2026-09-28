@@ -1,0 +1,53 @@
+         42899 function calls (42892 primitive calls) in 0.052 seconds
+
+   Ordered by: cumulative time
+   List reduced from 168 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        5    0.000    0.000    0.025    0.005 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:571(addUIDrawables)
+        5    0.021    0.004    0.024    0.005 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:122(draw_controls)
+        5    0.007    0.001    0.011    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:328(updateDG)
+        5    0.001    0.000    0.007    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:515(populateGeometry)
+        5    0.003    0.001    0.006    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:38(positions)
+       10    0.003    0.000    0.003    0.000 {built-in method numpy.asarray}
+      284    0.001    0.000    0.001    0.000 {method 'get' of 'dict' objects}
+       18    0.000    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:1060(from_json_cached)
+    15890    0.001    0.000    0.001    0.000 {method 'add' of 'set' objects}
+       15    0.001    0.000    0.001    0.000 D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/aru_retopo_draw_plugin.py:54(prepareForDraw)
+        5    0.001    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:109(cached_controls)
+      635    0.001    0.000    0.001    0.000 {method 'points' of 'OpenMayaUI.MUIDrawManager' objects}
+        2    0.001    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_node.py:76(_propagate_handles)
+        5    0.001    0.000    0.001    0.000 {method 'asString' of 'OpenMaya.MPlug' objects}
+        5    0.001    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:514(endpoint_indices)
+        8    0.001    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:854(handle_indices)
+      645    0.001    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:124(setColor)
+     9907    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+        5    0.000    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:471(updateRenderItems)
+     9818    0.001    0.000    0.001    0.000 {built-in method builtins.abs}
+       10    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:437(cleanUp)
+       65    0.000    0.000    0.000    0.000 {method 'findPlug' of 'OpenMaya.MFnDependencyNode' objects}
+       11    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:849(ep_indices)
+       93    0.000    0.000    0.000    0.000 shibokensupport/signature/loader.py:59(feature_import)
+        5    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:57(upload_indices)
+      635    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:128(setPointSize)
+        5    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:98(__init__)
+        5    0.000    0.000    0.000    0.000 {method 'lineList' of 'OpenMayaUI.MUIDrawManager' objects}
+        5    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:12(configure)
+        5    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:27(__init__)
+        5    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:227(_read_style)
+       93    0.000    0.000    0.000    0.000 shibokensupport/feature.py:88(feature_import)
+        5    0.000    0.000    0.000    0.000 {built-in method numpy.ascontiguousarray}
+       90    0.000    0.000    0.000    0.000 {method 'fullPathName' of 'OpenMaya.MDagPath' objects}
+       25    0.000    0.000    0.000    0.000 {method 'asBool' of 'OpenMaya.MPlug' objects}
+       93    0.000    0.000    0.000    0.000 shibokensupport/signature/loader.py:67(feature_imported)
+        5    0.000    0.000    0.000    0.000 {built-in method builtins.sorted}
+     1300    0.000    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:101(flush)
+       25    0.000    0.000    0.000    0.000 {method 'indexOf' of 'OpenMayaRender.MRenderItemList' objects}
+       20    0.000    0.000    0.000    0.000 {method 'setParameter' of 'OpenMayaRender.MShaderInstance' objects}
+       26    0.000    0.000    0.000    0.000 D:/Jenkins/workspace/maya/build/RelWithDebInfo/runTime/Python/Lib/site-packages/maya/OpenMaya.py:3226(__init__)
+       35    0.000    0.000    0.000    0.000 D:/Jenkins/workspace/maya/build/RelWithDebInfo/runTime/Python/Lib/site-packages/maya/OpenMaya.py:6878(__init__)
+        5    0.000    0.000    0.000    0.000 {built-in method setGeometryDrawDirty}
+      645    0.000    0.000    0.000    0.000 {method 'setColor' of 'OpenMayaUI.MUIDrawManager' objects}
+       93    0.000    0.000    0.000    0.000 shibokensupport/feature.py:134(feature_imported)
+
+

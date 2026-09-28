@@ -1,0 +1,9 @@
+PARALLEL ROUTES EXACT PARITY PASSED 2027
+{'version': 'aru_retopo_maya_projector_v7', 'transformed': False, 'draft': True, 'count': 256, 'median_ms': 13.448500001686625}
+{'version': 'aru_retopo_maya_projector_v7', 'transformed': False, 'draft': False, 'count': 256, 'median_ms': 32.2085999941919}
+{'version': 'aru_retopo_maya_projector_pathcache', 'transformed': False, 'draft': True, 'count': 256, 'median_ms': 13.537999999243766}
+{'version': 'aru_retopo_maya_projector_pathcache', 'transformed': False, 'draft': False, 'count': 256, 'median_ms': 32.615200005238876}
+{'version': 'aru_retopo_maya_projector_v7', 'transformed': True, 'draft': True, 'count': 256, 'median_ms': 12.355400001979433}
+{'version': 'aru_retopo_maya_projector_v7', 'transformed': True, 'draft': False, 'count': 256, 'median_ms': 49.31479999504518}
+{'version': 'aru_retopo_maya_projector_pathcache', 'transformed': True, 'draft': True, 'count': 256, 'median_ms': 12.61819999490399}
+{'version': 'aru_retopo_maya_projector_pathcache', 'transformed': True, 'draft': False, 'count': 256, 'median_ms': 49.23930000222754}

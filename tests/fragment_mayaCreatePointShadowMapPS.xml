@@ -1,0 +1,80 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaCreatePointShadowMapPS" name="mayaCreatePointShadowMapPS" type="plumbing" class="ShadeFragment" version="1.0" feature_level="0" >
+    <description>
+<![CDATA[
+computes distance to shading point from light]]>
+</description>
+    <properties>
+        <float3  name="lightPosition" semantic="worldcameraposition" />
+        <float3  name="Pw" semantic="Pw" flags="varyingInputParam" />
+        <float2  name="depthRange" semantic="depthRange" />
+    </properties>
+    <values>
+    </values>
+    <outputs>
+        <float4  name="mayaCreatePointShadowMapPS" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="mayaCreatePointShadowMapPS" />
+        <source>
+            <![CDATA[
+float4 mayaCreatePointShadowMapPS( float3 lightPosition, float3 Pw, float2 range)		
+{																						
+   float3 LightToVertex = Pw - lightPosition;											
+   float LightToPixelDistance = (length(LightToVertex)-range.x) / (range.y-range.x);	
+	return float4(LightToPixelDistance, 0.0, 0.0, LightToPixelDistance);				
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="mayaCreatePointShadowMapPS" />
+        <source>
+            <![CDATA[
+float4 mayaCreatePointShadowMapPS( float3 lightPosition, float3 Pw, float2 range)		
+{																						
+   float3 LightToVertex = Pw - lightPosition;											
+   float LightToPixelDistance = (length(LightToVertex)-range.x) / (range.y-range.x);	
+	return float4(LightToPixelDistance, 0.0, 0.0, LightToPixelDistance);				
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="mayaCreatePointShadowMapPS" />
+        <source>
+            <![CDATA[
+vec4 mayaCreatePointShadowMapPS( vec3 lightPosition, vec3 Pw, vec2 range)		
+{																						
+   vec3 LightToVertex = Pw - lightPosition;											
+   float LightToPixelDistance = (length(LightToVertex)-range.x) / (range.y-range.x);	
+	return vec4(LightToPixelDistance, 0.0, 0.0, LightToPixelDistance);				
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="mayaCreatePointShadowMapPS" />
+        <source>
+            <![CDATA[
+float4 mayaCreatePointShadowMapPS( float3 lightPosition, float3 Pw, float2 range)		
+{																						
+   float3 LightToVertex = Pw - lightPosition;											
+   float LightToPixelDistance = (length(LightToVertex)-range.x) / (range.y-range.x);	
+	return float4(LightToPixelDistance, 0.0, 0.0, LightToPixelDistance);				
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

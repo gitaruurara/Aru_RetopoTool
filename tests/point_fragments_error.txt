@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\gui_point_fragments.py", line 14, in run
+    (ROOT/('fragment_'+name+'.xml')).write_text(m.getFragmentXML(name))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Autodesk\Maya2027\Python\Lib\pathlib\_local.py", line 555, in write_text
+    return PathBase.write_text(self, data, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Autodesk\Maya2027\Python\Lib\pathlib\_abc.py", line 649, in write_text
+    raise TypeError('data must be str, not %s' %
+                    data.__class__.__name__)
+TypeError: data must be str, not NoneType

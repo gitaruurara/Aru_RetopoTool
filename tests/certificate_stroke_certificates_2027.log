@@ -1,0 +1,48 @@
+[RetopoGuide] Plugin loaded.
+[RetopoGuide] 06:54:51 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 06:54:51 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+�x�����b�Z�[�W: line 1: displayRGBColor �̓o�b�` ���[�h�ł͎g�p�ł��܂���
+00:00:00   551MB         | log started Fri Sep 18 06:54:51 2026
+00:00:00   551MB         | Arnold 7.5.2.0 [3a23c15b] windows x86_64 icx-2025.2.0 oiio-2.6.3 osl-1.14.2 vdb-11.0.0 adlsdk-10.0.1.66 clmhub-3.3.0.15 rlm-17.0.1 optix-8.0.0 2026/06/15 06:40:04
+00:00:00   551MB         | running on Sophia, pid=45572
+00:00:00   551MB         |  1 x Intel(R) Core(TM) Ultra 9 285K (24 cores, 24 logical) with 64986MB
+00:00:00   551MB         |  NVIDIA driver version 591.86
+00:00:00   551MB         |  GPU 0: NVIDIA GeForce RTX 5060 @ 2497MHz (compute 12.0) with 8150MB (4019MB available) (NVLink:0)
+00:00:00   551MB         |  Windows 10 (version 10.0, build 26200)
+00:00:00   552MB         |  soft limit for open files changed from 512 to 2048
+00:00:00   552MB         |  
+00:00:00   552MB         | Installing system handler with mask 255
+00:00:00   780MB         | [metadata] loading metadata file: C:\Program Files\Autodesk\Arnold\Maya2027\bin\arnold.mtd
+00:00:00   783MB         | loading plugins from C:\Program Files\Autodesk\Arnold\Maya2027\bin\..\plugins ...
+00:00:00   783MB         |  alembic_proc.dll: alembic uses Arnold 7.5.2.0
+00:00:00   812MB         |  usd_proc.dll: usd uses Arnold 7.5.2.0
+00:00:00   812MB         | loaded 2 plugins from 2 lib(s) in 0:00.01
+00:00:00   822MB         |  unloading 2 plugins
+00:00:00   822MB         |   closing alembic_proc.dll ...
+00:00:00   822MB         |   closing usd_proc.dll ...
+00:00:00   816MB         |  unloading plugins done
+00:00:00   816MB         | Arnold shutdown
+00:00:00   802MB         | Installing system handler with mask 0
+�t�@�C���̓ǂݎ���  2.1 �b������܂����B
+[RetopoGuide] 06:54:53 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 06:54:53 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+���ɖ߂�: Certificate stroke
+���ɖ߂�: Certificate stroke
+���ɖ߂�: Certificate stroke
+CERTIFICATE STROKE PASSED certificates [21.018600004026666, 19.31709999917075, 22.90119999088347]
+[RetopoGuide] 06:54:54 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 06:54:54 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 06:54:54 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 06:54:54 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 06:54:54 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 06:54:54 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

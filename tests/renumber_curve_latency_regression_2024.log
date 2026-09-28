@@ -1,0 +1,85 @@
+�G���[: No module named 'cymel'
+# Traceback (most recent call last):
+#   File "D:/Dropbox/App/DCC/internal/maya/common/scripts/userSetup.py", line 7, in _initAruProject
+#     from Aru_lib.Aru_AutoSetProject import Aru_AutoSetProject
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\Aru_AutoSetProject.py", line 2, in <module>
+#     from Aru_lib.core.maya import *
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\core\maya.py", line 3, in <module>
+#     import cymel.main as cm
+# ModuleNotFoundError: No module named 'cymel'
+�G���[: No module named 'cymel'
+# Traceback (most recent call last):
+#   File "D:/Dropbox/App/DCC/internal/maya/common/scripts/userSetup.py", line 7, in _initAruProject
+#     from Aru_lib.Aru_AutoSetProject import Aru_AutoSetProject
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\Aru_AutoSetProject.py", line 2, in <module>
+#     from Aru_lib.core.maya import *
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\core\maya.py", line 3, in <module>
+#     import cymel.main as cm
+# ModuleNotFoundError: No module named 'cymel'
+SiWeightEditor startup script has begun
+SiWeightEditor startup script has finished
+[RetopoGuide] Plugin loaded.
+���ɖ߂�: unselected branch
+���ɖ߂�: selected split
+PASS reused region atlases and batched UV projection on triangles, quads and pentagons
+PASS native correspondence, reversed duplicates, tolerance, invalid dimensions
+PASS crossing and parameter-coordinate equivalence
+PASS retained plan, split/Undo invalidation, reference edits, symmetry constraints
+[RetopoGuide] 23:53:07 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 23:53:07 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 23:53:07 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 23:53:07 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+���ɖ߂�: divide filled patch
+��蒼��: divide filled patch
+PASS filled child patches, adjacent unfilled patch preserved, boundary resplit, Undo/Redo
+[RetopoGuide] 23:53:07 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 23:53:07 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 23:53:07 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 23:53:07 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+���ɖ߂�: preview renumber CVs
+���ɖ߂�: preview renumber splines
+���ɖ߂�: preview changed handle
+��蒼��: preview changed handle
+PASS patch preview geometry, changed-only reuse, reference invalidation, Undo/Redo, symmetry and manual handles
+[RetopoGuide] 23:53:07 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 23:53:07 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 23:53:07 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 23:53:07 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+���ɖ߂�: renumber painted patch
+��蒼��: renumber painted patch
+PASS exact paint/reduction preservation for renumbering, changed-shape and rotated-UV fallback, Undo/Redo
+[RetopoGuide] 23:53:07 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 23:53:07 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 23:53:07 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 23:53:07 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+���ɖ߂�: compact offsets
+��蒼��: compact offsets
+PASS batched control-point capture, compacted indices and offsets through Undo/Redo
+[RetopoGuide] 23:53:08 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 23:53:08 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 23:53:08 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 23:53:08 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 23:53:08 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 23:53:08 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

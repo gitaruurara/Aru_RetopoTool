@@ -1,0 +1,47 @@
+[RetopoGuide] Plugin loaded.
+[RetopoGuide] 21:11:04 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:11:04 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+�x�����b�Z�[�W: line 1: displayRGBColor �̓o�b�` ���[�h�ł͎g�p�ł��܂���
+00:00:00   557MB         | log started Thu Sep 17 21:11:04 2026
+00:00:00   557MB         | Arnold 7.5.2.0 [3a23c15b] windows x86_64 icx-2025.2.0 oiio-2.6.3 osl-1.14.2 vdb-11.0.0 adlsdk-10.0.1.66 clmhub-3.3.0.15 rlm-17.0.1 optix-8.0.0 2026/06/15 06:40:04
+00:00:00   558MB         | running on Sophia, pid=39428
+00:00:00   558MB         |  1 x Intel(R) Core(TM) Ultra 9 285K (24 cores, 24 logical) with 64986MB
+00:00:00   558MB         |  NVIDIA driver version 591.86
+00:00:00   558MB         |  GPU 0: NVIDIA GeForce RTX 5060 @ 2497MHz (compute 12.0) with 8150MB (4574MB available) (NVLink:0)
+00:00:00   558MB         |  Windows 10 (version 10.0, build 26200)
+00:00:00   558MB         |  soft limit for open files changed from 512 to 2048
+00:00:00   558MB         |  
+00:00:00   558MB         | Installing system handler with mask 255
+00:00:00   780MB         | [metadata] loading metadata file: C:\Program Files\Autodesk\Arnold\Maya2027\bin\arnold.mtd
+00:00:00   783MB         | loading plugins from C:\Program Files\Autodesk\Arnold\Maya2027\bin\..\plugins ...
+00:00:00   784MB         |  alembic_proc.dll: alembic uses Arnold 7.5.2.0
+00:00:00   812MB         |  usd_proc.dll: usd uses Arnold 7.5.2.0
+00:00:00   812MB         | loaded 2 plugins from 2 lib(s) in 0:00.01
+00:00:00   823MB         |  unloading 2 plugins
+00:00:00   823MB         |   closing alembic_proc.dll ...
+00:00:00   823MB         |   closing usd_proc.dll ...
+00:00:00   817MB         |  unloading plugins done
+00:00:00   817MB         | Arnold shutdown
+00:00:00   803MB         | Installing system handler with mask 0
+[RetopoGuide] 21:11:06 INFO >>> _after_scene_clear
+�t�@�C���̓ǂݎ���  2.2 �b������܂����B
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:11:06 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+���ɖ߂�: Continuous ordinary
+���ɖ߂�: Continuous preview
+CONTINUOUS RELAX PASSED {'ordinary': (86.9717000023229, 106.52729999856092), 'preview': (63.578000001143664, 132.48909999674652)}
+[RetopoGuide] 21:11:07 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:11:07 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 21:11:07 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 21:11:07 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 21:11:07 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 21:11:07 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

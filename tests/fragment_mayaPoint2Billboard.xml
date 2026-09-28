@@ -1,0 +1,117 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2Billboard" name="mayaPoint2Billboard" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+expand a point into a screen aligned quad]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <undefined  name="GPUStage" semantic="GPUStage" />
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float2  name="pointSize" />
+        <float2  name="screenSize" semantic="viewportPixelSize" />
+        <float4  name="quadPositionUV" semantic="quadPositionUVType2" size="4" />
+        <float2  name="UVScale" />
+        <float2  name="UVOffset" />
+    </properties>
+    <values>
+<float2 name="pointSize" value="2.000000,2.000000"  />
+<float2 name="UVScale" value="1.000000,1.000000"  />
+<float2 name="UVOffset" value="0.000000,0.000000"  />
+    </values>
+    <outputs>
+        <triStream  name="outStream" size="4" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad( geometryInS inputs[1], float2 pointSz, float2 screenSize, float4 quadPositionUV[4], 
+    float2 chartSize, float2 chartOffset, inout TriangleStream<geometryInS> outStream  ) 
+{ 
+    geometryInS outS  = inputs[0]; 
+    float4 sizeInZ = float4(pointSz.xy  / screenSize.xy, 0, 0) * outS.Pc.w;  
+    [unroll] for( int i = 0; i < 4; ++i ) { 
+        outS.Pc = inputs[0].Pc + sizeInZ * float4(quadPositionUV[i].xy, 0, 0); 
+		 float2 uv = chartOffset + chartSize * quadPositionUV[i].zw; 
+		 outS.UVFromGS = float3( uv, 0.0f); 
+        outStream.Append( outS ); 
+    } 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad( AttribArray<geometryInS>inputs, float2 pointSz, float2 screenSize, float4 quadPositionUV[4], 
+    float2 chartSize, float2 chartOffset ) 
+{ 
+    geometryInS outS  = inputs[0]; 
+    float4 sizeInZ = float4(pointSz.xy  / screenSize.xy, 0, 0) * outS.Pc.w;  
+    for( int i = 0; i < 4; ++i ) { 
+        outS.Pc = inputs[0].Pc + sizeInZ * float4(quadPositionUV[i].xy, 0, 0); 
+		 float2 uv = chartOffset + chartSize * quadPositionUV[i].zw; 
+		 outS.UVFromGS = float3( uv, 0.0f); 
+        emitVertex( outS ); 
+    } 
+    restartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad(  vec2 pointSz, vec2 screenSize, vec4 quadPositionUV[4], 
+    vec2 chartSize, vec2 chartOffset ) 
+{ 
+    GEO_OUT_struct outS  = copyFromGEO_IN(0); 
+    vec4 sizeInZ = vec4(pointSz.xy  / screenSize.xy, 0, 0) * outS.Pc.w;  
+    for( int i = 0; i < 4; ++i ) { 
+        outS.Pc = gl_in[0].gl_Position + sizeInZ * vec4(quadPositionUV[i].xy, 0, 0); 
+		 vec2 uv = chartOffset + chartSize * quadPositionUV[i].zw; 
+		 outS.UVFromGS = vec3( uv, 0.0f); 
+        EmitGeoStruct( outS ); 
+    } 
+    EndPrimitive(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="point2ScreenQuad" />
+        <source>
+            <![CDATA[
+void point2ScreenQuad( geometryInS inputs[1], float2 pointSz, float2 screenSize, float4 quadPositionUV[4], 
+    float2 chartSize, float2 chartOffset, inout TriangleStream<geometryInS> outStream  ) 
+{ 
+    geometryInS outS  = inputs[0]; 
+    float4 sizeInZ = float4(pointSz.xy  / screenSize.xy, 0, 0) * outS.Pc.w;  
+    [unroll] for( int i = 0; i < 4; ++i ) { 
+        outS.Pc = inputs[0].Pc + sizeInZ * float4(quadPositionUV[i].xy, 0, 0); 
+		 float2 uv = chartOffset + chartSize * quadPositionUV[i].zw; 
+		 outS.UVFromGS = float3( uv, 0.0f); 
+        outStream.Append( outS ); 
+    } 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

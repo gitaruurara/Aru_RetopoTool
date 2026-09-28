@@ -1,0 +1,279 @@
+{
+  "version": "numeric_t16",
+  "maya": "2027",
+  "local_cvs": 0,
+  "scope": "native coordinate evaluation only; original/relaxed controls, optionally limited to local_cvs changed control vertices; no brush/write/render",
+  "vertices": 46873,
+  "faces": 46528,
+  "samples": [
+    {
+      "output_hash": "e1c7755795c9d069805b02fa1c80ea19d810162f881da269e41eac40affb96e7",
+      "frame": 0,
+      "ms": 91.92549998988397,
+      "native_ms": [
+        13.9254,
+        0.5107,
+        75.3593,
+        1.8422
+      ]
+    },
+    {
+      "output_hash": "1e61b700a89534cf096f19678f5b93aaa642daf6911448d7b6c57c83ba4da8f9",
+      "frame": 1,
+      "ms": 32.279000006383285,
+      "native_ms": [
+        1.0676,
+        0.3397,
+        28.6404,
+        1.8538
+      ]
+    },
+    {
+      "output_hash": "89b8415dd74161ab305189b40a1bc7f2af8b6753b215680380b1e04fde3bd845",
+      "frame": 2,
+      "ms": 72.99660000717267,
+      "native_ms": [
+        1.0918,
+        0.5218,
+        69.3246,
+        1.7548
+      ]
+    },
+    {
+      "output_hash": "edcec9d748ec50def484ca4fd19276f064bd8171899f217e9e0fa8b443476ff1",
+      "frame": 3,
+      "ms": 23.85169999615755,
+      "native_ms": [
+        1.0836,
+        0.3878,
+        20.1172,
+        1.8383
+      ]
+    },
+    {
+      "output_hash": "e1c7755795c9d069805b02fa1c80ea19d810162f881da269e41eac40affb96e7",
+      "frame": 4,
+      "ms": 72.12329999310896,
+      "native_ms": [
+        1.0336,
+        0.3574,
+        68.4603,
+        1.8923
+      ]
+    },
+    {
+      "output_hash": "1e61b700a89534cf096f19678f5b93aaa642daf6911448d7b6c57c83ba4da8f9",
+      "frame": 5,
+      "ms": 23.310200005653314,
+      "native_ms": [
+        1.0615,
+        0.3715,
+        19.8284,
+        1.6979
+      ]
+    },
+    {
+      "output_hash": "413362036d73d26bcb902dd1f817f3e8bf099e2d7eaaa6a9e293cca949788ffd",
+      "frame": 6,
+      "ms": 69.09400000586174,
+      "native_ms": [
+        1.0869,
+        0.3581,
+        65.4503,
+        1.7797
+      ]
+    },
+    {
+      "output_hash": "5d0ca8b7a087f83cde66b94d059e559656d42d23314cb94534caa5b09e5b32f3",
+      "frame": 7,
+      "ms": 33.010699989972636,
+      "native_ms": [
+        1.1788,
+        0.3856,
+        29.358,
+        1.6964
+      ]
+    },
+    {
+      "output_hash": "e1c7755795c9d069805b02fa1c80ea19d810162f881da269e41eac40affb96e7",
+      "frame": 8,
+      "ms": 71.35739999648649,
+      "native_ms": [
+        1.1785,
+        0.3555,
+        67.6701,
+        1.7986
+      ]
+    },
+    {
+      "output_hash": "1e61b700a89534cf096f19678f5b93aaa642daf6911448d7b6c57c83ba4da8f9",
+      "frame": 9,
+      "ms": 30.74909999850206,
+      "native_ms": [
+        0.9886,
+        0.3538,
+        27.1543,
+        1.8865
+      ]
+    },
+    {
+      "output_hash": "253468cdc3483c16f69124670d13f5452b34571aab3e1eb2e617391b49a39247",
+      "frame": 10,
+      "ms": 55.850699995062314,
+      "native_ms": [
+        1.0259,
+        0.4366,
+        52.2965,
+        1.6948
+      ]
+    },
+    {
+      "output_hash": "42c8e87f525417bd819e4fd9f6c2cf5163c20fcd9c1aed34e53afbf0eefa4366",
+      "frame": 11,
+      "ms": 25.58270000736229,
+      "native_ms": [
+        1.0746,
+        0.3212,
+        22.0013,
+        1.8463
+      ]
+    },
+    {
+      "output_hash": "50415759ecedeaf812eb94398781a6771c731f64546f435cee60cfb053b744dd",
+      "frame": 12,
+      "ms": 45.87980000360403,
+      "native_ms": [
+        1.2339,
+        0.2757,
+        42.1157,
+        1.8284
+      ]
+    },
+    {
+      "output_hash": "c692893ba4ebcbb783261c80143045b2611366756c97107a13c1b31f04937c63",
+      "frame": 13,
+      "ms": 28.498200001195073,
+      "native_ms": [
+        1.094,
+        0.3285,
+        25.1268,
+        1.6156
+      ]
+    },
+    {
+      "output_hash": "e1c7755795c9d069805b02fa1c80ea19d810162f881da269e41eac40affb96e7",
+      "frame": 14,
+      "ms": 47.380399992107414,
+      "native_ms": [
+        1.0387,
+        0.2139,
+        43.9166,
+        1.8418
+      ]
+    },
+    {
+      "output_hash": "1e61b700a89534cf096f19678f5b93aaa642daf6911448d7b6c57c83ba4da8f9",
+      "frame": 15,
+      "ms": 20.595399997546338,
+      "native_ms": [
+        1.0166,
+        0.3738,
+        16.993,
+        1.8587
+      ]
+    },
+    {
+      "output_hash": "369b681ae468c5050d9c338715ddc082047f0499aa44d0b985aac6b5b8efcb1f",
+      "frame": 16,
+      "ms": 41.213800010154955,
+      "native_ms": [
+        1.0469,
+        0.2535,
+        37.7344,
+        1.8089
+      ]
+    },
+    {
+      "output_hash": "b77d75bc539aa6f95acba48d576386153ca5fc616ab47257f83afb3bcb70c8f2",
+      "frame": 17,
+      "ms": 14.69589999760501,
+      "native_ms": [
+        0.9823,
+        0.3243,
+        11.2306,
+        1.7768
+      ]
+    },
+    {
+      "output_hash": "83bda0fd7dbd4e0d40944cf2ad51444fc3dd2a0c9cf2b02f8858e50578ecd617",
+      "frame": 18,
+      "ms": 3.5370000114198774,
+      "native_ms": [
+        1.0428,
+        0.2667,
+        0.0007,
+        1.8912
+      ]
+    },
+    {
+      "output_hash": "9e7a02f1790b0d671906f7f1c94403573569d2d5e6d3e62c0677db41abd1999f",
+      "frame": 19,
+      "ms": 3.4632000024430454,
+      "native_ms": [
+        1.0118,
+        0.319,
+        0.0005,
+        1.8067
+      ]
+    },
+    {
+      "output_hash": "e1c7755795c9d069805b02fa1c80ea19d810162f881da269e41eac40affb96e7",
+      "frame": 20,
+      "ms": 64.55690000439063,
+      "native_ms": [
+        1.0037,
+        0.343,
+        61.0324,
+        1.8079
+      ]
+    },
+    {
+      "output_hash": "1e61b700a89534cf096f19678f5b93aaa642daf6911448d7b6c57c83ba4da8f9",
+      "frame": 21,
+      "ms": 22.941500006709248,
+      "native_ms": [
+        1.1486,
+        0.3157,
+        19.2686,
+        1.8427
+      ]
+    },
+    {
+      "output_hash": "d0662b4c93a0d27bb0225ca889785be29190daa8a0312c2c9c3a26e1e4224f2b",
+      "frame": 22,
+      "ms": 63.388900001882575,
+      "native_ms": [
+        2.2751,
+        0.3207,
+        58.6175,
+        1.8067
+      ]
+    },
+    {
+      "output_hash": "4d7a3035fe74af0e798ad6411c875c9fc41ac5eb77c4e971315a483b3e68a52f",
+      "frame": 23,
+      "ms": 23.322100008954294,
+      "native_ms": [
+        1.1965,
+        0.3416,
+        19.5594,
+        1.8629
+      ]
+    }
+  ],
+  "median_ms": 31.87989999423735,
+  "hashes": {
+    "0": "d0662b4c93a0d27bb0225ca889785be29190daa8a0312c2c9c3a26e1e4224f2b",
+    "1": "4d7a3035fe74af0e798ad6411c875c9fc41ac5eb77c4e971315a483b3e68a52f"
+  }
+}

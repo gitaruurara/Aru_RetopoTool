@@ -1,0 +1,12 @@
+{
+  "cycles": 3,
+  "faces": 256,
+  "generators": [
+    "aruRetopoGenerator1"
+  ],
+  "previews": [
+    "aruRetopoPreviewShape1"
+  ],
+  "fill_remove_undo": true,
+  "save_reopen_uuid": "AD34BB00-4534-A968-D325-66AAB97649C2"
+}

@@ -1,0 +1,2 @@
+from pathlib import Path
+p=Path('tests/gui_relax_stage_profile.py');s=p.read_text().replace('def run():','def run(brush_start=(1546,1145)):').replace("('surface_hits', 'fit_routes', 'points_array')","('surface_hits', 'fit_routes', 'fit_routes_bound', 'junction_lengths', 'junction_directions', 'points_array')").replace('gui_numeric_stroke.run(direct_buffer=True, gpu_controls=True)','gui_numeric_stroke.run(direct_buffer=True, gpu_controls=True,brush_start=brush_start)');p.write_text(s)

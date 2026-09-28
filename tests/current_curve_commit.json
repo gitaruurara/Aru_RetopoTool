@@ -1,0 +1,52 @@
+{
+  "rows": [
+    {
+      "release_ms": 57.1825000224635,
+      "evaluation_ms": 33.92600000370294,
+      "vertices": 3144,
+      "profiled": false,
+      "native_stages": [
+        26.3942,
+        0.057,
+        6.3894,
+        0.7781
+      ]
+    },
+    {
+      "release_ms": 25.153800001135096,
+      "evaluation_ms": 26.932200009468943,
+      "vertices": 3144,
+      "profiled": false,
+      "native_stages": [
+        20.549,
+        0.0163,
+        5.5596,
+        0.4795
+      ]
+    },
+    {
+      "release_ms": 24.33670000755228,
+      "evaluation_ms": 27.399799990234897,
+      "vertices": 3144,
+      "profiled": false,
+      "native_stages": [
+        20.9531,
+        0.0114,
+        5.7127,
+        0.4707
+      ]
+    },
+    {
+      "release_ms": 41.48919999715872,
+      "evaluation_ms": 41.0107999923639,
+      "vertices": 3144,
+      "profiled": true,
+      "native_stages": [
+        34.5456,
+        0.0482,
+        5.641,
+        0.4939
+      ]
+    }
+  ]
+}

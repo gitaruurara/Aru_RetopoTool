@@ -1,0 +1,30 @@
+�G���[: No module named 'cymel'
+# Traceback (most recent call last):
+#   File "D:/Dropbox/App/DCC/internal/maya/common/scripts/userSetup.py", line 7, in _initAruProject
+#     from Aru_lib.Aru_AutoSetProject import Aru_AutoSetProject
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\Aru_AutoSetProject.py", line 2, in <module>
+#     from Aru_lib.core.maya import *
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\core\maya.py", line 3, in <module>
+#     import cymel.main as cm
+# ModuleNotFoundError: No module named 'cymel'
+�G���[: ModuleNotFoundError: No module named 'cymel'
+SiWeightEditor startup script has begun
+SiWeightEditor startup script has ended with error
+Traceback (most recent call last):
+  File "C:/Program Files/Autodesk/ApplicationPlugins/SIWeightEditor/Contents/scripts/userSetup.py", line 20, in <module>
+    __register_siweighteditor_startup()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:/Program Files/Autodesk/ApplicationPlugins/SIWeightEditor/Contents/scripts/userSetup.py", line 8, in __register_siweighteditor_startup
+    cmds.evalDeferred(dedent(
+    ~~~~~~~~~~~~~~~~~^^^^^^^^
+        """
+        ^^^
+    ...<3 lines>...
+        """
+        ^^^
+    ))
+    ^^
+RuntimeError: ModuleNotFoundError: No module named 'imp'
+
+PASS render index reuse, immutable arrays, selection/style/topology invalidation {'before_ms': 0.5272000125842169, 'after_ms': 0.13080000644549727}
+PASS GPU control order, colors, sizes, hidden/selected/manual/mirrored controls {'guides': 1589, 'legacy_prepare_ms': 35.46134999487549, 'batch_prepare_ms': 5.86055000894703}

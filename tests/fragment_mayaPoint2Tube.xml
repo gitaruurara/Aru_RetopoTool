@@ -1,0 +1,218 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2Tube" name="mayaPoint2Tube" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+expand a point into a screen aligned tube]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <undefined  name="GPUStage" semantic="GPUStage" />
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float3  name="Nw" semantic="Nw" flags="isRequirementOnly" />
+        <float2  name="screenSize" semantic="viewportPixelSize" />
+        <float4x4  name="viewProjection" semantic="viewprojection" />
+        <bool  name="isCulled" />
+        <bool  name="orthographic" semantic="isorthographic" />
+        <float4x4  name="projection" semantic="projection" />
+        <float  name="tailSize" />
+        <float  name="radius" />
+        <float  name="radius1" />
+    </properties>
+    <values>
+<bool name="isCulled" value="false"  />
+<bool name="orthographic" value="false"  />
+<float name="tailSize" value="1.000000"  />
+    </values>
+    <outputs>
+        <lineStream  name="outStream" size="26" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="mayaPoint2Tube" />
+        <source>
+            <![CDATA[
+void mayaPoint2Tube( geometryInS inputs[1], float2 screenSize, float4x4 viewProj, bool isCulled, bool orthographic, 
+				float4x4 projection, float tailSize, float radius, float radius1, inout LineStream<geometryInS> outStream )
+{ 
+	 if (isCulled) return; 
+ 
+    geometryInS outS  = inputs[0]; 
+    float4 velocity = mul( float4( outS.Nw, 0.0f ), viewProj ); 
+	 float2 verticalDir = float2(0.0, -1.0); 
+	 float lenVel2D = length(velocity.xy); 
+    if( lenVel2D > 1.0e-4f ) 
+		verticalDir = orthographic ? float2(velocity.y/lenVel2D, -velocity.x/lenVel2D) : normalize(cross(velocity.xyz, inputs[0].Pc.xyz).xy);  
+    float2 offset = 2 * screenSize.x * verticalDir;  
+    if(orthographic)  
+		offset *= 0.5 * projection[0][0];  
+ 
+    int numSegment = 24; 
+    float theta = 2.0 * 3.141592654 / numSegment;  
+    float sine, cosine; 
+    sincos(theta, sine, cosine); 
+    float2x2 rotateMat = float2x2(cosine, sine, -sine, cosine); 
+    float4 startEndPoint = inputs[0].Pc + float4(radius1 * offset/screenSize.xy, 0.0, 0.0); 
+    outS.Pc = startEndPoint; 
+    outStream.Append( outS ); 
+    for( int i = 0; i < numSegment/2; ++i ) { 
+		 offset = mul(offset, rotateMat); 
+        outS.Pc = inputs[0].Pc + float4(radius1 * offset/screenSize.xy, 0.0, 0.0); 
+        outStream.Append( outS ); 
+    } 
+    for( int i = 0; i < numSegment/2; ++i ) { 
+		 offset = mul(offset, rotateMat); 
+        outS.Pc = inputs[0].Pc - tailSize * velocity + float4(radius * offset/screenSize.xy, 0.0, 0.0); 
+        outStream.Append( outS ); 
+    } 
+    outS.Pc = startEndPoint; 
+    outStream.Append( outS ); 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="mayaPoint2Tube" />
+        <source>
+            <![CDATA[
+void mayaPoint2Tube( AttribArray<geometryInS> inputs, float2 screenSize, float4x4 viewProj, bool isCulled, bool orthographic, 
+				float4x4 projection, float tailSize, float radius, float radius1 )
+{ 
+    if( isCulled ) return; 
+ 
+    geometryInS outS = inputs[0]; 
+    float4 velocity = mul( viewProj, float4( outS.Nw, 0.0f ) ); 
+    float2 verticalDir = float2(0.0, -1.0); 
+	 float lenVel2D = length(velocity.xy); 
+    if( lenVel2D > 1.0e-3f ) 
+		verticalDir = orthographic ? float2(velocity.y/lenVel2D, -velocity.x/lenVel2D) : normalize(cross(velocity.xyz, inputs[0].Pc.xyz).xy);;  
+    float2 offset =  2 * screenSize.x * verticalDir;  
+    if(orthographic)  
+		offset *= 0.5 * projection[0][0];  
+ 
+    int numSegment = 24; 
+    float theta = 2.0 * 3.141592654 / numSegment;  
+    float sine, cosine; 
+    sincos(theta, sine, cosine); 
+    float2x2 rotateMat = float2x2(cosine, -sine, sine, cosine); 
+    float4 startEndPoint = inputs[0].Pc + float4(radius1 * offset/screenSize.xy, 0.0, 0.0); 
+    outS.Pc = startEndPoint; 
+    emitVertex( outS ); 
+    for( int i = 0; i < numSegment/2; ++i ) { 
+		 offset = mul(rotateMat, offset); 
+        outS.Pc = inputs[0].Pc + float4(radius1 * offset/screenSize.xy, 0.0, 0.0); 
+        emitVertex( outS ); 
+    } 
+    for( int i = 0; i < numSegment/2; ++i ) { 
+		 offset = mul(rotateMat, offset); 
+        outS.Pc = inputs[0].Pc - tailSize * velocity + float4(radius * offset/screenSize.xy, 0.0, 0.0); 
+        emitVertex( outS ); 
+    } 
+    outS.Pc = startEndPoint; 
+    emitVertex( outS ); 
+    restartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="mayaPoint2Tube" />
+        <source>
+            <![CDATA[
+void mayaPoint2Tube(  vec2 screenSize, mat4x4 viewProj, bool isCulled, bool orthographic, 
+				mat4x4 projection, float tailSize, float radius, float radius1 )
+{ 
+    if( isCulled ) return; 
+ 
+    GEO_OUT_struct outS = copyFromGEO_IN(0); 
+    vec4 velocity = mul( viewProj, vec4( outS.Nw, 0.0f ) ); 
+    vec2 verticalDir = vec2(0.0, -1.0); 
+	 float lenVel2D = length(velocity.xy); 
+    if( lenVel2D > 1.0e-3f ) 
+		verticalDir = orthographic ? vec2(velocity.y/lenVel2D, -velocity.x/lenVel2D) : normalize(cross(velocity.xyz, gl_in[0].gl_Position.xyz).xy);;  
+    vec2 offset =  2 * screenSize.x * verticalDir;  
+    if(orthographic)  
+		offset *= 0.5 * projection[0][0];  
+ 
+    int numSegment = 24; 
+    float theta = 2.0 * 3.141592654 / numSegment;  
+    float sine, cosine; 
+    sine = sin( theta ); 
+    cosine = cos( theta ); 
+    mat2x2 rotateMat = mat2x2(cosine, sine, -sine, cosine); 
+    vec4 startEndPoint = gl_in[0].gl_Position + vec4(radius1 * offset/screenSize.xy, 0.0, 0.0); 
+    outS.Pc = startEndPoint; 
+    EmitGeoStruct( outS ); 
+    for( int i = 0; i < numSegment/2; ++i ) { 
+		 offset = rotateMat * offset; 
+        outS.Pc = gl_in[0].gl_Position + vec4(radius1 * offset/screenSize.xy, 0.0, 0.0); 
+        EmitGeoStruct( outS ); 
+    } 
+    for( int i = 0; i < numSegment/2; ++i ) { 
+		 offset = rotateMat * offset; 
+        outS.Pc = gl_in[0].gl_Position - tailSize * velocity + vec4(radius * offset/screenSize.xy, 0.0, 0.0); 
+        EmitGeoStruct( outS ); 
+    } 
+    outS.Pc = startEndPoint; 
+    EmitGeoStruct( outS ); 
+    EndPrimitive(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="mayaPoint2Tube" />
+        <source>
+            <![CDATA[
+void mayaPoint2Tube( geometryInS inputs[1], float2 screenSize, float4x4 viewProj, bool isCulled, bool orthographic, 
+				float4x4 projection, float tailSize, float radius, float radius1, inout LineStream<geometryInS> outStream )
+{ 
+	 if (isCulled) return; 
+ 
+    geometryInS outS  = inputs[0]; 
+    float4 velocity = mul( float4( outS.Nw, 0.0f ), viewProj ); 
+	 float2 verticalDir = float2(0.0, -1.0); 
+	 float lenVel2D = length(velocity.xy); 
+    if( lenVel2D > 1.0e-4f ) 
+		verticalDir = orthographic ? float2(velocity.y/lenVel2D, -velocity.x/lenVel2D) : normalize(cross(velocity.xyz, inputs[0].Pc.xyz).xy);  
+    float2 offset = 2 * screenSize.x * verticalDir;  
+    if(orthographic)  
+		offset *= 0.5 * projection[0][0];  
+ 
+    int numSegment = 24; 
+    float theta = 2.0 * 3.141592654 / numSegment;  
+    float sine, cosine; 
+    sincos(theta, sine, cosine); 
+    float2x2 rotateMat = float2x2(cosine, sine, -sine, cosine); 
+    float4 startEndPoint = inputs[0].Pc + float4(radius1 * offset/screenSize.xy, 0.0, 0.0); 
+    outS.Pc = startEndPoint; 
+    outStream.Append( outS ); 
+    for( int i = 0; i < numSegment/2; ++i ) { 
+		 offset = mul(offset, rotateMat); 
+        outS.Pc = inputs[0].Pc + float4(radius1 * offset/screenSize.xy, 0.0, 0.0); 
+        outStream.Append( outS ); 
+    } 
+    for( int i = 0; i < numSegment/2; ++i ) { 
+		 offset = mul(offset, rotateMat); 
+        outS.Pc = inputs[0].Pc - tailSize * velocity + float4(radius * offset/screenSize.xy, 0.0, 0.0); 
+        outStream.Append( outS ); 
+    } 
+    outS.Pc = startEndPoint; 
+    outStream.Append( outS ); 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

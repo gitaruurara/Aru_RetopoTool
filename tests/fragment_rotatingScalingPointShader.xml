@@ -1,0 +1,104 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment_graph  name="rotatingScalingPointShader" ref="rotatingPointShader" class="FragmentGraph" version="1.0" feature_level="0" >
+    <keyword value="componentShader" />
+    <fragments>
+            <fragment_ref name="mayaPhongSurface" ref="mayaPhongSurface" />
+            <fragment_ref name="mayaPoint2RotatedQuad" ref="mayaPoint2RotatedQuad" />
+            <fragment_ref name="getPointSizeAsFloat" ref="getPointSizeAsFloat" />
+    </fragments>
+    <connections>
+        <connect from="mayaPoint2RotatedQuad.GPUStage" to="mayaPhongSurface.GPUStage" name="GPUStage" />
+        <connect from="getPointSizeAsFloat.pointSize" to="mayaPoint2RotatedQuad.vectorScale" name="vectorScale" />
+    </connections>
+    <properties>
+        <struct  name="inputs" ref="mayaPoint2RotatedQuad.inputs" />
+        <float  name="pointSize" ref="getPointSizeAsFloat.pointSize" semantic="radius" flags="isRequirementOnly,varyingInputParam" />
+        <float4x4  name="viewProjection" ref="mayaPoint2RotatedQuad.viewProjection" semantic="viewProjection" />
+        <float4x4  name="worldInverseTranspose" ref="mayaPoint2RotatedQuad.worldInverseTranspose" semantic="worldinversetranspose" />
+        <float3  name="Pw" ref="mayaPoint2RotatedQuad.Pw" semantic="Pw" flags="isRequirementOnly" />
+        <float3  name="rotate" ref="mayaPoint2RotatedQuad.rotate" semantic="rotate" flags="isRequirementOnly,varyingInputParam" />
+        <float3  name="Nw" ref="mayaPhongSurface.Nw" flags="varyingInputParam" />
+        <float3  name="Lw" ref="mayaPhongSurface.Lw" />
+        <float3  name="Vw" ref="mayaPhongSurface.Vw" flags="varyingInputParam" />
+        <float3  name="HLw" ref="mayaPhongSurface.HLw" />
+        <float3  name="diffuseI" ref="mayaPhongSurface.diffuseI" />
+        <float  name="diffuse" ref="mayaPhongSurface.input" />
+        <float  name="translucence" ref="mayaPhongSurface.translucence" />
+        <float  name="translucenceDepth" ref="mayaPhongSurface.translucenceDepth" />
+        <float  name="translucenceFocus" ref="mayaPhongSurface.translucenceFocus" />
+        <float3  name="specularI" ref="mayaPhongSurface.specularI" />
+        <float3  name="SLw" ref="mayaPhongSurface.SLw" />
+        <float3  name="specularColor" ref="mayaPhongSurface.input" />
+        <float  name="cosinePower" ref="mayaPhongSurface.cosinePower" />
+        <string  name="selector" ref="mayaPhongSurface.selector" />
+        <float3  name="color" ref="mayaPhongSurface.color" />
+        <bool  name="mayaAlphaCut" ref="mayaPhongSurface.mayaAlphaCut" semantic="mayaAlphaCut" flags="isRequirementOnly" />
+        <float3  name="transparency" ref="mayaPhongSurface.transparency" />
+        <float3  name="ambientColor" ref="mayaPhongSurface.ambientColor" />
+        <float3  name="ambientIn" ref="mayaPhongSurface.ambientIn" />
+        <float3  name="incandescence" ref="mayaPhongSurface.incandescence" semantic="incandescence" />
+        <float  name="reflectivity" ref="mayaPhongSurface.reflectivity" semantic="reflectivity" />
+        <float3  name="reflectedColor" ref="mayaPhongSurface.reflectedColor" semantic="reflectedColor" />
+        <float3  name="IrradianceEnv" ref="mayaPhongSurface.IrradianceEnv" />
+        <float3  name="SpecularEnv" ref="mayaPhongSurface.SpecularEnv" />
+        <float  name="glowIntensity" ref="mayaPhongSurface.glowIntensity" />
+        <bool  name="hideSource" ref="mayaPhongSurface.hideSource" />
+        <float  name="matteOpacity" ref="mayaPhongSurface.matteOpacity" semantic="matteOpacity" />
+        <int  name="matteOpacityMode" ref="mayaPhongSurface.matteOpacityMode" />
+        <float  name="extraOpacity" ref="mayaPhongSurface.extraOpacity" />
+        <bool  name="fogEnabled" ref="mayaPhongSurface.fogEnabled" />
+        <float4x4  name="ViewProj" ref="mayaPhongSurface.ViewProj" semantic="viewprojection" />
+        <float  name="fogStart" ref="mayaPhongSurface.fogStart" />
+        <float  name="fogEnd" ref="mayaPhongSurface.fogEnd" />
+        <int  name="fogMode" ref="mayaPhongSurface.fogMode" />
+        <float  name="fogDensity" ref="mayaPhongSurface.fogDensity" />
+        <float4  name="fogColor" ref="mayaPhongSurface.fogColor" />
+        <float  name="fogMultiplier" ref="mayaPhongSurface.fogMultiplier" />
+    </properties>
+    <values>
+<float3 name="Lw" value="0.000000,0.000000,0.000000"  />
+<float3 name="HLw" value="0.000000,0.000000,0.000000"  />
+<float3 name="diffuseI" value="0.000000,0.000000,0.000000"  />
+<float name="diffuse" value="0.800000"  />
+<float name="translucence" value="0.000000"  />
+<float name="translucenceDepth" value="0.500000"  />
+<float name="translucenceFocus" value="0.500000"  />
+<float3 name="specularI" value="0.000000,0.000000,0.000000"  />
+<float3 name="SLw" value="0.000000,0.000000,0.000000"  />
+<float3 name="specularColor" value="0.500000,0.500000,0.500000"  />
+<float name="cosinePower" value="20.000000"  />
+<string name="selector" value="mayaLightSelector16"  />
+<float3 name="color" value="0.500000,0.500000,0.500000"  />
+<float3 name="transparency" value="0.000000,0.000000,0.000000"  />
+<float3 name="ambientColor" value="0.000000,0.000000,0.000000"  />
+<float3 name="ambientIn" value="0.000000,0.000000,0.000000"  />
+<float3 name="incandescence" value="0.000000,0.000000,0.000000"  />
+<float name="reflectivity" value="0.500000"  />
+<float3 name="reflectedColor" value="0.000000,0.000000,0.000000"  />
+<float3 name="IrradianceEnv" value="0.000000,0.000000,0.000000"  />
+<float3 name="SpecularEnv" value="0.000000,0.000000,0.000000"  />
+<float name="glowIntensity" value="0.000000"  />
+<bool name="hideSource" value="false"  />
+<float name="matteOpacity" value="1.000000"  />
+<int name="matteOpacityMode" value="2"  />
+<float name="extraOpacity" value="1.000000"  />
+<bool name="fogEnabled" value="false"  />
+<float name="fogStart" value="0.000000"  />
+<float name="fogEnd" value="92.000000"  />
+<int name="fogMode" value="0"  />
+<float name="fogDensity" value="0.100000"  />
+<float4 name="fogColor" value="0.500000,0.500000,0.500000,1.000000"  />
+<float name="fogMultiplier" value="1.000000"  />
+    </values>
+    <outputs>
+        <struct  name="mayaSurfaceShaderOutput" ref="mayaPhongSurface.mayaSurfaceShaderOutput" />
+    </outputs>
+</fragment_graph>

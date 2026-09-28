@@ -1,0 +1,42 @@
+Qt WebEngine seems to be initialized from a plugin. Please set Qt::AA_ShareOpenGLContexts using QCoreApplication::setAttribute before constructing QGuiApplication.
+[RetopoGuide] Plugin loaded.
+Œ³‚É–ß‚·: Aru Retopo: remove patch
+‚â‚è’¼‚µ: Aru Retopo: remove patch
+PASS merged seam fill, remove, Undo/Redo through actual generator
+{'merged_regions': 2, 'quads': 32, 'reverse_duplicate': True, 'distinct_curves_preserved': True, 'guide_unmodified': True}
+test_normals_are_read_again_and_results_are_independent (Aru_RetopoTool.tests.test_regions.Tests) ... ok
+test_rejects_invalid_geometry_and_empty_network (Aru_RetopoTool.tests.test_regions.Tests) ... ok
+test_shared_edge_direction_and_stable_order (Aru_RetopoTool.tests.test_regions.Tests) ... ok
+test_bvh_matches_brute_triangle_surfaces (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_compiled_stencil_matches_reference_during_motion (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_coons_templates_with_reversed_sides_and_cv_aliases (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_curved_quad_interior_follows_boundary (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_explicit_regions_only_and_stable_selection (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_native_stencil_parity_and_motion (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_ngons_all_quads_and_euler (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_open_graph_rejected (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_plan_numeric_storage_preserves_reference_evaluation (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_projection_and_relax (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_projection_guard_components (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_shared_boundary_and_dangling (Aru_RetopoTool.tests.test_core.Tests) ... ok
+test_wrapping_dome_keeps_large_exterior_open (Aru_RetopoTool.tests.test_core.Tests) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.033s
+
+OK
+Œ³‚É–ß‚·: divide filled patch
+‚â‚è’¼‚µ: divide filled patch
+PASS filled child patches, adjacent unfilled patch preserved, boundary resplit, Undo/Redo
+[RetopoGuide] 20:55:39 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 20:55:39 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 20:55:39 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 20:55:39 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 20:55:39 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 20:55:39 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

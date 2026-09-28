@@ -1,0 +1,43 @@
+         12939 function calls (12937 primitive calls) in 0.037 seconds
+
+   Ordered by: cumulative time
+   List reduced from 172 to 35 due to restriction <35>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        3    0.000    0.000    0.020    0.007 gpu_preview.py:117(setup)
+        3    0.000    0.000    0.020    0.007 gpu_preview.py:16(_depth_limits)
+        3    0.009    0.003    0.019    0.006 {built-in method maya.cmds.getAttr}
+        3    0.010    0.003    0.010    0.003 curve_net_node.py:2067(matchComponent)
+        6    0.008    0.001    0.008    0.001 {built-in method maya.cmds.ls}
+        3    0.001    0.000    0.003    0.001 curve_net_draw.py:329(updateDG)
+        3    0.000    0.000    0.001    0.000 curve_net_draw.py:511(populateGeometry)
+        3    0.001    0.000    0.001    0.000 {method 'asString' of 'OpenMaya.MPlug' objects}
+        2    0.001    0.000    0.001    0.000 curve_net_node.py:2605(_getNetData)
+        3    0.000    0.000    0.001    0.000 curve_net_draw.py:467(updateRenderItems)
+        3    0.000    0.000    0.001    0.000 gpu_guides.py:59(positions)
+        3    0.000    0.000    0.001    0.000 gpu_guides.py:32(configure)
+        3    0.000    0.000    0.001    0.000 gpu_guides.py:189(configure_controls)
+        6    0.000    0.000    0.001    0.000 aru_retopo_draw_plugin.py:54(prepareForDraw)
+     7668    0.000    0.000    0.000    0.000 {built-in method builtins.abs}
+        9    0.000    0.000    0.000    0.000 {built-in method maya.cmds.modelPanel}
+        6    0.000    0.000    0.000    0.000 gpu_preview.py:72(cameraOverride)
+        3    0.000    0.000    0.000    0.000 gpu_guides.py:92(upload_indices)
+        3    0.000    0.000    0.000    0.000 gpu_guides.py:168(render_control_groups)
+        3    0.000    0.000    0.000    0.000 gpu_guides.py:144(cached_controls)
+     3180    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+        3    0.000    0.000    0.000    0.000 curve_net_draw.py:567(addUIDrawables)
+       76    0.000    0.000    0.000    0.000 loader.py:59(feature_import)
+        7    0.000    0.000    0.000    0.000 construction.py:327(eventFilter)
+      199    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+        2    0.000    0.000    0.000    0.000 curve_net_data.py:865(handle_indices)
+        6    0.000    0.000    0.000    0.000 {built-in method maya.cmds.objExists}
+        5    0.000    0.000    0.000    0.000 curve_net_data.py:1098(from_json_cached)
+        3    0.000    0.000    0.000    0.000 {built-in method numpy.array}
+       36    0.000    0.000    0.000    0.000 {method 'findPlug' of 'OpenMaya.MFnDependencyNode' objects}
+        3    0.000    0.000    0.000    0.000 {built-in method maya.cmds.listConnections}
+       76    0.000    0.000    0.000    0.000 feature.py:88(feature_import)
+        3    0.000    0.000    0.000    0.000 curve_net_draw.py:228(_read_style)
+       45    0.000    0.000    0.000    0.000 {method 'indexOf' of 'OpenMayaRender.MRenderItemList' objects}
+        6    0.000    0.000    0.000    0.000 fromnumeric.py:2477(any)
+
+

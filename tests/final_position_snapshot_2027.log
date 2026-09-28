@@ -1,0 +1,50 @@
+�G���[: No module named 'cymel'
+# Traceback (most recent call last):
+#   File "D:/Dropbox/App/DCC/internal/maya/common/scripts/userSetup.py", line 7, in _initAruProject
+#     from Aru_lib.Aru_AutoSetProject import Aru_AutoSetProject
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\Aru_AutoSetProject.py", line 2, in <module>
+#     from Aru_lib.core.maya import *
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\core\maya.py", line 3, in <module>
+#     import cymel.main as cm
+# ModuleNotFoundError: No module named 'cymel'
+�G���[: ModuleNotFoundError: No module named 'cymel'
+SiWeightEditor startup script has begun
+SiWeightEditor startup script has ended with error
+Traceback (most recent call last):
+  File "C:/Program Files/Autodesk/ApplicationPlugins/SIWeightEditor/Contents/scripts/userSetup.py", line 20, in <module>
+    __register_siweighteditor_startup()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:/Program Files/Autodesk/ApplicationPlugins/SIWeightEditor/Contents/scripts/userSetup.py", line 8, in __register_siweighteditor_startup
+    cmds.evalDeferred(dedent(
+    ~~~~~~~~~~~~~~~~~^^^^^^^^
+        """
+        ^^^
+    ...<3 lines>...
+        """
+        ^^^
+    ))
+    ^^
+RuntimeError: ModuleNotFoundError: No module named 'imp'
+
+[RetopoGuide] Plugin loaded.
+�x�����b�Z�[�W: �X�N���v�g�ɋ����̃m�[�h �^�C�v 'addDoubleLinear' ��������܂����B����� 'addDL' ���g�p���܂��B
+Traceback (most recent call last):
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\run_maya_test.py", line 9, in <module>
+    importlib.import_module('Aru_RetopoTool.tests.'+sys.argv[1]).run()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\final_position_snapshot.py", line 27, in run
+    actual = shape._computeFinalPositions()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MPxNode' object has no attribute '_computeFinalPositions'
+[RetopoGuide] 01:14:40 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 01:14:40 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 01:14:40 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 01:14:40 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 01:14:40 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 01:14:41 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done

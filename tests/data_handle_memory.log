@@ -1,0 +1,78 @@
+�G���[: No module named 'cymel'
+# Traceback (most recent call last):
+#   File "D:/Dropbox/App/DCC/internal/maya/common/scripts/userSetup.py", line 7, in _initAruProject
+#     from Aru_lib.Aru_AutoSetProject import Aru_AutoSetProject
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\Aru_AutoSetProject.py", line 2, in <module>
+#     from Aru_lib.core.maya import *
+#   File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_lib\core\maya.py", line 3, in <module>
+#     import cymel.main as cm
+# ModuleNotFoundError: No module named 'cymel'
+�G���[: ModuleNotFoundError: No module named 'cymel'
+SiWeightEditor startup script has begun
+SiWeightEditor startup script has ended with error
+Traceback (most recent call last):
+  File "C:/Program Files/Autodesk/ApplicationPlugins/SIWeightEditor/Contents/scripts/userSetup.py", line 20, in <module>
+    __register_siweighteditor_startup()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:/Program Files/Autodesk/ApplicationPlugins/SIWeightEditor/Contents/scripts/userSetup.py", line 8, in __register_siweighteditor_startup
+    cmds.evalDeferred(dedent(
+    ~~~~~~~~~~~~~~~~~^^^^^^^^
+        """
+        ^^^
+    ...<3 lines>...
+        """
+        ^^^
+    ))
+    ^^
+RuntimeError: ModuleNotFoundError: No module named 'imp'
+
+PASS balanced Maya handle lifetime, geometry and exception cleanup
+{
+  "balanced_500_bytes": 0,
+  "balanced_500_ms": 91.43040000344627,
+  "unbalanced_count": 16,
+  "unbalanced_bytes": 0
+}
+Stack trace:
+  ntdll.dll!KiUserExceptionDispatcher
+  ntdll.dll!RtlGetSuiteMask
+  ntdll.dll!RtlAllocateHeap
+  ntdll.dll!RtlFreeHeap
+  ucrtbase.dll!_free_base
+  Foundation.dll!TsharedReference::operator bool
+  Foundation.dll!TsharedObject::unref
+  DependEngine.dll!TattributeList::reset
+  DependEngine.dll!TdependNodeVS::cleanupClass
+  DynSlice.dll!TnClothShape::sCleanupClass
+  DependEngine.dll!TdependGraph::deregisterNodeType
+  DependEngine.dll!TDNregister::~TDNregister
+  ucrtbase.dll!bsearch_s
+  ucrtbase.dll!_execute_onexit_table
+  ucrtbase.dll!_execute_onexit_table
+  DynSlice.dll!TnIsoSurface::numVerts
+  DynSlice.dll!TnIsoSurface::numVerts
+  ntdll.dll!RtlIsCriticalSectionLocked
+  ntdll.dll!RtlRaiseException
+  ntdll.dll!LdrShutdownProcess
+  ntdll.dll!RtlExitUserProcess
+  KERNEL32.DLL!FatalExit
+  ucrtbase.dll!logbf
+  python313.dll!PyOS_AfterFork
+  python313.dll!PyOS_AfterFork
+  python313.dll!PyCFunction_GetFlags
+  python313.dll!_PyBytes_Repeat
+  python313.dll!PyObject_Vectorcall
+  python313.dll!_PyEval_EvalFrameDefault
+  python313.dll!PyEval_EvalCode
+  python313.dll!PyRun_FileExFlags
+  python313.dll!PyRun_FileExFlags
+  python313.dll!PyRun_StringFlags
+  python313.dll!PyRun_InteractiveOneFlags
+  python313.dll!PyOS_double_to_string
+  python313.dll!Py_GetBuildInfo
+  python313.dll!Py_GetBuildInfo
+  python313.dll!Py_RunMain
+  python313.dll!Py_BytesMain
+  mayapy.exe!<7FF7C39422C4>
+00007FF8002C8560����: ����
+�v���I�ȃG���[�ł��B���̃t�@�C���ւ̕ۑ������݂܂�: C:/Users/aruur/AppData/Local/Temp/����[��-aruur.2026-09-18-23.35].ma

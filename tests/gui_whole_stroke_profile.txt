@@ -1,0 +1,53 @@
+         1726149 function calls (1720771 primitive calls) in 0.811 seconds
+
+   Ordered by: internal time
+   List reduced from 487 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       13    0.074    0.006    0.074    0.006 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\encoder.py:205(iterencode)
+       72    0.062    0.001    0.062    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\maya_projector.py:38(points)
+       22    0.045    0.002    0.045    0.002 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\decoder.py:351(raw_decode)
+       18    0.044    0.002    0.094    0.005 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:11(_copy_surface_bindings)
+      254    0.031    0.000    0.031    0.000 {built-in method numpy.asarray}
+    20/10    0.026    0.001    0.022    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:328(updateDG)
+       18    0.026    0.001    0.119    0.007 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:45(_evaluated_copy)
+      2/1    0.025    0.013    0.000    0.000 {built-in method maya.cmds.refresh}
+   319949    0.025    0.000    0.025    0.000 {method 'append' of 'list' objects}
+    59640    0.021    0.000    0.023    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:22(<genexpr>)
+    33516    0.020    0.000    0.032    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:136(length3)
+    76177    0.017    0.000    0.017    0.000 {method 'get' of 'dict' objects}
+   214020    0.016    0.000    0.016    0.000 {method 'add' of 'set' objects}
+       22    0.015    0.001    0.029    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:38(positions)
+ 5424/325    0.015    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_edit.py:113(alive)
+       74    0.014    0.000    0.014    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:517(endpoint_indices)
+       10    0.013    0.001    0.066    0.007 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:1063(from_dict)
+    60710    0.013    0.000    0.013    0.000 {method 'tolist' of 'numpy.ndarray' objects}
+    33516    0.012    0.000    0.012    0.000 {method 'dot' of 'numpy.ndarray' objects}
+       20    0.012    0.001    0.040    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:763(classify_endpoints)
+    22732    0.010    0.000    0.010    0.000 {built-in method maya._OpenMaya.MPoint_swiginit}
+      106    0.010    0.000    0.128    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:1096(from_json_cached)
+    14896    0.009    0.000    0.010    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_relax.py:157(<genexpr>)
+        1    0.008    0.008    0.008    0.008 {built-in method maya.cmds.loadPlugin}
+153216/153214    0.008    0.000    0.008    0.000 {built-in method builtins.len}
+    91651    0.008    0.000    0.008    0.000 {method 'setdefault' of 'dict' objects}
+      198    0.008    0.000    0.008    0.000 {built-in method numpy.ascontiguousarray}
+       10    0.008    0.001    0.012    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:456(used_cv_indices)
+    16490    0.008    0.000    0.013    0.000 {built-in method builtins.sum}
+    14970    0.007    0.000    0.010    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:937(_walk)
+    26086    0.007    0.000    0.007    0.000 {built-in method numpy.array}
+       32    0.007    0.000    0.007    0.000 {method 'asString' of 'OpenMaya.MPlug' objects}
+       10    0.007    0.001    0.020    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:922(_rebuild_curves)
+       12    0.007    0.001    0.009    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:1051(to_dict)
+    14910    0.007    0.000    0.030    0.000 {built-in method builtins.all}
+    22732    0.006    0.000    0.019    0.000 D:/Jenkins/workspace/maya/build/RelWithDebInfo/runTime/Python/Lib/site-packages/maya/OpenMaya.py:7022(__init__)
+       34    0.006    0.000    0.006    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:884(handle_indices)
+     20/1    0.006    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_node.py:2605(_getNetData)
+     90/2    0.006    0.000    0.000    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_node.py:2067(matchComponent)
+    74550    0.005    0.000    0.005    0.000 {built-in method builtins.id}
+       22    0.005    0.000    0.005    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:109(cached_controls)
+       18    0.005    0.000    0.005    0.000 C:\Program Files\Autodesk\Maya2027\Python\Lib\site-packages\numpy\linalg\_linalg.py:1689(svd)
+       22    0.004    0.000    0.004    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:512(sync_manual_handles)
+       22    0.004    0.000    0.005    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\gpu_guides.py:122(draw_controls)
+     3805    0.004    0.000    0.014    0.000 {built-in method builtins.sorted}
+
+

@@ -1,0 +1,76 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment_graph  name="mayaColorOpacityLookupFatPointShader" ref="mayaColorOpacityLookupFatPointShader" class="FragmentGraph" version="1.0" feature_level="0" >
+    <keyword value="componentShader" />
+    <fragments>
+            <fragment_ref name="mayaSolidColorGS" ref="mayaSolidColorGS" />
+            <fragment_ref name="combineColorWithAlpha" ref="combineColorWithAlpha" />
+            <fragment_ref name="mayaTexture1DColorRemap" ref="mayaTexture1DColorRemap" />
+            <fragment_ref name="mayaTexture1DAlphaRemap" ref="mayaTexture1DAlphaRemap" />
+            <fragment_ref name="mayaPoint2Quad" ref="mayaPoint2Quad" />
+            <fragment_ref name="mayaDepthPriorityShader" ref="mayaDepthPriorityShader" />
+    </fragments>
+    <connections>
+        <connect from="combineColorWithAlpha.combineColorWithAlpha" to="mayaSolidColorGS.solidColor" name="solidColor" />
+        <connect from="mayaPoint2Quad.GPUStage" to="mayaSolidColorGS.GPUStage" name="GPUStage" />
+        <connect from="mayaTexture1DColorRemap.mayaTexture1DColorRemap" to="combineColorWithAlpha.InsColor" name="InsColor" />
+        <connect from="mayaTexture1DAlphaRemap.mayaTexture1DAlphaRemap" to="combineColorWithAlpha.alpha" name="alpha" />
+        <connect from="mayaDepthPriorityShader.GPUStage" to="mayaPoint2Quad.GPUStage" name="GPUStage" />
+    </connections>
+    <properties>
+        <texture1  name="map" ref="mayaTexture1DColorRemap.map" />
+        <sampler  name="samp" ref="mayaTexture1DColorRemap.samp" />
+        <texture1  name="remapMap" ref="mayaTexture1DColorRemap.remapMap" />
+        <sampler  name="remapMapSampler" ref="mayaTexture1DColorRemap.remapMapSampler" />
+        <float  name="mayaUVIn" ref="mayaTexture1DColorRemap.mayaUVIn" semantic="mayaUVSet" flags="varyingInputParam" />
+        <float2  name="UVRange" ref="mayaTexture1DColorRemap.UVRange" />
+        <texture1  name="opacityMap" ref="mayaTexture1DAlphaRemap.map" />
+        <sampler  name="opacityMapSampler" ref="mayaTexture1DAlphaRemap.samp" />
+        <texture1  name="opacityRemapMap" ref="mayaTexture1DAlphaRemap.remapMap" />
+        <sampler  name="opacityRemapMapSampler" ref="mayaTexture1DAlphaRemap.remapMapSampler" />
+        <float  name="opacityUVIn" ref="mayaTexture1DAlphaRemap.mayaUVIn" semantic="opacityUVIn" flags="varyingInputParam" />
+        <float2  name="opacityUVRange" ref="mayaTexture1DAlphaRemap.UVRange" />
+        <bool  name="forceOpaque" ref="mayaTexture1DAlphaRemap.forceOpaque" />
+        <bool  name="premultiplyAlpha" ref="combineColorWithAlpha.premultiplyAlpha" />
+        <float4  name="selectionHiddenColor" ref="mayaSolidColorGS.selectionHiddenColor" />
+        <bool  name="isSelectionHighlightingON" ref="mayaSolidColorGS.isSelectionHighlightingON" />
+        <struct  name="inputs" ref="mayaPoint2Quad.inputs" />
+        <float2  name="pointSize" ref="mayaPoint2Quad.pointSize" />
+        <float2  name="screenSize" ref="mayaPoint2Quad.screenSize" semantic="viewportPixelSize" />
+        <float4  name="quadPositionUV" ref="mayaPoint2Quad.quadPositionUV" semantic="quadPositionUVType0" />
+        <float4x4  name="viewprojectioninverse" ref="mayaPoint2Quad.viewprojectioninverse" semantic="viewprojectioninverse" />
+        <bool  name="isCulled" ref="mayaPoint2Quad.isCulled" />
+        <float  name="DepthPriorityUnit" ref="mayaPoint2Quad.DepthPriorityUnit" semantic="DepthPriorityUnit" />
+        <bool  name="orthographic" ref="mayaPoint2Quad.orthographic" semantic="isorthographic" />
+        <float  name="depthPriorityThreshold" ref="mayaPoint2Quad.depthPriorityThreshold" semantic="mayadepthprioritythreshold" />
+        <float3  name="Pm" ref="mayaDepthPriorityShader.Pm" semantic="POSITION" flags="varyingInputParam" />
+        <float4x4  name="WorldViewProj" ref="mayaDepthPriorityShader.WorldViewProj" semantic="worldviewprojection" />
+        <float  name="DepthPriority" ref="mayaDepthPriorityShader.DepthPriority" semantic="DepthPriority" />
+        <float  name="depthPriorityScale" ref="mayaDepthPriorityShader.depthPriorityScale" semantic="mayadepthprioirtyscale" />
+    </properties>
+    <values>
+<float2 name="UVRange" value="0.000000,1.000000"  />
+<float2 name="opacityUVRange" value="0.000000,1.000000"  />
+<bool name="forceOpaque" value="false"  />
+<bool name="premultiplyAlpha" value="false"  />
+<float4 name="selectionHiddenColor" value="-1.000000,-1.000000,-1.000000,1.000000"  />
+<bool name="isSelectionHighlightingON" value="true"  />
+<float2 name="pointSize" value="3.000000,3.000000"  />
+<bool name="isCulled" value="false"  />
+<float name="DepthPriorityUnit" value="0.000001"  />
+<bool name="orthographic" value="false"  />
+<float name="depthPriorityThreshold" value="10000.000000"  />
+<float name="DepthPriority" value="0.000000"  />
+<float name="depthPriorityScale" value="1.000000"  />
+    </values>
+    <outputs>
+        <float4  name="mayaSolidColorGS" ref="mayaSolidColorGS.mayaSolidColorGS" />
+    </outputs>
+</fragment_graph>

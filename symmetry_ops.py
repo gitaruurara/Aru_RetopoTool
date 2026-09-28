@@ -4,25 +4,54 @@ from .editor.curvenet import curve_net_symmetry as sym, curve_net_edit as edit
 
 
 def mirrored_splines(cn,mesh,indices,create=False):
-    if not sym.is_enabled():return {}
+    axis,space=sym.get_axis(),sym.get_space()
+    if not axis:return {}
     points=cn.positions
+    k=sym._AXIS_INDEX.get(axis)
+    wm,wim=sym._object_matrices(mesh) if space!='world' and k is not None else (None,None)
+    def mirrored(point):
+        if k is None:return list(point)
+        if space=='world':
+            result=list(point);result[k]=-result[k];return result
+        if wm is None:return list(point)
+        p=sym.om.MPoint(point[0],point[1],point[2])*wim
+        local=[p.x,p.y,p.z];local[k]=-local[k]
+        q=sym.om.MPoint(*local)*wm
+        return [q.x,q.y,q.z]
     eps=set(cn.endpoint_indices());mapping={};result={}
     tol=max(edit._snap_radius(mesh)*1e-4,1e-6)
+    from math import floor
+    from itertools import product
+    cells={}
+    cell=lambda p:tuple(floor(x/tol) for x in p)
+    for ep in eps:cells.setdefault(cell(points[ep]),[]).append(ep)
+    neighbors=tuple(product((-1,0,1),repeat=3))
+    spline_lookup={}
+    for i,s in enumerate(cn.splines):spline_lookup.setdefault(tuple(sorted((s[0],s[3]))),i)
     def endpoint(v):
         if v in mapping:return mapping[v]
-        p=sym.mirror_point(points[v],mesh)
-        hit=next((j for j in sorted(eps) if sum((points[j][k]-p[k])**2 for k in range(3))<tol*tol),None)
+        p=mirrored(points[v])
+        x,y,z=cell(p);px,py,pz=p;limit=tol*tol;hit=None
+        # Explicit three-component keys avoid generators for every empty cell.
+        # Preserve strict tolerance and the lowest-index tie-breaker.
+        for dx,dy,dz in neighbors:
+            for j in cells.get((x+dx,y+dy,z+dz),()):
+                q=points[j]
+                if sum(((q[0]-px)**2,(q[1]-py)**2,(q[2]-pz)**2))<limit:
+                    if hit is None or j<hit:hit=j
         if hit is None and create:
-            hit=cn.add_cv(p);eps.add(hit)
+            hit=cn.add_cv(p);eps.add(hit);cells.setdefault(cell(p),[]).append(hit)
         mapping[v]=hit
         return hit
     for si in sorted(indices):
         a,h,j,b=cn.splines[si];ma,mb=endpoint(a),endpoint(b)
         if ma is None or mb is None:continue
-        target=next((i for i,s in enumerate(cn.splines) if {s[0],s[3]}=={ma,mb}),None)
+        pair=tuple(sorted((ma,mb)))
+        target=spline_lookup.get(pair)
         if target is None and create:
-            mh=cn.add_cv(sym.mirror_point(points[h],mesh));mj=cn.add_cv(sym.mirror_point(points[j],mesh))
+            mh=cn.add_cv(mirrored(points[h]));mj=cn.add_cv(mirrored(points[j]))
             target=cn.add_spline(ma,mh,mj,mb)
+            spline_lookup[pair]=target
             if h in cn.manual_handles:cn.manual_handles.add(mh)
             if j in cn.manual_handles:cn.manual_handles.add(mj)
         if target is not None:result[si]=target

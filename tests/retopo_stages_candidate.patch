@@ -1,0 +1,83 @@
+--- a/cpp/retopo.cpp
++++ b/cpp/retopo.cpp
+@@ -9,6 +9,9 @@
+ #include <future>
+ #include <atomic>
+ #include <thread>
++#include <mutex>
++#include <condition_variable>
++#include <exception>
+ #ifdef _OPENMP
+ #include <omp.h>
+ #endif
+@@ -52,6 +55,50 @@
+         tasks.push_back(std::async(std::launch::async,work));
+     work();
+     for(auto& task:tasks)task.get();
++}
++// One joined team per solver call; barriers keep Jacobi stages separate.
++// No threads survive this call or wait while Maya is idle.
++template<class F,class End> static void parallelStages(int n,int stages,F fn,End end){
++    const int threads=n>=512?projectionThreads(n):1;
++    if(threads==1){
++        for(int stage=0;stage<stages;++stage){for(int i=0;i<n;++i)fn(stage,i);end(stage);}
++        return;
++    }
++    std::mutex mutex;std::condition_variable cv;
++    int remaining=threads,generation=0;
++    bool started=false,abort=false;
++    std::atomic<int> cursor{0};std::atomic<bool> failed{false};
++    std::exception_ptr error;
++    auto work=[&]{
++        {std::unique_lock<std::mutex> lock(mutex);
++         cv.wait(lock,[&]{return started;});if(abort)return;}
++        for(int stage=0;stage<stages;++stage){
++            for(;;){
++                int start=cursor.fetch_add(128,std::memory_order_relaxed);
++                if(start>=n)break;
++                if(failed.load(std::memory_order_relaxed))continue;
++                try{for(int i=start;i<std::min(n,start+128);++i)fn(stage,i);}
++                catch(...){std::lock_guard<std::mutex> lock(mutex);
++                    if(!error)error=std::current_exception();failed.store(true,std::memory_order_relaxed);}
++            }
++            std::unique_lock<std::mutex> lock(mutex);int phase=generation;
++            if(--remaining==0){
++                if(!failed.load(std::memory_order_relaxed)){
++                    try{end(stage);}catch(...){if(!error)error=std::current_exception();failed.store(true,std::memory_order_relaxed);}
++                }
++                cursor.store(0,std::memory_order_relaxed);remaining=threads;++generation;
++                lock.unlock();cv.notify_all();
++            }else cv.wait(lock,[&]{return generation!=phase;});
++        }
++    };
++    std::vector<std::future<void>> tasks;tasks.reserve(threads-1);
++    try{for(int worker=1;worker<threads;++worker)tasks.push_back(std::async(std::launch::async,work));}
++    catch(...){
++        {std::lock_guard<std::mutex> lock(mutex);abort=true;started=true;}
++        cv.notify_all();for(auto& task:tasks)task.get();throw;
++    }
++    {std::lock_guard<std::mutex> lock(mutex);started=true;}cv.notify_all();
++    work();for(auto& task:tasks)task.get();if(error)std::rethrow_exception(error);
+ }
+ struct V {
+     double x,y,z;
+@@ -173,14 +220,14 @@
+                   const double* guide_weights,int iterations,double strength,int* seeds,int guard){
+     try{if(!p)return 0;auto&s=*static_cast<Surface*>(p);std::vector<V> target(n),current(n),next(n);
+         s.prepareCache(n,iterations,guard!=0);
+-        parallelFor(n,[&](int i){target[i]=current[i]=s.cachedProject(i,read(points+3*i),seeds[i],guard!=0);});
+-        for(int k=0;k<iterations;++k){
+-        parallelFor(n,[&](int i){if(guide_weights[i]==1.){next[i]=target[i];return;}
++        parallelStages(n,iterations+1,[&](int stage,int i){
++            if(stage==0){target[i]=current[i]=s.cachedProject(i,read(points+3*i),seeds[i],guard!=0);return;}
++            if(guide_weights[i]==1.){next[i]=target[i];return;}
+             V avg{0,0,0};int degree=offsets[i+1]-offsets[i];
+             for(int j=offsets[i];j<offsets[i+1];++j)avg=avg+current[neighbors[j]];
+             V q=degree?current[i]*(1-strength)+avg*(strength/degree):current[i];
+-            q=q*(1-guide_weights[i])+target[i]*guide_weights[i];next[i]=s.cachedProject(size_t(k+1)*n+i,q,seeds[i],guard!=0);
+-        });current.swap(next);}
++            q=q*(1-guide_weights[i])+target[i]*guide_weights[i];next[i]=s.cachedProject(size_t(stage)*n+i,q,seeds[i],guard!=0);
++        },[&](int stage){if(stage>0)current.swap(next);});
+         for(int i=0;i<n;++i)write(points+3*i,current[i]);return 1;
+     }catch(...){return 0;}
+ }

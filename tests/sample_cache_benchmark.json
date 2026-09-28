@@ -1,0 +1,7 @@
+{
+  "patches": 500,
+  "exact": true,
+  "before_ms": 175.60319999756757,
+  "after_ms": 150.52599999762606,
+  "scope": "synthetic grid stencil compilation only"
+}

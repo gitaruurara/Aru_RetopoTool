@@ -1,0 +1,20 @@
+{
+  "trials": [
+    {
+      "mode": "old",
+      "release_ms": 1013.4535999968648,
+      "hash": "3ebfa09420bac46b324bf2f31070de760c46c7bc68a2bc874b8c58217adb7d9e",
+      "topology": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ]
+    }
+  ],
+  "coefficients_exact": true
+}

@@ -19,6 +19,7 @@ import maya.api.OpenMayaRender as omr
 
 from Aru_RetopoTool.editor.curvenet.curve_net_data import RetopoGuideData
 from Aru_RetopoTool.editor.curvenet import sculpt_pose as _sp
+from Aru_RetopoTool.maya_data import double3_array_values
 
 from Aru_RetopoTool.editor.curvenet.aru_retopo_guide_plugin import (
     kPluginNodeName, kPluginNodeId,
@@ -838,6 +839,10 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
         # netData — トポロジ + ベース位置 (JSON)
         RetopoGuideNode.aNetData = tAttr.create(
             "netData", "nd", om1.MFnData.kString)
+        # Internal serialized geometry can exceed hundreds of KB. An automatic
+        # AE text field reparses/repaints the whole string on every curve edit.
+        # Keep the data storable and script-editable, without an AE editor.
+        tAttr.setHidden(True)
         tAttr.setStorable(True)
         tAttr.setWritable(True)
         tAttr.setReadable(True)
@@ -2722,13 +2727,14 @@ class RetopoGuideNode(ompx.MPxSurfaceShape):
             cp_plug = fn.findPlug("controlPoints", False)
             if cp_plug.isArray():
                 cp_deltas = {}
-                for pi in range(cp_plug.evaluateNumElements()):
-                    elem = cp_plug.elementByPhysicalIndex(pi)
-                    idx = elem.logicalIndex()
+                # Use the owned array snapshot instead of three plug queries
+                # per CV. Resolve the full DAG path to handle duplicate names.
+                path = om1.MFnDagNode(self.thisMObject()).fullPathName()
+                selection = om2.MSelectionList().add(path)
+                cp2 = om2.MFnDependencyNode(selection.getDependNode(0)).findPlug(
+                    "controlPoints", False)
+                for idx, (dx, dy, dz) in double3_array_values(cp2).items():
                     if idx < len(positions):
-                        dx = elem.child(0).asDouble()
-                        dy = elem.child(1).asDouble()
-                        dz = elem.child(2).asDouble()
                         if abs(dx) > 1e-9 or abs(dy) > 1e-9 or abs(dz) > 1e-9:
                             cp_deltas[idx] = (dx, dy, dz)
                 _target_map = _read_sculpt_targets(fn)

@@ -1,0 +1,72 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="getPointSizeAsFloat" name="getPointSizeAsFloat" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+get point-size parameter as the varying input]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float  name="pointSize" semantic="radius" flags="isRequirementOnly,varyingInputParam" />
+    </properties>
+    <values>
+    </values>
+    <outputs>
+        <float  name="pointSize" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="getPointSizeAsFloat" />
+        <source>
+            <![CDATA[
+float getPointSizeAsFloat( geometryInS inputs[1] ) 
+{ 
+	 return inputs[0].pointSize; 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="getPointSizeAsFloat" />
+        <source>
+            <![CDATA[
+float getPointSizeAsFloat( AttribArray<geometryInS>inputs ) 
+{ 
+	 return inputs[0].pointSize; 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="getPointSizeAsFloat" />
+        <source>
+            <![CDATA[
+float getPointSizeAsFloat( ) 
+{ 
+	 return GEO_IN[0].pointSize; 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="getPointSizeAsFloat" />
+        <source>
+            <![CDATA[
+float getPointSizeAsFloat( geometryInS inputs[1] ) 
+{ 
+	 return inputs[0].pointSize; 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

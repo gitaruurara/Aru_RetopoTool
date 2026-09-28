@@ -1,0 +1,12 @@
+{
+  "scope": "One real brush_weights + relax call, draft defaults; excludes display and undo; restored with undo",
+  "ep": 645,
+  "screen": [
+    1546,
+    1145
+  ],
+  "weights": 200,
+  "affected": 200,
+  "brush_ms": 66.27160000061849,
+  "relax_ms": 1529.5327999992878
+}

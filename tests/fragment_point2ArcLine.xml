@@ -1,0 +1,139 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="point2ArcLine" name="point2ArcLine" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+expand a point into an arc line]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float  name="radius" />
+        <float  name="startAngle" />
+        <float  name="endAngle" />
+        <float4x4  name="WorldViewProj" semantic="worldviewprojection" />
+    </properties>
+    <values>
+<float name="radius" value="1.000000"  />
+<float name="startAngle" value="0.000000"  />
+<float name="endAngle" value="0.000000"  />
+    </values>
+    <outputs>
+        <lineStream  name="outStream" size="33" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="point2ArcLine" />
+        <source>
+            <![CDATA[
+void point2ArcLine( geometryInS inputs[1], /* int circleLOD, */ float radius, float startAngle, float endAngle, float4x4 worldViewProjectionC,
+    inout LineStream<geometryInS> outStream  ) 
+{ 
+    geometryInS outS  = inputs[0]; 
+    float theta = 2.0 * 3.141592654 / 32; // circleLOD;  
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    float2x2 rotateMat = float2x2(cosine, sine, -sine, cosine); 
+    float2x2 startRotMat = float2x2(cos(startAngle), sin(startAngle), -sin(startAngle), cos(startAngle)); 
+    float2 offset = mul(float2(radius, 0.0), startRotMat); 
+    outS.Pc = inputs[0].Pc + mul(float4(offset, 0, 1), worldViewProjectionC); 
+    outStream.Append( outS ); 
+    int numSegment = abs((endAngle - startAngle) / theta); 
+    for( int i = 0; i < numSegment; ++i ) { 
+		 offset = mul(offset, rotateMat); 
+        outS.Pc = inputs[0].Pc + mul(float4(offset, 0, 1), worldViewProjectionC); 
+        outStream.Append( outS ); 
+    } 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="point2ArcLine" />
+        <source>
+            <![CDATA[
+void point2ArcLine( AttribArray<geometryInS>inputs, /* int circleLOD, */ float radius, float startAngle, float endAngle, float4x4 worldViewProjectionC) 
+{ 
+    geometryInS outS  = inputs[0]; 
+    float theta = (endAngle - startAngle) / 32;
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    float2x2 rotateMat = float2x2(cosine, sine, -sine, cosine); 
+    float2x2 startRotMat = float2x2(cos(startAngle), sin(startAngle), -sin(startAngle), cos(startAngle)); 
+    float2 offset = mul(float2(radius, 0.0), startRotMat); 
+    outS.Pc = inputs[0].Pc + mul(worldViewProjectionC, float4(offset, 0, 1)); 
+    emitVertex( outS ); 
+    for( int i = 0; i < 32; ++i ) { 
+		 offset = mul(offset, rotateMat); 
+        outS.Pc = inputs[0].Pc + mul(worldViewProjectionC, float4(offset, 0, 1)); 
+        emitVertex( outS ); 
+    } 
+    restartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="point2ArcLine" />
+        <source>
+            <![CDATA[
+void point2ArcLine(  /* int circleLOD, */ float radius, float startAngle, float endAngle, mat4x4 worldViewProjectionC) 
+{ 
+    GEO_OUT_struct outS  = copyFromGEO_IN(0); 
+    float theta = (endAngle - startAngle) / 32;
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    mat2x2 rotateMat = mat2x2(cosine, -sine, sine, cosine); 
+    mat2x2 startRotMat = mat2x2(cos(startAngle), -sin(startAngle), sin(startAngle), cos(startAngle)); 
+    vec2 offset = vec2(radius, 0.0) * startRotMat; 
+    outS.Pc = gl_in[0].gl_Position + mul(worldViewProjectionC, vec4(offset, 0, 1)); 
+    EmitGeoStruct( outS ); 
+    for( int i = 0; i < 32; ++i ) { 
+		 offset = offset * rotateMat; 
+        outS.Pc = gl_in[0].gl_Position + mul(worldViewProjectionC, vec4(offset, 0, 1)); 
+        EmitGeoStruct( outS ); 
+    } 
+    EndPrimitive(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="point2ArcLine" />
+        <source>
+            <![CDATA[
+void point2ArcLine( geometryInS inputs[1], /* int circleLOD, */ float radius, float startAngle, float endAngle, float4x4 worldViewProjectionC,
+    inout LineStream<geometryInS> outStream  ) 
+{ 
+    geometryInS outS  = inputs[0]; 
+    float theta = 2.0 * 3.141592654 / 32; // circleLOD;  
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    float2x2 rotateMat = float2x2(cosine, sine, -sine, cosine); 
+    float2x2 startRotMat = float2x2(cos(startAngle), sin(startAngle), -sin(startAngle), cos(startAngle)); 
+    float2 offset = mul(float2(radius, 0.0), startRotMat); 
+    outS.Pc = inputs[0].Pc + mul(float4(offset, 0, 1), worldViewProjectionC); 
+    outStream.Append( outS ); 
+    int numSegment = abs((endAngle - startAngle) / theta); 
+    for( int i = 0; i < numSegment; ++i ) { 
+		 offset = mul(offset, rotateMat); 
+        outS.Pc = inputs[0].Pc + mul(float4(offset, 0, 1), worldViewProjectionC); 
+        outStream.Append( outS ); 
+    } 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

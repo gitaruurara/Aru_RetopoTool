@@ -1,0 +1,33 @@
+         212550 function calls (212540 primitive calls) in 0.230 seconds
+
+   Ordered by: cumulative time
+   List reduced from 211 to 25 due to restriction <25>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.017    0.017    0.192    0.192 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:606(addUIDrawables)
+     4270    0.004    0.000    0.132    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:66(setColor)
+     8543    0.104    0.000    0.128    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:43(flush)
+        1    0.020    0.020    0.026    0.026 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:192(_bezier_strips)
+     9534    0.007    0.000    0.015    0.000 {method 'extend' of 'list' objects}
+        1    0.005    0.005    0.012    0.012 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:101(relax)
+     4268    0.002    0.000    0.012    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:72(point)
+       11    0.008    0.001    0.008    0.001 {built-in method numpy.asarray}
+    50848    0.008    0.000    0.008    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:47(<genexpr>)
+     1591    0.002    0.000    0.006    0.000 {built-in method builtins.all}
+        1    0.000    0.000    0.005    0.005 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_node.py:1778(_out_json)
+     4268    0.005    0.000    0.005    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:37(project)
+        1    0.005    0.005    0.005    0.005 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:37(unpack)
+        1    0.000    0.000    0.005    0.005 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\__init__.py:183(dumps)
+        1    0.000    0.000    0.005    0.005 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\encoder.py:183(encode)
+        1    0.005    0.005    0.005    0.005 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\encoder.py:205(iterencode)
+     4268    0.004    0.000    0.004    0.000 {method 'point2d' of 'OpenMayaUI.MUIDrawManager' objects}
+        1    0.002    0.002    0.003    0.003 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_draw.py:273(updateDG)
+        1    0.003    0.003    0.003    0.003 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:35(ints)
+        2    0.000    0.000    0.003    0.001 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\__init__.py:299(loads)
+        2    0.000    0.000    0.003    0.001 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\decoder.py:340(decode)
+        2    0.003    0.001    0.003    0.001 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\decoder.py:351(raw_decode)
+        1    0.002    0.002    0.002    0.002 {method 'tolist' of 'numpy.ndarray' objects}
+     1589    0.001    0.000    0.002    0.000 {built-in method builtins.any}
+    12805    0.002    0.000    0.002    0.000 D:/Dropbox/App/DCC/internal/maya/common/scripts/Aru_RetopoTool/aru_retopo_plugin.py:74(<genexpr>)
+
+

@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\curve_latency_regression.py", line 6, in <module>
+    from Aru_RetopoTool.tests.curve_edit_features import fixture
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\curve_edit_features.py", line 8, in <module>
+    from Aru_RetopoTool import core,density,curve_loop,drag_extrude as d,construction,guides,maya_api as api,patch_context
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\curve_loop.py", line 4, in <module>
+    from . import core,construction,drag_extrude,maya_api as api
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\construction.py", line 7, in <module>
+    from . import core, maya_api as api, patch_context
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\patch_context.py", line 5, in <module>
+    import maya.api.OpenMayaUI as omui
+  File "C:\Program Files\Autodesk\Maya2027\Python\Lib\site-packages\maya\api\OpenMayaUI.py", line 10, in <module>
+    import maya.api.OpenMayaRender
+  File "C:\Program Files\Autodesk\Maya2027\Python\Lib\site-packages\maya\api\OpenMayaRender.py", line 13, in <module>
+    import maya.api._OpenMayaRender_py2
+ImportError: DLL load failed while importing _OpenMayaRender_py2: ページング ファイルが小さすぎるため、この操作を完了できません。

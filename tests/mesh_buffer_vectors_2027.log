@@ -1,0 +1,1 @@
+PASS native mesh transfer parity, previous outputs preserved, invalid/recovery {'vertices': 46873, 'quads': 46528, 'python_transfer_ms': 24.007299998629605, 'native_transfer_ms': 14.455450000241399}

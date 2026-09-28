@@ -1,0 +1,7 @@
+{
+  "mesh_max_error": 6.661338147750939e-16,
+  "float32_mesh_exact": true,
+  "guide_max_error": 2.6645352591003757e-15,
+  "topology_exact": true,
+  "restored": true
+}

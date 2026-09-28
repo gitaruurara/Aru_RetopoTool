@@ -1,0 +1,2 @@
+PASS exact Plan metadata and compiled stencils: 26 cases
+[{'regions': 2, 'level': 3, 'old_ms': 0.7815999997546896, 'new_ms': 0.7329000072786584, 'old_compile_ms': 0.8088000031420961, 'new_compile_ms': 0.6698000070173293}, {'regions': 2, 'level': 4, 'old_ms': 2.5717999960761517, 'new_ms': 2.550699995481409, 'old_compile_ms': 4.220900009386241, 'new_compile_ms': 3.6693000001832843}]

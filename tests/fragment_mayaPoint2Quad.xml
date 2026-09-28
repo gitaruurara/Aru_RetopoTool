@@ -1,0 +1,158 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2Quad" name="mayaPoint2Quad" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+expand a point into a screen aligned quad]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float2  name="pointSize" />
+        <float2  name="screenSize" semantic="viewportPixelSize" />
+        <float4  name="quadPositionUV" semantic="quadPositionUVType0" size="4" />
+        <float4x4  name="viewprojectioninverse" semantic="viewprojectioninverse" />
+        <bool  name="isCulled" />
+        <float  name="DepthPriorityUnit" semantic="DepthPriorityUnit" />
+        <bool  name="orthographic" semantic="isorthographic" />
+        <float  name="depthPriorityThreshold" semantic="mayadepthprioritythreshold" />
+    </properties>
+    <values>
+<float2 name="pointSize" value="3.000000,3.000000"  />
+<bool name="isCulled" value="false"  />
+<float name="DepthPriorityUnit" value="0.000001"  />
+<bool name="orthographic" value="false"  />
+<float name="depthPriorityThreshold" value="10000.000000"  />
+    </values>
+    <outputs>
+        <triStream  name="outStream" size="4" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="point2ScreenQuad" />
+        <declaration name="DepthPriorityUnit" >
+            <![CDATA[
+   static const float cDepthPriorityUnit = 1.0f/1048576.0f; 
+            ]]>
+        </declaration>
+        <source>
+            <![CDATA[
+void point2ScreenQuad( geometryInS inputs[1], float2 pointSz, float2 screenSize, float4 quadPositionUV[4], 
+    float4x4 viewProjInverse, bool isCulled, float depthPriorityUnit, bool orthographic, float DPThresholdInView, 
+    inout TriangleStream<geometryInS> outStream  ) 
+{ 
+	 if(isCulled) return; 
+    geometryInS outS  = inputs[0]; 
+    float size = max(0, max(pointSz.x, pointSz.y)); 
+    float dpScale = orthographic ? 1.0f : -DPThresholdInView; 
+    float dp = 2.0f * size * cDepthPriorityUnit * dpScale; 
+    float4 sizeInZ = float4(pointSz.xy  / screenSize.xy, 0, 0) * outS.Pc.w;  
+    [unroll] for( int i = 0; i < 4; ++i ) { 
+        outS.Pc = inputs[0].Pc + sizeInZ * float4(quadPositionUV[i].xy, 0, 0); 
+        outS.Pc.z = inputs[0].Pc.z - dp; 
+        outStream.Append( outS ); 
+    } 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="point2ScreenQuad" />
+        <declaration name="DepthPriorityUnit" >
+            <![CDATA[
+   static const float cDepthPriorityUnit = 1.0f/1048576.0f; 
+            ]]>
+        </declaration>
+        <source>
+            <![CDATA[
+void point2ScreenQuad( AttribArray<geometryInS>inputs, float2 pointSz, float2 screenSize, float4 quadPositionUV[4], 
+	float4x4 viewProjInverse, bool isCulled, float depthPriorityUnit, bool orthographic, float DPThresholdInView ) 
+{ 
+	 if(isCulled) return; 
+    geometryInS outS = inputs[0]; 
+    float size = max(0, max(pointSz.x, pointSz.y)); 
+    float dpScale = orthographic ? 1.0f : -DPThresholdInView; 
+    float dp = 4.0f * size * cDepthPriorityUnit * dpScale; 
+    float4 sizeInZ = float4(pointSz.xy  / screenSize.xy, 0, 0) * outS.Pc.w;  
+    for( int i = 0; i < 4; ++i ) { 
+        outS.Pc = inputs[0].Pc + sizeInZ * float4(quadPositionUV[i].xy, 0, 0); 
+        outS.Pc.z = inputs[0].Pc.z - dp; 
+        emitVertex( outS ); 
+    } 
+    restartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="point2ScreenQuad" />
+        <declaration name="DepthPriorityUnit" >
+            <![CDATA[
+GLSLShader DepthPriorityUnitDeclaration {
+   float cDepthPriorityUnit = 1.0f/1048576.0f; 
+
+}
+            ]]>
+        </declaration>
+        <source>
+            <![CDATA[
+void point2ScreenQuad(  vec2 pointSz, vec2 screenSize, vec4 quadPositionUV[4], 
+	mat4x4 viewProjInverse, bool isCulled, float depthPriorityUnit, bool orthographic, float DPThresholdInView ) 
+{ 
+	 if(isCulled) return; 
+    GEO_OUT_struct outS = copyFromGEO_IN(0); 
+    float size = max(0, max(pointSz.x, pointSz.y)); 
+    float dpScale = orthographic ? 1.0f : -DPThresholdInView; 
+    float dp = 4.0f * size * cDepthPriorityUnit * dpScale; 
+    vec4 sizeInZ = vec4(pointSz.xy  / screenSize.xy, 0, 0) * outS.Pc.w;  
+    for( int i = 0; i < 4; ++i ) { 
+        outS.Pc = gl_in[0].gl_Position + sizeInZ * vec4(quadPositionUV[i].xy, 0, 0); 
+        outS.Pc.z = gl_in[0].gl_Position.z - dp; 
+        EmitGeoStruct( outS ); 
+    } 
+    EndPrimitive(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="point2ScreenQuad" />
+        <declaration name="DepthPriorityUnit" >
+            <![CDATA[
+   static const float cDepthPriorityUnit = 1.0f/1048576.0f; 
+            ]]>
+        </declaration>
+        <source>
+            <![CDATA[
+void point2ScreenQuad( geometryInS inputs[1], float2 pointSz, float2 screenSize, float4 quadPositionUV[4], 
+    float4x4 viewProjInverse, bool isCulled, float depthPriorityUnit, bool orthographic, float DPThresholdInView, 
+    inout TriangleStream<geometryInS> outStream  ) 
+{ 
+	 if(isCulled) return; 
+    geometryInS outS  = inputs[0]; 
+    float size = max(0, max(pointSz.x, pointSz.y)); 
+    float dpScale = orthographic ? 1.0f : -DPThresholdInView; 
+    float dp = 2.0f * size * cDepthPriorityUnit * dpScale; 
+    float4 sizeInZ = float4(pointSz.xy  / screenSize.xy, 0, 0) * outS.Pc.w;  
+    [unroll] for( int i = 0; i < 4; ++i ) { 
+        outS.Pc = inputs[0].Pc + sizeInZ * float4(quadPositionUV[i].xy, 0, 0); 
+        outS.Pc.z = inputs[0].Pc.z - dp; 
+        outStream.Append( outS ); 
+    } 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

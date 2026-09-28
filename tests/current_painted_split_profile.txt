@@ -1,0 +1,36 @@
+         392571 function calls (392557 primitive calls) in 0.167 seconds
+
+   Ordered by: cumulative time
+   List reduced from 179 to 28 due to restriction <28>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.002    0.002    0.154    0.154 local_edit_transfer.py:54(prepare)
+        5    0.003    0.001    0.065    0.013 local_edit_transfer.py:19(__init__)
+        3    0.000    0.000    0.064    0.021 local_edit_transfer.py:81(destination)
+        5    0.000    0.000    0.047    0.009 core.py:51(__init__)
+        5    0.001    0.000    0.044    0.009 core.py:38(selected_regions)
+      731    0.007    0.000    0.041    0.000 local_edit_transfer.py:31(closest)
+        6    0.012    0.002    0.031    0.005 regions_native.py:51(regions)
+      731    0.000    0.000    0.026    0.000 local_edit_transfer.py:78(source)
+        5    0.007    0.001    0.024    0.005 local_edit_transfer.py:66(get_surface)
+       12    0.008    0.001    0.017    0.001 regions_native.py:7(spline_aliases)
+    20855    0.010    0.000    0.017    0.000 {built-in method builtins.sum}
+        1    0.007    0.007    0.016    0.016 native.py:87(__init__)
+        3    0.008    0.003    0.015    0.005 local_fields.py:92(lattice)
+        1    0.000    0.000    0.015    0.015 patch_transfer.py:135(prepare)
+     1462    0.003    0.000    0.011    0.000 local_edit_transfer.py:8(barycentric)
+        2    0.000    0.000    0.011    0.006 patch_transfer.py:130(analysis)
+        1    0.001    0.001    0.011    0.011 patch_transfer.py:37(__init__)
+     1197    0.003    0.000    0.011    0.000 core.py:141(patch_key)
+      731    0.011    0.000    0.011    0.000 {method 'getClosestPoint' of 'OpenMaya.MFnMesh' objects}
+    22871    0.005    0.000    0.010    0.000 {built-in method builtins.max}
+     7310    0.002    0.000    0.008    0.000 local_edit_transfer.py:10(<lambda>)
+        5    0.000    0.000    0.007    0.001 core.py:106(evaluate)
+        5    0.000    0.000    0.007    0.001 regions_native.py:32(canonical_keys)
+       14    0.003    0.000    0.007    0.000 native.py:43(packed)
+     4395    0.002    0.000    0.007    0.000 {built-in method builtins.any}
+       19    0.006    0.000    0.006    0.000 native.py:38(ints)
+        8    0.004    0.000    0.005    0.001 native.py:99(project)
+    12431    0.003    0.000    0.005    0.000 {built-in method builtins.min}
+
+

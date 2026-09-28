@@ -1,0 +1,134 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPointLight" name="mayaPointLight" type="lighting" class="ShadeFragment" version="1.0" feature_level="0" >
+    <description>
+<![CDATA[
+Computes irradiance from a point light]]>
+</description>
+    <properties>
+        <float  name="lightOn" flags="isNotSharableParam" />
+        <bool  name="lightActive" flags="isNotSharableParam" />
+        <float  name="intensity" flags="isNotSharableParam" />
+        <color  name="color" flags="isNotSharableParam" />
+        <float  name="emitsDiffuse" flags="isNotSharableParam" />
+        <float  name="emitsSpecular" flags="isNotSharableParam" />
+        <float3  name="position" flags="isNotSharableParam" />
+        <float3  name="Pw" />
+        <float  name="decayRate" flags="isNotSharableParam" />
+    </properties>
+    <values>
+<float name="lightOn" value="1.000000"  />
+<bool name="lightActive" value="false"  />
+<float name="intensity" value="1.000000"  />
+<color name="color" value="1.000000,1.000000,1.000000"  />
+<float name="emitsDiffuse" value="1.000000"  />
+<float name="emitsSpecular" value="1.000000"  />
+<float3 name="position" value="-100.000000,100.000000,-10.000000"  />
+<float name="decayRate" value="0.000000"  />
+    </values>
+    <outputs>
+        <struct  name="mayaPointLight" struct_name="irradiance" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="mayaPointLight" />
+        <source>
+            <![CDATA[
+irradiance mayaPointLight( float lightOn, bool lightActive, float intensity, float3 color, float emitDiff, float emitSpec, 
+                           float3 lightPosition, float3 Pw, float decayRate )
+{ 
+    const float epsilon = 0.00001f; 
+    float3 L = lightPosition - Pw; 
+    float d = length( L ) + epsilon; 
+    float atten = 1.0f / pow( d + 1.0f, decayRate + epsilon); 
+    float3 c = lightOn * atten * intensity * color; 
+    irradiance irrad; 
+    irrad.diffuseI =  emitDiff * c; 
+    irrad.specularI = emitSpec * c; 
+    irrad.Ld = irrad.Ls = L / d; 
+    irrad.Lg = float4(0.0f, 0.0f, 0.0f, 1.0f); 
+    irrad.lightType = 0x504f4954; 
+    return irrad; 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="mayaPointLight" />
+        <source>
+            <![CDATA[
+irradiance mayaPointLight( float lightOn, bool lightActive, float intensity, float3 color, float emitDiff, float emitSpec, 
+                           float3 lightPosition, float3 Pw, float decayRate )
+{ 
+    const float epsilon = 0.00001f; 
+    float3 L = lightPosition - Pw; 
+    float d = length( L ) + epsilon; 
+    float atten = 1.0f / pow( d + 1.0f, decayRate + epsilon); 
+    float3 c = lightOn * atten * intensity * color; 
+    irradiance irrad; 
+    irrad.diffuseI =  emitDiff * c; 
+    irrad.specularI = emitSpec * c; 
+    irrad.Ld = irrad.Ls = L / d; 
+    irrad.Lg = float4(0.0f, 0.0f, 0.0f, 1.0f); 
+    irrad.lightType = 0x504f4954; 
+    return irrad; 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="mayaPointLight" />
+        <source>
+            <![CDATA[
+irradiance mayaPointLight( float lightOn, bool lightActive, float intensity, vec3 color, float emitDiff, float emitSpec, 
+                           vec3 lightPosition, vec3 Pw, float decayRate )
+{ 
+    const float epsilon = 0.00001f; 
+    vec3 L = lightPosition - Pw; 
+    float d = length( L ) + epsilon; 
+    float atten = 1.0f / pow( d + 1.0f, decayRate + epsilon); 
+    vec3 c = lightOn * atten * intensity * color; 
+    irradiance irrad; 
+    irrad.diffuseI =  emitDiff * c; 
+    irrad.specularI = emitSpec * c; 
+    irrad.Ld = irrad.Ls = L / d; 
+    irrad.Lg = vec4(0.0f, 0.0f, 0.0f, 1.0f); 
+    irrad.lightType = 0x504f4954; 
+    return irrad; 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="mayaPointLight" />
+        <source>
+            <![CDATA[
+irradiance mayaPointLight( float lightOn, bool lightActive, float intensity, float3 color, float emitDiff, float emitSpec, 
+                           float3 lightPosition, float3 Pw, float decayRate )
+{ 
+    const float epsilon = 0.00001f; 
+    float3 L = lightPosition - Pw; 
+    float d = length( L ) + epsilon; 
+    float atten = 1.0f / pow( d + 1.0f, decayRate + epsilon); 
+    float3 c = lightOn * atten * intensity * color; 
+    irradiance irrad; 
+    irrad.diffuseI =  emitDiff * c; 
+    irrad.specularI = emitSpec * c; 
+    irrad.Ld = irrad.Ls = L / d; 
+    irrad.Lg = float4(0.0f, 0.0f, 0.0f, 1.0f); 
+    irrad.lightType = 0x504f4954; 
+    return irrad; 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

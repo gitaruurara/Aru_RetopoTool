@@ -1,0 +1,65 @@
+{
+  "trials": [
+    {
+      "mode": "old",
+      "release_ms": 1045.8297000004677,
+      "hash": "3ebfa09420bac46b324bf2f31070de760c46c7bc68a2bc874b8c58217adb7d9e",
+      "topology": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ]
+    },
+    {
+      "mode": "new",
+      "release_ms": 773.5016000078758,
+      "hash": "3ebfa09420bac46b324bf2f31070de760c46c7bc68a2bc874b8c58217adb7d9e",
+      "topology": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ]
+    },
+    {
+      "mode": "new",
+      "release_ms": 818.5708999953931,
+      "hash": "3ebfa09420bac46b324bf2f31070de760c46c7bc68a2bc874b8c58217adb7d9e",
+      "topology": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ]
+    },
+    {
+      "mode": "old",
+      "release_ms": 1018.6860999965575,
+      "hash": "3ebfa09420bac46b324bf2f31070de760c46c7bc68a2bc874b8c58217adb7d9e",
+      "topology": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ]
+    }
+  ],
+  "coefficients_exact": true
+}

@@ -1,0 +1,230 @@
+{
+  "maya": "2024",
+  "exact_parity": true,
+  "records": [
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": false,
+      "draft": true,
+      "count": 1,
+      "median_ms": 0.009199997293762863
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": false,
+      "draft": true,
+      "count": 15,
+      "median_ms": 2.346899993426632
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": false,
+      "draft": true,
+      "count": 16,
+      "median_ms": 2.3980000041774474
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": false,
+      "draft": true,
+      "count": 256,
+      "median_ms": 48.88149999896996
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": false,
+      "draft": false,
+      "count": 1,
+      "median_ms": 0.009399998816661537
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": false,
+      "draft": false,
+      "count": 15,
+      "median_ms": 5.736600003729109
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": false,
+      "draft": false,
+      "count": 16,
+      "median_ms": 6.240299997443799
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": false,
+      "draft": false,
+      "count": 256,
+      "median_ms": 120.18849999731174
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": false,
+      "draft": true,
+      "count": 1,
+      "median_ms": 0.009700001101009548
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": false,
+      "draft": true,
+      "count": 15,
+      "median_ms": 2.297599996381905
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": false,
+      "draft": true,
+      "count": 16,
+      "median_ms": 0.8369999995920807
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": false,
+      "draft": true,
+      "count": 256,
+      "median_ms": 13.165399999707006
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": false,
+      "draft": false,
+      "count": 1,
+      "median_ms": 0.009499999578110874
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": false,
+      "draft": false,
+      "count": 15,
+      "median_ms": 5.8026999977300875
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": false,
+      "draft": false,
+      "count": 16,
+      "median_ms": 2.0237999997334555
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": false,
+      "draft": false,
+      "count": 256,
+      "median_ms": 32.21270000358345
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": true,
+      "draft": true,
+      "count": 1,
+      "median_ms": 0.009900002623908222
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": true,
+      "draft": true,
+      "count": 15,
+      "median_ms": 1.999199994315859
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": true,
+      "draft": true,
+      "count": 16,
+      "median_ms": 2.0848000058322214
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": true,
+      "draft": true,
+      "count": 256,
+      "median_ms": 44.510100000479724
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": true,
+      "draft": false,
+      "count": 1,
+      "median_ms": 0.009099996532313526
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": true,
+      "draft": false,
+      "count": 15,
+      "median_ms": 7.881400000769645
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": true,
+      "draft": false,
+      "count": 16,
+      "median_ms": 8.495499998389278
+    },
+    {
+      "version": "aru_retopo_maya_projector_v4",
+      "transformed": true,
+      "draft": false,
+      "count": 256,
+      "median_ms": 179.26420000003418
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": true,
+      "draft": true,
+      "count": 1,
+      "median_ms": 0.010100004146806896
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": true,
+      "draft": true,
+      "count": 15,
+      "median_ms": 2.005399997869972
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": true,
+      "draft": true,
+      "count": 16,
+      "median_ms": 1.0566999990260229
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": true,
+      "draft": true,
+      "count": 256,
+      "median_ms": 12.470200003008358
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": true,
+      "draft": false,
+      "count": 1,
+      "median_ms": 0.009700001101009548
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": true,
+      "draft": false,
+      "count": 15,
+      "median_ms": 7.91169999865815
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": true,
+      "draft": false,
+      "count": 16,
+      "median_ms": 2.9538999951910228
+    },
+    {
+      "version": "aru_retopo_maya_projector_v7",
+      "transformed": true,
+      "draft": false,
+      "count": 256,
+      "median_ms": 51.986099999339785
+    }
+  ]
+}

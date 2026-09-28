@@ -1,0 +1,30 @@
+         86867 function calls in 0.034 seconds
+
+   Ordered by: cumulative time
+   List reduced from 114 to 22 due to restriction <22>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        3    0.000    0.000    0.027    0.009 {built-in method maya.cmds.getAttr}
+        1    0.007    0.007    0.027    0.027 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_node.py:2067(matchComponent)
+        1    0.003    0.003    0.006    0.006 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:56(regions)
+     1284    0.002    0.000    0.004    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\symmetry_ops.py:31(endpoint)
+        1    0.000    0.000    0.004    0.004 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\__init__.py:299(loads)
+        1    0.000    0.000    0.004    0.004 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\decoder.py:340(decode)
+        1    0.004    0.004    0.004    0.004 C:\Program Files\Autodesk\Maya2027\Python\Lib\json\decoder.py:351(raw_decode)
+        2    0.001    0.000    0.004    0.002 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:762(classify_endpoints)
+        1    0.001    0.001    0.003    0.003 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:1065(from_dict)
+      292    0.000    0.000    0.002    0.000 {built-in method builtins.min}
+     2466    0.001    0.000    0.002    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\patch_context.py:142(<genexpr>)
+    13292    0.002    0.000    0.002    0.000 {method 'get' of 'dict' objects}
+        2    0.001    0.000    0.002    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:924(_rebuild_curves)
+     1222    0.001    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\patch_context.py:137(<lambda>)
+      643    0.000    0.000    0.001    0.000 {built-in method builtins.any}
+        1    0.001    0.001    0.001    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\native.py:99(project)
+      351    0.001    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\symmetry_ops.py:12(mirrored)
+      584    0.001    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\core.py:151(patch_key)
+      704    0.000    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\symmetry_ops.py:26(<lambda>)
+        1    0.001    0.001    0.001    0.001 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\regions_native.py:7(spline_aliases)
+     1228    0.001    0.000    0.001    0.000 D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\editor\curvenet\curve_net_data.py:939(_walk)
+     6780    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+
+

@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "<string>", line 6, in inspect_orbit
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\gui_gpu_orbit.py", line 23, in run
+    assert session.shapes
+           ^^^^^^^^^^^^^^
+AssertionError

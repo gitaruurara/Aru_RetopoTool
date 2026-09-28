@@ -1,0 +1,63 @@
+{
+  "trials": [
+    {
+      "builds": [
+        {
+          "compile_ms": 332.5909999985015,
+          "regions": 496,
+          "quads": 25,
+          "vertices": 46552
+        },
+        {
+          "compile_ms": 275.07850000984035,
+          "regions": 500,
+          "quads": 25,
+          "vertices": 46873
+        }
+      ],
+      "mode": "old",
+      "release_ms": 1009.4317000039155,
+      "hash": "3ebfa09420bac46b324bf2f31070de760c46c7bc68a2bc874b8c58217adb7d9e",
+      "topology": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ]
+    },
+    {
+      "builds": [
+        {
+          "compile_ms": 270.0226000015391,
+          "regions": 496,
+          "quads": 25,
+          "vertices": 46552
+        },
+        {
+          "compile_ms": 275.6971000053454,
+          "regions": 500,
+          "quads": 25,
+          "vertices": 46873
+        }
+      ],
+      "mode": "new",
+      "release_ms": 1026.408599995193,
+      "hash": "3ebfa09420bac46b324bf2f31070de760c46c7bc68a2bc874b8c58217adb7d9e",
+      "topology": [
+        {
+          "positions": 4268,
+          "splines": 1589
+        },
+        {
+          "positions": 4270,
+          "splines": 1590
+        }
+      ]
+    }
+  ],
+  "coefficients_exact": true
+}

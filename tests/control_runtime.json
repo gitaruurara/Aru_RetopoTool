@@ -1,0 +1,70 @@
+{
+  "enabled": false,
+  "valid": true,
+  "eps": 24,
+  "handles": 80,
+  "groups": [
+    {
+      "name": "aruRetopoControlBuffer0",
+      "enabled": false,
+      "primitive": 2,
+      "parameters": [
+        "solidColor",
+        "selectionHiddenColor",
+        "isSelectionHighlightingON",
+        "Pm",
+        "WorldViewProj",
+        "DepthPriority",
+        "orthographic",
+        "depthPriorityThreshold",
+        "depthPriorityScale",
+        "Instanced",
+        "MultiDraw"
+      ]
+    },
+    {
+      "name": "aruRetopoControlBuffer1",
+      "enabled": false,
+      "primitive": 1,
+      "parameters": [
+        "solidColor",
+        "pointSize",
+        "screenSize",
+        "quadPositionUV",
+        "viewprojectioninverse",
+        "isCulled",
+        "DepthPriorityUnit",
+        "orthographic",
+        "depthPriorityThreshold",
+        "Pm",
+        "WorldViewProj",
+        "DepthPriority",
+        "depthPriorityScale",
+        "Instanced",
+        "MultiDraw"
+      ]
+    },
+    {
+      "name": "aruRetopoControlBuffer2",
+      "enabled": false,
+      "primitive": 1,
+      "parameters": [
+        "solidColor",
+        "pointSize",
+        "screenSize",
+        "quadPositionUV",
+        "viewprojectioninverse",
+        "isCulled",
+        "DepthPriorityUnit",
+        "orthographic",
+        "depthPriorityThreshold",
+        "Pm",
+        "WorldViewProj",
+        "DepthPriority",
+        "depthPriorityScale",
+        "Instanced",
+        "MultiDraw"
+      ]
+    }
+  ]
+}

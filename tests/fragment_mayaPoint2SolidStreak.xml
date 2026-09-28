@@ -1,0 +1,152 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2SolidStreak" name="mayaPoint2SolidStreak" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+Expand a point to a solid streak]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <float3  name="Nw" semantic="Nw" flags="isRequirementOnly" />
+        <undefined  name="GPUStage" semantic="GPUStage" />
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <bool  name="isCulled" />
+        <float  name="lineWidth" />
+        <float  name="tailSize" />
+        <float4x4  name="WorldViewProj" semantic="worldviewprojection" />
+        <float2  name="screenSize" semantic="viewportPixelSize" />
+    </properties>
+    <values>
+<bool name="isCulled" value="false"  />
+<float name="lineWidth" value="1.000000"  />
+<float name="tailSize" value="1.000000"  />
+    </values>
+    <outputs>
+        <triStream  name="outStream" size="4" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="point2SolidStreak" />
+        <source>
+            <![CDATA[
+void point2SolidStreak( geometryInS inputs[1], bool isCulled, 
+    float lineWidth, float tailSize, 
+    float4x4 worldViewProj, float2 screenSize,  
+    inout TriangleStream<geometryInS> outStream ) 
+{ 
+    if( isCulled ) return; 
+ 
+    geometryInS outS = inputs[0]; 
+    float4 length = mul( float4( tailSize * outS.Nw, 0.0f ), worldViewProj ); 
+    float2 dir = normalize(length.xy); 
+    float4 width = lineWidth  * outS.Pc.w * float4(float2(dir.y, -dir.x)/screenSize, 0.0f, 0.0f);  
+ 
+    outS.Pc = inputs[0].Pc + width; 
+    outStream.Append( outS ); 
+    outS.Pc = inputs[0].Pc - width; 
+    outStream.Append( outS ); 
+    outS.Pc = inputs[0].Pc - length + width; 
+    outStream.Append( outS ); 
+    outS.Pc = inputs[0].Pc - length - width; 
+    outStream.Append( outS ); 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="point2SolidStreak" />
+        <source>
+            <![CDATA[
+void point2SolidStreak( AttribArray<geometryInS> inputs, bool isCulled, 
+    float lineWidth, float tailSize, 
+    float4x4 worldViewProj, float2 screenSize ) 
+{ 
+    if( isCulled ) return; 
+ 
+    geometryInS outS = inputs[0]; 
+    float4 length = mul( worldViewProj, float4( tailSize * outS.Nw, 0.0f ) ); 
+    float2 dir = normalize(length.xy); 
+    float4 width = lineWidth  * outS.Pc.w * float4(float2(dir.y, -dir.x)/screenSize, 0.0f, 0.0f);  
+ 
+    outS.Pc = inputs[0].Pc + width; 
+    emitVertex( outS ); 
+    outS.Pc = inputs[0].Pc - width; 
+    emitVertex( outS ); 
+    outS.Pc = inputs[0].Pc - length + width; 
+    emitVertex( outS ); 
+    outS.Pc = inputs[0].Pc - length - width; 
+    emitVertex( outS ); 
+    restartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="point2SolidStreak" />
+        <source>
+            <![CDATA[
+void point2SolidStreak(  bool isCulled, 
+    float lineWidth, float tailSize, 
+    mat4x4 worldViewProj, vec2 screenSize ) 
+{ 
+    if( isCulled ) return; 
+ 
+    GEO_OUT_struct outS = copyFromGEO_IN(0); 
+    vec4 length = mul( worldViewProj, vec4( tailSize * outS.Nw, 0.0f ) ); 
+    vec2 dir = normalize(length.xy); 
+    vec4 width = lineWidth  * outS.Pc.w * vec4(vec2(dir.y, -dir.x)/screenSize, 0.0f, 0.0f);  
+ 
+    outS.Pc = gl_in[0].gl_Position + width; 
+    EmitGeoStruct( outS ); 
+    outS.Pc = gl_in[0].gl_Position - width; 
+    EmitGeoStruct( outS ); 
+    outS.Pc = gl_in[0].gl_Position - length + width; 
+    EmitGeoStruct( outS ); 
+    outS.Pc = gl_in[0].gl_Position - length - width; 
+    EmitGeoStruct( outS ); 
+    EndPrimitive(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="point2SolidStreak" />
+        <source>
+            <![CDATA[
+void point2SolidStreak( geometryInS inputs[1], bool isCulled, 
+    float lineWidth, float tailSize, 
+    float4x4 worldViewProj, float2 screenSize,  
+    inout TriangleStream<geometryInS> outStream ) 
+{ 
+    if( isCulled ) return; 
+ 
+    geometryInS outS = inputs[0]; 
+    float4 length = mul( float4( tailSize * outS.Nw, 0.0f ), worldViewProj ); 
+    float2 dir = normalize(length.xy); 
+    float4 width = lineWidth  * outS.Pc.w * float4(float2(dir.y, -dir.x)/screenSize, 0.0f, 0.0f);  
+ 
+    outS.Pc = inputs[0].Pc + width; 
+    outStream.Append( outS ); 
+    outS.Pc = inputs[0].Pc - width; 
+    outStream.Append( outS ); 
+    outS.Pc = inputs[0].Pc - length + width; 
+    outStream.Append( outS ); 
+    outS.Pc = inputs[0].Pc - length - width; 
+    outStream.Append( outS ); 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "comparisons": 480,
+  "points_per_comparison": 512,
+  "exact_coordinates_and_seeds": true,
+  "cases": [
+    "curved grid",
+    "fold",
+    "disconnected close layers",
+    "degenerate triangles",
+    "small scale",
+    "large translation"
+  ],
+  "limits": "finite synthetic coordinates; not a complete correctness proof or interactive benchmark"
+}

@@ -567,9 +567,34 @@ def _find_mirror_handle(cn: RetopoGuideData, mesh_name: str, handle: int) -> Opt
                 cand = sq[2]
             else:
                 continue
-            return None if cand == handle else cand
+            if cand == handle:
+                continue
+            return cand
         return None
     return None
+
+
+def _finish_handle_edit(cn, mesh_name, handle, mirror_handle):
+    """Fit the driving curve once; preserve mirrored controls and lock flags."""
+    sources = [i for i, sp in enumerate(cn.splines) if handle in sp[1:3]]
+    for si in sources:
+        sp = cn.splines[si]
+        _fit_spline_handles_to_mesh(cn, si, mesh_name)
+        if mirror_handle is None or not _sym.is_enabled():
+            continue
+        for sq in cn.splines:
+            if mirror_handle not in sq[1:3]:
+                continue
+            # The grabbed control establishes orientation even for shared seam EPs.
+            same = (sp[1] == handle) == (sq[1] == mirror_handle)
+            targets = sq[1:3] if same else tuple(reversed(sq[1:3]))
+            positions = [_sym.mirror_point(cn.positions[h], mesh_name) for h in sp[1:3]]
+            flags = [h in cn.manual_handles for h in sp[1:3]]
+            for target, position, manual in zip(targets, positions, flags):
+                cn.move_cv(target, position)
+                if manual:cn.mark_manual_handle(target)
+                else:cn.clear_manual_handles([target])
+            break
 
 
 def _add_spline_to_cn(cn: RetopoGuideData, mesh_name: str,
@@ -594,11 +619,8 @@ def _add_spline_to_cn(cn: RetopoGuideData, mesh_name: str,
 # ---------------------------------------------------------------------------
 
 def _mirror_tol(mesh_name: str) -> float:
-    """対称位置の EP を「同じ点」とみなす許容距離。
-
-    スナップ半径をそのまま使うと粗すぎて隣の EP を掴むので、その 1/4 にする。
-    """
-    return _snap_radius(mesh_name) * 0.25
+    """Numerical mirror matching; independent of the interactive merge radius."""
+    return max(1e-8, _snap_radius(mesh_name) * 1e-5)
 
 
 def _project_on_mesh(mesh_name: str, pos):
@@ -653,6 +675,12 @@ def _apply_symmetry_constraint(mesh_name: str, pos, side=None):
         return p, f, b, True
 
     p, f, b = _project_on_mesh(mesh_name, pos)
+    # Projection can cross the seam even when the input point did not.
+    projected_coord = _sym.plane_coord(p, mesh_name)
+    if projected_coord is not None and (abs(projected_coord) <= tol or
+            (side is not None and projected_coord * side < 0.0)):
+        p, f, b = _snap_pos_to_plane(mesh_name, p)
+        return p, f, b, True
     return p, f, b, False
 
 
@@ -722,7 +750,16 @@ def _nearest_spline_t_excluding(cn: RetopoGuideData, point: list, radius: float,
             mesh_fn, _dag = _get_mesh_fn(mesh_name)
         except Exception:
             mesh_fn = None
-    for si, sp in enumerate(cn.splines):
+    import numpy as np
+    if not cn.splines:return None
+    indices=np.asarray(cn.splines,dtype=np.intp)
+    valid=np.all((indices>=0)&(indices<len(cn.positions)),axis=1)
+    candidates=np.flatnonzero(valid)
+    controls=np.asarray(cn.positions,dtype=float)[indices[valid]]
+    query=np.asarray(point,dtype=float)
+    overlap=np.all(controls.max(axis=1)>=query-radius,axis=1)&np.all(controls.min(axis=1)<=query+radius,axis=1)
+    for si in candidates[overlap].tolist():
+        sp=cn.splines[si]
         if any(i >= len(cn.positions) for i in sp):
             continue
         if exclude_ep is not None and (sp[0] == exclude_ep
@@ -1679,91 +1716,57 @@ def _same_surface_side(mesh_fn, pa, pb, min_dot: float = -0.5) -> bool:
     return sum(na[k] * nb[k] for k in range(3)) > min_dot
 
 
-def _find_curve_crossings(cn: "RetopoGuideData", sp_a: int, sp_b: int,
-                          tol: float, mesh_fn=None,
-                          samples: int = 32) -> list:
-    """スプライン sp_a と sp_b が **実際に交差する** 点を返す。
-
-    弦ではなく実際のベジエ曲線どうしで判定する。曲面上のカーブは
-    メッシュに沿って曲がるので、弦で代用すると本当は通っていない
-    場所を横切ったことになってしまう。
-
-    Returns
-    -------
-    list
-        ``[(t_a, t_b, point), ...]``。
-    """
-    from Aru_RetopoTool.editor.curvenet.curve_net_data import (
-        _v3_sub, _v3_cross, _v3_len)
-
-    A = _sample_spline(cn, sp_a, samples)
-    B = _sample_spline(cn, sp_b, samples)
-    if not A or not B:
-        return []
-
-    # スプライン単位の早期棄却
-    if not _bounds_overlap(_polyline_bounds(A, tol), _polyline_bounds(B)):
-        return []
-
-    out = []
-    for i in range(len(A) - 1):
-        ta0, a0 = A[i]
-        ta1, a1 = A[i + 1]
-        lo = [min(a0[k], a1[k]) - tol for k in range(3)]
-        hi = [max(a0[k], a1[k]) + tol for k in range(3)]
-        for j in range(len(B) - 1):
-            tb0, b0 = B[j]
-            tb1, b1 = B[j + 1]
-            # 線分単位の早期棄却 (ここが効くので全体は十分速い)
-            if (max(b0[0], b1[0]) < lo[0] or min(b0[0], b1[0]) > hi[0]
-                    or max(b0[1], b1[1]) < lo[1] or min(b0[1], b1[1]) > hi[1]
-                    or max(b0[2], b1[2]) < lo[2] or min(b0[2], b1[2]) > hi[2]):
-                continue
-
-            mid = [(a0[k] + a1[k] + b0[k] + b1[k]) * 0.25 for k in range(3)]
-            normal = None
-            if mesh_fn is not None:
-                try:
-                    normal = _get_normal_at_point(mesh_fn, mid)
-                except Exception:
-                    normal = None
-            if normal is None:
-                # メッシュが無い場合は 2 本の向きから面を作る。
-                # 並走しているとここが縮退するが、その場合は交差でもない。
-                normal = _v3_cross(_v3_sub(a1, a0), _v3_sub(b1, b0))
-                if _v3_len(normal) < 1e-12:
-                    continue
-
-            hit = _segments_cross(a0, a1, b0, b1, normal)
-            if hit is None:
-                continue
-            s, u = hit
-            pa = [a0[k] + (a1[k] - a0[k]) * s for k in range(3)]
-            pb = [b0[k] + (b1[k] - b0[k]) * u for k in range(3)]
-            # 接平面では交差していても、面から浮いて立体交差している
-            # (別のパーツを跨いでいる) ことがあるので距離も見る
-            d = _v3_len(_v3_sub(pa, pb))
-            if d > tol:
-                continue
-            # 隣り合った別パーツ (太ももと尻尾など) を跨いでいないか。
-            # 許容値はメッシュ AABB 基準なので、密着したパーツ同士の
-            # 隙間より大きくなりうる。そのままだと尻尾のカーブと
-            # 太もものカーブが勝手に繋がってしまう。
-            if mesh_fn is not None and not _same_surface_side(mesh_fn, pa, pb):
-                continue
-            out.append((ta0 + (ta1 - ta0) * s,
-                        tb0 + (tb1 - tb0) * u,
-                        [(pa[k] + pb[k]) * 0.5 for k in range(3)]))
-
-    if len(out) < 2:
-        return out
-
-    # 同じ場所を重複して拾った分をまとめる
-    out.sort(key=lambda h: h[0])
-    merged = [out[0]]
-    for h in out[1:]:
-        if abs(h[0] - merged[-1][0]) > 1e-3:
-            merged.append(h)
+def _find_curve_crossings(cn,sp_a,sp_b,tol,mesh_fn=None,samples=32):
+    """The same strict tangent-plane crossing test, evaluated in batches."""
+    import numpy as np
+    A=_sample_spline(cn,sp_a,samples);B=_sample_spline(cn,sp_b,samples)
+    if not A or not B:return []
+    if not _bounds_overlap(_polyline_bounds(A,tol),_polyline_bounds(B)):return []
+    a=np.asarray([p for _,p in A]);b=np.asarray([p for _,p in B])
+    alo=np.minimum(a[:-1],a[1:])-tol;ahi=np.maximum(a[:-1],a[1:])+tol
+    blo=np.minimum(b[:-1],b[1:]);bhi=np.maximum(b[:-1],b[1:])
+    ii,jj=np.nonzero(np.all(bhi[None,:,:]>=alo[:,None,:],axis=2)&np.all(blo[None,:,:]<=ahi[:,None,:],axis=2))
+    if not len(ii):return []
+    a0,a1,b0,b1=a[ii],a[ii+1],b[jj],b[jj+1]
+    da=a1-a0;db=b1-b0
+    if mesh_fn is not None:
+        from .maya_projector import normals_array
+        try:normals=normals_array(mesh_fn,(a0+a1+b0+b1)*.25)
+        except Exception:
+            normals=[]
+            for aa,ab,ba,bb in zip(a0,a1,b0,b1):
+                try:n=_get_normal_at_point(mesh_fn,((aa+ab+ba+bb)*.25).tolist())
+                except Exception:n=None
+                normals.append(np.cross(ab-aa,bb-ba) if n is None else n)
+            normals=np.asarray(normals)
+    else:normals=np.cross(da,db)
+    dot=lambda x:np.sum(normals*x,axis=1)
+    ca0=dot(np.cross(db,a0-b0));ca1=dot(np.cross(db,a1-b0))
+    cb0=dot(np.cross(da,b0-a0));cb1=dot(np.cross(da,b1-a0))
+    dena=ca0-ca1;denb=cb0-cb1
+    good=(ca0*ca1<0)&(cb0*cb1<0)&(np.abs(dena)>=1e-30)&(np.abs(denb)>=1e-30)
+    if mesh_fn is None:good &= np.linalg.norm(normals,axis=1)>=1e-12
+    chosen=np.flatnonzero(good)
+    if not len(chosen):return []
+    sa=ca0[chosen]/dena[chosen];sb=cb0[chosen]/denb[chosen]
+    pa=a0[chosen]+da[chosen]*sa[:,None];pb=b0[chosen]+db[chosen]*sb[:,None]
+    keep=np.linalg.norm(pa-pb,axis=1)<=tol
+    if mesh_fn is not None:
+        try:
+            n=normals_array(mesh_fn,np.concatenate((pa,pb)))
+            keep &= np.sum(n[:len(pa)]*n[len(pa):],axis=1)>-.5
+        except Exception:
+            keep &= np.asarray([_same_surface_side(mesh_fn,p.tolist(),q.tolist()) for p,q in zip(pa,pb)])
+    out=[]
+    for k in np.flatnonzero(keep):
+        i,j=int(ii[chosen[k]]),int(jj[chosen[k]])
+        ta=A[i][0]+(A[i+1][0]-A[i][0])*float(sa[k])
+        tb=B[j][0]+(B[j+1][0]-B[j][0])*float(sb[k])
+        out.append((ta,tb,((pa[k]+pb[k])*.5).tolist()))
+    if len(out)<2:return out
+    out.sort(key=lambda hit:hit[0]);merged=[out[0]]
+    for hit in out[1:]:
+        if abs(hit[0]-merged[-1][0])>1e-3:merged.append(hit)
     return merged
 
 
@@ -1793,8 +1796,18 @@ def _split_splines_at_intersections(
     if have_mesh:
         mesh_fn, mesh_dag = _get_mesh_fn(mesh_name)
 
+    # A Bezier curve lies inside its control-point hull. These conservative
+    # bounds reject distant curves without resampling the whole network.
+    import numpy as np
+    indices=np.asarray(cn.splines[:sp_count],dtype=np.intp)
+    valid=np.all((indices>=0)&(indices<len(cn.positions)),axis=1)
+    candidates=np.flatnonzero(valid)
+    controls=np.asarray(cn.positions,dtype=float)[indices[valid]]
+    bounds_min=controls.min(axis=1);bounds_max=controls.max(axis=1)
+    new_controls=np.asarray([cn.positions[i] for i in new_sp])
+    overlap=np.all(bounds_max>=new_controls.min(axis=0)-tol,axis=1)&np.all(bounds_min<=new_controls.max(axis=0)+tol,axis=1)
     hit_data = []  # [(existing_sp_idx, t_existing, t_new, point)]
-    for si in range(sp_count):
+    for si in candidates[overlap].tolist():
         if si == new_sp_idx:
             continue
         existing_sp = cn.splines[si]
@@ -2033,13 +2046,8 @@ def _merge_two_eps(cn: RetopoGuideData, ep_keep: int, ep_remove: int) -> None:
     ep_remove を端点として持つすべての spline を ep_keep に書き換える。
     退化スプライン (両端が同じ EP) は除去する。
     """
-    new_splines = []
-    for sp in cn.splines:
-        s = tuple(ep_keep if x == ep_remove else x for x in sp)
-        if s[0] == s[3]:   # 両端が同じ EP になった退化スプラインを除去
-            continue
-        new_splines.append(s)
-    cn.splines = new_splines
+    from .merge_topology import weld
+    weld(cn, ep_keep, ep_remove)
     # 統合された側は消えるので印を外す。統合先がまだ線なしなら印を引き継ぐ。
     if cn.is_standalone(ep_remove):
         cn.unmark_standalone(ep_remove)
@@ -2392,6 +2400,23 @@ class RetopoGuideContext:
                 "node": node, "snapped": snapped, "origin": (sx, sy),
                 "last": (sx, sy), "moved": False, "affected": set()})
             return
+
+        # A click on an existing curve splits it and keeps the inserted EP as
+        # the next cut's start. Screen picking also works on buried guide curves.
+        if button == 1 and not has_ctrl and not has_shift and snapped is None:
+            hit = _find_spline_under_screen(cn, float(sx), float(sy), mesh_name=mesh_name)
+            if hit is not None:
+                start = self._s.sel_ep
+                new_ep = _split_spline_at(cn, hit[0], hit[1], mesh_name)
+                _mirror_split_spline(cn, mesh_name, new_ep)
+                if start is not None and start != new_ep and not _spline_exists(cn, start, new_ep):
+                    new_sp = _add_spline_to_cn(cn, mesh_name, start, new_ep)
+                    _split_splines_at_intersections(cn, new_sp, mesh_name, _mirror_tol(mesh_name))
+                    _mirror_spline(cn, mesh_name, start, new_ep, _mirror_tol(mesh_name))
+                self._s.sel_ep = new_ep
+                self._s.preview_end = None
+                _commit_net_data(node, cn)
+                return
 
         # ---- 通常 LMB ----
         if snapped is not None:
@@ -2747,7 +2772,10 @@ class RetopoGuideContext:
                 else:
                     m_pt, m_face, m_bary = _project_on_mesh(
                         mesh_name, _sym.mirror_point(snap_pt, mesh_name))
+                old_m_pt = list(cn.positions[mirror_ep])
                 cn.move_cv(mirror_ep, m_pt)
+                _translate_manual_handles(
+                    cn, mirror_ep, [m_pt[k] - old_m_pt[k] for k in range(3)])
                 if m_face >= 0:
                     cn.surface_binding[mirror_ep] = (m_face, m_bary)
                 _recompute_handles_for_ep(cn, mirror_ep, mesh_name, draft=True)
@@ -2823,13 +2851,7 @@ class RetopoGuideContext:
             if node and cmds.objExists(node):
                 acc = RetopoGuideAccessor(node)
                 cn = acc.read()
-                for si, sp in enumerate(cn.splines):
-                    if sp[1] in moved or sp[2] in moved:
-                        if not cn.spline_has_manual_handle(si) or (
-                                sp[1] in cn.manual_handles
-                                and sp[2] in cn.manual_handles):
-                            continue
-                        _fit_spline_handles_to_mesh(cn, si, acc.mesh_name)
+                _finish_handle_edit(cn, acc.mesh_name, drag_handle, mirror_handle)
                 _commit_net_data(node, cn)
             return
 
@@ -2857,8 +2879,16 @@ class RetopoGuideContext:
             refit = []
 
             if merge_target is not None:
+                mirror_target = (_sym.find_mirror_ep(cn, mesh_name, merge_target,
+                                  _mirror_tol(mesh_name), exclude={drag_ep, drag_mirror_ep})
+                                  if _sym.is_enabled() else None)
                 _merge_two_eps(cn, ep_keep=merge_target, ep_remove=drag_ep)
                 refit.append(merge_target)
+                if (mirror_target is not None and drag_mirror_ep is not None
+                        and drag_mirror_ep not in (drag_ep, merge_target)
+                        and mirror_target != drag_mirror_ep):
+                    _merge_two_eps(cn, mirror_target, drag_mirror_ep)
+                    refit.append(mirror_target)
                 om.MGlobal.displayInfo("[RetopoGuide] merged EP {} into {}".format(
                     drag_ep, merge_target))
             elif (drag_mirror_ep is not None and drag_mirror_ep != drag_ep

@@ -1,0 +1,41 @@
+[RetopoGuide] Plugin loaded.
+���ɖ߂�: Aru Retopo: native backend
+��蒼��: Aru Retopo: native backend
+���ɖ߂�: Aru Retopo: disable native backend
+���ɖ߂�: Aru Retopo: disable native backend
+PASS UI fast-update toggle, enable failure state and Undo
+[RetopoGuide] 07:40:59 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 07:40:59 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 07:40:59 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 07:40:59 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 07:40:59 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 07:40:59 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+�t�@�C���̓ǂݎ���  0.055 �b������܂����B
+[RetopoGuide] 07:40:59 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 07:40:59 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+PASS native scene reopen resolves version-specific plugin by name
+PASS plan parsed-guide cache hit/miss, skipped decode and ownership
+PASS native graph: empty selection, enable/disable Undo/Redo, patch edits, CP, solver settings, subdivisions, selection
+[RetopoGuide] 07:40:59 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 07:40:59 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 07:40:59 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 07:40:59 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 07:40:59 INFO >>> uninitializePlugin: deleting scene nodes
+RetopoGuide : INFO : >>> uninitializePlugin: deleting scene nodes
+RetopoGuide : INFO : >>> uninitializePlugin: deregistering
+[RetopoGuide] 07:40:59 INFO >>> uninitializePlugin: deregistering
+RetopoGuide : INFO : <<< uninitializePlugin done
+[RetopoGuide] Plugin unloaded.
+[RetopoGuide] 07:40:59 INFO <<< uninitializePlugin done

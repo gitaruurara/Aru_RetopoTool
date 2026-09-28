@@ -35,15 +35,22 @@ def side_point(positions, splines, side, t):
     return bezier(positions, splines[si], local if direction == 1 else 1-local)
 
 
+def selected_regions(positions,splines,normal_at,selected):
+    loops = [] if selected is not None and not selected else regions(positions, splines, normal_at)
+    if selected is not None:
+        from .regions_native import canonical_keys
+        selected = canonical_keys(positions, splines, selected)
+        loops = [loop for loop in loops if patch_key(loop) in selected]
+    # A stable parameter origin is required by saved paint/reduction data.
+    loops=[min((loop[i:]+loop[:i] for i in range(len(loop))),
+               key=lambda row:tuple(h for side in row for h in side)) for loop in loops]
+    return loops
+
+
 class Plan:
-    def __init__(self, positions, splines, normal_at, levels=2, max_faces=200000, selected=None):
+    def __init__(self, positions, splines, normal_at, levels=2, max_faces=200000, selected=None, *, region_loops=None):
         if not 1 <= levels <= 6: raise ValueError("Subdivision must be 1..6")
-        loops = [] if selected is not None and not selected else regions(positions, splines, normal_at)
-        if selected is not None:
-            loops = [loop for loop in loops if patch_key(loop) in selected]
-        # A stable parameter origin is required by saved paint/reduction data.
-        loops=[min((loop[i:]+loop[:i] for i in range(len(loop))),
-                   key=lambda row:tuple(h for side in row for h in side)) for loop in loops]
+        loops=selected_regions(positions,splines,normal_at,selected) if region_loops is None else region_loops
         self.region_loops=loops
         self.levels=levels
         self.region_keys = [patch_key(loop) for loop in loops]
@@ -86,12 +93,23 @@ class Plan:
                                  for j in range(patch_offsets[i],patch_offsets[i+1])})
                       for i,face in enumerate(patch_faces)]
 
-    def edit_coordinates(self):
-        """Per-region vertex coordinates, including n-gons; independent of shape."""
-        if not hasattr(self,'_edit_coordinates'):
-            from .local_fields import coordinates
-            self._edit_coordinates=coordinates(self)
-        return self._edit_coordinates
+    def edit_coordinates(self, keys=None):
+        """Compute parameter coordinates only for requested painted regions."""
+        if hasattr(self, '_edit_coordinates'):
+            values = self._edit_coordinates
+            return values if keys is None else {k: v for k, v in values.items() if k in keys}
+        from .local_fields import coordinates
+        wanted = set(self.region_keys) if keys is None else set(keys).intersection(self.region_keys)
+        cached = getattr(self, '_partial_edit_coordinates', {})
+        missing = wanted.difference(cached)
+        if missing:
+            cached.update(coordinates(self, missing))
+            self._partial_edit_coordinates = cached
+        result = {k: cached[k] for k in self.region_keys if k in wanted}
+        if keys is None:
+            self._edit_coordinates = result
+            self._partial_edit_coordinates = {}
+        return result
 
     def compile_stencil(self,splines):
         return self.steps.compile(self.endpoints,splines,self._guide_sides)
@@ -131,9 +149,18 @@ class Plan:
         return points
 
 
-def patch_key(loop):
-    """Directed boundary identity, independent of walk start and side grouping."""
+from functools import lru_cache
+
+
+@lru_cache(maxsize=4096)
+def _patch_key_for_walk(walk):
     import json
-    walk = tuple(h for side in loop for h in side)
     canonical = min(walk[i:]+walk[:i] for i in range(len(walk)))
     return json.dumps(canonical, separators=(',', ':'))
+
+
+def patch_key(loop):
+    """Directed boundary identity, independent of walk start and side grouping."""
+    # Cache immutable connectivity only: positions/paint never affect identity.
+    # Bounded across scenes so interactive topology edits cannot grow indefinitely.
+    return _patch_key_for_walk(tuple(tuple(h) for side in loop for h in side))

@@ -1,0 +1,8 @@
+{
+  "refresh_ms": 104.68679999758024,
+  "write_including_refresh_ms": 116.27600000065286,
+  "total_ms": 153.14239999861456,
+  "affected": 200,
+  "scope": "One actual brush relax including write and synchronous ordinary-mesh GPU preview; not mouse gesture frame series",
+  "restored": true
+}

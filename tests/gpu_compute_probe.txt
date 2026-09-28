@@ -1,0 +1,12 @@
+adapter=NVIDIA GeForce RTX 5060 vendor=4318 memory=8278507520 device=0
+double_precision=1
+double_shader_compile=0
+double_shader_create=0
+adapter=Intel(R) Graphics vendor=32902 memory=134217728 device=0
+double_precision=1
+double_shader_compile=0
+double_shader_create=0
+adapter=Microsoft Basic Render Driver vendor=5140 memory=0 device=0
+double_precision=1
+double_shader_compile=0
+double_shader_create=0

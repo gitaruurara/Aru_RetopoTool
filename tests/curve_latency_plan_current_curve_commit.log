@@ -1,0 +1,309 @@
+警告メッセージ: Aru_CurveNetRig startup: Error importing numpy: you should not try to import numpy from
+        its source directory; please exit the numpy source tree, and relaunch
+        your python interpreter from there.
+[Aru] 自動プロジェクト設定を有効化 (jobId: None)
+警告メッセージ: Aru_CurveNetRig startup: Error importing numpy: you should not try to import numpy from
+        its source directory; please exit the numpy source tree, and relaunch
+        your python interpreter from there.
+[Aru] 自動プロジェクト設定を有効化 (jobId: None)
+SiWeightEditor startup script has begun
+SiWeightEditor startup script has finished
+
+ ____________________________________
+|             _____                  |
+|            / ____|                 |
+|  _ __ ___ | |  __  ___  __ _ _ __  |
+| | '_ ` _ \| | |_ |/ _ \/ _` | '__| |
+| | | | | | | |__| |  __/ (_| | |    |
+| |_| |_| |_|\_____|\___|\__,_|_|    |
+|____________________________________|
+
+
+[RetopoGuide] Plugin loaded.
+[RetopoGuide] 22:41:36 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 22:41:36 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+警告メッセージ: line 1: displayRGBColor はバッチ モードでは使用できません
+00:00:00   573MB         | log started Fri Sep 18 22:41:36 2026
+00:00:00   573MB         | Arnold 7.5.2.0 [3a23c15b] windows x86_64 icx-2025.2.0 oiio-2.6.3 osl-1.14.2 vdb-11.0.0 adlsdk-10.0.1.66 clmhub-3.3.0.15 rlm-17.0.1 optix-8.0.0 2026/06/15 06:40:04
+00:00:00   573MB         | running on Sophia, pid=46356
+00:00:00   573MB         |  1 x Intel(R) Core(TM) Ultra 9 285K (24 cores, 24 logical) with 64986MB
+00:00:00   573MB         |  NVIDIA driver version 591.86
+00:00:00   573MB         |  GPU 0: NVIDIA GeForce RTX 5060 @ 2497MHz (compute 12.0) with 8150MB (3860MB available) (NVLink:0)
+00:00:00   573MB         |  Windows 10 (version 10.0, build 26200)
+00:00:00   573MB         |  soft limit for open files changed from 512 to 2048
+00:00:00   573MB         |  
+00:00:00   573MB         | Installing system handler with mask 255
+00:00:00   800MB         | [metadata] loading metadata file: C:\Program Files\Autodesk\Arnold\Maya2027\bin\arnold.mtd
+00:00:00   803MB         | loading plugins from C:/Program Files/Autodesk/Arnold/Maya2027/shaders ...
+00:00:00   803MB         |  hairPhysicalShader_shaders.dll: HairPhysicalShaderDiffuseColorAdapter uses Arnold 7.5.2.0
+00:00:00   803MB         |  hairPhysicalShader_shaders.dll: HairPhysicalShaderSpecularWeightAdapter uses Arnold 7.5.2.0
+00:00:00   803MB         |  hairPhysicalShader_shaders.dll: HairPhysicalShaderSpecularGlossAdapter uses Arnold 7.5.2.0
+00:00:00   803MB         |  hairPhysicalShader_shaders.dll: HairPhysicalShaderTransmissionWeightAdapter uses Arnold 7.5.2.0
+00:00:00   803MB         |  hairPhysicalShader_shaders.dll: HairPhysicalShaderTransmissionSpreadAdapter uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkFloatConstant uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkFloatComposite uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkFloatCondition uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkFloatCorrect uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkFloatLogic uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkFloatMask uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkFloatMath uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkColorComposite uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkColorCondition uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkColorConstant uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkColorCorrect uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkColorLogic uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkColorMask uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkColorMath uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkChannels uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkPremultiply uses Arnold 7.5.2.0
+00:00:00   803MB         |  lookdevkit_shaders.dll: ldkSimplexNoise uses Arnold 7.5.2.0
+00:00:00   803MB         |  mtoa_shaders.dll: MayaBulge uses Arnold 7.5.2.0
+00:00:00   803MB         |  mtoa_shaders.dll: MayaCloth uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaGrid uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaFractal uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaNoise uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaCloud uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaCloudAlpha uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaSnow uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaSolidFractal uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaVolumeNoise uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaBrownian uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaStucco uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MtoaWriteColor uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MtoaWriteFloat uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaEnvSphere uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaFluid uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaMarble uses Arnold 7.5.2.0
+00:00:00   804MB         |  mtoa_shaders.dll: MayaMountain uses Arnold 7.5.2.0
+00:00:00   805MB         |  mtoa_shaders.dll: MayaWater uses Arnold 7.5.2.0
+00:00:00   805MB         |  mtoa_shaders.dll: MayaCrater uses Arnold 7.5.2.0
+00:00:00   805MB         |  mtoa_shaders.dll: MayaLeather uses Arnold 7.5.2.0
+00:00:00   805MB         |  mtoa_shaders.dll: MayaGranite uses Arnold 7.5.2.0
+00:00:00   805MB         |  mtoa_shaders.dll: MayaRock uses Arnold 7.5.2.0
+00:00:00   805MB         |  mtoa_shaders.dll: MayaFluidData uses Arnold 7.5.2.0
+00:00:00   805MB         |  mtoa_shaders.dll: MayaFluidTexture2D uses Arnold 7.5.2.0
+00:00:00   805MB         |  renderSetup_shaders.dll: applyAbsFloatOverride uses Arnold 7.5.2.0
+00:00:00   805MB         |  renderSetup_shaders.dll: applyAbs2FloatsOverride uses Arnold 7.5.2.0
+00:00:00   805MB         |  renderSetup_shaders.dll: applyAbs3FloatsOverride uses Arnold 7.5.2.0
+00:00:00   805MB         |  renderSetup_shaders.dll: applyAbsIntOverride uses Arnold 7.5.2.0
+00:00:00   805MB         |  renderSetup_shaders.dll: applyRelFloatOverride uses Arnold 7.5.2.0
+00:00:00   805MB         |  renderSetup_shaders.dll: applyRel2FloatsOverride uses Arnold 7.5.2.0
+00:00:00   805MB         |  renderSetup_shaders.dll: applyRel3FloatsOverride uses Arnold 7.5.2.0
+00:00:00   805MB         |  renderSetup_shaders.dll: applyRelIntOverride uses Arnold 7.5.2.0
+00:00:00   805MB         |  xgenSpline_shaders.dll: XGenHairMapping uses Arnold 7.5.2.0
+00:00:00   805MB         | loading plugins from C:/Program Files/Autodesk/Arnold/Maya2027/procedurals ...
+00:00:00   805MB         |  mtoa_ParticleVolume_proc.dll: volume_particle uses Arnold 7.5.2.0
+00:00:00   805MB         |  mtoa_ParticleVolume_proc.dll: implicit_particle uses Arnold 7.5.2.0
+00:00:00   806MB         |  xgenSpline_procedural.dll: xgenProcedural uses Arnold 7.5.2.0
+00:00:00   807MB         |  xgen_procedural.dll: xgen_procedural uses Arnold 7.5.2.0
+00:00:00   807MB         | loaded 60 plugins from 8 lib(s) in 0:00.00
+00:00:00   807MB         | loading plugins from C:\Program Files\Autodesk\Arnold\Maya2027\bin\..\plugins ...
+00:00:00   807MB         |  alembic_proc.dll: alembic uses Arnold 7.5.2.0
+00:00:00   836MB         |  usd_proc.dll: usd uses Arnold 7.5.2.0
+00:00:00   836MB         | loaded 2 plugins from 2 lib(s) in 0:00.01
+00:00:00   843MB         |  unloading 10 plugins
+00:00:00   843MB         |   closing hairPhysicalShader_shaders.dll ...
+00:00:00   843MB         |   closing lookdevkit_shaders.dll ...
+00:00:00   843MB         |   closing mtoa_shaders.dll ...
+00:00:00   843MB         |   closing renderSetup_shaders.dll ...
+00:00:00   843MB         |   closing xgenSpline_shaders.dll ...
+00:00:00   843MB         |   closing mtoa_ParticleVolume_proc.dll ...
+00:00:00   843MB         |   closing xgenSpline_procedural.dll ...
+00:00:00   843MB         |   closing xgen_procedural.dll ...
+00:00:00   842MB         |   closing alembic_proc.dll ...
+00:00:00   842MB         |   closing usd_proc.dll ...
+00:00:00   835MB         |  unloading plugins done
+00:00:00   835MB         | Arnold shutdown
+00:00:00   822MB         | Installing system handler with mask 0
+00:00:00   821MB         | log started Fri Sep 18 22:41:38 2026
+00:00:00   821MB         | Arnold 7.5.2.0 [3a23c15b] windows x86_64 icx-2025.2.0 oiio-2.6.3 osl-1.14.2 vdb-11.0.0 adlsdk-10.0.1.66 clmhub-3.3.0.15 rlm-17.0.1 optix-8.0.0 2026/06/15 06:40:04
+00:00:00   821MB         | running on Sophia, pid=46356
+00:00:00   821MB         |  1 x Intel(R) Core(TM) Ultra 9 285K (24 cores, 24 logical) with 64986MB
+00:00:00   835MB         |  NVIDIA driver version 591.86
+00:00:00   835MB         |  GPU 0: NVIDIA GeForce RTX 5060 @ 2497MHz (compute 12.0) with 8150MB (3861MB available) (NVLink:0)
+00:00:00   835MB         |  Windows 10 (version 10.0, build 26200)
+00:00:00   835MB         |  soft limit for open files is set at 2048
+00:00:00   835MB         |  
+00:00:00   835MB         | Installing system handler with mask 255
+00:00:00   842MB         | [metadata] loading metadata file: C:\Program Files\Autodesk\Arnold\Maya2027\bin\arnold.mtd
+00:00:00   844MB         | loading plugins from C:/Program Files/Autodesk/Arnold/Maya2027/shaders ...
+00:00:00   844MB         |  hairPhysicalShader_shaders.dll: HairPhysicalShaderDiffuseColorAdapter uses Arnold 7.5.2.0
+00:00:00   844MB         |  hairPhysicalShader_shaders.dll: HairPhysicalShaderSpecularWeightAdapter uses Arnold 7.5.2.0
+00:00:00   844MB         |  hairPhysicalShader_shaders.dll: HairPhysicalShaderSpecularGlossAdapter uses Arnold 7.5.2.0
+00:00:00   844MB         |  hairPhysicalShader_shaders.dll: HairPhysicalShaderTransmissionWeightAdapter uses Arnold 7.5.2.0
+00:00:00   844MB         |  hairPhysicalShader_shaders.dll: HairPhysicalShaderTransmissionSpreadAdapter uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkFloatConstant uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkFloatComposite uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkFloatCondition uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkFloatCorrect uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkFloatLogic uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkFloatMask uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkFloatMath uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkColorComposite uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkColorCondition uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkColorConstant uses Arnold 7.5.2.0
+00:00:00   844MB         |  lookdevkit_shaders.dll: ldkColorCorrect uses Arnold 7.5.2.0
+00:00:00   845MB         |  lookdevkit_shaders.dll: ldkColorLogic uses Arnold 7.5.2.0
+00:00:00   845MB         |  lookdevkit_shaders.dll: ldkColorMask uses Arnold 7.5.2.0
+00:00:00   845MB         |  lookdevkit_shaders.dll: ldkColorMath uses Arnold 7.5.2.0
+00:00:00   845MB         |  lookdevkit_shaders.dll: ldkChannels uses Arnold 7.5.2.0
+00:00:00   845MB         |  lookdevkit_shaders.dll: ldkPremultiply uses Arnold 7.5.2.0
+00:00:00   845MB         |  lookdevkit_shaders.dll: ldkSimplexNoise uses Arnold 7.5.2.0
+00:00:00   845MB         |  mtoa_shaders.dll: MayaBulge uses Arnold 7.5.2.0
+00:00:00   845MB         |  mtoa_shaders.dll: MayaCloth uses Arnold 7.5.2.0
+00:00:00   845MB         |  mtoa_shaders.dll: MayaGrid uses Arnold 7.5.2.0
+00:00:00   845MB         |  mtoa_shaders.dll: MayaFractal uses Arnold 7.5.2.0
+00:00:00   845MB         |  mtoa_shaders.dll: MayaNoise uses Arnold 7.5.2.0
+00:00:00   845MB         |  mtoa_shaders.dll: MayaCloud uses Arnold 7.5.2.0
+00:00:00   845MB         |  mtoa_shaders.dll: MayaCloudAlpha uses Arnold 7.5.2.0
+00:00:00   845MB         |  mtoa_shaders.dll: MayaSnow uses Arnold 7.5.2.0
+00:00:00   845MB         |  mtoa_shaders.dll: MayaSolidFractal uses Arnold 7.5.2.0
+00:00:00   845MB         |  mtoa_shaders.dll: MayaVolumeNoise uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaBrownian uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaStucco uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MtoaWriteColor uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MtoaWriteFloat uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaEnvSphere uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaFluid uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaMarble uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaMountain uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaWater uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaCrater uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaLeather uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaGranite uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaRock uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaFluidData uses Arnold 7.5.2.0
+00:00:00   846MB         |  mtoa_shaders.dll: MayaFluidTexture2D uses Arnold 7.5.2.0
+00:00:00   846MB         |  renderSetup_shaders.dll: applyAbsFloatOverride uses Arnold 7.5.2.0
+00:00:00   846MB         |  renderSetup_shaders.dll: applyAbs2FloatsOverride uses Arnold 7.5.2.0
+00:00:00   846MB         |  renderSetup_shaders.dll: applyAbs3FloatsOverride uses Arnold 7.5.2.0
+00:00:00   846MB         |  renderSetup_shaders.dll: applyAbsIntOverride uses Arnold 7.5.2.0
+00:00:00   846MB         |  renderSetup_shaders.dll: applyRelFloatOverride uses Arnold 7.5.2.0
+00:00:00   846MB         |  renderSetup_shaders.dll: applyRel2FloatsOverride uses Arnold 7.5.2.0
+00:00:00   846MB         |  renderSetup_shaders.dll: applyRel3FloatsOverride uses Arnold 7.5.2.0
+00:00:00   846MB         |  renderSetup_shaders.dll: applyRelIntOverride uses Arnold 7.5.2.0
+00:00:00   847MB         |  xgenSpline_shaders.dll: XGenHairMapping uses Arnold 7.5.2.0
+00:00:00   847MB         | loading plugins from C:/Program Files/Autodesk/Arnold/Maya2027/procedurals ...
+00:00:00   847MB         |  mtoa_ParticleVolume_proc.dll: volume_particle uses Arnold 7.5.2.0
+00:00:00   847MB         |  mtoa_ParticleVolume_proc.dll: implicit_particle uses Arnold 7.5.2.0
+00:00:00   848MB         |  xgenSpline_procedural.dll: xgenProcedural uses Arnold 7.5.2.0
+00:00:00   848MB         |  xgen_procedural.dll: xgen_procedural uses Arnold 7.5.2.0
+00:00:00   848MB         | loaded 60 plugins from 8 lib(s) in 0:00.00
+00:00:00   848MB         | loading plugins from C:\Program Files\Autodesk\Arnold\Maya2027\bin\..\plugins ...
+00:00:00   848MB         |  alembic_proc.dll: alembic uses Arnold 7.5.2.0
+00:00:00   855MB         |  usd_proc.dll: usd uses Arnold 7.5.2.0
+00:00:00   855MB         | loaded 2 plugins from 2 lib(s) in 0:00.00
+警告メッセージ: ノード 'hyperShadePrimaryNodeEditorSavedTabsInfo' は認識できないノード タイプです。この作業内はノード情報を保持します。
+警告メッセージ: ノード 'MayaNodeEditorSavedTabsInfo' は認識できないノード タイプです。この作業内はノード情報を保持します。
+警告メッセージ: ノード 'hyperShadePrimaryNodeEditorSavedTabsInfo' は認識できないノード タイプです。この作業内はノード情報を保持します。
+警告: The file containing the File Rules is corrupted: C:/Users/aruur/OneDrive/ドキュメント/maya/2027/ja_JP/prefs/13470907600626234644_filerules.txt: Error could not read 'C:/Users/aruur/OneDrive/ドキュメント/maya/2027/ja_JP/prefs/13470907600626234644_filerules.txt' OCIO profile.
+警告メッセージ: The file containing the File Rules is corrupted: C:/Users/aruur/OneDrive/ドキュメント/maya/2027/ja_JP/prefs/13470907600626234644_filerules.txt: Error could not read 'C:/Users/aruur/OneDrive/ドキュメント/maya/2027/ja_JP/prefs/13470907600626234644_filerules.txt' OCIO profile.
+警告メッセージ: このシーンの読み取り時にエラーが発生し、データが失われた可能性があります。
+ 5.9 秒で 2 ファイルを読み込みます。
+[RetopoGuide] 22:41:42 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 22:41:42 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+エラー: 'base_lightSet:renderSetup' はロックされた子または読み取り専用の子があるため、削除できません。
+[RetopoGuide] spline: 557-->1053(new)
+元に戻す: latency benchmark
+[RetopoGuide] spline: 557-->1053(new)
+元に戻す: latency benchmark
+[RetopoGuide] spline: 557-->1053(new)
+元に戻す: latency benchmark
+[RetopoGuide] spline: 557-->1053(new)
+元に戻す: latency benchmark
+{
+  "rows": [
+    {
+      "release_ms": 82.53919999697246,
+      "evaluation_ms": 37.202200008323416,
+      "vertices": 3144,
+      "profiled": false
+    },
+    {
+      "release_ms": 49.19089999748394,
+      "evaluation_ms": 30.441800015978515,
+      "vertices": 3144,
+      "profiled": false
+    },
+    {
+      "release_ms": 49.9407000024803,
+      "evaluation_ms": 33.05040000122972,
+      "vertices": 3144,
+      "profiled": false
+    },
+    {
+      "release_ms": 82.6670000096783,
+      "evaluation_ms": 45.31039998983033,
+      "vertices": 3144,
+      "profiled": true
+    }
+  ]
+}
+00:00:05  1259MB         |  unloading 10 plugins
+00:00:05  1259MB         |   closing hairPhysicalShader_shaders.dll ...
+00:00:05  1259MB         |   closing lookdevkit_shaders.dll ...
+00:00:05  1259MB         |   closing mtoa_shaders.dll ...
+00:00:05  1259MB         |   closing renderSetup_shaders.dll ...
+00:00:05  1259MB         |   closing xgenSpline_shaders.dll ...
+00:00:05  1259MB         |   closing mtoa_ParticleVolume_proc.dll ...
+00:00:05  1259MB         |   closing xgenSpline_procedural.dll ...
+00:00:05  1259MB         |   closing xgen_procedural.dll ...
+00:00:05  1259MB         |   closing alembic_proc.dll ...
+00:00:05  1259MB         |   closing usd_proc.dll ...
+00:00:05  1259MB         |  unloading plugins done
+00:00:05  1259MB         | Arnold shutdown
+00:00:05  1259MB         | Installing system handler with mask 0
+Stack trace:
+  at + 7FF906FA4E3E
+  at + 7FF906E9F9C6
+  at + 7FF906E6BBEF
+  at + 7FF906E5D200
+  at + 7FF9041C2D7B
+  at + 7FFFD61F2C94
+  at + 7FFFD61F57A8
+  at + 7FF858A0AB03
+  at + 7FF858B5C634
+  at + 7FFFD216CCC1
+  at + 7FF858B54B99
+  at + 7FF8589D38DE
+  at + 7FF9041F9C85
+  at + 7FF9041F98A7
+  at + 7FF9041F985D
+  at + 7FFFD21CAC85
+  at + 7FFFD21CADA5
+  at + 7FF906F5EADA
+  at + 7FF906E50C33
+  at + 7FF906EEDF1F
+  at + 7FF906EECC2E
+  at + 7FF90629141B
+  at + 7FF904250813
+  at + 7FFFCD98A02C
+  at + 7FFFCD991E88
+  at + 7FFFCDA71061
+  at + 7FFFCDA14AF1
+  at + 7FFFCDA155F5
+  at + 7FFFCDB9D081
+  at + 7FFFCDB980AA
+  at + 7FFFCDC52740
+  at + 7FFFCDC52DE9
+  at + 7FFFCDC523EB
+  at + 7FFFCDC4FF39
+  at + 7FFFCDC4E979
+  at + 7FFFCD96F91C
+  at + 7FFFCD970923
+  at + 7FFFCD970C98
+  at + 7FFFCD970DB2
+  at + 7FF6565522C4
+00007FFFD26E8560エラー: このファイルには不明なデータが含まれているため、Maya はファイル形式を変更できません。
+サポートされていないプラグインがシーンで使用されているかどうかを確認してください。サポートされていないデータがある場合は、それを削除して再保存してください。
+詳細については、この記事を参照してください。
+https://www.autodesk.com/maya-unknown-nodes-save-error
+致命的なエラーです。次のファイルへの保存を試みます: C:/Users/aruur/AppData/Local/Temp/current_curve_latency_scene[回復-aruur.2026-09-18-22.41].ma
+エラー: このファイルには不明なデータが含まれているため、Maya はファイル形式を変更できません。
+サポートされていないプラグインがシーンで使用されているかどうかを確認してください。サポートされていないデータがある場合は、それを削除して再保存してください。
+詳細については、この記事を参照してください。
+https://www.autodesk.com/maya-unknown-nodes-save-error

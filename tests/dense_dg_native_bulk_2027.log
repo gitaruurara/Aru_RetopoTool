@@ -1,0 +1,17 @@
+[RetopoGuide] Plugin loaded.
+{"backend": "native", "patches": 500, "faces": 46528, "vertices": 46873, "median_ms": 13.885649997973815, "stages_ms": [[3.4434, 0.5666, 4.5266, 3.9682], [3.2463, 0.5716, 4.4618, 4.0091], [3.16, 0.5672, 4.6124, 4.0959], [3.3759, 0.5807, 4.5155, 4.0234], [3.4294, 0.5728, 4.7977, 4.1898], [3.3404, 0.5847, 4.9352, 4.2821], [3.5006, 0.5722, 4.7473, 4.1433], [3.4329, 0.5734, 4.8897, 4.163], [3.3286, 0.5672, 4.5298, 4.2861], [21.5946, 0.5815, 4.5208, 4.5998], [3.3185, 0.5724, 4.4117, 4.6471], [3.5139, 0.5944, 4.5113, 4.0074], [3.4447, 0.5888, 4.6202, 3.979], [3.2495, 0.5891, 4.8504, 4.0164], [3.2778, 0.5668, 4.8104, 4.0539], [3.3792, 0.5668, 4.5513, 4.3393]]}
+[RetopoGuide] 17:41:43 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 17:41:43 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 17:41:43 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 17:41:43 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 17:41:43 INFO >>> uninitializePlugin: deleting scene nodes
+RetopoGuide : INFO : >>> uninitializePlugin: deleting scene nodes
+[RetopoGuide] 17:41:43 INFO >>> uninitializePlugin: deregistering
+RetopoGuide : INFO : >>> uninitializePlugin: deregistering
+[RetopoGuide] 17:41:43 INFO <<< uninitializePlugin done
+RetopoGuide : INFO : <<< uninitializePlugin done
+[RetopoGuide] Plugin unloaded.

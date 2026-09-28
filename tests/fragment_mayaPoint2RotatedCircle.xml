@@ -1,0 +1,344 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2RotatedCircle" name="mayaPoint2RotatedCircle" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+draw a model space disk with varying size and rotation]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float  name="vectorScale" />
+        <float4x4  name="viewProjection" semantic="viewProjection" />
+        <float4x4  name="worldInverseTranspose" semantic="worldinversetranspose" />
+        <float3  name="Pw" semantic="Pw" flags="isRequirementOnly" />
+        <float3  name="rotate" semantic="rotate" flags="isRequirementOnly,varyingInputParam" />
+    </properties>
+    <values>
+<float name="vectorScale" value="1.000000"  />
+    </values>
+    <outputs>
+        <triStream  name="outStream" size="24" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="createRotatedDisk" />
+        <source>
+            <![CDATA[
+float4x4 rotationMatrix(float3 axis, float angle) 
+{
+    float3 a = normalize(axis); 
+    float s = sin(angle); 
+    float c = cos(angle); 
+    float oc = 1.0f - c; 
+    float sx = s * a.x; 
+    float sy = s * a.y; 
+    float sz = s * a.z; 
+    float ocx = oc * a.x;
+    float ocy = oc * a.y;
+    float ocz = oc * a.z;
+    float ocxx = ocx * a.x;
+    float ocxy = ocx * a.y;
+    float ocxz = ocx * a.z;
+    float ocyy = ocy * a.y;
+    float ocyz = ocy * a.z;
+    float oczz = ocz * a.z;
+    return float4x4(float4(ocxx + c, ocxy - sz, ocxz + sy, 0.0f), float4(ocxy + sz, ocyy + c, ocyz - sx, 0.0f),
+                    float4(ocxz - sy, ocyz + sx, oczz + c, 0.0f), float4(0.0f, 0.0f, 0.0f, 1.0f));
+}
+
+float3 rotatePoint(float3 pt, float yaw, float pitch, float roll) 
+{ 
+    float4 pm = float4(pt, 0.0); 
+    pm = mul(pm, rotationMatrix(float3(1.0, 0.0, 0.0), yaw)); 
+    pm = mul(pm, rotationMatrix(float3(0.0, 1.0, 0.0), pitch)); 
+    pm = mul(pm, rotationMatrix(float3(0.0, 0.0, 1.0), roll)); 
+    return pm.xyz; 
+} 
+
+void createRotatedDisk( geometryInS inputs[1], float radius, float4x4 viewProjMtx, float4x4 worldIT,
+	  inout TriangleStream<geometryInS> outStream) 
+{ 
+    float3 p0 = inputs[0].Pw; 
+    float yaw = -radians(inputs[0].rotate.x); 
+    float pitch = -radians(inputs[0].rotate.y); 
+    float roll = -radians(inputs[0].rotate.z); 
+    geometryInS gout  = inputs[0]; 
+    int numSegment = 12; 
+    float theta = 3.141592654 / float(numSegment); 
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    float2x2 rotateLeftMat = float2x2(cosine, -sine, sine, cosine); 
+    float2x2 rotateRightMat = transpose(rotateLeftMat); 
+    float3 norm = rotatePoint(float3(0.0, 1.0, 0.0), yaw, pitch, roll);
+    norm = mul(float4(norm, 1.0), worldIT).xyz; 
+    gout.Pw = p0 + rotatePoint(float3(radius, 0.0, 0.0), yaw, pitch, roll);
+    gout.Nw = norm; 
+    gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+    outStream.Append( gout ); 
+    float2 leftOffset = float2(radius, 0.0); 
+    float2 rightOffset = float2(radius, 0.0); 
+    for( int i = 0; i < numSegment-1 ; ++i ) { 
+		 rightOffset = mul(rotateRightMat, rightOffset); 
+        gout.Pw = p0 + rotatePoint(float3(rightOffset.x, 0.0, rightOffset.y), yaw, pitch, roll);
+        gout.Nw = norm; 
+        gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+        outStream.Append( gout ); 
+		 leftOffset = mul(rotateLeftMat, leftOffset); 
+        gout.Pw = p0 + rotatePoint(float3(leftOffset.x, 0.0, leftOffset.y), yaw, pitch, roll);
+        gout.Nw = norm; 
+        gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+        outStream.Append( gout ); 
+    }  
+    gout.Pw = p0 + rotatePoint(float3(-radius, 0.0, 0.0), yaw, pitch, roll);
+    gout.Nw = norm; 
+    gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+    outStream.Append( gout ); 
+    outStream.RestartStrip(); 
+}
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="createRotatedDisk" />
+        <source>
+            <![CDATA[
+float4x4 rotationMatrix(float3 axis, float angle) 
+{
+    float3 a = normalize(axis); 
+    float s = sin(angle); 
+    float c = cos(angle); 
+    float oc = 1.0f - c; 
+    float sx = s * a.x; 
+    float sy = s * a.y; 
+    float sz = s * a.z; 
+    float ocx = oc * a.x;
+    float ocy = oc * a.y;
+    float ocz = oc * a.z;
+    float ocxx = ocx * a.x;
+    float ocxy = ocx * a.y;
+    float ocxz = ocx * a.z;
+    float ocyy = ocy * a.y;
+    float ocyz = ocy * a.z;
+    float oczz = ocz * a.z;
+    return float4x4(float4(ocxx + c, ocxy - sz, ocxz + sy, 0.0f), float4(ocxy + sz, ocyy + c, ocyz - sx, 0.0f),
+                    float4(ocxz - sy, ocyz + sx, oczz + c, 0.0f), float4(0.0f, 0.0f, 0.0f, 1.0f));
+}
+
+float3 rotatePoint(float3 pt, float yaw, float pitch, float roll) 
+{ 
+    float4 pm = float4(pt, 0.0); 
+    pm = mul(rotationMatrix(float3(1.0, 0.0, 0.0), yaw), pm); 
+    pm = mul(rotationMatrix(float3(0.0, 1.0, 0.0), pitch), pm); 
+    pm = mul(rotationMatrix(float3(0.0, 0.0, 1.0), roll), pm); 
+    return pm.xyz; 
+} 
+
+void createRotatedDisk( AttribArray<geometryInS> inputs, float radius, float4x4 viewProjMtx, float4x4 worldIT) 
+{ 
+    float3 p0 = inputs[0].Pw; 
+    float yaw = -radians(inputs[0].rotate.x); 
+    float pitch = -radians(inputs[0].rotate.y); 
+    float roll = -radians(inputs[0].rotate.z); 
+    geometryInS gout  = inputs[0]; 
+    int numSegment = 12; 
+    float theta = 3.141592654 / float(numSegment); 
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    float2x2 rotateLeftMat = float2x2(cosine, -sine, sine, cosine); 
+    float2x2 rotateRightMat = transpose(rotateLeftMat); 
+    float3 norm = rotatePoint(float3(0.0, 1.0, 0.0), yaw, pitch, roll);
+    norm = mul(worldIT, float4(norm, 1.0)).xyz; 
+    gout.Pw = p0 + rotatePoint(float3(radius, 0.0, 0.0), yaw, pitch, roll);
+    gout.Nw = norm; 
+    gout.Pc = mul(viewProjMtx, float4(gout.Pw, 1.0)); 
+    emitVertex( gout ); 
+    float2 leftOffset = float2(radius, 0.0); 
+    float2 rightOffset = float2(radius, 0.0); 
+    for( int i = 0; i < numSegment-1 ; ++i ) { 
+		 rightOffset = mul(rotateRightMat, rightOffset); 
+        gout.Pw = p0 + rotatePoint(float3(rightOffset.x, 0.0, rightOffset.y), yaw, pitch, roll);
+        gout.Nw = norm; 
+        gout.Pc = mul(viewProjMtx, float4(gout.Pw, 1.0)); 
+        emitVertex( gout ); 
+		 leftOffset = mul(rotateLeftMat, leftOffset); 
+        gout.Pw = p0 + rotatePoint(float3(leftOffset.x, 0.0, leftOffset.y), yaw, pitch, roll);
+        gout.Nw = norm; 
+        gout.Pc = mul(viewProjMtx, float4(gout.Pw, 1.0)); 
+        emitVertex( gout ); 
+    }  
+    gout.Pw = p0 + rotatePoint(float3(-radius, 0.0, 0.0), yaw, pitch, roll);
+    gout.Nw = norm; 
+    gout.Pc = mul(viewProjMtx, float4(gout.Pw, 1.0)); 
+    emitVertex( gout ); 
+    restartStrip(); 
+}
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="createRotatedDisk" />
+        <source>
+            <![CDATA[
+mat4x4 rotationMatrix(vec3 axis, float angle) 
+{
+    vec3 a = normalize(axis); 
+    float s = sin(angle); 
+    float c = cos(angle); 
+    float oc = 1.0f - c; 
+    float sx = s * a.x; 
+    float sy = s * a.y; 
+    float sz = s * a.z; 
+    float ocx = oc * a.x;
+    float ocy = oc * a.y;
+    float ocz = oc * a.z;
+    float ocxx = ocx * a.x;
+    float ocxy = ocx * a.y;
+    float ocxz = ocx * a.z;
+    float ocyy = ocy * a.y;
+    float ocyz = ocy * a.z;
+    float oczz = ocz * a.z;
+    return mat4x4(vec4(ocxx + c, ocxy - sz, ocxz + sy, 0.0f), vec4(ocxy + sz, ocyy + c, ocyz - sx, 0.0f),
+                    vec4(ocxz - sy, ocyz + sx, oczz + c, 0.0f), vec4(0.0f, 0.0f, 0.0f, 1.0f));
+}
+
+vec3 rotatePoint(vec3 pt, float yaw, float pitch, float roll) 
+{ 
+    vec4 pm = vec4(pt, 0.0); 
+    pm = mul(rotationMatrix(vec3(1.0, 0.0, 0.0), yaw), pm); 
+    pm = mul(rotationMatrix(vec3(0.0, 1.0, 0.0), pitch), pm); 
+    pm = rotationMatrix(vec3(0.0, 0.0, 1.0), roll) * pm; 
+    return pm.xyz; 
+} 
+
+void createRotatedDisk(  float radius, mat4x4 viewProjMtx, mat4x4 worldIT) 
+{ 
+    vec3 p0 = GEO_IN[0].Pw; 
+    float yaw = -radians(GEO_IN[0].rotate.x); 
+    float pitch = -radians(GEO_IN[0].rotate.y); 
+    float roll = -radians(GEO_IN[0].rotate.z); 
+    GEO_OUT_struct gout  = copyFromGEO_IN(0); 
+    int numSegment = 12; 
+    float theta = 3.141592654 / float(numSegment); 
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    mat2x2 rotateLeftMat = mat2x2(cosine, sine, -sine, cosine); 
+    mat2x2 rotateRightMat = transpose(rotateLeftMat); 
+    vec3 norm = rotatePoint(vec3(0.0, 1.0, 0.0), yaw, pitch, roll);
+    norm = mul(worldIT, vec4(norm, 1.0)).xyz; 
+    gout.Pw = p0 + rotatePoint(vec3(radius, 0.0, 0.0), yaw, pitch, roll);
+    gout.Nw = norm; 
+    gout.Pc = mul(viewProjMtx, vec4(gout.Pw, 1.0)); 
+    EmitGeoStruct( gout ); 
+    vec2 leftOffset = vec2(radius, 0.0); 
+    vec2 rightOffset = vec2(radius, 0.0); 
+    for( int i = 0; i < numSegment-1 ; ++i ) { 
+		 rightOffset = rotateRightMat * rightOffset; 
+        gout.Pw = p0 + rotatePoint(vec3(rightOffset.x, 0.0, rightOffset.y), yaw, pitch, roll);
+        gout.Nw = norm; 
+        gout.Pc = mul(viewProjMtx, vec4(gout.Pw, 1.0)); 
+        EmitGeoStruct( gout ); 
+		 leftOffset = rotateLeftMat * leftOffset; 
+        gout.Pw = p0 + rotatePoint(vec3(leftOffset.x, 0.0, leftOffset.y), yaw, pitch, roll);
+        gout.Nw = norm; 
+        gout.Pc = mul(viewProjMtx, vec4(gout.Pw, 1.0)); 
+        EmitGeoStruct( gout ); 
+    }  
+    gout.Pw = p0 + rotatePoint(vec3(-radius, 0.0, 0.0), yaw, pitch, roll);
+    gout.Nw = norm; 
+    gout.Pc = mul(viewProjMtx, vec4(gout.Pw, 1.0)); 
+    EmitGeoStruct( gout ); 
+    EndPrimitive(); 
+}
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="createRotatedDisk" />
+        <source>
+            <![CDATA[
+float4x4 rotationMatrix(float3 axis, float angle) 
+{
+    float3 a = normalize(axis); 
+    float s = sin(angle); 
+    float c = cos(angle); 
+    float oc = 1.0f - c; 
+    float sx = s * a.x; 
+    float sy = s * a.y; 
+    float sz = s * a.z; 
+    float ocx = oc * a.x;
+    float ocy = oc * a.y;
+    float ocz = oc * a.z;
+    float ocxx = ocx * a.x;
+    float ocxy = ocx * a.y;
+    float ocxz = ocx * a.z;
+    float ocyy = ocy * a.y;
+    float ocyz = ocy * a.z;
+    float oczz = ocz * a.z;
+    return float4x4(float4(ocxx + c, ocxy - sz, ocxz + sy, 0.0f), float4(ocxy + sz, ocyy + c, ocyz - sx, 0.0f),
+                    float4(ocxz - sy, ocyz + sx, oczz + c, 0.0f), float4(0.0f, 0.0f, 0.0f, 1.0f));
+}
+
+float3 rotatePoint(float3 pt, float yaw, float pitch, float roll) 
+{ 
+    float4 pm = float4(pt, 0.0); 
+    pm = mul(pm, rotationMatrix(float3(1.0, 0.0, 0.0), yaw)); 
+    pm = mul(pm, rotationMatrix(float3(0.0, 1.0, 0.0), pitch)); 
+    pm = mul(pm, rotationMatrix(float3(0.0, 0.0, 1.0), roll)); 
+    return pm.xyz; 
+} 
+
+void createRotatedDisk( geometryInS inputs[1], float radius, float4x4 viewProjMtx, float4x4 worldIT,
+	  inout TriangleStream<geometryInS> outStream) 
+{ 
+    float3 p0 = inputs[0].Pw; 
+    float yaw = -radians(inputs[0].rotate.x); 
+    float pitch = -radians(inputs[0].rotate.y); 
+    float roll = -radians(inputs[0].rotate.z); 
+    geometryInS gout  = inputs[0]; 
+    int numSegment = 12; 
+    float theta = 3.141592654 / float(numSegment); 
+    float cosine = cos(theta); 
+    float sine = sin(theta);  
+    float2x2 rotateLeftMat = float2x2(cosine, -sine, sine, cosine); 
+    float2x2 rotateRightMat = transpose(rotateLeftMat); 
+    float3 norm = rotatePoint(float3(0.0, 1.0, 0.0), yaw, pitch, roll);
+    norm = mul(float4(norm, 1.0), worldIT).xyz; 
+    gout.Pw = p0 + rotatePoint(float3(radius, 0.0, 0.0), yaw, pitch, roll);
+    gout.Nw = norm; 
+    gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+    outStream.Append( gout ); 
+    float2 leftOffset = float2(radius, 0.0); 
+    float2 rightOffset = float2(radius, 0.0); 
+    for( int i = 0; i < numSegment-1 ; ++i ) { 
+		 rightOffset = mul(rotateRightMat, rightOffset); 
+        gout.Pw = p0 + rotatePoint(float3(rightOffset.x, 0.0, rightOffset.y), yaw, pitch, roll);
+        gout.Nw = norm; 
+        gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+        outStream.Append( gout ); 
+		 leftOffset = mul(rotateLeftMat, leftOffset); 
+        gout.Pw = p0 + rotatePoint(float3(leftOffset.x, 0.0, leftOffset.y), yaw, pitch, roll);
+        gout.Nw = norm; 
+        gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+        outStream.Append( gout ); 
+    }  
+    gout.Pw = p0 + rotatePoint(float3(-radius, 0.0, 0.0), yaw, pitch, roll);
+    gout.Nw = norm; 
+    gout.Pc = mul(float4(gout.Pw, 1.0), viewProjMtx); 
+    outStream.Append( gout ); 
+    outStream.RestartStrip(); 
+}
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

@@ -1,0 +1,51 @@
+{
+  "viewport": [
+    {
+      "refresh_ms": 0.18250002176500857,
+      "dirty_guide_ms": 43.7783999950625
+    },
+    {
+      "refresh_ms": 0.13600001693703234,
+      "dirty_guide_ms": 27.261799987172708
+    },
+    {
+      "refresh_ms": 0.3419000131543726,
+      "dirty_guide_ms": 38.19819999625906
+    },
+    {
+      "refresh_ms": 0.1923999807331711,
+      "dirty_guide_ms": 27.788100007455796
+    },
+    {
+      "refresh_ms": 0.10210002074018121,
+      "dirty_guide_ms": 36.996299983002245
+    }
+  ],
+  "user_events": [
+    [
+      "_dirty_shape_view",
+      43.768,
+      0
+    ],
+    [
+      "_dirty_shape_view",
+      27.254,
+      0
+    ],
+    [
+      "_dirty_shape_view",
+      38.189,
+      0
+    ],
+    [
+      "_dirty_shape_view",
+      27.78,
+      0
+    ],
+    [
+      "_dirty_shape_view",
+      36.988,
+      0
+    ]
+  ]
+}

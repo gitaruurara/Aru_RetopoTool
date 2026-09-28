@@ -1,0 +1,30 @@
+def coordinates(plan):
+    """Follow the native subdivision face order with bilinear parameter splits.
+
+    Quads use a square; n-gons use a regular polygon in the same unit square.
+    Coordinates never depend on guide positions or the number of selected patches.
+    """
+    rows=[]
+    for key,loop in zip(plan.region_keys,plan.region_loops):
+        n=len(loop)
+        uv=[(0.,0.),(1.,0.),(1.,1.),(0.,1.)] if n==4 else [
+            (.5+.5*math.cos(2*math.pi*i/n),.5+.5*math.sin(2*math.pi*i/n)) for i in range(n)]
+        rows.append((key,uv))
+    for level in range(plan.levels):
+        next_rows=[]
+        for key,uv in rows:
+            center=tuple(sum(p[k] for p in uv)/len(uv) for k in range(2))
+            for i,p in enumerate(uv):
+                after=uv[(i+1)%len(uv)];before=uv[i-1]
+                next_rows.append((key,[p,tuple((p[k]+after[k])*.5 for k in range(2)),
+                                       center,tuple((p[k]+before[k])*.5 for k in range(2))]))
+        rows=next_rows
+    if len(rows)!=len(plan.faces):raise ValueError('Patch coordinate/face count mismatch')
+    result=defaultdict(dict)
+    for face,(key,uv) in zip(plan.faces,rows):
+        for v,p in zip(face,uv):
+            old=result[key].get(v)
+            if old is not None and max(abs(old[k]-p[k]) for k in range(2))>1e-10:
+                raise ValueError('Inconsistent patch coordinates')
+            result[key][v]=p
+    return dict(result)

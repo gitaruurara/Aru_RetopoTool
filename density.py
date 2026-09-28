@@ -1,4 +1,4 @@
-"""Whole-loop dissolution preserving quads and surviving stencil rows."""
+"""Whole-loop dissolution with evenly redistributed surviving quad rows."""
 from collections import defaultdict
 from array import array
 import math
@@ -84,6 +84,8 @@ class Topology:
 
 
 def describe(plan,seed,preferred=None):
+    if isinstance(plan,ReducedPlan):
+        return describe(plan.base,tuple(plan.kept[v] for v in seed),preferred)
     for key,uv in sorted(plan.edit_coordinates().items(),key=lambda item:item[0]!=preferred):
         if all(v in uv for v in seed):return {'patch':key,'edge':[list(uv[v]) for v in seed]}
     raise ValueError('Edge has no patch coordinates')
@@ -123,25 +125,110 @@ class ReducedPlan:
         self.region_keys=base.region_keys;self.region_count=base.region_count
         self._coordinates={key:{remap[v]:uv for v,uv in coords.items() if v in remap}
                            for key,coords in base.edit_coordinates().items()}
+        self._resample={}
+        self._base_samples={}
+        self._redistribute(base,remap)
         adjacency=[set() for _ in self.kept]
         for f in self.faces:
             for a,b in zip(f,f[1:]+f[:1]):adjacency[a].add(b);adjacency[b].add(a)
         self.adj_offsets=array('i',[0]);self.adj_ids=array('i')
         for neighbors in adjacency:self.adj_ids.extend(sorted(neighbors));self.adj_offsets.append(len(self.adj_ids))
 
-    def edit_coordinates(self):return self._coordinates
+    def _redistribute(self,base,remap):
+        """Redistribute surviving rows in patch coordinates, preserving corners."""
+        for key,coords in base.edit_coordinates().items():
+            kept={v:uv for v,uv in coords.items() if v in remap}
+            if len(kept)==len(coords):continue
+            loop=base.region_loops[base.region_keys.index(key)]
+            if len(loop)==4:
+                axes=[sorted({round(uv[k],12) for uv in kept.values()}) for k in (0,1)]
+                target={v:tuple(axes[k].index(round(uv[k],12))/(len(axes[k])-1) for k in (0,1))
+                        for v,uv in kept.items()}
+            else:
+                # General patches: uniform boundary spacing and harmonic interior.
+                neighbors={v:set() for v in kept}
+                for face in self.faces:
+                    old=[self.kept[v] for v in face]
+                    if all(v in kept for v in old):
+                        for a,b in zip(old,old[1:]+old[:1]):neighbors[a].add(b);neighbors[b].add(a)
+                target=dict(kept);fixed={v for v in kept if v in base.guide_vertices}
+                groups=defaultdict(list)
+                for v in fixed:
+                    g=base.guide_vertices[v]
+                    if g[0]=='side':groups[g[1]].append((g[2],v))
+                for side,values in groups.items():
+                    samples=sorted((g[2],coords[v]) for v,g in base.guide_vertices.items()
+                                   if v in coords and g[0]=='side' and g[1]==side)
+                    if len(samples)<2:continue
+                    (ta,pa),(tb,pb)=samples[0],samples[-1]
+                    if abs(tb-ta)<1e-12:continue
+                    delta=tuple((pb[k]-pa[k])/(tb-ta) for k in (0,1))
+                    origin=tuple(pa[k]-ta*delta[k] for k in (0,1))
+                    for rank,(_,v) in enumerate(sorted(values),1):
+                        target[v]=tuple(origin[k]+rank/(len(values)+1)*delta[k] for k in (0,1))
+                for _ in range(40):
+                    target={v:target[v] if v in fixed or not neighbors[v] else
+                            tuple(sum(target[n][k] for n in neighbors[v])/len(neighbors[v]) for k in (0,1)) for v in kept}
+            for v,uv in target.items():
+                self._coordinates[key][remap[v]]=uv
+                if len(loop)==4:self._resample[remap[v]]=(loop,uv)
+                else:
+                    for face in base.faces:
+                        if not all(x in coords for x in face):continue
+                        found=False
+                        for tri in (face[:3],(face[0],face[2],face[3])):
+                            a,b,c=[coords[x] for x in tri]
+                            det=(b[0]-a[0])*(c[1]-a[1])-(c[0]-a[0])*(b[1]-a[1])
+                            if abs(det)<1e-14:continue
+                            x,y=uv[0]-a[0],uv[1]-a[1]
+                            q=(x*(c[1]-a[1])-y*(c[0]-a[0]))/det
+                            t=((b[0]-a[0])*y-(b[1]-a[1])*x)/det
+                            if min(q,t,1-q-t)>=-1e-9:
+                                self._base_samples[remap[v]]=tuple(zip(tri,(1-q-t,q,t)));found=True;break
+                        if found:break
+
+    @staticmethod
+    def _coons_row(loop,uv,splines):
+        result=defaultdict(float);u,v=uv
+        def side_row(side,t,weight):
+            x=min(max(t,0.),1.)*len(side);i=min(int(x),len(side)-1)
+            si,d=side[i];t=x-i if d==1 else 1-(x-i);q=1-t
+            for cv,w in zip(splines[si],(q*q*q,3*q*q*t,3*q*t*t,t*t*t)):result[cv]+=weight*w
+        for side,t,w in ((loop[0],u,1-v),(loop[1],v,u),(loop[2],1-u,v),(loop[3],1-v,1-u)):
+            side_row(side,t,w)
+        for side,w in zip(loop,((1-u)*(1-v),u*(1-v),u*v,(1-u)*v)):
+            side_row(side,0.,-w)
+        return {i:w for i,w in result.items() if abs(w)>1e-14}
+
+    def edit_coordinates(self, keys=None):
+        return self._coordinates if keys is None else {k:v for k,v in self._coordinates.items() if k in keys}
 
     def compile_stencil(self,splines):
         offsets,ids,weights=self.base.compile_stencil(splines)
         out=[0];indices=[];values=[]
-        for v in self.kept:
-            indices.extend(ids[offsets[v]:offsets[v+1]]);values.extend(weights[offsets[v]:offsets[v+1]])
+        for index,v in enumerate(self.kept):
+            if index in self._resample:
+                loop,uv=self._resample[index];row=self._coons_row(loop,uv,splines)
+                indices.extend(row);values.extend(row.values())
+            elif index in self._base_samples:
+                row=defaultdict(float)
+                for source,factor in self._base_samples[index]:
+                    for j in range(offsets[source],offsets[source+1]):row[ids[j]]+=factor*weights[j]
+                indices.extend(row);values.extend(row.values())
+            else:
+                indices.extend(ids[offsets[v]:offsets[v+1]]);values.extend(weights[offsets[v]:offsets[v+1]])
             out.append(len(indices))
         return out,indices,values
 
     def evaluate(self,positions,splines,stencil=None):
         values=self.base.evaluate(positions,splines,stencil)
-        return [values[v] for v in self.kept]
+        result=[values[v] for v in self.kept]
+        for index,samples in self._base_samples.items():
+            result[index]=tuple(sum(values[v][k]*w for v,w in samples) for k in range(3))
+        for index,(loop,uv) in self._resample.items():
+            row=self._coons_row(loop,uv,splines)
+            result[index]=tuple(sum(positions[v][k]*w for v,w in row.items()) for k in range(3))
+        return result
 
 
 def apply(plan,requests):return ReducedPlan(plan,requests) if requests else plan

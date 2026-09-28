@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "D:\Dropbox\App\DCC\internal\maya\common\scripts\Aru_RetopoTool\tests\gui_point_shader_trial.py", line 27, in run
+    if not m.hasFragment('aruRetopoPointQuadTrial'):m.addShadeFragmentFromBuffer(geom,False)
+                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+TypeError: expected bytes, str found

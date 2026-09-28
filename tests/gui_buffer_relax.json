@@ -1,0 +1,25 @@
+{
+  "scope": "Actual brush plus relax/write/synchronous refresh; separate undo-restored steps, not mouse gesture series",
+  "samples_ms": {
+    "mesh": [
+      140.274599994882,
+      140.30739999725483,
+      250.9076999995159,
+      139.28690000466304,
+      141.83419999608304
+    ],
+    "buffer": [
+      229.844100002083,
+      125.34949999826495,
+      126.85560000682017,
+      125.5308000036166,
+      123.40310000581667
+    ]
+  },
+  "affected": 200,
+  "median_ms": {
+    "mesh": 141.07079999666894,
+    "buffer": 125.44015000094078
+  },
+  "restored": true
+}

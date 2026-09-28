@@ -1,0 +1,329 @@
+<!--
+===========================================================================
+Copyright 2026 Autodesk, Inc. All rights reserved.
+
+Use of this software is subject to the terms of the Autodesk license
+agreement provided at the time of installation or download, or which
+otherwise accompanies this software in either electronic or hard copy form.
+===========================================================================
+-->
+<fragment  uiName="mayaPoint2TexturedTube" name="mayaPoint2TexturedTube" type="geometryShader" class="ShadeFragment" version="1.0" feature_level="40" >
+    <description>
+<![CDATA[
+Expand a point to a view-aligned textured tube]]>
+</description>
+    <keyword value="geometryShader" />
+    <properties>
+        <float3  name="Pw" semantic="Pw" flags="isRequirementOnly" />
+        <float3  name="Nw" semantic="Nw" flags="isRequirementOnly,varyingInputParam" />
+        <undefined  name="GPUStage" semantic="GPUStage" />
+        <struct  name="inputs" size="1" struct_name="geometryInS" />
+        <float  name="radius" />
+        <float  name="radius1" />
+        <float  name="tailSize" />
+        <int  name="normalDir" />
+        <float4x4  name="viewProjection" semantic="viewprojection" />
+        <float2  name="screenSize" semantic="viewportPixelSize" />
+        <float2  name="quadPositionUV" semantic="quadPositionUVType6" size="4" />
+        <float4x4  name="viewprojectioninverse" semantic="viewprojectioninverse" />
+        <bool  name="orthographic" semantic="isorthographic" />
+        <float4x4  name="projection" semantic="projection" />
+    </properties>
+    <values>
+<int name="normalDir" value="0"  />
+<bool name="orthographic" value="false"  />
+    </values>
+    <outputs>
+        <triStream  name="outStream" size="13" struct_name="geometryInS" isInOutParam="true"  />
+        <undefined  name="GPUStage" semantic="geometryShader" />
+    </outputs>
+    <implementation  >
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="11.000000" >
+        <function_name val="point2TexturedTube" />
+        <source>
+            <![CDATA[
+void point2TexturedTube( geometryInS inputs[1], float radius, float radius1, float tailsize, int normalDir, 
+    float4x4 viewProj, float2 screenSize, float2 quadPosition[4], float4x4 viewProjInverse, bool orthographic, float4x4 projection, inout TriangleStream<geometryInS> outStream ) 
+{ 
+    geometryInS outS = inputs[0]; 
+    float2 halfPixel = float2( 0.5f, 0.5f ); 
+    float4 tail = mul( float4( outS.Nw, 0.0f ), viewProj ); 
+    if(normalDir < 1) outS.Nw = float3(0.0f,0.0f,0.0f); 
+	 float2 scale =  float2(4.0,0.0); 
+	 if( !orthographic ) { 
+		float2 dir = (tail.xyz - dot(inputs[0].Pc.xyz, tail.xyz)/dot(inputs[0].Pc.xyz, inputs[0].Pc.xyz) * inputs[0].Pc.xyz).xy; 
+		if( length(dir) > 1.0e-4f ) 
+			scale = 4 * normalize(dir * screenSize.xy); 
+	 }  
+	 else {  
+		if( length(tail.xy) > 1.0e-4f ) 
+			scale = 4 * normalize(tail.xy * screenSize.xy); 
+		scale *= 0.5 * projection[0][0]; 
+	 }  
+    float2 scale1 =  scale * radius1; 
+ 
+    [unroll] for( int i = 0; i < 4; ++i ) 
+    { 
+        float2 quad = float2(scale1.x*quadPosition[i].x+scale1.y*quadPosition[i].y, -scale1.x*quadPosition[i].y+scale1.y*quadPosition[i].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc + float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw + mul(float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = quadPosition[i] + halfPixel; 
+        outStream.Append( outS ); 
+    } 
+        float2 quad = float2(scale1.x*quadPosition[3].x+scale1.y*quadPosition[3].y, -scale1.x*quadPosition[3].y+scale1.y*quadPosition[3].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc + float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw + mul(float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = quadPosition[3] + halfPixel; 
+        outStream.Append( outS ); 
+        quad = float2(scale1.x*quadPosition[1].x+scale1.y*quadPosition[1].y, -scale1.x*quadPosition[1].y+scale1.y*quadPosition[1].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc + float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw + mul(float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = quadPosition[1] + halfPixel; 
+        outStream.Append( outS ); 
+    float2 scale2 =  scale * radius; 
+        quad = float2(scale2.x*quadPosition[1].x+scale2.y*quadPosition[1].y, -scale2.x*quadPosition[1].y+scale2.y*quadPosition[1].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(tail+float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = -quadPosition[1] + halfPixel; 
+        outStream.Append( outS ); 
+        quad = float2(scale2.x*quadPosition[3].x+scale2.y*quadPosition[3].y, -scale2.x*quadPosition[3].y+scale2.y*quadPosition[3].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(tail+float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = -quadPosition[3] + halfPixel; 
+        outStream.Append( outS ); 
+    [unroll] for( int i = 3; i >= 0; --i ) 
+    { 
+        float2 quad = float2(scale2.x*quadPosition[i].x+scale2.y*quadPosition[i].y, -scale2.x*quadPosition[i].y+scale2.y*quadPosition[i].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(tail+float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = -quadPosition[i] + halfPixel; 
+        outStream.Append( outS ); 
+    } 
+        quad = float2(scale2.x*quadPosition[0].x+scale2.y*quadPosition[0].y, -scale2.x*quadPosition[0].y+scale2.y*quadPosition[0].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(tail+float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = -quadPosition[0] + halfPixel; 
+        outStream.Append( outS ); 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="Cg" lang_version="2.100000" >
+        <function_name val="point2TexturedTube" />
+        <source>
+            <![CDATA[
+void point2TexturedTube( AttribArray<geometryInS> inputs, float radius, float radius1, float tailsize, int normalDir, 
+    float4x4 viewProj, float2 screenSize, float2 quadPosition[4], float4x4 viewProjInverse, bool orthographic, float4x4 projection ) 
+{ 
+ 
+    geometryInS outS = inputs[0]; 
+    float2 halfPixel = float2( 0.5f, 0.5f ); 
+    float4 tail = mul( viewProj, float4( outS.Nw, 0.0f ) ); 
+    if(normalDir < 1) outS.Nw = float3(0.0f,0.0f,0.0f); 
+    float2 scale =  float2(4.0,0.0); 
+	 if( !orthographic ) { 
+		float2 dir = (tail.xyz - dot(inputs[0].Pc.xyz, tail.xyz)/dot(inputs[0].Pc.xyz, inputs[0].Pc.xyz) * inputs[0].Pc.xyz).xy; 
+		if( length(dir) > 1.0e-4f ) 
+			scale = 4 * normalize(dir * screenSize.xy); 
+	 }  
+	 else {  
+		if( length(tail.xy) > 1.0e-4f ) 
+			scale = 4 * normalize(tail.xy * screenSize.xy); 
+		scale *= 0.5 * projection[0][0]; 
+	 }  
+    float2 scale1 =  scale * radius1; 
+ 
+    for( int i = 0; i < 4; ++i ) 
+    { 
+        float2 quad = float2(scale1.x*quadPosition[i].x+scale1.y*quadPosition[i].y, -scale1.x*quadPosition[i].y+scale1.y*quadPosition[i].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc + float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw + mul(viewProjInverse, float4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = quadPosition[i] + halfPixel; 
+        emitVertex( outS ); 
+    } 
+        float2 quad = float2(scale1.x*quadPosition[3].x+scale1.y*quadPosition[3].y, -scale1.x*quadPosition[3].y+scale1.y*quadPosition[3].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc + float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw + mul(viewProjInverse, float4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = quadPosition[3] + halfPixel; 
+        emitVertex( outS ); 
+        quad = float2(scale1.x*quadPosition[1].x+scale1.y*quadPosition[1].y, -scale1.x*quadPosition[1].y+scale1.y*quadPosition[1].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc + float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw + mul(viewProjInverse, float4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = quadPosition[1] + halfPixel; 
+        emitVertex( outS ); 
+    float2 scale2 =  scale * radius; 
+        quad = float2(scale2.x*quadPosition[1].x+scale2.y*quadPosition[1].y, -scale2.x*quadPosition[1].y+scale2.y*quadPosition[1].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(viewProjInverse, tail+float4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = -quadPosition[1] + halfPixel; 
+        emitVertex( outS ); 
+        quad = float2(scale2.x*quadPosition[3].x+scale2.y*quadPosition[3].y, -scale2.x*quadPosition[3].y+scale2.y*quadPosition[3].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(viewProjInverse, tail+float4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = -quadPosition[3] + halfPixel; 
+        emitVertex( outS ); 
+    for( int i = 3; i >= 0; --i ) 
+    { 
+        float2 quad = float2(scale2.x*quadPosition[i].x+scale2.y*quadPosition[i].y, -scale2.x*quadPosition[i].y+scale2.y*quadPosition[i].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(viewProjInverse, tail+float4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = -quadPosition[i] + halfPixel; 
+        emitVertex( outS ); 
+    } 
+        quad = float2(scale2.x*quadPosition[0].x+scale2.y*quadPosition[0].y, -scale2.x*quadPosition[0].y+scale2.y*quadPosition[0].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(viewProjInverse, tail+float4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = -quadPosition[0] + halfPixel; 
+        emitVertex( outS ); 
+    restartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="GLSL" lang_version="3.000000" >
+        <function_name val="point2TexturedTube" />
+        <source>
+            <![CDATA[
+void point2TexturedTube(  float radius, float radius1, float tailsize, int normalDir, 
+    mat4x4 viewProj, vec2 screenSize, vec2 quadPosition[4], mat4x4 viewProjInverse, bool orthographic, mat4x4 projection ) 
+{ 
+ 
+    GEO_OUT_struct outS = copyFromGEO_IN(0); 
+    vec2 halfPixel = vec2( 0.5f, 0.5f ); 
+    vec4 tail = mul( viewProj, vec4( outS.Nw, 0.0f ) ); 
+    if(normalDir < 1) outS.Nw = vec3(0.0f,0.0f,0.0f); 
+    vec2 scale =  vec2(4.0,0.0); 
+	 if( !orthographic ) { 
+		vec2 dir = (tail.xyz - dot(gl_in[0].gl_Position.xyz, tail.xyz)/dot(gl_in[0].gl_Position.xyz, gl_in[0].gl_Position.xyz) * gl_in[0].gl_Position.xyz).xy; 
+		if( length(dir) > 1.0e-4f ) 
+			scale = 4 * normalize(dir * screenSize.xy); 
+	 }  
+	 else {  
+		if( length(tail.xy) > 1.0e-4f ) 
+			scale = 4 * normalize(tail.xy * screenSize.xy); 
+		scale *= 0.5 * projection[0][0]; 
+	 }  
+    vec2 scale1 =  scale * radius1; 
+ 
+    for( int i = 0; i < 4; ++i ) 
+    { 
+        vec2 quad = vec2(scale1.x*quadPosition[i].x+scale1.y*quadPosition[i].y, -scale1.x*quadPosition[i].y+scale1.y*quadPosition[i].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = gl_in[0].gl_Position + vec4(quad,0.0,0.0); 
+        outS.Pw = GEO_IN[0].Pw + mul(viewProjInverse, vec4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = quadPosition[i] + halfPixel; 
+        EmitGeoStruct( outS ); 
+    } 
+        vec2 quad = vec2(scale1.x*quadPosition[3].x+scale1.y*quadPosition[3].y, -scale1.x*quadPosition[3].y+scale1.y*quadPosition[3].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = gl_in[0].gl_Position + vec4(quad,0.0,0.0); 
+        outS.Pw = GEO_IN[0].Pw + mul(viewProjInverse, vec4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = quadPosition[3] + halfPixel; 
+        EmitGeoStruct( outS ); 
+        quad = vec2(scale1.x*quadPosition[1].x+scale1.y*quadPosition[1].y, -scale1.x*quadPosition[1].y+scale1.y*quadPosition[1].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = gl_in[0].gl_Position + vec4(quad,0.0,0.0); 
+        outS.Pw = GEO_IN[0].Pw + mul(viewProjInverse, vec4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = quadPosition[1] + halfPixel; 
+        EmitGeoStruct( outS ); 
+    vec2 scale2 =  scale * radius; 
+        quad = vec2(scale2.x*quadPosition[1].x+scale2.y*quadPosition[1].y, -scale2.x*quadPosition[1].y+scale2.y*quadPosition[1].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = gl_in[0].gl_Position - tailSize * tail - vec4(quad,0.0,0.0); 
+        outS.Pw = GEO_IN[0].Pw - mul(viewProjInverse, tail+vec4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = -quadPosition[1] + halfPixel; 
+        EmitGeoStruct( outS ); 
+        quad = vec2(scale2.x*quadPosition[3].x+scale2.y*quadPosition[3].y, -scale2.x*quadPosition[3].y+scale2.y*quadPosition[3].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = gl_in[0].gl_Position - tailSize * tail - vec4(quad,0.0,0.0); 
+        outS.Pw = GEO_IN[0].Pw - mul(viewProjInverse, tail+vec4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = -quadPosition[3] + halfPixel; 
+        EmitGeoStruct( outS ); 
+    for( int i = 3; i >= 0; --i ) 
+    { 
+        vec2 quad = vec2(scale2.x*quadPosition[i].x+scale2.y*quadPosition[i].y, -scale2.x*quadPosition[i].y+scale2.y*quadPosition[i].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = gl_in[0].gl_Position - tailSize * tail - vec4(quad,0.0,0.0); 
+        outS.Pw = GEO_IN[0].Pw - mul(viewProjInverse, tail+vec4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = -quadPosition[i] + halfPixel; 
+        EmitGeoStruct( outS ); 
+    } 
+        quad = vec2(scale2.x*quadPosition[0].x+scale2.y*quadPosition[0].y, -scale2.x*quadPosition[0].y+scale2.y*quadPosition[0].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = gl_in[0].gl_Position - tailSize * tail - vec4(quad,0.0,0.0); 
+        outS.Pw = GEO_IN[0].Pw - mul(viewProjInverse, tail+vec4(quad,0.0,0.0)).xyz; 
+        outS.uvCoord = -quadPosition[0] + halfPixel; 
+        EmitGeoStruct( outS ); 
+    EndPrimitive(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    <implementation  render="OGSRenderer" language="HLSL" lang_version="10.000000" >
+        <function_name val="point2TexturedTube" />
+        <source>
+            <![CDATA[
+void point2TexturedTube( geometryInS inputs[1], float radius, float radius1, float tailsize, int normalDir, 
+    float4x4 viewProj, float2 screenSize, float2 quadPosition[4], float4x4 viewProjInverse, bool orthographic, float4x4 projection, inout TriangleStream<geometryInS> outStream ) 
+{ 
+    geometryInS outS = inputs[0]; 
+    float2 halfPixel = float2( 0.5f, 0.5f ); 
+    float4 tail = mul( float4( outS.Nw, 0.0f ), viewProj ); 
+    if(normalDir < 1) outS.Nw = float3(0.0f,0.0f,0.0f); 
+	 float2 scale =  float2(4.0,0.0); 
+	 if( !orthographic ) { 
+		float2 dir = (tail.xyz - dot(inputs[0].Pc.xyz, tail.xyz)/dot(inputs[0].Pc.xyz, inputs[0].Pc.xyz) * inputs[0].Pc.xyz).xy; 
+		if( length(dir) > 1.0e-4f ) 
+			scale = 4 * normalize(dir * screenSize.xy); 
+	 }  
+	 else {  
+		if( length(tail.xy) > 1.0e-4f ) 
+			scale = 4 * normalize(tail.xy * screenSize.xy); 
+		scale *= 0.5 * projection[0][0]; 
+	 }  
+    float2 scale1 =  scale * radius1; 
+ 
+    [unroll] for( int i = 0; i < 4; ++i ) 
+    { 
+        float2 quad = float2(scale1.x*quadPosition[i].x+scale1.y*quadPosition[i].y, -scale1.x*quadPosition[i].y+scale1.y*quadPosition[i].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc + float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw + mul(float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = quadPosition[i] + halfPixel; 
+        outStream.Append( outS ); 
+    } 
+        float2 quad = float2(scale1.x*quadPosition[3].x+scale1.y*quadPosition[3].y, -scale1.x*quadPosition[3].y+scale1.y*quadPosition[3].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc + float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw + mul(float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = quadPosition[3] + halfPixel; 
+        outStream.Append( outS ); 
+        quad = float2(scale1.x*quadPosition[1].x+scale1.y*quadPosition[1].y, -scale1.x*quadPosition[1].y+scale1.y*quadPosition[1].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc + float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw + mul(float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = quadPosition[1] + halfPixel; 
+        outStream.Append( outS ); 
+    float2 scale2 =  scale * radius; 
+        quad = float2(scale2.x*quadPosition[1].x+scale2.y*quadPosition[1].y, -scale2.x*quadPosition[1].y+scale2.y*quadPosition[1].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(tail+float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = -quadPosition[1] + halfPixel; 
+        outStream.Append( outS ); 
+        quad = float2(scale2.x*quadPosition[3].x+scale2.y*quadPosition[3].y, -scale2.x*quadPosition[3].y+scale2.y*quadPosition[3].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(tail+float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = -quadPosition[3] + halfPixel; 
+        outStream.Append( outS ); 
+    [unroll] for( int i = 3; i >= 0; --i ) 
+    { 
+        float2 quad = float2(scale2.x*quadPosition[i].x+scale2.y*quadPosition[i].y, -scale2.x*quadPosition[i].y+scale2.y*quadPosition[i].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(tail+float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = -quadPosition[i] + halfPixel; 
+        outStream.Append( outS ); 
+    } 
+        quad = float2(scale2.x*quadPosition[0].x+scale2.y*quadPosition[0].y, -scale2.x*quadPosition[0].y+scale2.y*quadPosition[0].x) * screenSize.x / screenSize.xy; 
+        outS.Pc = inputs[0].Pc - tailSize * tail - float4(quad,0.0,0.0); 
+        outS.Pw = inputs[0].Pw - mul(tail+float4(quad,0.0,0.0), viewProjInverse).xyz; 
+        outS.uvCoord = -quadPosition[0] + halfPixel; 
+        outStream.Append( outS ); 
+    outStream.RestartStrip(); 
+} 
+            ]]>
+        </source>
+    </implementation>
+    </implementation>
+</fragment>
+

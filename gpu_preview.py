@@ -13,6 +13,52 @@ _saved_panels=globals().get('_saved_panels',{})
 _registered_name=globals().get('_registered_name')
 
 
+
+_reference_nodes=globals().get('_reference_nodes')
+_reference_callbacks=globals().get('_reference_callbacks',[])
+
+
+def _invalidate_references(*args):
+    global _reference_nodes
+    _reference_nodes=None
+
+
+def _reference_objects():
+    """Cache node discovery, but read connections and meshName every frame."""
+    global _reference_nodes
+    if not _reference_callbacks:
+        try:
+            for kind in ('aruRetopoMesh','retopoGuideNode'):
+                _reference_callbacks.append(om.MDGMessage.addNodeAddedCallback(_invalidate_references,kind))
+                _reference_callbacks.append(om.MDGMessage.addNodeRemovedCallback(_invalidate_references,kind))
+        except Exception:
+            for callback in _reference_callbacks:om.MMessage.removeCallback(callback)
+            _reference_callbacks.clear()
+    if _reference_nodes is None or not _reference_callbacks:
+        nodes=[]
+        for kind in ('aruRetopoMesh','retopoGuideNode'):
+            for name in cmds.ls(type=kind) or []:
+                selection=om.MSelectionList();selection.add(name)
+                nodes.append((kind,om.MObjectHandle(selection.getDependNode(0))))
+        _reference_nodes=nodes
+    return _reference_nodes
+
+
+def _reference_meshes():
+    references=set()
+    for kind,handle in _reference_objects():
+        if not handle.isValid() or not handle.isAlive():continue
+        fn=om.MFnDependencyNode(handle.object())
+        if kind=='retopoGuideNode':
+            mesh=fn.findPlug('meshName',False).asString()
+            if mesh:references.add(mesh)
+        else:
+            for source in fn.findPlug('referenceMesh',False).connectedTo(True,False):
+                if source.node().hasFn(om.MFn.kDagNode):
+                    references.add(om.MFnDagNode(source.node()).fullPathName())
+    return references
+
+
 def _depth_limits(panel):
     """Bound display bias in reference-object units, independently of zoom."""
     camera=cmds.modelPanel(panel,q=True,camera=True)
@@ -21,19 +67,16 @@ def _depth_limits(panel):
     if camera_path.node().hasFn(om.MFn.kTransform):camera_path.extendToShape()
     camera_fn=om.MFnCamera(camera_path)
     view=camera_path.inclusiveMatrixInverse()
-    references=set()
-    for node in cmds.ls(type='aruRetopoMesh') or []:
-        references.update(cmds.listConnections(node+'.referenceMesh',s=True,d=False,shapes=True) or [])
-    for guide in cmds.ls(type='retopoGuideNode') or []:
-        mesh=cmds.getAttr(guide+'.meshName')
-        if mesh and cmds.objExists(mesh):references.add(mesh)
+    references=_reference_meshes()
     # A screen/zoom-based cap shrinks the bias below polygon chord error at
     # close range. Bound only by the reference geometry in world units.
     fraction=float('inf')
     offset=float('inf')
     found=False
     for mesh in references:
-        selection=om.MSelectionList();selection.add(mesh)
+        selection=om.MSelectionList()
+        try:selection.add(mesh)
+        except RuntimeError:continue
         path=selection.getDagPath(0)
         if path.node().hasFn(om.MFn.kTransform):path.extendToShape()
         if not path.node().hasFn(om.MFn.kMesh):continue
@@ -65,7 +108,8 @@ class Foreground(render.MSceneRender):
         self._camera=render.MCameraOverride()
     def objectSetOverride(self):return self.objects
     def displayModeOverride(self):return self.kShaded | self.kWireFrame
-    def getObjectTypeExclusions(self):return self.kExcludeGrid
+    def getObjectTypeExclusions(self):return self.kExcludeGrid | self.kExcludeMeshes
+    def renderFilterOverride(self):return self.kRenderAllItems
     def postEffectsOverride(self):return self.kPostEffectDisableAll
     def cullingOverride(self):return self.kCullBackFaces
     def cameraOverride(self):
@@ -160,7 +204,9 @@ def _set_world_guides(enabled):
 
 
 def disable():
-    global _override,_registered_name
+    global _override,_registered_name,_reference_nodes
+    for callback in _reference_callbacks:om.MMessage.removeCallback(callback)
+    _reference_callbacks.clear();_reference_nodes=None
     for panel,previous in list(_saved_panels.items()):
         if cmds.modelPanel(panel,exists=True):cmds.modelEditor(panel,e=True,rendererOverrideName=previous)
     _saved_panels.clear()

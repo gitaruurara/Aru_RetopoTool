@@ -1,0 +1,25 @@
+{
+  "cases": [
+    {
+      "turn": 0,
+      "orthographic": false,
+      "count": 4468,
+      "python_ms": 5.640800001856405,
+      "native_ms": 2.1522999959415756
+    },
+    {
+      "turn": 13,
+      "orthographic": false,
+      "count": 4468,
+      "python_ms": 5.334700006642379,
+      "native_ms": 2.535700004955288
+    },
+    {
+      "turn": -21,
+      "orthographic": true,
+      "count": 4468,
+      "python_ms": 5.223000000114553,
+      "native_ms": 2.5390000009792857
+    }
+  ]
+}

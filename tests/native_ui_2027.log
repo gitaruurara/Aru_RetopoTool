@@ -1,0 +1,24 @@
+The system cannot find the path specified.
+[RetopoGuide] Plugin loaded.
+Œ³‚É–ß‚·: Aru Retopo: native backend
+‚â‚è’¼‚µ: Aru Retopo: native backend
+Œ³‚É–ß‚·: Aru Retopo: disable native backend
+Œ³‚É–ß‚·: Aru Retopo: disable native backend
+PASS UI fast-update toggle, enable failure state and Undo
+PASS plan parsed-guide cache hit/miss, skipped decode and ownership
+PASS native graph: empty selection, enable/disable Undo/Redo, patch edits, CP, solver settings, subdivisions, selection
+[RetopoGuide] 23:04:26 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 23:04:26 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 23:04:26 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 23:04:26 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 23:04:26 INFO >>> uninitializePlugin: deleting scene nodes
+RetopoGuide : INFO : >>> uninitializePlugin: deleting scene nodes
+[RetopoGuide] 23:04:26 INFO >>> uninitializePlugin: deregistering
+RetopoGuide : INFO : >>> uninitializePlugin: deregistering
+[RetopoGuide] 23:04:26 INFO <<< uninitializePlugin done
+RetopoGuide : INFO : <<< uninitializePlugin done
+[RetopoGuide] Plugin unloaded.

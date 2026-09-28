@@ -1,0 +1,60 @@
+--- a/cpp/retopo.cpp
++++ b/cpp/retopo.cpp
+@@ -98,6 +98,21 @@
+         cachedQuery.resize(count);cachedAnswer.resize(count);
+         cachedInputSeed.resize(count);cachedOutputSeed.resize(count);cachedValid.assign(count,0);
+     }
++    std::vector<int> relaxOffsets,relaxNeighbors;
++    std::vector<double> relaxWeights;
++    double relaxStrength=std::numeric_limits<double>::quiet_NaN();
++    void prepareRelax(int n,const int* offsets,const int* neighbors,const double* weights,double strength){
++        const int count=offsets[n];
++        bool same=relaxOffsets.size()==size_t(n+1) && relaxNeighbors.size()==size_t(count)
++            && relaxWeights.size()==size_t(n) && relaxStrength==strength
++            && std::equal(relaxOffsets.begin(),relaxOffsets.end(),offsets)
++            && std::equal(relaxNeighbors.begin(),relaxNeighbors.end(),neighbors)
++            && std::equal(relaxWeights.begin(),relaxWeights.end(),weights);
++        if(same)return;
++        relaxOffsets.assign(offsets,offsets+n+1);relaxNeighbors.assign(neighbors,neighbors+count);
++        relaxWeights.assign(weights,weights+n);relaxStrength=strength;
++        std::fill(cachedValid.begin(),cachedValid.end(),0);
++    }
+     V cachedProject(size_t index,V p,int& seed,bool guard){
+         V previous=cachedQuery[index];
+ #ifdef ARU_RETOPO_CACHE_STATS
+@@ -173,14 +188,29 @@
+                   const double* guide_weights,int iterations,double strength,int* seeds,int guard){
+     try{if(!p)return 0;auto&s=*static_cast<Surface*>(p);std::vector<V> target(n),current(n),next(n);
+         s.prepareCache(n,iterations,guard!=0);
+-        parallelFor(n,[&](int i){target[i]=current[i]=s.cachedProject(i,read(points+3*i),seeds[i],guard!=0);});
++        s.prepareRelax(n,offsets,neighbors,guide_weights,strength);
++        std::vector<unsigned char> targetChanged(n),changed(n),nextChanged(n);
++        auto different=[](V a,V b){return a.x!=b.x || a.y!=b.y || a.z!=b.z;};
++        parallelFor(n,[&](int i){
++            bool valid=s.cachedValid[i]!=0;V previous=s.cachedAnswer[i];
++            target[i]=current[i]=s.cachedProject(i,read(points+3*i),seeds[i],guard!=0);
++            targetChanged[i]=changed[i]=!valid || different(previous,current[i]);
++        });
+         for(int k=0;k<iterations;++k){
+-        parallelFor(n,[&](int i){if(guide_weights[i]==1.){next[i]=target[i];return;}
++        parallelFor(n,[&](int i){
++            if(guide_weights[i]==1.){next[i]=target[i];nextChanged[i]=targetChanged[i];return;}
++            size_t index=size_t(k+1)*n+i;
++            bool valid=s.cachedValid[index]!=0;
++            bool dirty=targetChanged[i] || changed[i] || !valid || s.cachedInputSeed[index]!=seeds[i];
++            if(!dirty)for(int j=offsets[i];j<offsets[i+1];++j)if(changed[neighbors[j]]){dirty=true;break;}
++            if(!dirty){next[i]=s.cachedAnswer[index];seeds[i]=s.cachedOutputSeed[index];nextChanged[i]=0;return;}
++            V previous=s.cachedAnswer[index];
+             V avg{0,0,0};int degree=offsets[i+1]-offsets[i];
+             for(int j=offsets[i];j<offsets[i+1];++j)avg=avg+current[neighbors[j]];
+             V q=degree?current[i]*(1-strength)+avg*(strength/degree):current[i];
+-            q=q*(1-guide_weights[i])+target[i]*guide_weights[i];next[i]=s.cachedProject(size_t(k+1)*n+i,q,seeds[i],guard!=0);
+-        });current.swap(next);}
++            q=q*(1-guide_weights[i])+target[i]*guide_weights[i];next[i]=s.cachedProject(index,q,seeds[i],guard!=0);
++            nextChanged[i]=!valid || different(previous,next[i]);
++        });current.swap(next);changed.swap(nextChanged);}
+         for(int i=0;i<n;++i)write(points+3*i,current[i]);return 1;
+-    }catch(...){return 0;}
+-}
++    }catch(...){if(p){auto& valid=static_cast<Surface*>(p)->cachedValid;std::fill(valid.begin(),valid.end(),0);}return 0;}
++}

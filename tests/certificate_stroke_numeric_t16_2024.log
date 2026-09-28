@@ -1,0 +1,34 @@
+[RetopoGuide] Plugin loaded.
+[RetopoGuide] 06:54:43 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 06:54:43 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
+Coding Error: in _DeclareType at line 646 of S:\jenkins\workspace\ECP\ecg-usd-build\ecg-usd-full-python3.10-windows\ecg-usd-build\usd\pxr\base\plug\plugin.cpp -- Plugin 'nodeRegistryArnold' defined in c:/Program Files/Autodesk/Arnold/maya2024/usd/hydra/2211/nodeRegistryArnold.dll has metadata claiming that it provides type NdrArnoldParserPlugin, but this was previously provided by plugin 'ndrArnold' defined in c:/Program Files/Autodesk/Arnold/maya2024/usd/hydra/2211/ndrArnold.dll.
+�x�����b�Z�[�W: line 1: displayRGBColor �̓o�b�` ���[�h�ł͎g�p�ł��܂���
+�x�����b�Z�[�W: file: D:/Dropbox/App/.codex/recovery/retopo-20260917/maya-numeric-isolated-20260918.ma line 5815: �F���ł��Ȃ��m�[�h �^�C�v 'UsdDefaultSettings'�B���̍�Ɠ��̓m�[�h����ێ����܂��B
+�x�����b�Z�[�W: file: D:/Dropbox/App/.codex/recovery/retopo-20260917/maya-numeric-isolated-20260918.ma line 5821: �F���ł��Ȃ��m�[�h �^�C�v 'UsdDefaultSettings'�B���̍�Ɠ��̓m�[�h����ێ����܂��B
+�x�����b�Z�[�W: file: D:/Dropbox/App/.codex/recovery/retopo-20260917/maya-numeric-isolated-20260918.ma line 5827: �F���ł��Ȃ��m�[�h �^�C�v 'UsdDefaultSettings'�B���̍�Ɠ��̓m�[�h����ێ����܂��B
+�x�����b�Z�[�W: file: D:/Dropbox/App/.codex/recovery/retopo-20260917/maya-numeric-isolated-20260918.ma line 5851: �F���ł��Ȃ��m�[�h �^�C�v 'UsdDefaultSettings'�B���̍�Ɠ��̓m�[�h����ێ����܂��B
+�x�����b�Z�[�W: ���̃V�[���̓ǂݎ�莞�ɃG���[���������A�f�[�^������ꂽ�\��������܂��B
+�t�@�C���̓ǂݎ���  1.2 �b������܂����B
+[RetopoGuide] 06:54:45 INFO >>> _after_scene_clear
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 06:54:45 INFO <<< _after_scene_clear done
+RetopoGuide : INFO : <<< _after_scene_clear done
+�G���[: file: D:/Dropbox/App/.codex/recovery/retopo-20260917/maya-numeric-isolated-20260918.ma line 5: �s���� Maya �t�@�C�� �o�[�W����: 2027�B
+���ɖ߂�: Certificate stroke
+���ɖ߂�: Certificate stroke
+���ɖ߂�: Certificate stroke
+CERTIFICATE STROKE PASSED numeric_t16 [26.856700002099387, 29.354799989960156, 32.574400000157766]
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 06:54:46 INFO >>> _before_scene_clear
+RetopoGuide : INFO : <<< _before_scene_clear done
+[RetopoGuide] 06:54:46 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : >>> _after_scene_clear
+[RetopoGuide] 06:54:46 INFO >>> _after_scene_clear
+RetopoGuide : INFO : <<< _after_scene_clear done
+[RetopoGuide] 06:54:46 INFO <<< _after_scene_clear done
+[RetopoGuide] 06:54:46 INFO >>> _before_scene_clear
+RetopoGuide : INFO : >>> _before_scene_clear
+[RetopoGuide] 06:54:46 INFO <<< _before_scene_clear done
+RetopoGuide : INFO : <<< _before_scene_clear done
